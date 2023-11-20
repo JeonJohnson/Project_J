@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine.Rendering.Universal;
 
 
 [InitializeOnLoad]
@@ -19,12 +18,24 @@ public static class EditorAppInitializer
 	//그래서 GameManager 생성을 하는 Scene으로 강제로 옮겨주는거
 	static EditorAppInitializer()
 	{
-		Defines.editorStartScene = SceneManager.GetActiveScene().buildIndex;
+		int curSceneIndex = SceneManager.GetActiveScene().buildIndex;
+		string scenePath = string.Empty;
 
-		string scenePath = EditorBuildSettings.scenes[0].path; 
+		if (curSceneIndex == -1)
+		{
+			Debug.Log($"빌드 세팅에 올라가 있지 않은 씬입니다. 그냥 바로 시작함~");
+			scenePath = SceneManager.GetActiveScene().path;
+		}
+		else
+		{
+			Debug.Log($"{Defines.editorStartScene}번째 씬으로 시작 하였으나 초기화를 위해 0번째 씬으로 이동합니다.");
+			Defines.editorStartScene = curSceneIndex;
+			scenePath = EditorBuildSettings.scenes[0].path;
+
+		}
+		
 		var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
 		EditorSceneManager.playModeStartScene = sceneAsset;
 
-		Debug.Log($"{Defines.editorStartScene}번째 씬으로 시작 하였으나 초기화를 위해 0번째 씬으로 이동합니다.");
 	}
 }

@@ -1,4 +1,4 @@
-﻿Shader "JGH/FOV_Shader"
+﻿Shader "JGH/ARC_Shader"
 {
 	Properties
 	{
@@ -9,7 +9,7 @@
 		_Color ("Tint", Color) = (1,1,1,1)
         _PivotAngle("PivotAngle", Range(0, 360)) = 0 //시작 각도? 0 기준 right, 반시계방향
 
-		_FovAngle("FovAngle", Range(0,360)) = 90
+		_FovAngle("ArcAngle", Range(0,360)) = 90
 	}
 
 	SubShader	
@@ -66,7 +66,7 @@
 
 			float _PivotAngle;
 
-			float _FovAngle;
+			float _ArcAngle;
 			float _Arc;
 			
 
@@ -90,7 +90,7 @@
 				float _Angle = 270 - _PivotAngle;
 
 				//draw start, draw end 
-				_Arc = (360  - (_FovAngle) )/2;
+				_Arc = (360  - (_ArcAngle) )/2;
                 float startAngle = _Angle - _Arc;
                 float endAngle = _Angle + _Arc;
 
@@ -106,7 +106,6 @@
 				{	
 					atanAngle = 360 + atanAngle;
 				}
-                
 
                 if(atanAngle >= startAngle && atanAngle <= endAngle) discard;
                 if(atanAngle <= offset360) discard;

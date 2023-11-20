@@ -9,7 +9,11 @@
 - GameManager 완성
 할거
 - FrameCounter 만들기
-- 기본 Manager들 세팅하기
 
 23:39 23-11-20
 FrameCounter 제작 완료
+
+00:33 23-11-21
+Editor 시작 씬 버그 수정
+**할거
+- 랜덤 방생성 시작하기
