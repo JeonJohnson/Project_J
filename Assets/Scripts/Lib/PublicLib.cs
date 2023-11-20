@@ -308,8 +308,8 @@ public static class Defines
 	public const float PI = 3.14159265f;
 
 
-	public static string dontDestoryMgrBox = "ManagerBox";
-	public static string destoryMgrBox = "ManagerBox_Destroy";
+	public static string dontDestoryMgrBoxName = "ManagerBox";
+	public static string destoryMgrBoxName = "ManagerBox_Destroy";
 
 	public static string managerPrfabFolderPath = "Managers/Prefabs";
 

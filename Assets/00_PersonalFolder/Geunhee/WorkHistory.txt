@@ -7,3 +7,9 @@
 
 13:03 2023-11-20
 - GameManager 완성
+할거
+- FrameCounter 만들기
+- 기본 Manager들 세팅하기
+
+23:39 23-11-20
+FrameCounter 제작 완료

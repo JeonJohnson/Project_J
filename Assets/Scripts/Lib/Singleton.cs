@@ -82,7 +82,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 	public void SetDestructible(bool isDestroy)
 	{
 		string boxName = string.Empty;
-		boxName = isDestroy ? Defines.destoryMgrBox : Defines.dontDestoryMgrBox;
+		boxName = isDestroy ? Defines.destoryMgrBoxName : Defines.dontDestoryMgrBoxName;
 		gameObject.transform.SetParent(Funcs.CheckGameObjectExist(boxName).transform);
 	}
 

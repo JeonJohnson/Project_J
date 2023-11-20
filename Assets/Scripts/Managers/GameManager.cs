@@ -34,12 +34,11 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            int nextSceneIndex = SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCountInBuildSettings - 1 ? 1 : SceneManager.GetActiveScene().buildIndex + 1;
-
-			SceneManager.LoadScene(nextSceneIndex);
-        }
+   //     if (Input.GetKeyDown(KeyCode.Space))
+   //     {
+   //         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCountInBuildSettings - 1 ? 1 : SceneManager.GetActiveScene().buildIndex + 1;
+			//SceneManager.LoadScene(nextSceneIndex);
+   //     }
     }
 
 
