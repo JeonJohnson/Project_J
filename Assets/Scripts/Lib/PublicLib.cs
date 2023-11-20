@@ -298,12 +298,21 @@ public static class Funcs
 
 public static class Defines
 {
+#if UNITY_EDITOR
+	public static int editorStartScene = -1;
+#endif
+
 	public const float winCX = 1600f;
 	public const float winCY = 900f;
 
 	public const float PI = 3.14159265f;
 
-	public static string managerPrfabFolderPath = "Prefabs/Managers/";
+
+	public static string dontDestoryMgrBox = "ManagerBox";
+	public static string destoryMgrBox = "ManagerBox_Destroy";
+
+	public static string managerPrfabFolderPath = "Managers/Prefabs";
+
 }
 
 namespace Structs
