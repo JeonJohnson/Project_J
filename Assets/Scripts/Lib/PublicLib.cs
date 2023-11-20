@@ -244,10 +244,34 @@ public static class Funcs
 
 		return tempComponent;
 	}
-	#endregion
 
-	#region Color
-	public static Color SetAlpha(Color color, float alpha)
+    public static T IsComponentExistInFamily<T>(GameObject obj) where T : Component
+    {
+        T temp = obj.GetComponent<T>();
+
+        if (temp)
+        {
+            return temp;
+        }
+        else
+        {
+            temp = obj.GetComponentInParent<T>();
+
+            if (temp)
+            {
+                return temp;
+            }
+            else
+            {
+                return obj.GetComponentInChildren<T>();
+            }
+        }
+    }
+
+    #endregion
+
+    #region Color
+    public static Color SetAlpha(Color color, float alpha)
 	{
 		Color tempColor = color;
 		tempColor.a = alpha;
@@ -290,10 +314,25 @@ public static class Funcs
 		}
 		return false;
 	}
-	#endregion
+    #endregion
 
-	#region FileIO
-	#endregion
+    #region FileIO
+    #endregion
+
+    #region CalcAngle
+    public static Vector3 DegreeAngle2Dir(float degreeAngle)
+    {
+        //阿档甫 氦磐肺 官层林绰 芭
+
+        //ex)雀傈登瘤 臼篮 坷宏璃飘牢 版快
+        //rotation狼 y蔼 euler蔼 持栏搁 forward Dir唱咳.
+
+        //炼陛 歹 磊技茄 郴侩篮 氦磐 郴利, 寇利 毫焊祭
+
+        float radAngle = degreeAngle * Mathf.Deg2Rad;
+        return new Vector3(Mathf.Sin(radAngle), Mathf.Cos(radAngle));
+    }
+    #endregion
 }
 
 public static class Defines
@@ -316,6 +355,34 @@ public static class Defines
 }
 
 namespace Structs
-{ 
+{
+    [System.Serializable]
+    public struct PlayerStatus
+    {
+        [Header("Stat")]
+        public int maxHp;
+        public int curHp;
+        public float walkSpeed;
+        public float runSpeed;
 
+        public float rollSpeed;
+        public float rollSpeedDrop;
+
+        [Header("Range")]
+        public float eyeRange;
+
+        public bool isInvincible;
+    }
 }
+
+namespace Enums
+{
+    public enum PlayerMoveActions
+    {
+        None,
+        Move,
+        Roll,
+        End
+    }
+}
+
