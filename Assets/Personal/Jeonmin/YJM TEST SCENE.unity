@@ -4033,7 +4033,7 @@ GameObject:
   - component: {fileID: 394247117}
   - component: {fileID: 394247120}
   - component: {fileID: 394247119}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Dummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4641,7 +4641,7 @@ GameObject:
   m_Component:
   - component: {fileID: 581082814}
   - component: {fileID: 581082817}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Dummy_Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41446,7 +41446,7 @@ GameObject:
   - component: {fileID: 2064851976928190907}
   - component: {fileID: 9165158310944958405}
   - component: {fileID: 8081574246919607063}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
