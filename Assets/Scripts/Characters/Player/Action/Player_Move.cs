@@ -28,6 +28,7 @@ public class Player_Move : Action<Player>
     public override void ActionExit() 
     {
         me.PlayerRigidbody2D.velocity = Vector3.zero;
+        me.animator.SetBool("isMove", false);
     }
 
 
@@ -61,14 +62,16 @@ public class Player_Move : Action<Player>
 
         moveDir = new Vector3(moveX, moveY).normalized;
 
-        bool isIdle = moveX == 0 && moveY == 0;
-        if (isIdle)
+        bool isMove = moveX != 0 || moveY != 0;
+        if (isMove)
         {
+            me.animator.SetBool("isMove", true);
+            me.moveActionTable.LastMoveDir = moveDir;
             //조준, 사격기능 활성화
         }
         else
         {
-            me.moveActionTable.LastMoveDir = moveDir;
+            me.animator.SetBool("isMove", false);
         }
     }
 }

@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Player : CObj
 {
-
     public Rigidbody2D PlayerRigidbody2D { get; private set; }
     public PlayerMoveActionTable moveActionTable { get; private set; }
     public PlayerMoveActionTable MoveActionTable { get { return moveActionTable; } set { moveActionTable = value; } }
@@ -14,6 +13,8 @@ public class Player : CObj
     public PlayerAimController aimController;
 
     public AfterImageEffectController afterImageController;
+
+    public Animator animator { get; private set; }
 
     public PlayerStatus status;
     public Transform spriteHolder;
@@ -27,7 +28,8 @@ public class Player : CObj
         PlayerRigidbody2D = GetComponent<Rigidbody2D>();
         moveActionTable = GetComponent<PlayerMoveActionTable>();
         aimController = GetComponent<PlayerAimController>();
-        afterImageController = spriteHolder.GetComponent<AfterImageEffectController>(); 
+        afterImageController = spriteHolder.GetComponent<AfterImageEffectController>();
+        animator = spriteHolder.GetComponent<Animator>();
     }
 
     public override void Hit(int dmg, Vector2 dir)
