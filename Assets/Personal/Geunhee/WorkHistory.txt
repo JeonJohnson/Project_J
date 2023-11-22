@@ -17,3 +17,6 @@ FrameCounter 제작 완료
 Editor 시작 씬 버그 수정
 **할거
 - 랜덤 방생성 시작하기
+
+09:36 2023-11-22
+serialized dictionary 에셋 추가
