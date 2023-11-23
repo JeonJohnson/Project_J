@@ -1,0 +1,674 @@
+fileFormatVersion: 2
+guid: 118602d9cc273254897b24cdfb2e17ec
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: HUD_LeftEnemy_Icon
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 215
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb4077f0374f1754cb674b63865f2664
+      internalID: 1363467592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Active_Bomb
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 176
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae6bb9175bcda5343ae94b1c1c246851
+      internalID: 459051369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Heart_Fill
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 130
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8235753b6c111e54594e273f6906fc15
+      internalID: -1296315503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skull
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 67
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6047468b124e0243af19fd0ed76193a
+      internalID: 333276940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Heart_Empty
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 130
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7cd202133c212945833ed0c78230ede
+      internalID: 2045291398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Passive_Sword
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 417
+        width: 6
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86b70efbe9f8e674fbe0f60716de1809
+      internalID: 1940855564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_TreasureBox
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49c51239b92e5014c830c08a4b3300ea
+      internalID: -248735449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Passive_Arrow
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 289
+        width: 7
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e941af768e58d2a43afd911e1d64af84
+      internalID: -1595452320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Passive_Leaf
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 165
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b928954abbd40441b25498ca8c4fc54
+      internalID: -1192957115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Passive_Mask
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 480
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98eff7ca49cb9d14581536460a4f8866
+      internalID: -1953098520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Passive_PumkinMask
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 174
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02a9783d414a051448efbf413f771026
+      internalID: -323583021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      0x72_DungeonTilesetII_v1.6_0: 593275000
+      0x72_DungeonTilesetII_v1.6_1: -1808378838
+      0x72_DungeonTilesetII_v1.6_10: 423464906
+      0x72_DungeonTilesetII_v1.6_100: -1375872851
+      0x72_DungeonTilesetII_v1.6_101: -940092267
+      0x72_DungeonTilesetII_v1.6_102: 1787777288
+      0x72_DungeonTilesetII_v1.6_103: 523664422
+      0x72_DungeonTilesetII_v1.6_104: 840728645
+      0x72_DungeonTilesetII_v1.6_105: 875797131
+      0x72_DungeonTilesetII_v1.6_106: 343184089
+      0x72_DungeonTilesetII_v1.6_107: 1637615367
+      0x72_DungeonTilesetII_v1.6_108: -1926721449
+      0x72_DungeonTilesetII_v1.6_109: -145133953
+      0x72_DungeonTilesetII_v1.6_11: 537922005
+      0x72_DungeonTilesetII_v1.6_110: -591990185
+      0x72_DungeonTilesetII_v1.6_111: 854596085
+      0x72_DungeonTilesetII_v1.6_112: 975662437
+      0x72_DungeonTilesetII_v1.6_113: -1866620710
+      0x72_DungeonTilesetII_v1.6_114: 238754974
+      0x72_DungeonTilesetII_v1.6_115: -424384660
+      0x72_DungeonTilesetII_v1.6_116: -663269865
+      0x72_DungeonTilesetII_v1.6_117: 607359797
+      0x72_DungeonTilesetII_v1.6_118: 110965000
+      0x72_DungeonTilesetII_v1.6_119: -1548068570
+      0x72_DungeonTilesetII_v1.6_12: 805132009
+      0x72_DungeonTilesetII_v1.6_120: -1050382002
+      0x72_DungeonTilesetII_v1.6_121: 1986414755
+      0x72_DungeonTilesetII_v1.6_122: 2108626436
+      0x72_DungeonTilesetII_v1.6_123: -2035455873
+      0x72_DungeonTilesetII_v1.6_124: 1284950565
+      0x72_DungeonTilesetII_v1.6_125: -1078755364
+      0x72_DungeonTilesetII_v1.6_126: 342256125
+      0x72_DungeonTilesetII_v1.6_127: -106178946
+      0x72_DungeonTilesetII_v1.6_128: -1106139805
+      0x72_DungeonTilesetII_v1.6_129: 1696764191
+      0x72_DungeonTilesetII_v1.6_13: -383573052
+      0x72_DungeonTilesetII_v1.6_130: -167090280
+      0x72_DungeonTilesetII_v1.6_131: 877220374
+      0x72_DungeonTilesetII_v1.6_132: -1873907443
+      0x72_DungeonTilesetII_v1.6_133: -868121589
+      0x72_DungeonTilesetII_v1.6_134: 201057642
+      0x72_DungeonTilesetII_v1.6_135: -84956663
+      0x72_DungeonTilesetII_v1.6_136: 177748790
+      0x72_DungeonTilesetII_v1.6_137: 1794199422
+      0x72_DungeonTilesetII_v1.6_138: -2057459830
+      0x72_DungeonTilesetII_v1.6_139: 525005300
+      0x72_DungeonTilesetII_v1.6_14: 752872485
+      0x72_DungeonTilesetII_v1.6_140: -1062532851
+      0x72_DungeonTilesetII_v1.6_141: 461470085
+      0x72_DungeonTilesetII_v1.6_142: 635154376
+      0x72_DungeonTilesetII_v1.6_143: 971446780
+      0x72_DungeonTilesetII_v1.6_144: -368779013
+      0x72_DungeonTilesetII_v1.6_145: -1585950816
+      0x72_DungeonTilesetII_v1.6_146: -558606848
+      0x72_DungeonTilesetII_v1.6_147: 1335529422
+      0x72_DungeonTilesetII_v1.6_148: -2142192585
+      0x72_DungeonTilesetII_v1.6_149: 2112666358
+      0x72_DungeonTilesetII_v1.6_15: 343638159
+      0x72_DungeonTilesetII_v1.6_150: 1547651352
+      0x72_DungeonTilesetII_v1.6_151: 1263733728
+      0x72_DungeonTilesetII_v1.6_152: 139519151
+      0x72_DungeonTilesetII_v1.6_153: 1540732370
+      0x72_DungeonTilesetII_v1.6_154: -220263616
+      0x72_DungeonTilesetII_v1.6_155: 150146005
+      0x72_DungeonTilesetII_v1.6_156: 1534195888
+      0x72_DungeonTilesetII_v1.6_157: 39931656
+      0x72_DungeonTilesetII_v1.6_158: -1371978557
+      0x72_DungeonTilesetII_v1.6_159: 2017424441
+      0x72_DungeonTilesetII_v1.6_16: 1138033191
+      0x72_DungeonTilesetII_v1.6_160: 414498643
+      0x72_DungeonTilesetII_v1.6_161: 1938740695
+      0x72_DungeonTilesetII_v1.6_162: 361215381
+      0x72_DungeonTilesetII_v1.6_163: 2142161179
+      0x72_DungeonTilesetII_v1.6_164: 1229406891
+      0x72_DungeonTilesetII_v1.6_165: 2012269425
+      0x72_DungeonTilesetII_v1.6_166: 1818158065
+      0x72_DungeonTilesetII_v1.6_167: 715419692
+      0x72_DungeonTilesetII_v1.6_168: -155391063
+      0x72_DungeonTilesetII_v1.6_169: -1804249541
+      0x72_DungeonTilesetII_v1.6_17: 1723615345
+      0x72_DungeonTilesetII_v1.6_170: -1756577330
+      0x72_DungeonTilesetII_v1.6_171: 942809629
+      0x72_DungeonTilesetII_v1.6_172: -1567755753
+      0x72_DungeonTilesetII_v1.6_173: 163617909
+      0x72_DungeonTilesetII_v1.6_174: 1667533080
+      0x72_DungeonTilesetII_v1.6_175: -1549653970
+      0x72_DungeonTilesetII_v1.6_176: -1438576641
+      0x72_DungeonTilesetII_v1.6_177: 1501147670
+      0x72_DungeonTilesetII_v1.6_178: 1487753068
+      0x72_DungeonTilesetII_v1.6_179: 646224817
+      0x72_DungeonTilesetII_v1.6_18: -863227790
+      0x72_DungeonTilesetII_v1.6_180: 1174808754
+      0x72_DungeonTilesetII_v1.6_181: 2084914460
+      0x72_DungeonTilesetII_v1.6_182: -253155900
+      0x72_DungeonTilesetII_v1.6_183: -482998943
+      0x72_DungeonTilesetII_v1.6_184: 81231874
+      0x72_DungeonTilesetII_v1.6_185: -243283878
+      0x72_DungeonTilesetII_v1.6_186: 958964700
+      0x72_DungeonTilesetII_v1.6_187: -876669221
+      0x72_DungeonTilesetII_v1.6_188: -1404123398
+      0x72_DungeonTilesetII_v1.6_189: 2139842389
+      0x72_DungeonTilesetII_v1.6_19: -1457801705
+      0x72_DungeonTilesetII_v1.6_190: 13371337
+      0x72_DungeonTilesetII_v1.6_191: -1500087299
+      0x72_DungeonTilesetII_v1.6_192: 198177654
+      0x72_DungeonTilesetII_v1.6_193: -481353439
+      0x72_DungeonTilesetII_v1.6_194: -135395896
+      0x72_DungeonTilesetII_v1.6_195: 58689
+      0x72_DungeonTilesetII_v1.6_196: 52455681
+      0x72_DungeonTilesetII_v1.6_197: -1672383595
+      0x72_DungeonTilesetII_v1.6_198: 1457909255
+      0x72_DungeonTilesetII_v1.6_199: 240442615
+      0x72_DungeonTilesetII_v1.6_2: 2123402734
+      0x72_DungeonTilesetII_v1.6_20: -1038708339
+      0x72_DungeonTilesetII_v1.6_200: 812526488
+      0x72_DungeonTilesetII_v1.6_201: -1254216437
+      0x72_DungeonTilesetII_v1.6_202: -714569788
+      0x72_DungeonTilesetII_v1.6_204: -1452908532
+      0x72_DungeonTilesetII_v1.6_205: -1924693858
+      0x72_DungeonTilesetII_v1.6_206: 1443425285
+      0x72_DungeonTilesetII_v1.6_207: -927019198
+      0x72_DungeonTilesetII_v1.6_208: 194846920
+      0x72_DungeonTilesetII_v1.6_209: -1769461766
+      0x72_DungeonTilesetII_v1.6_21: -384648101
+      0x72_DungeonTilesetII_v1.6_210: 860937646
+      0x72_DungeonTilesetII_v1.6_211: 534819620
+      0x72_DungeonTilesetII_v1.6_212: 1540713921
+      0x72_DungeonTilesetII_v1.6_213: -801678513
+      0x72_DungeonTilesetII_v1.6_214: -419418833
+      0x72_DungeonTilesetII_v1.6_215: -1310052843
+      0x72_DungeonTilesetII_v1.6_216: -338122974
+      0x72_DungeonTilesetII_v1.6_217: 904719909
+      0x72_DungeonTilesetII_v1.6_218: -1544477099
+      0x72_DungeonTilesetII_v1.6_219: -2045609518
+      0x72_DungeonTilesetII_v1.6_22: -1295117836
+      0x72_DungeonTilesetII_v1.6_220: 1633497296
+      0x72_DungeonTilesetII_v1.6_221: 1823281190
+      0x72_DungeonTilesetII_v1.6_222: -1626134911
+      0x72_DungeonTilesetII_v1.6_223: 2017765423
+      0x72_DungeonTilesetII_v1.6_224: 857506258
+      0x72_DungeonTilesetII_v1.6_226: 2135693405
+      0x72_DungeonTilesetII_v1.6_227: -1062461903
+      0x72_DungeonTilesetII_v1.6_228: -370291652
+      0x72_DungeonTilesetII_v1.6_229: -1558328124
+      0x72_DungeonTilesetII_v1.6_23: 1736446885
+      0x72_DungeonTilesetII_v1.6_230: 122285575
+      0x72_DungeonTilesetII_v1.6_231: -947286666
+      0x72_DungeonTilesetII_v1.6_232: -1077278617
+      0x72_DungeonTilesetII_v1.6_233: -254945401
+      0x72_DungeonTilesetII_v1.6_234: -2127490919
+      0x72_DungeonTilesetII_v1.6_235: 291890627
+      0x72_DungeonTilesetII_v1.6_236: -1634419571
+      0x72_DungeonTilesetII_v1.6_237: -270213333
+      0x72_DungeonTilesetII_v1.6_238: -1259141121
+      0x72_DungeonTilesetII_v1.6_239: -1583721840
+      0x72_DungeonTilesetII_v1.6_24: -629263094
+      0x72_DungeonTilesetII_v1.6_240: -261341896
+      0x72_DungeonTilesetII_v1.6_241: -464243906
+      0x72_DungeonTilesetII_v1.6_242: 1040411504
+      0x72_DungeonTilesetII_v1.6_243: 854254748
+      0x72_DungeonTilesetII_v1.6_244: -1828095866
+      0x72_DungeonTilesetII_v1.6_245: 2095566636
+      0x72_DungeonTilesetII_v1.6_246: -114200822
+      0x72_DungeonTilesetII_v1.6_247: -849614353
+      0x72_DungeonTilesetII_v1.6_248: 1507151407
+      0x72_DungeonTilesetII_v1.6_249: 1091895820
+      0x72_DungeonTilesetII_v1.6_25: 1992952066
+      0x72_DungeonTilesetII_v1.6_250: -799095522
+      0x72_DungeonTilesetII_v1.6_251: 1582076406
+      0x72_DungeonTilesetII_v1.6_252: 1101712984
+      0x72_DungeonTilesetII_v1.6_253: -153721098
+      0x72_DungeonTilesetII_v1.6_254: -12115143
+      0x72_DungeonTilesetII_v1.6_255: 162559097
+      0x72_DungeonTilesetII_v1.6_256: -518646409
+      0x72_DungeonTilesetII_v1.6_257: 641723167
+      0x72_DungeonTilesetII_v1.6_258: 763085720
+      0x72_DungeonTilesetII_v1.6_259: -738465467
+      0x72_DungeonTilesetII_v1.6_26: -1304436184
+      0x72_DungeonTilesetII_v1.6_260: 1544524949
+      0x72_DungeonTilesetII_v1.6_261: -905459823
+      0x72_DungeonTilesetII_v1.6_265: 434176692
+      0x72_DungeonTilesetII_v1.6_266: 936241321
+      0x72_DungeonTilesetII_v1.6_267: -1147495791
+      0x72_DungeonTilesetII_v1.6_268: 391411709
+      0x72_DungeonTilesetII_v1.6_269: -1759924707
+      0x72_DungeonTilesetII_v1.6_27: -1842498280
+      0x72_DungeonTilesetII_v1.6_270: -601010586
+      0x72_DungeonTilesetII_v1.6_271: -1880848976
+      0x72_DungeonTilesetII_v1.6_272: 934685174
+      0x72_DungeonTilesetII_v1.6_273: -1750996692
+      0x72_DungeonTilesetII_v1.6_274: 102174857
+      0x72_DungeonTilesetII_v1.6_275: -177153455
+      0x72_DungeonTilesetII_v1.6_276: 171765415
+      0x72_DungeonTilesetII_v1.6_277: -1778612151
+      0x72_DungeonTilesetII_v1.6_278: 50178988
+      0x72_DungeonTilesetII_v1.6_279: 711123337
+      0x72_DungeonTilesetII_v1.6_28: 1907968994
+      0x72_DungeonTilesetII_v1.6_280: -1838685245
+      0x72_DungeonTilesetII_v1.6_281: 398701855
+      0x72_DungeonTilesetII_v1.6_282: 955355163
+      0x72_DungeonTilesetII_v1.6_283: -1666534762
+      0x72_DungeonTilesetII_v1.6_284: -325116949
+      0x72_DungeonTilesetII_v1.6_285: 580622322
+      0x72_DungeonTilesetII_v1.6_286: -382364495
+      0x72_DungeonTilesetII_v1.6_287: 600858610
+      0x72_DungeonTilesetII_v1.6_288: -1271140237
+      0x72_DungeonTilesetII_v1.6_289: -1114956959
+      0x72_DungeonTilesetII_v1.6_29: 1352409938
+      0x72_DungeonTilesetII_v1.6_290: 1883098723
+      0x72_DungeonTilesetII_v1.6_291: 1753866074
+      0x72_DungeonTilesetII_v1.6_292: 74743609
+      0x72_DungeonTilesetII_v1.6_293: -1607515822
+      0x72_DungeonTilesetII_v1.6_294: 774573983
+      0x72_DungeonTilesetII_v1.6_3: 1585091713
+      0x72_DungeonTilesetII_v1.6_30: -971513096
+      0x72_DungeonTilesetII_v1.6_31: -1462037173
+      0x72_DungeonTilesetII_v1.6_32: 1980100471
+      0x72_DungeonTilesetII_v1.6_33: -1078338815
+      0x72_DungeonTilesetII_v1.6_34: 992955188
+      0x72_DungeonTilesetII_v1.6_35: -650459785
+      0x72_DungeonTilesetII_v1.6_36: -1242296673
+      0x72_DungeonTilesetII_v1.6_37: -399125389
+      0x72_DungeonTilesetII_v1.6_38: 1778378547
+      0x72_DungeonTilesetII_v1.6_39: -959451369
+      0x72_DungeonTilesetII_v1.6_4: 1306865501
+      0x72_DungeonTilesetII_v1.6_40: 1595378166
+      0x72_DungeonTilesetII_v1.6_41: -662519079
+      0x72_DungeonTilesetII_v1.6_42: -1588235612
+      0x72_DungeonTilesetII_v1.6_43: 589118117
+      0x72_DungeonTilesetII_v1.6_44: -286206499
+      0x72_DungeonTilesetII_v1.6_45: 741387652
+      0x72_DungeonTilesetII_v1.6_46: -1616762668
+      0x72_DungeonTilesetII_v1.6_47: 875773875
+      0x72_DungeonTilesetII_v1.6_48: -1073756308
+      0x72_DungeonTilesetII_v1.6_49: 1069125060
+      0x72_DungeonTilesetII_v1.6_5: 1456385634
+      0x72_DungeonTilesetII_v1.6_50: -5975670
+      0x72_DungeonTilesetII_v1.6_51: 1249263750
+      0x72_DungeonTilesetII_v1.6_52: 1212129755
+      0x72_DungeonTilesetII_v1.6_53: 1843622463
+      0x72_DungeonTilesetII_v1.6_54: 403230734
+      0x72_DungeonTilesetII_v1.6_55: -906529177
+      0x72_DungeonTilesetII_v1.6_56: -248168680
+      0x72_DungeonTilesetII_v1.6_57: 1096889631
+      0x72_DungeonTilesetII_v1.6_58: -952284515
+      0x72_DungeonTilesetII_v1.6_59: 1106580023
+      0x72_DungeonTilesetII_v1.6_6: -549606874
+      0x72_DungeonTilesetII_v1.6_60: -2131444688
+      0x72_DungeonTilesetII_v1.6_61: 830311444
+      0x72_DungeonTilesetII_v1.6_62: -197140545
+      0x72_DungeonTilesetII_v1.6_63: -1307256435
+      0x72_DungeonTilesetII_v1.6_64: -449679894
+      0x72_DungeonTilesetII_v1.6_65: -1287911058
+      0x72_DungeonTilesetII_v1.6_66: 473974549
+      0x72_DungeonTilesetII_v1.6_67: 4466432
+      0x72_DungeonTilesetII_v1.6_68: -1127911333
+      0x72_DungeonTilesetII_v1.6_69: -1149307692
+      0x72_DungeonTilesetII_v1.6_7: 1191136010
+      0x72_DungeonTilesetII_v1.6_70: 1769300795
+      0x72_DungeonTilesetII_v1.6_71: 109475862
+      0x72_DungeonTilesetII_v1.6_72: -1596456997
+      0x72_DungeonTilesetII_v1.6_73: -1050706228
+      0x72_DungeonTilesetII_v1.6_74: -893103783
+      0x72_DungeonTilesetII_v1.6_75: 1843729328
+      0x72_DungeonTilesetII_v1.6_76: 1881455418
+      0x72_DungeonTilesetII_v1.6_77: 1752065728
+      0x72_DungeonTilesetII_v1.6_78: 2078554886
+      0x72_DungeonTilesetII_v1.6_79: 2118438577
+      0x72_DungeonTilesetII_v1.6_8: -955619880
+      0x72_DungeonTilesetII_v1.6_80: -776037909
+      0x72_DungeonTilesetII_v1.6_81: 285836563
+      0x72_DungeonTilesetII_v1.6_82: -231178638
+      0x72_DungeonTilesetII_v1.6_83: -1194825440
+      0x72_DungeonTilesetII_v1.6_84: -49668197
+      0x72_DungeonTilesetII_v1.6_85: 1831144527
+      0x72_DungeonTilesetII_v1.6_86: -1020188383
+      0x72_DungeonTilesetII_v1.6_87: -963497497
+      0x72_DungeonTilesetII_v1.6_88: 885681511
+      0x72_DungeonTilesetII_v1.6_89: 415245439
+      0x72_DungeonTilesetII_v1.6_9: 519818896
+      0x72_DungeonTilesetII_v1.6_90: -1519620347
+      0x72_DungeonTilesetII_v1.6_91: -2109376961
+      0x72_DungeonTilesetII_v1.6_92: -1506973872
+      0x72_DungeonTilesetII_v1.6_93: -177254507
+      0x72_DungeonTilesetII_v1.6_94: 1427658185
+      0x72_DungeonTilesetII_v1.6_95: 1466288591
+      0x72_DungeonTilesetII_v1.6_96: -2106240396
+      0x72_DungeonTilesetII_v1.6_97: 1465217709
+      0x72_DungeonTilesetII_v1.6_98: -536868499
+      0x72_DungeonTilesetII_v1.6_99: 1555676881
+      Active_Bomb: 459051369
+      HUD_Heart_Empty: 43551061
+      HUD_Heart_Fill: -1296315503
+      HUD_LeftEnemy_Icon: 1363467592
+      Heart_Half: -498061039
+      OldVer_SpriteSheet_2: 1947819596
+      Passive_Arrow: -1595452320
+      Passive_Leaf: -1192957115
+      Passive_Mask: -1953098520
+      Passive_PumkinMask: -323583021
+      Passive_Sword: 1940855564
+      Skull: 333276940
+      UI_TreasureBox: -248735449
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
