@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAttackController : MonoBehaviour
 {
     private Player player;
-    private Weapon weapon;
+    private Weapon_Player weapon;
 
     private void Awake()
     {

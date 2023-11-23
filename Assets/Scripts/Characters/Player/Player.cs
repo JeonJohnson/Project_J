@@ -20,7 +20,7 @@ public class Player : CObj
     public Transform spriteHolder;
     public Transform weaponHolder;
 
-    public Weapon curWeapon;
+    public Weapon_Player curWeapon;
 
 
     private void Awake()
