@@ -119,6 +119,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -127,9 +140,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 176
-        y: 288
+        y: 289
         width: 16
-        height: 16
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -573,13 +586,76 @@ TextureImporter:
         height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 6, y: 6, z: 6, w: 6}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 2850406e6524d8646953a478b7883007
       internalID: -328769991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Frame_Green
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27da8fb3967dd8544a303647e28b5e05
+      internalID: -1681813847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Frame_Orange
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 740f1664bc8dd9e4c9e3e5e487bb3672
+      internalID: 1942983652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrow_Navy
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 289
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87a4be3793cc3b845b7e878250b5ac83
+      internalID: -1765505859
       vertices: []
       indices: 
       edges: []
@@ -596,6 +672,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       UI_Arrow_Brown: 1098435626
+      UI_Arrow_Navy: -1765505859
       UI_CircleGauge_00: -1046563444
       UI_CircleGauge_01: -1800653693
       UI_CircleGauge_02: -919592663
@@ -609,6 +686,8 @@ TextureImporter:
       UI_CrossHair_02: -995683228
       UI_CrossHair_03: -112123597
       UI_Frame: -328769991
+      UI_Frame_Green: -1681813847
+      UI_Frame_Orange: 1942983652
       UI_Sprite_00_10: 1354410412
       UI_Sprite_00_11: 1113353863
       UI_Sprite_00_12: 591354574
