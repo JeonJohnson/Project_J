@@ -96,14 +96,6 @@ public class Bullet : MonoBehaviour
         //splatterStat.hitCountTmp.text = cnt.ToString();
     }
 
-    public void Fire(Vector2 dir)
-    {
-        curState = BulletState.Fire;
-
-        rb.AddForce(dir * defaultStat.moveSpd, ForceMode2D.Force);
-        SetLeftCount(splatterStat.maxCount);
-    }
-
     public void Fire(Vector2 dir, int _SplatterCount = 1)
     {
         curState = BulletState.Fire;
@@ -171,7 +163,7 @@ public class Bullet : MonoBehaviour
                 {
                     suckedStat.suckingTimeRatio += Time.deltaTime / suckedStat.suckingRandTime;
 
-                    transform.position = Vector2.Lerp(suckedStat.suckStartPos, suckedStat.player.curWeapon.jarMouthTr.position, suckedStat.suckingTimeRatio);
+                    transform.position = Vector2.Lerp(suckedStat.suckStartPos, suckedStat.player.curWeapon.firePos.position, suckedStat.suckingTimeRatio);
 
                     if (suckedStat.suckingTimeRatio >= 1f)
                     {

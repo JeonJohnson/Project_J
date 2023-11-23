@@ -373,6 +373,28 @@ namespace Structs
 
         public bool isInvincible;
     }
+
+    [System.Serializable]
+    public struct EnemyStatus
+    {
+        [Header("Stat")]
+        public int maxHp;
+        public int curHp;
+        public float walkSpeed;
+
+        [Header("Range")]
+        public float eyeRange;
+        public bool isInvincible;
+
+		[Header("Combat")]
+		public float fireTimer;
+		public float fireWaitTime;
+        public float fireRate;
+        public int bulletCountWhenAttackOnce;
+
+		public float attackRange;
+		public float spread;
+    }
 }
 
 namespace Enums
@@ -382,6 +404,15 @@ namespace Enums
         None,
         Move,
         Roll,
+        End
+    }
+
+    public enum SlimeActions
+    {
+        Idle,
+        Move,
+        Attack,
+		Death,
         End
     }
 }
