@@ -1,3 +1,4 @@
+using Enums;
 using Structs;
 using System.Collections;
 using System.Collections.Generic;
@@ -44,6 +45,7 @@ public class Bangtani : Enemy
         {
             Rigidbody2D.AddForce(dir * 2);
             status.curHp -= dmg;
+            if(status.curHp <= 0) ActionTable.SetCurAction((int)BangtaniActions.Death);
         }
 
         HitInfo hitInfo = new HitInfo();

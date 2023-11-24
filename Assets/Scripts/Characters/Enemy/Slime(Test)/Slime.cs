@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Structs;
 using UnityEngine.AI;
+using Enums;
 
 public class Slime : Enemy
 {
@@ -35,8 +36,11 @@ public class Slime : Enemy
         status.curHp -= dmg;
         Rigidbody2D.AddForce(dir * 10);
 
+        if (status.curHp <= 0) ActionTable.SetCurAction((int)SlimeActions.Death);
+
         HitInfo hitInfo = new HitInfo();
         return hitInfo;
+
 
     }
 
