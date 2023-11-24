@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Weapon_Slime : Weapon
 {
-    new public Slime owner;
+    private Slime owner;
     public override void Init(CObj _owner)
     {
+        base.Init(_owner);
         owner = (Slime) _owner;
     }
 

@@ -18,6 +18,7 @@ public class Weapon_Player : Weapon
         public LayerMask targetLayer;
     }
 
+    private Player owner;
     public SuctionStat suctionStat;
     public SpriteRenderer fovSprite;
 
@@ -29,6 +30,7 @@ public class Weapon_Player : Weapon
     public override void Init(CObj _owner)
     {
         base.Init(_owner);
+        owner = (Player) _owner;
         fireTimer = stat.fireRate;
         fovSprite.material.SetFloat("_FovAngle", suctionStat.suctionAngle);
         fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);

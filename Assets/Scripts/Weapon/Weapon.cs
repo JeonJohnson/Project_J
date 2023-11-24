@@ -15,7 +15,6 @@ public abstract class Weapon : MonoBehaviour
 
     public Stat stat;
     public float fireTimer;
-    public CObj owner;
 
     public SpriteRenderer weaponSprite;
     public Transform firePos;
@@ -26,7 +25,6 @@ public abstract class Weapon : MonoBehaviour
 
     public virtual void Init(CObj _owner)
     {
-        owner = _owner;
         fireTimer = stat.fireRate;
     }
 

@@ -382,8 +382,8 @@ namespace Structs
         public int curHp;
         public float walkSpeed;
 
-        [Header("Range")]
-        public float eyeRange;
+		[Header("Range")]
+		public float traceRange;
         public bool isInvincible;
 
 		[Header("Combat")]
@@ -413,6 +413,15 @@ namespace Enums
         Move,
         Attack,
 		Death,
+        End
+    }
+
+    public enum BangtaniActions
+    {
+        Idle,
+        Move,
+        Attack,
+        Death,
         End
     }
 }

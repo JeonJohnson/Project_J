@@ -1,24 +1,26 @@
+using Structs;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Structs;
 using UnityEngine.AI;
 
-public class Slime : Enemy
+public class Bangtani : Enemy
 {
-    public SlimeActionTable ActionTable;
+    public BangtaniActionTable ActionTable;
+    public BangtaniGuardController guardController;
     public Rigidbody2D Rigidbody2D { get; private set; }
     public Animator animator;
     public EnemyStatus status;
+    public float guardAngle = 90f;
     public Weapon weapon;
 
     protected override void Initialize()
     {
-        Debug.Log("¾Ì");
         status.curHp = status.maxHp;
         weapon.Init(this);
 
         agent = GetComponent<NavMeshAgent>();
+        guardController = GetComponent<BangtaniGuardController>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.speed = status.walkSpeed;
@@ -35,7 +37,6 @@ public class Slime : Enemy
     {
         base.Hit(dmg, dir);
         status.curHp -= dmg;
-        Rigidbody2D.AddForce(dir * 10);
+        Rigidbody2D.AddForce(dir * 2);
     }
-
 }
