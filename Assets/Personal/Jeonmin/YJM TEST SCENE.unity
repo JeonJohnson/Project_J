@@ -2468,7 +2468,7 @@ MonoBehaviour:
     bulletCount: 0
   fireTimer: 0
   weaponSprite: {fileID: 869998512}
-  firePos: {fileID: 252655917}
+  firePos: {fileID: 2050209364}
   testBulletPrefab: {fileID: 927224229131076647, guid: 779d6c9b89072ad4eb4b76c4596d9d3f, type: 3}
 --- !u!114 &290146730
 MonoBehaviour:
@@ -3446,6 +3446,19 @@ MonoBehaviour:
   distToTarget: 0
   target: {fileID: 0}
   agent: {fileID: 0}
+  status:
+    maxHp: 0
+    curHp: 0
+    walkSpeed: 0
+    traceRange: 0
+    isInvincible: 0
+    isDurable: 0
+    fireTimer: 0
+    fireWaitTime: 0
+    fireRate: 0
+    bulletCountWhenAttackOnce: 0
+    attackRange: 0
+    spread: 0
   hp: 10
 --- !u!4 &394247118
 Transform:
@@ -4542,6 +4555,8 @@ GameObject:
   - component: {fileID: 640070093}
   - component: {fileID: 640070095}
   - component: {fileID: 640070096}
+  - component: {fileID: 640070097}
+  - component: {fileID: 640070098}
   m_Layer: 8
   m_Name: Bangtani
   m_TagString: Untagged
@@ -4557,7 +4572,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 640070091}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.22, y: 0, z: 0}
+  m_LocalPosition: {x: 9.81, y: 5.38, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4574,7 +4589,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 640070091}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dfc74134818f7e74787e9c18c1fe57da, type: 3}
   m_Name: 
@@ -4596,23 +4611,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distToTarget: 0
   target: {fileID: 7604071219289805772}
-  agent: {fileID: 0}
-  ActionTable: {fileID: 0}
-  guardController: {fileID: 640070095}
-  animator: {fileID: 0}
+  agent: {fileID: 640070096}
   status:
-    maxHp: 0
-    curHp: 0
-    walkSpeed: 0
-    traceRange: 7
+    maxHp: 15
+    curHp: 15
+    walkSpeed: 2
+    traceRange: 15
     isInvincible: 0
+    isDurable: 0
     fireTimer: 0
     fireWaitTime: 4
     fireRate: 0.2
     bulletCountWhenAttackOnce: 7
-    attackRange: 5
+    attackRange: 10
     spread: 10
-  guardAngle: 90
+  ActionTable: {fileID: 640070093}
+  guardController: {fileID: 640070095}
+  animator: {fileID: 252655915}
+  guardAngle: 190
   weapon: {fileID: 265996848}
 --- !u!114 &640070095
 MonoBehaviour:
@@ -4640,10 +4656,10 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -4651,6 +4667,78 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!61 &640070097
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640070091}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!50 &640070098
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640070091}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 5
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!213 &650672173
 Sprite:
   m_ObjectHideFlags: 0
@@ -55266,20 +55354,21 @@ MonoBehaviour:
   distToTarget: 0
   target: {fileID: 7604071219289805772}
   agent: {fileID: 1902289780}
-  ActionTable: {fileID: 1902289781}
-  animator: {fileID: 1846325016}
   status:
     maxHp: 10
     curHp: 10
     walkSpeed: 1
     traceRange: 0
     isInvincible: 0
+    isDurable: 0
     fireTimer: 0
     fireWaitTime: 5
     fireRate: 0.1
     bulletCountWhenAttackOnce: 5
     attackRange: 5
     spread: 0.1
+  ActionTable: {fileID: 1902289781}
+  animator: {fileID: 1846325016}
   weapon: {fileID: 1987206709}
 --- !u!195 &1902289780
 NavMeshAgent:
@@ -56142,7 +56231,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2050209363}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.42, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -385,6 +385,7 @@ namespace Structs
 		[Header("Range")]
 		public float traceRange;
         public bool isInvincible;
+		public bool isDurable;
 
 		[Header("Combat")]
 		public float fireTimer;
@@ -394,6 +395,12 @@ namespace Structs
 
 		public float attackRange;
 		public float spread;
+    }
+
+    public struct HitInfo
+    {
+        public bool isDurable;
+        public bool isHitSucess;
     }
 }
 

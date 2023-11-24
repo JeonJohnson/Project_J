@@ -9,7 +9,6 @@ public class Slime : Enemy
     public SlimeActionTable ActionTable;
     public Rigidbody2D Rigidbody2D { get; private set; }
     public Animator animator;
-    public EnemyStatus status;
     public Weapon weapon;
 
     protected override void Initialize()
@@ -30,11 +29,15 @@ public class Slime : Enemy
         Rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    public override void Hit(int dmg, Vector2 dir)
+    public override HitInfo Hit(int dmg, Vector2 dir)
     {
         base.Hit(dmg, dir);
         status.curHp -= dmg;
         Rigidbody2D.AddForce(dir * 10);
+
+        HitInfo hitInfo = new HitInfo();
+        return hitInfo;
+
     }
 
 }

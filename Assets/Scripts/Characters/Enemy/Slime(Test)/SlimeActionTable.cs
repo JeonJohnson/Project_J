@@ -148,7 +148,6 @@ public class Slime_Attack : Action<Slime>
             if (timer <= 0f)
             {
                 me.weapon.Fire();
-                Debug.Log("ÅÁ");
                 curbulletCount--;
                 timer = me.status.fireRate;
             }

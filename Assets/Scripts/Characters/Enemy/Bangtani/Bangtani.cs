@@ -10,7 +10,6 @@ public class Bangtani : Enemy
     public BangtaniGuardController guardController;
     public Rigidbody2D Rigidbody2D { get; private set; }
     public Animator animator;
-    public EnemyStatus status;
     public float guardAngle = 90f;
     public Weapon weapon;
 
@@ -33,10 +32,22 @@ public class Bangtani : Enemy
         Rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    public override void Hit(int dmg, Vector2 dir)
+    public override HitInfo Hit(int dmg, Vector2 dir)
     {
-        base.Hit(dmg, dir);
-        status.curHp -= dmg;
-        Rigidbody2D.AddForce(dir * 2);
+        bool isGuard = guardController.GetIsGuardSucess(dir, guardAngle);
+
+        if (isGuard)
+        {
+            Rigidbody2D.AddForce(dir * 0.5f);
+        }
+        else
+        {
+            Rigidbody2D.AddForce(dir * 2);
+            status.curHp -= dmg;
+        }
+
+        HitInfo hitInfo = new HitInfo();
+        hitInfo.isDurable = isGuard;
+        return hitInfo;
     }
 }

@@ -73,15 +73,17 @@ public class Bangtani_Idle : Action<Bangtani>
     public override void ActionUpdate()
     {
         me.status.fireTimer -= Time.deltaTime;
-        if (me.status.fireTimer < 0f)
-        {
-            me.ActionTable.SetCurAction((int)BangtaniActions.Attack);
-            me.status.fireTimer = me.status.fireWaitTime;
-        }
-
-        if (me.DistToTarget > me.status.attackRange)
+        if (me.DistToTarget > me.status.traceRange)
         {
             me.ActionTable.SetCurAction((int)BangtaniActions.Move);
+        }
+        else
+        {
+            if (me.status.fireTimer < 0f)
+            {
+                me.ActionTable.SetCurAction((int)BangtaniActions.Attack);
+                me.status.fireTimer = me.status.fireWaitTime;
+            }
         }
     }
 
@@ -103,15 +105,15 @@ public class Bangtani_Move : Action<Bangtani>
     {
         me.status.fireTimer -= Time.deltaTime;
 
-        Vector3 dir = me.target.transform.position - me.transform.position;
-        dir.Normalize();
         Vector3 destinationPos = (me.target.transform.position);
+        Debug.Log("추적중");
         me.agent.SetDestination(destinationPos);
         me.agent.isStopped = false;
 
         // 추적
         if (me.DistToTarget < me.status.attackRange)
         {
+            Debug.Log("추적끝");
             me.agent.isStopped = true;
             me.ActionTable.SetCurAction((int)BangtaniActions.Idle);
         }
@@ -148,7 +150,6 @@ public class Bangtani_Attack : Action<Bangtani>
             if (timer <= 0f)
             {
                 me.weapon.Fire();
-                Debug.Log("탕");
                 curbulletCount--;
                 timer = me.status.fireRate;
             }

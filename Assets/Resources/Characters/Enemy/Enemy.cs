@@ -1,3 +1,4 @@
+using Structs;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public abstract class Enemy : CObj
     public float distToTarget;
     public Player target;
     public NavMeshAgent agent;
+    public EnemyStatus status;
 
     public virtual void Awake()
     {
@@ -17,9 +19,10 @@ public abstract class Enemy : CObj
     protected abstract void Initialize();
 
 
-    public override void Hit(int dmg, Vector2 dir)
+    public override HitInfo Hit(int dmg, Vector2 dir)
     {
-
+        HitInfo hitInfo = new HitInfo();
+        return hitInfo;
     }
 
     public float DistToTarget

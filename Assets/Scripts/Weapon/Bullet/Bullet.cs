@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using Structs;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -213,8 +213,6 @@ public class Bullet : MonoBehaviour
         //Splatter 옵션 일때만 호출될듯
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            Debug.Log("벽 닿음");
-
             --splatterStat.leftCount;
             SetLeftCount(splatterStat.leftCount);
 
@@ -240,9 +238,26 @@ public class Bullet : MonoBehaviour
             {
                 Vector2 normal = collision.GetContact(0).point;
                 Vector2 normalDir = new Vector2(transform.position.x, transform.position.y) - normal;
-                obj.Hit(defaultStat.dmg, normalDir);
-                Resetting();
-                Destroy(this.gameObject);
+
+                HitInfo hitinfo = obj.Hit(defaultStat.dmg, normalDir);
+
+                if (hitinfo.isDurable)
+                {
+                    --splatterStat.leftCount;
+                    SetLeftCount(splatterStat.leftCount);
+
+                    if (splatterStat.leftCount <= 0)
+                    {
+                        GenerateSmoke();
+                        Resetting();
+                        Destroy(this.gameObject);
+                    }
+                }
+                else
+                {
+                    Resetting();
+                    Destroy(this.gameObject);
+                }
             }
         }
 

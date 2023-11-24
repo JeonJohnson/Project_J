@@ -31,8 +31,6 @@ public class Weapon_Bangtani : Weapon
         Vector2 rndDir = rndRot * firePos.up;
         rndDir.Normalize();
 
-        //Debug.Log(Quaternion.LookRotation(Vector3.forward, dir));
-
         GameObject go = Instantiate(testBulletPrefab);
         go.transform.position = firePos.transform.position;
         go.GetComponent<Bullet>().defaultStat.moveSpd = 200;

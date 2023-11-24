@@ -37,10 +37,12 @@ public class BangtaniGuardController : MonoBehaviour
 
         if (angleDiff <= guardableAngle)
         {
+            bangtani.status.isDurable = true;
             return true;
         }
         else
         {
+            bangtani.status.isDurable = false;
             return false;
         }
     }

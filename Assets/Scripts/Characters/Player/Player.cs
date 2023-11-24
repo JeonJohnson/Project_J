@@ -32,9 +32,12 @@ public class Player : CObj
         animator = spriteHolder.GetComponent<Animator>();
     }
 
-    public override void Hit(int dmg, Vector2 dir)
+    public override HitInfo Hit(int dmg, Vector2 dir)
     {
         status.curHp -= dmg;
         //PlayerRigidbody2D.AddForce(dir * 500f);
+
+        HitInfo hitInfo = new HitInfo();
+        return hitInfo;
     }
 }

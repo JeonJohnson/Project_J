@@ -57,7 +57,6 @@ public class Player_Move : Action<Player>
         if (Input.GetKeyDown(KeyCode.Space))
         {
             me.MoveActionTable.SetCurAction((int)PlayerMoveActions.Roll);
-            Debug.Log("w½ºÆä");
         }
 
         moveDir = new Vector3(moveX, moveY).normalized;
