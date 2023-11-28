@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122eb4395ebbe2d4e982112cc8073e58, type: 3}
+  m_Name: TestPassiveItemData
+  m_EditorClassIdentifier: 
+  e_item_Type: 0
+  item_name: TestPasItemData
+  item_description: "\uD328\uC2DC\uBE0C \uC544\uC774\uD15C\uC784"
+  item_explain: "\uD328\uC2DC\uBE0C \uD15C explain"
+  item_sprite: {fileID: -1296315503, guid: 118602d9cc273254897b24cdfb2e17ec, type: 3}
+  item_sprite_Big: {fileID: 0}
+  attackBonus: 10
+  armorBonus: 0
+  speedBonus: 5
+  fireRateBonus: 0

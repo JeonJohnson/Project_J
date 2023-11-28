@@ -6,6 +6,7 @@ public class PlayerAttackController : MonoBehaviour
 {
     private Player player;
     private Weapon_Player weapon;
+    public bool isFirePossible;
 
     private void Awake()
     {
@@ -16,14 +17,18 @@ public class PlayerAttackController : MonoBehaviour
     void Start()
     {
         weapon.Init(player);
+        isFirePossible = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         Aim();
-        weapon.Fire();
-        weapon.Suction();
+        if (isFirePossible)
+        {
+            weapon.Fire();
+            weapon.Suction();
+        }
     }
 
     private void Aim()

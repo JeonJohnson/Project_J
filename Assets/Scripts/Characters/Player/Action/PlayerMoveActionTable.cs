@@ -25,6 +25,7 @@ public class PlayerMoveActionTable : ActionTable<Player>
 
         actions[(int)PlayerMoveActions.Move] = new Player_Move();
         actions[(int)PlayerMoveActions.Roll] = new Player_Roll();
+        actions[(int)PlayerMoveActions.None] = new Player_None();
     }
 
     protected override void Awake()

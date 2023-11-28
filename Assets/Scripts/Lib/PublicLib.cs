@@ -333,6 +333,22 @@ public static class Funcs
         return new Vector3(Mathf.Sin(radAngle), Mathf.Cos(radAngle));
     }
     #endregion
+
+    #region Find Class
+    public static Sprite FindSprite(string imageName, string spriteName)
+    {
+        Sprite[] all = Resources.LoadAll<Sprite>(imageName);
+
+        foreach (var s in all)
+        {
+            if (s.name == spriteName)
+            {
+                return s;
+            }
+        }
+        return null;
+    }
+    #endregion
 }
 
 public static class Defines
@@ -362,16 +378,19 @@ namespace Structs
         [Header("Stat")]
         public int maxHp;
         public int curHp;
+        public int maxArmor;
+        public int curArmor;
         public float walkSpeed;
         public float runSpeed;
 
         public float rollSpeed;
         public float rollSpeedDrop;
 
-        [Header("Range")]
-        public float eyeRange;
-
+        [Header("Hit")]
         public bool isInvincible;
+		public float invincibleTimeWhenHit;
+
+		public bool isDead;
     }
 
     [System.Serializable]
@@ -406,6 +425,13 @@ namespace Structs
 
 namespace Enums
 {
+	public enum Item_Type
+	{
+		Passive,
+		Active,
+		End
+	}
+
     public enum PlayerMoveActions
     {
         None,

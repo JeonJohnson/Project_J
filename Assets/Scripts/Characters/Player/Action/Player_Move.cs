@@ -65,7 +65,7 @@ public class Player_Move : Action<Player>
         if (isMove)
         {
             me.animator.SetBool("isMove", true);
-            me.moveActionTable.LastMoveDir = moveDir;
+            me.MoveActionTable.LastMoveDir = moveDir;
             //조준, 사격기능 활성화
         }
         else

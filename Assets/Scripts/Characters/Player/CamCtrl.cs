@@ -5,7 +5,7 @@ using UnityEngine;
 public class CamCtrl : MonoBehaviour
 {
     Vector2 mousePos;
-    Player player;
+    [SerializeField] Player player;
     [SerializeField] float maxDist = 3f;
 
     public void Init(Player owner)
