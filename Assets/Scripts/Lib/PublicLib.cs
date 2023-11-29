@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
+using Structs;
 
 public static class Funcs
 {
@@ -12,6 +13,8 @@ public static class Funcs
 	{
 		return script == null;
 	}
+
+
 
 	#region C# default Val Type Casting
 	public static string GetEnumName<T>(int index) where T : struct, IConvertible
@@ -334,7 +337,7 @@ public static class Funcs
     }
     #endregion
 
-    #region Find Class
+    #region Find 
     public static Sprite FindSprite(string imageName, string spriteName)
     {
         Sprite[] all = Resources.LoadAll<Sprite>(imageName);
@@ -372,7 +375,10 @@ public static class Defines
 
 namespace Structs
 {
-    [System.Serializable]
+	
+
+
+	[System.Serializable]
     public struct PlayerStatus
     {
         [Header("Stat")]
