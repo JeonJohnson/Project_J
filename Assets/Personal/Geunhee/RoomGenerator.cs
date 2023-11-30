@@ -23,6 +23,7 @@ public struct RoomStatus
 //5. 최소 스패닝 트리를 구상하여 통로 정리
 //6. 직각,수직의 선으로 정리하기
 
+//=> 이런 방식의 문제점. 최소, 최대 방크기가 기준이 되기 애매함
 public class RoomGenerator : MonoBehaviour
 {
 	//for Test
@@ -32,13 +33,23 @@ public class RoomGenerator : MonoBehaviour
     public int maxRoomCount;
 	[Range(0f, 1f)]
 	public float minDivideRatio, maxDivideRatio;
-	public Vector2 minRoomSize, maxRoomSize;
+	//[Tooltip("These Values are Inclusive")]
+	//public Vector2 minRoomSize, maxRoomSize;
 
 
 	[Space(10f)]
 	[Header("Display Vals")]
 	public int divideCount;
 	public List<Room> rooms;
+
+	//public Vector2 expectLeastRoomSize, expectMostRoomSize;
+
+	public void GeneratingRooms()
+	{
+		do { Divide(); }
+		while (rooms.Count < maxRoomCount);
+	
+	}
 
 	public void Divide()
 	{
@@ -98,28 +109,35 @@ public class RoomGenerator : MonoBehaviour
 		////1 = Col (세로로 나누기)
 		int divideDir = room.transform.localScale.x / room.transform.localScale.y >= 1f ? 1 : 0;
 		float divideRatio = Random.Range(minDivideRatio, maxDivideRatio);
-		//자를 경우 사이즈 부터 한번 체크해서 최소 크기보다 작은 경우 패스하고 다시 ㄱㄱ
+		//자를 경우 사이즈부터 한번 체크해서 최소 크기보다 작은 경우 패스하고 다시 ㄱㄱ
+		
+		//=> 이거 어차피 만드는 부분에서도 특정 횟수 정해두고
+		//그만큼 시도해도 안되면 안 나누는 방식일텐데
+		//최소, 최대 맵 사이즈는 그냥 실제 맵 까는 (여백 버리는) 과정에서 체크하는게 나을듯
+		//ㅇㅇ 그때 버리기?
 
 		//0 = left / 1 = right
-		Vector2[] newVertex = new Vector2[2];
-
 		//0 = top / 1 = bot
-		Room[] newRoom = new Room[2];	
+		Vector2[] newVertex = new Vector2[2];
+		Room[] newRoom = new Room[2];
+		CornerPos[] corner = new CornerPos[2];
 
 		if (divideDir == 0)
 		{//가로로 나눌 때 
 			//Left
 			newVertex[0] = new Vector2(room.cornerPos.LT.x,
 									(room.cornerPos.LT.y - room.cornerPos.LB.y) * divideRatio + room.cornerPos.LB.y);
-
 			//Right
 			newVertex[1] = new Vector2(room.cornerPos.RT.x,
 									(room.cornerPos.RT.y - room.cornerPos.RB.y) * divideRatio + room.cornerPos.RB.y);
 
-			//Top
-			newRoom[0] = CreateRoom(new CornerPos(room.cornerPos.LT, room.cornerPos.RT, newVertex[1], newVertex[0]));
-			//Bot
-			newRoom[1] = CreateRoom(new CornerPos(newVertex[0], newVertex[1], room.cornerPos.RB, room.cornerPos.LB));
+			corner[0] = new CornerPos(room.cornerPos.LT, room.cornerPos.RT, newVertex[1], newVertex[0]);
+			corner[1] = new CornerPos(newVertex[0], newVertex[1], room.cornerPos.RB, room.cornerPos.LB);
+
+			for (int i = 0; i < 2; ++i)
+			{
+				newRoom[i] = CreateRoom(corner[i]);
+			}
 		}
 		else
 		{
@@ -133,6 +151,9 @@ public class RoomGenerator : MonoBehaviour
 			newRoom[0] = CreateRoom(new CornerPos(room.cornerPos.LT, newVertex[0], newVertex[1], room.cornerPos.LB));
 			newRoom[1] = CreateRoom(new CornerPos(newVertex[0], room.cornerPos.RT, room.cornerPos.RB, newVertex[1]));
 		}
+
+		
+
 
 
 		foreach (var item in newRoom)
@@ -152,7 +173,8 @@ public class RoomGenerator : MonoBehaviour
 		newRoom.name += Random.Range(-5, 6).ToString();
 		newRoom.transform.SetParent(transform);
 		newRoom.transform.position = pos;
-		newRoom.transform.localScale = new Vector2(Mathf.FloorToInt(size.x), Mathf.FloorToInt(size.y));
+		newRoom.transform.localScale = new Vector2(Mathf.FloorToInt(size.x), Mathf.FloorToInt(size.y)) /** 0.95f*/;
+																														
 
 		Room roomScript = newRoom.GetComponent<Room>();
 		roomScript.cornerPos.CalcCorner(newRoom.transform);
@@ -160,6 +182,19 @@ public class RoomGenerator : MonoBehaviour
 		newRoom.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f,1f), Random.Range(0f,1f) ,Random.Range(0f,1f));
 
 		return roomScript;
+	}
+
+
+	public void ResetRooms()
+	{
+		foreach (var item in rooms)
+		{
+			Destroy(item.gameObject);
+		}
+
+		rooms.Clear();
+		divideCount = 0;
+		CreateInitDungeon();
 	}
 
 
@@ -173,6 +208,14 @@ public class RoomGenerator : MonoBehaviour
 
 
 		rooms.Add(roomScript);
+	}
+
+	private void CalcExpectSize()
+	{ 
+		//원하는 방 개수로
+		//예상 깊이 (나누는 횟수)로 구함
+
+	
 	}
 
 	private void Awake()

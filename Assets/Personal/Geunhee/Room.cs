@@ -18,6 +18,13 @@ public class CornerPos
 		RB = rb;
 		LB = lb;
 	}
+	
+	public Vector2 Size
+	{ 
+		get
+		{return new Vector2(Vector2.Distance(LT, RT), Vector2.Distance(LT, LB)); }
+		
+	}
 
 	public void CalcCorner(Transform tr)
 	{

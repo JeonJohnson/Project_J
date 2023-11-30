@@ -13,10 +13,25 @@ public class RoomGenerator_Editor : Editor
 		
 		DrawDefaultInspector();
 
-		if (GUILayout.Button("Divied"))
+
+
+		if (GUILayout.Button("Divied Once"))
 		{
 			generator.Divide();
 		}
+
+		if (GUILayout.Button("Generate Room"))
+		{
+			generator.GeneratingRooms();
+		}
+
+		if (GUILayout.Button("Reset"))
+		{
+			generator.ResetRooms();
+		}
+
+		
+		
 	}
 
 }
