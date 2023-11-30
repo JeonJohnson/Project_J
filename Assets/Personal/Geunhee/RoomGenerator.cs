@@ -29,16 +29,17 @@ public class RoomGenerator : MonoBehaviour
 	[Header("Setting Vals")]
 	public Vector2 dungeonSize;
 	public GameObject RoomPrefab;
-    public int minRoomCount, maxRoomCount;
+    public int maxRoomCount;
 	[Range(0f, 1f)]
 	public float minDivideRatio, maxDivideRatio;
+	public Vector2 minRoomSize, maxRoomSize;
 
 
 	[Space(10f)]
 	[Header("Display Vals")]
-    //public int curRoomCount;
 	public int divideCount;
 	public List<Room> rooms;
+
 	public void Divide()
 	{
 		if (rooms.Count >= maxRoomCount)
@@ -46,88 +47,103 @@ public class RoomGenerator : MonoBehaviour
 			return;
 		}
 
-		List<Room> newRooms = new List<Room>();
-
+		
+		List<Room> tempRooms = rooms.ToList(); 
+		List<Room> newRooms = new List<Room>(); 
 
 		foreach (var room in rooms)
 		{
-			var tempRooms = DivideRoom(room);
-
-			foreach (var tempRoom in tempRooms)
-			{
-				newRooms.Add(tempRoom);
-
-				if (newRooms.Count >= maxRoomCount)
-				{
-					break;
-				}
-			}
-			Destroy(room.gameObject);
-
-			if (newRooms.Count >= maxRoomCount)
-			{
+			if (tempRooms.Count >= maxRoomCount)
+			{ //방 하나 나눴는데 만약 개수 넘어가는 경우 그냥 시마이
 				break;
 			}
+
+			newRooms = DivideRoom(room);
+
+			if (newRooms.Count != 0)
+			{
+				tempRooms.Remove(room); //복사한 리스트에서 제거하는거라서 문제 없음.
+				Destroy(room.gameObject); //어차피 이거 넘어가면 쓸 일 없음.
+
+				foreach (var newRoom in newRooms)
+				{
+					tempRooms.Add(newRoom);
+				}
+			}
+			else
+			{//더 나눌 경우 최소 사이즈보다 작아지거나 뭐 여타 다른 조건들로 인해 방이 안 만들어 진 경우
+
+
+			}
 		}
+
 		rooms.Clear();
-		rooms = newRooms;
+		rooms = null;
+		rooms = tempRooms;
+
+		newRooms.Clear();
+		newRooms = null;
+
+		++divideCount;
 
 		System.Random rnd = new System.Random();
 		var temp = rooms.OrderBy(a => rnd.Next()).ToList();
-		++divideCount;
 	}
 
-	private List<Room> DivideRoom(Room room)
+	private List<Room> DivideRoom(Room room, int tryCount = 100)
 	{
 		List<Room> tempRooms = new List<Room>();
 
 		////0 = row (가로로 나누기)
 		////1 = Col (세로로 나누기)
-		float aspectRatio = room.transform.localScale.x / room.transform.localScale.y;
-		int divideDir = aspectRatio >= 1f ? 1 : 0;
+		int divideDir = room.transform.localScale.x / room.transform.localScale.y >= 1f ? 1 : 0;
 		float divideRatio = Random.Range(minDivideRatio, maxDivideRatio);
-		Debug.Log(divideRatio);
-
 		//자를 경우 사이즈 부터 한번 체크해서 최소 크기보다 작은 경우 패스하고 다시 ㄱㄱ
 
+		//0 = left / 1 = right
+		Vector2[] newVertex = new Vector2[2];
 
-		//테스트용
+		//0 = top / 1 = bot
+		Room[] newRoom = new Room[2];	
+
 		if (divideDir == 0)
 		{//가로로 나눌 때 
-			Vector2 newRightVertex =
-					new Vector2(room.cornerPos.RT.x,
-					(room.cornerPos.RT.y - room.cornerPos.RB.y) * divideRatio + room.cornerPos.RB.y);
-			Vector2 newLeftVertex =
-					new Vector2(room.cornerPos.LT.x,
-					(room.cornerPos.LT.y - room.cornerPos.LB.y) * divideRatio +room.cornerPos.LB.y);
+			//Left
+			newVertex[0] = new Vector2(room.cornerPos.LT.x,
+									(room.cornerPos.LT.y - room.cornerPos.LB.y) * divideRatio + room.cornerPos.LB.y);
 
-			Room up = CreateRoom(new CornerPos(room.cornerPos.LT, room.cornerPos.RT, newRightVertex, newLeftVertex));
-			Room down = CreateRoom(new CornerPos(newLeftVertex, newRightVertex, room.cornerPos.RB, room.cornerPos.LB));
+			//Right
+			newVertex[1] = new Vector2(room.cornerPos.RT.x,
+									(room.cornerPos.RT.y - room.cornerPos.RB.y) * divideRatio + room.cornerPos.RB.y);
 
-			tempRooms.Add(up);
-			tempRooms.Add(down);
+			//Top
+			newRoom[0] = CreateRoom(new CornerPos(room.cornerPos.LT, room.cornerPos.RT, newVertex[1], newVertex[0]));
+			//Bot
+			newRoom[1] = CreateRoom(new CornerPos(newVertex[0], newVertex[1], room.cornerPos.RB, room.cornerPos.LB));
 		}
 		else
 		{
-			Vector2 newTopVertex =
+			newVertex[0] = 
 					new Vector2((room.cornerPos.RT.x - room.cornerPos.LT.x) * divideRatio + room.cornerPos.LT.x,
 					room.cornerPos.LT.y);
-			Vector2 newBotVertex =
+			newVertex[1] = 
 					new Vector2((room.cornerPos.RB.x - room.cornerPos.LB.x) * divideRatio + room.cornerPos.LB.x,
 					room.cornerPos.LB.y);
 
-			Room left = CreateRoom(new CornerPos(room.cornerPos.LT, newTopVertex, newBotVertex, room.cornerPos.LB));
-			Room right = CreateRoom(new CornerPos(newTopVertex, room.cornerPos.RT, room.cornerPos.RB, newBotVertex));
-
-			tempRooms.Add(left);
-			tempRooms.Add(right);
+			newRoom[0] = CreateRoom(new CornerPos(room.cornerPos.LT, newVertex[0], newVertex[1], room.cornerPos.LB));
+			newRoom[1] = CreateRoom(new CornerPos(newVertex[0], room.cornerPos.RT, room.cornerPos.RB, newVertex[1]));
 		}
 
+
+		foreach (var item in newRoom)
+		{
+			tempRooms.Add(item);
+		}
 
 		return tempRooms;
 	}
 
-	private Room CreateRoom(CornerPos corner)
+	private Room CreateRoom(CornerPos corner/*, int tempRoomsCount*/)
 	{
 		Vector2 size = new Vector2(Vector2.Distance(corner.LT, corner.RT), Vector2.Distance(corner.LT, corner.LB));
 		Vector2 pos = new Vector2(corner.LT.x + size.x * 0.5f, corner.LT.y - size.y * 0.5f);
@@ -147,25 +163,24 @@ public class RoomGenerator : MonoBehaviour
 	}
 
 
-	private void Awake()
+	private void CreateInitDungeon()
 	{
-		rooms = new List<Room>();
-
-		//GameObject firstRoom = new GameObject();
-		//firstRoom.transform.SetParent(transform);
-		//firstRoom.transform.localScale = dungeonSize;
-
-		//firstRoom.AddComponent<SpriteRenderer>();
-		//rooms.Add(firstRoom.AddComponent<Room>());
-
 		GameObject firstRoom = Instantiate(RoomPrefab);
 		firstRoom.transform.SetParent(transform);
 		firstRoom.transform.localScale = dungeonSize;
 		Room roomScript = firstRoom.GetComponent<Room>();
 		roomScript.cornerPos.CalcCorner(firstRoom.transform);
-		
+
 
 		rooms.Add(roomScript);
+	}
+
+	private void Awake()
+	{
+		rooms = new List<Room>();
+		divideCount = 0;
+
+		CreateInitDungeon();
 	}
 
 
