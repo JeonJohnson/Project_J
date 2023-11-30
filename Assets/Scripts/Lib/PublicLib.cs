@@ -375,8 +375,6 @@ public static class Defines
 
 namespace Structs
 {
-	
-
 
 	[System.Serializable]
     public struct PlayerStatus
@@ -465,3 +463,349 @@ namespace Enums
     }
 }
 
+namespace JeonJohnson
+{
+	public enum TreeSearchOption
+	{ 
+		PRE, //Preorder : 전위 순회 (mother -> left -> right)
+		IN, //Inorder : 중위 순회 (leaf left -> mother -> right)
+		POST //Postorder : 후위 순회 (leaf left -> right -> mother)
+	}
+
+	/// <summary>
+	/// 랜덤 방생성 (BSP 알고리즘)에서 쓸려고 간단하게 만든
+	/// 이진 트리임 (완전 바이너리 트리)
+	/// 필요하다면, 웬만하면 있는 Linq 자료구조 쓰셈ㅋ;
+	/// 와~ 나 무적권 Tree필요하다 하면,,, 말해,,, 주세요,,,,
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	[System.Serializable]
+	public class Tree<T> /*: IEnumerable, IEnumerator*/
+	{
+		public Tree()
+		{
+			root = null;
+
+			nodeList = new List<TreeNode<T>>();
+
+			//root.Depth = 0;
+			//root.Index = 0;
+			//maxDepth = 0;
+		}
+
+		public Tree(T rootData)
+		{
+			root = new TreeNode<T>(rootData,0,0);
+
+			nodeList = new List<TreeNode<T>>();
+			nodeList.Add(root);
+
+			Count = 1;
+			//maxDepth = 0;
+		}
+
+		public Tree(TreeNode<T> rootNode)
+		{
+			root = rootNode;
+
+			nodeList = new List<TreeNode<T>>();
+			nodeList.Add(root);
+
+			Count = 1;
+			//maxDepth = 0;
+		}
+
+		private TreeNode<T> root;
+		public TreeNode<T> RootNode
+		{
+			get { return root; }
+			set { root = value; }
+		}
+
+		//순회 위해서 만들었는디, Node의 Index 순서대로 ㄱㄱㄱ
+		//나중에 여유 있으면 보고 IEnumerable, IEnumerator 추가해서 ㄱㄱ
+		public List<TreeNode<T>> nodeList;
+
+		public int Count { get; private set; }
+		
+
+		//private int maxDepth;
+		//public int MaxDepth
+		//{
+		//	get { return maxDepth; }
+		//}
+
+		private TreeNode<T> lastNode;
+		
+		public TreeNode<T> FindLastNode()
+		{
+			lastNode = root.NextNode();
+			Count = lastNode.Index + 1;
+			return lastNode;
+		}
+
+		public List<TreeNode<T>> GetLeafNodes()
+		{
+			List<TreeNode<T>> leafNodes = new List<TreeNode<T>>();
+
+			leafNodes.AddRange(root.GetLeafChild());
+
+			return leafNodes;
+		}
+
+
+		public void AddNode(TreeNode<T> left, TreeNode<T> right)
+		{
+			FindLastNode();
+
+			left.MotherNode = lastNode;
+			right.MotherNode = lastNode;
+
+			lastNode.LeftNode = left;
+			lastNode.RightNode = right;
+
+			left.SiblingNode = right;
+			right.SiblingNode = left;
+
+			left.Index = lastNode.Index + 1;
+			right.Index = lastNode.Index + 2;
+
+			left.Depth = lastNode.Depth + 1;
+			right.Depth = lastNode.Depth + 1;
+
+			nodeList.Add(left);
+			nodeList.Add(right);
+
+			Count = right.Index + 1;
+		}
+
+		public void AddNode(T left, T right)
+		{
+			FindLastNode();
+
+			TreeNode<T> leftNode = new TreeNode<T>(left, lastNode.Depth + 1, lastNode.Index +1);
+			TreeNode<T> rightNode = new TreeNode<T>(right, lastNode.Depth +1, lastNode.Index+2);
+
+			leftNode.MotherNode = lastNode;
+			rightNode.MotherNode = lastNode;
+
+			lastNode.LeftNode = leftNode;
+			lastNode.RightNode = rightNode;
+
+			leftNode.SiblingNode = rightNode;
+			rightNode.SiblingNode = leftNode;
+
+			//leftNode.Index = lastNode.Index + 1;
+			//rightNode.Index = lastNode.Index + 2;
+
+			//leftNode.Depth = lastNode.Depth + 1;
+			//rightNode.Depth = lastNode.Depth + 1;
+			
+			nodeList.Add(leftNode);
+			nodeList.Add(rightNode);
+
+			Count = rightNode.Index + 1;
+		}
+
+		/////IEnumerator <summary>
+		//public object Current => throw new NotImplementedException();
+		//public bool MoveNext()
+		//{
+			
+		//}
+
+		//public void Reset()
+		//{
+			
+		//}
+		/////IEnumerator </summary>
+		/////
+		/////IEnumerable<summary>
+		//public IEnumerator GetEnumerator()
+		//{
+		//	throw new NotImplementedException();
+		//}
+		/////IEnumerable</summary>
+
+	
+	}
+	[System.Serializable]
+	public class TreeNode<T> 
+	{
+		public TreeNode()
+		{
+			value = default(T);
+			left = null;
+			right = null;
+
+			depth = -1;
+			index = -1;
+		}
+		public TreeNode(T data)
+		{
+			value = data;
+			left = null;
+			right = null;
+
+			depth = -1;
+			index = -1;
+		}
+
+		public TreeNode(T data, int _depth, int _index)
+		{
+			value = data;
+			left = null;
+			right = null;
+
+			depth = _depth;
+			index = _index;
+		}
+
+		//~TreeNode()
+		//{
+		//	//value = null;
+		//	mother = null;
+		//	sibling = null;
+		//	left = null;
+		//	right = null;
+		//}
+
+
+		private int depth;
+		public int Depth
+		{
+			get { return depth; }
+			set { depth = value; }
+		}
+
+		private int index;
+		public int Index
+		{
+			get { return index; }
+			set { index = value; }
+		}
+
+
+		private T value;
+		public T Value
+		{
+			get { return value; }
+			set { this.value = value; }
+		}
+
+		private TreeNode<T> mother;
+		public TreeNode<T> MotherNode
+		{
+			get { return mother; }
+			set { mother = value; }
+		}
+
+		private TreeNode<T> sibling;
+		public TreeNode<T> SiblingNode
+		{
+			get { return sibling; }
+			set { sibling = value; }
+		}
+		
+		private TreeNode<T> left;
+		public TreeNode<T> LeftNode
+		{
+			get { return left; }
+			set { left = value; }
+		}
+
+		private TreeNode<T> right;
+		public TreeNode<T> RightNode
+		{
+			get { return right; }
+			set { right = value; }
+		}
+
+
+		public bool IsLeaf()
+		{
+			return (left == null && right == null);
+		}
+
+		public List<TreeNode<T>> GetLeafChild()
+		{
+			var list = new List<TreeNode<T>>();
+
+			if (left == null)
+			{
+				list.Add(this);
+				return list;
+			}
+			else if (left.IsLeaf())
+			{
+				list.Add(left);
+			}
+			else
+			{
+				list.AddRange(left.GetLeafChild());
+			}
+
+			
+			if (right.IsLeaf())
+			{
+				list.Add(right);
+			}
+			else
+			{
+				list.AddRange(right.GetLeafChild());
+			}
+
+			return list;
+		}
+
+
+
+		public TreeNode<T> NextNode()
+		{ //전위순회 기준에서
+			if (left != null)
+			{
+				return left.NextNode();
+			}
+			else if (right != null)
+			{
+				//return right;
+				return right .NextNode();
+			}
+			else 
+			{
+				if (mother != null && mother.sibling != null)
+				{
+					return mother.sibling.NextNode();
+				}
+				else
+				{
+					return this;
+				}
+			}
+		}
+
+
+		
+
+		//public TreeNode<T> FindNode(T data)
+		//{
+		//	if (left != null)
+		//	{
+		//		if (left.value.GetHashCode() == data.GetHashCode())
+		//		{
+		//			return LeftNode;
+		//		}
+		//		else
+		//		{
+		//			left.FindNode(data);
+		//		}
+		//	}
+		//	else
+		//	{ //가장 마지막 왼쪽인 경우.
+		//		if(right)
+				
+		//	}
+		//}
+	}
+
+}
