@@ -537,14 +537,14 @@ namespace JeonJohnson
 		//	get { return maxDepth; }
 		//}
 
-		private TreeNode<T> lastNode;
+		//private TreeNode<T> lastNode;
 		
-		public TreeNode<T> FindLastNode()
-		{
-			lastNode = root.NextNode();
-			//Count = lastNode.Index + 1;
-			return lastNode;
-		}
+		//public TreeNode<T> FindLastNode()
+		//{
+		//	lastNode = root.NextNode();
+		//	//Count = lastNode.Index + 1;
+		//	return lastNode;
+		//}
 
 		public List<TreeNode<T>> GetLeafNodes()
 		{
@@ -556,26 +556,26 @@ namespace JeonJohnson
 		}
 
 
-		public void AddNode(TreeNode<T> left, TreeNode<T> right)
+		public void AddNode(TreeNode<T> motherNode, TreeNode<T> left, TreeNode<T> right)
 		{
 			if (!(right == null && nodeList.Count == 0))
 			{
-				FindLastNode();
+				//FindLastNode();
 
-				left.MotherNode = lastNode;
-				right.MotherNode = lastNode;
+				left.MotherNode = motherNode;
+				right.MotherNode = motherNode;
 
-				lastNode.LeftNode = left;
-				lastNode.RightNode = right;
+				motherNode.LeftNode = left;
+				motherNode.RightNode = right;
 
 				left.SiblingNode = right;
 				right.SiblingNode = left;
 
-				left.Index = lastNode.Index + 1;
-				right.Index = lastNode.Index + 2;
+				left.Index = nodeList.Count;
+				right.Index = left.Index +1 ;
 
-				left.Depth = lastNode.Depth + 1;
-				right.Depth = lastNode.Depth + 1;
+				left.Depth = motherNode.Depth + 1;
+				right.Depth = motherNode.Depth + 1;
 
 				nodeList.Add(left);
 				nodeList.Add(right);
@@ -593,32 +593,23 @@ namespace JeonJohnson
 
 		}
 
-		public void AddNode(T left, T right)
+		public void AddNode(TreeNode<T> motherNode, T left, T right)
 		{
-
 			TreeNode<T> leftNode, rightNode;
 
 			if (!(right == null && nodeList.Count == 0))
 			{
-				FindLastNode();
+				leftNode = new TreeNode<T>(left, motherNode.Depth +1 , nodeList.Count);
+				 rightNode= new TreeNode<T>(right, motherNode.Depth + 1, nodeList.Count+1);
 
-				leftNode = new TreeNode<T>(left, lastNode.Depth + 1, lastNode.Index + 1);
-				 rightNode= new TreeNode<T>(right, lastNode.Depth + 1, lastNode.Index + 2);
+				leftNode.MotherNode = motherNode;
+				rightNode.MotherNode = motherNode;
 
-				leftNode.MotherNode = lastNode;
-				rightNode.MotherNode = lastNode;
-
-				lastNode.LeftNode = leftNode;
-				lastNode.RightNode = rightNode;
+				motherNode.LeftNode = leftNode;
+				motherNode.RightNode = rightNode;
 
 				leftNode.SiblingNode = rightNode;
 				rightNode.SiblingNode = leftNode;
-
-				//leftNode.Index = lastNode.Index + 1;
-				//rightNode.Index = lastNode.Index + 2;
-
-				//leftNode.Depth = lastNode.Depth + 1;
-				//rightNode.Depth = lastNode.Depth + 1;
 
 				nodeList.Add(leftNode);
 				nodeList.Add(rightNode);
@@ -626,8 +617,8 @@ namespace JeonJohnson
 				Count = nodeList.Count;
 			}
 			else
-			{
-				leftNode = new TreeNode<T>(left, lastNode.Depth + 1, lastNode.Index + 1);
+			{//root 넣을때
+				leftNode = new TreeNode<T>(left, 0, 0);
 				root = leftNode;
 				root.Index = 0;
 				nodeList.Add(leftNode);
@@ -758,29 +749,39 @@ namespace JeonJohnson
 		{
 			var list = new List<TreeNode<T>>();
 
-			if (left == null)
+			if (IsLeaf())
 			{
 				list.Add(this);
-				return list;
-			}
-			else if (left.IsLeaf())
-			{
-				list.Add(left);
 			}
 			else
 			{
 				list.AddRange(left.GetLeafChild());
-			}
-
-			
-			if (right.IsLeaf())
-			{
-				list.Add(right);
-			}
-			else
-			{
 				list.AddRange(right.GetLeafChild());
 			}
+
+			//if (left == null)
+			//{
+			//	list.Add(this);
+			//	return list;
+			//}
+			//else if (left.IsLeaf())
+			//{
+			//	list.Add(left);
+			//}
+			//else
+			//{
+			//	list.AddRange(left.GetLeafChild());
+			//}
+
+			
+			//if (right.IsLeaf())
+			//{
+			//	list.Add(right);
+			//}
+			//else
+			//{
+			//	list.AddRange(right.GetLeafChild());
+			//}
 
 			return list;
 		}
@@ -800,19 +801,19 @@ namespace JeonJohnson
 			}
 			else 
 			{
-				if (mother != null && mother.sibling != null)
-				{
-					if (mother.sibling.index > mother.index)
-					{
-						return mother.sibling.NextNode();
-					}
+				//if (mother != null && mother.sibling != null)
+				//{
+				//	if (mother.sibling.index > mother.index)
+				//	{
+				//		return mother.sibling.NextNode();
+				//	}
 
+				//	return this;
+				//}
+				//else
+				//{
 					return this;
-				}
-				else
-				{
-					return this;
-				}
+				//}
 			}
 		}
 

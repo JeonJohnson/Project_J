@@ -115,7 +115,7 @@ public class RoomGenerator : MonoBehaviour
 		{
 			var newRooms = DivideRoom(node.Value);
 
-			roomTree.AddNode(newRooms[0], newRooms[1]);
+			roomTree.AddNode(node ,newRooms[0], newRooms[1]);
 
 			node.Value.gameObject.SetActive(false);
 		}
