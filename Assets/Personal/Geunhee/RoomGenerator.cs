@@ -35,14 +35,20 @@ public class RoomGenerator : MonoBehaviour
     //public int maxRoomCount;
 	[Range(0f, 1f)]
 	public float minDivideRatio, maxDivideRatio;
+	public int divideTimes;
 	//[Tooltip("These Values are Inclusive")]
 	//public Vector2 minRoomSize, maxRoomSize;
 
 
 	[Space(10f)]
 	[Header("Display Vals")]
-	public int divideCount;
+	[ReadOnly]
+	public int dividedCount;
+	[ReadOnly]
+	public int roomCount = 1;
 	//public List<Room> rooms;
+
+	[HideInInspector]
 	public JeonJohnson.Tree<Room> roomTree;
 
 	////public Vector2 expectLeastRoomSize, expectMostRoomSize;
@@ -54,9 +60,26 @@ public class RoomGenerator : MonoBehaviour
 
 	public void GeneratingRooms()
 	{
-		//do { Divide(); }
-		//while (rooms.Count < maxRoomCount);
-	
+		int tryCount = divideTimes;
+
+		if (dividedCount == divideTimes)
+		{
+			return;
+		}
+		else if (dividedCount > divideTimes)
+		{
+			ResetRooms();
+		}
+		else if (dividedCount < divideTimes)
+		{
+			tryCount -= dividedCount;
+		}
+
+
+		for (int i = 0; i < tryCount; ++i)
+		{
+			Divide();
+		}
 	}
 
 	//public void Divide_Old()
@@ -120,8 +143,9 @@ public class RoomGenerator : MonoBehaviour
 			node.Value.gameObject.SetActive(false);
 		}
 
-		++divideCount;
+		++dividedCount;
 
+		roomCount = roomTree.GetLeafNodes().Count;
 	}
 
 	private List<Room> DivideRoom(Room room)
@@ -278,7 +302,7 @@ public class RoomGenerator : MonoBehaviour
 			node.RightNode = null;
 		}
 
-		divideCount = 0;
+		dividedCount = 0;
 
 		CreateInitDungeon();
 	}
@@ -294,6 +318,8 @@ public class RoomGenerator : MonoBehaviour
 		roomObj.name += "(0)";
 		//rooms.Add(roomScript);
 		roomTree = new Tree<Room>(room);
+
+		roomCount = 1;
 	}
 
 	//private void CalcExpectSize()
@@ -305,7 +331,7 @@ public class RoomGenerator : MonoBehaviour
 	private void Awake()
 	{
 		//rooms = new List<Room>();
-		divideCount = 0;
+		dividedCount = 0;
 
 		CreateInitDungeon();
 	}
@@ -323,6 +349,9 @@ public class RoomGenerator : MonoBehaviour
 	}
 
 
-
+	private void OnDestroy()
+	{
+		roomTree = null;
+	}
 
 }

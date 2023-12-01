@@ -14,7 +14,8 @@ public class RoomGenerator_Editor : Editor
 		DrawDefaultInspector();
 
 
-
+		GUILayout.Label("\nRoom Generator Buttons", EditorStyles.boldLabel);
+		GUILayout.Label("dont divide upper 12~14 times.\nur Computer hates u...", EditorStyles.miniLabel);
 		if (GUILayout.Button("Divied Once"))
 		{
 			generator.Divide();
@@ -24,6 +25,7 @@ public class RoomGenerator_Editor : Editor
 		{
 			generator.GeneratingRooms();
 		}
+
 
 		if (GUILayout.Button("Reset"))
 		{
