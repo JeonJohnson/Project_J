@@ -479,7 +479,7 @@ namespace JeonJohnson
 	/// 와~ 나 무적권 Tree필요하다 하면,,, 말해,,, 주세요,,,,
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	[System.Serializable]
+	//[System.Serializable]
 	public class Tree<T> /*: IEnumerable, IEnumerator*/
 	{
 		public Tree()
@@ -497,8 +497,10 @@ namespace JeonJohnson
 		{
 			root = new TreeNode<T>(rootData,0,0);
 
-			nodeList = new List<TreeNode<T>>();
-			nodeList.Add(root);
+			nodeList = new List<TreeNode<T>>
+			{
+				root
+			};
 
 			Count = 1;
 			//maxDepth = 0;
@@ -540,7 +542,7 @@ namespace JeonJohnson
 		public TreeNode<T> FindLastNode()
 		{
 			lastNode = root.NextNode();
-			Count = lastNode.Index + 1;
+			//Count = lastNode.Index + 1;
 			return lastNode;
 		}
 
@@ -556,55 +558,80 @@ namespace JeonJohnson
 
 		public void AddNode(TreeNode<T> left, TreeNode<T> right)
 		{
-			FindLastNode();
+			if (!(right == null && nodeList.Count == 0))
+			{
+				FindLastNode();
 
-			left.MotherNode = lastNode;
-			right.MotherNode = lastNode;
+				left.MotherNode = lastNode;
+				right.MotherNode = lastNode;
 
-			lastNode.LeftNode = left;
-			lastNode.RightNode = right;
+				lastNode.LeftNode = left;
+				lastNode.RightNode = right;
 
-			left.SiblingNode = right;
-			right.SiblingNode = left;
+				left.SiblingNode = right;
+				right.SiblingNode = left;
 
-			left.Index = lastNode.Index + 1;
-			right.Index = lastNode.Index + 2;
+				left.Index = lastNode.Index + 1;
+				right.Index = lastNode.Index + 2;
 
-			left.Depth = lastNode.Depth + 1;
-			right.Depth = lastNode.Depth + 1;
+				left.Depth = lastNode.Depth + 1;
+				right.Depth = lastNode.Depth + 1;
 
-			nodeList.Add(left);
-			nodeList.Add(right);
+				nodeList.Add(left);
+				nodeList.Add(right);
 
-			Count = right.Index + 1;
+				//Count = right.Index + 1;
+				Count = nodeList.Count;
+			}
+			else
+			{
+				root = left;
+				root.Index = 0;
+				nodeList.Add(left);
+			}
+
+
 		}
 
 		public void AddNode(T left, T right)
 		{
-			FindLastNode();
 
-			TreeNode<T> leftNode = new TreeNode<T>(left, lastNode.Depth + 1, lastNode.Index +1);
-			TreeNode<T> rightNode = new TreeNode<T>(right, lastNode.Depth +1, lastNode.Index+2);
+			TreeNode<T> leftNode, rightNode;
 
-			leftNode.MotherNode = lastNode;
-			rightNode.MotherNode = lastNode;
+			if (!(right == null && nodeList.Count == 0))
+			{
+				FindLastNode();
 
-			lastNode.LeftNode = leftNode;
-			lastNode.RightNode = rightNode;
+				leftNode = new TreeNode<T>(left, lastNode.Depth + 1, lastNode.Index + 1);
+				 rightNode= new TreeNode<T>(right, lastNode.Depth + 1, lastNode.Index + 2);
 
-			leftNode.SiblingNode = rightNode;
-			rightNode.SiblingNode = leftNode;
+				leftNode.MotherNode = lastNode;
+				rightNode.MotherNode = lastNode;
 
-			//leftNode.Index = lastNode.Index + 1;
-			//rightNode.Index = lastNode.Index + 2;
+				lastNode.LeftNode = leftNode;
+				lastNode.RightNode = rightNode;
 
-			//leftNode.Depth = lastNode.Depth + 1;
-			//rightNode.Depth = lastNode.Depth + 1;
-			
-			nodeList.Add(leftNode);
-			nodeList.Add(rightNode);
+				leftNode.SiblingNode = rightNode;
+				rightNode.SiblingNode = leftNode;
 
-			Count = rightNode.Index + 1;
+				//leftNode.Index = lastNode.Index + 1;
+				//rightNode.Index = lastNode.Index + 2;
+
+				//leftNode.Depth = lastNode.Depth + 1;
+				//rightNode.Depth = lastNode.Depth + 1;
+
+				nodeList.Add(leftNode);
+				nodeList.Add(rightNode);
+
+				Count = nodeList.Count;
+			}
+			else
+			{
+				leftNode = new TreeNode<T>(left, lastNode.Depth + 1, lastNode.Index + 1);
+				root = leftNode;
+				root.Index = 0;
+				nodeList.Add(leftNode);
+			}
 		}
 
 		/////IEnumerator <summary>
@@ -629,7 +656,7 @@ namespace JeonJohnson
 
 	
 	}
-	[System.Serializable]
+	//[System.Serializable]
 	public class TreeNode<T> 
 	{
 		public TreeNode()
@@ -775,7 +802,12 @@ namespace JeonJohnson
 			{
 				if (mother != null && mother.sibling != null)
 				{
-					return mother.sibling.NextNode();
+					if (mother.sibling.index > mother.index)
+					{
+						return mother.sibling.NextNode();
+					}
+
+					return this;
 				}
 				else
 				{

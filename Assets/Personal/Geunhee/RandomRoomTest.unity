@@ -291,12 +291,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonSize: {x: 160, y: 90}
   RoomPrefab: {fileID: 2327756051498767326, guid: caa5e628a746cec4aac49b7a38eb16d3, type: 3}
-  minRoomCount: 5
-  maxRoomCount: 10
   minDivideRatio: 0.3
   maxDivideRatio: 0.7
-  divideCount: 2
-  rooms: []
+  divideCount: 0
 --- !u!4 &1612240559
 Transform:
   m_ObjectHideFlags: 0

@@ -32,7 +32,7 @@ public class RoomGenerator : MonoBehaviour
 	[Header("Setting Vals")]
 	public Vector2 dungeonSize;
 	public GameObject RoomPrefab;
-    public int maxRoomCount;
+    //public int maxRoomCount;
 	[Range(0f, 1f)]
 	public float minDivideRatio, maxDivideRatio;
 	//[Tooltip("These Values are Inclusive")]
@@ -110,40 +110,17 @@ public class RoomGenerator : MonoBehaviour
 
 	public void Divide()
 	{
-		//if (room.Count >= maxRoomCount)
-		//{
-		//	return;
-		//}
-
-		//List<Room> tempRooms = rooms.ToList();
-		//List<Room> newRooms = new List<Room>();
-
-		//foreach (var node in roomTree.nodeList)
-		//{
-		//	//if (tempRooms.Count >= maxRoomCount)
-		//	//{ //방 하나 나눴는데 만약 개수 넘어가는 경우 그냥 시마이
-		//	//	break;
-		//	//}
-
-		//	newRooms = DivideRoom(node.Value);
-		//}
 
 		foreach (var node in roomTree.GetLeafNodes())
 		{
 			var newRooms = DivideRoom(node.Value);
 
-			if (newRooms.Count == 2)
-			{
-				roomTree.AddNode(newRooms[0], newRooms[1]);
-			}
+			roomTree.AddNode(newRooms[0], newRooms[1]);
 
 			node.Value.gameObject.SetActive(false);
 		}
 
 		++divideCount;
-
-		//System.Random rnd = new System.Random();
-		//var temp = rooms.OrderBy(a => rnd.Next()).ToList();
 
 	}
 
@@ -176,7 +153,7 @@ public class RoomGenerator : MonoBehaviour
 
 			for (int i = 0; i < 2; ++i)
 			{
-				newRoom[i] = CreateRoom(corner[i]);
+				newRoom[i] = CreateRoom(corner[i],roomTree.Count+ i);
 			}
 		}
 		else
@@ -188,8 +165,8 @@ public class RoomGenerator : MonoBehaviour
 					new Vector2((room.cornerPos.RB.x - room.cornerPos.LB.x) * divideRatio + room.cornerPos.LB.x,
 					room.cornerPos.LB.y);
 
-			newRoom[0] = CreateRoom(new CornerPos(room.cornerPos.LT, newVertex[0], newVertex[1], room.cornerPos.LB));
-			newRoom[1] = CreateRoom(new CornerPos(newVertex[0], room.cornerPos.RT, room.cornerPos.RB, newVertex[1]));
+			newRoom[0] = CreateRoom(new CornerPos(room.cornerPos.LT, newVertex[0], newVertex[1], room.cornerPos.LB), roomTree.Count);
+			newRoom[1] = CreateRoom(new CornerPos(newVertex[0], room.cornerPos.RT, room.cornerPos.RB, newVertex[1]), roomTree.Count + 1);
 		}
 
 		foreach (var item in newRoom)
@@ -259,13 +236,13 @@ public class RoomGenerator : MonoBehaviour
 	//	return tempRooms;
 	//}
 
-	private Room CreateRoom(CornerPos corner/*, int tempRoomsCount*/)
+	private Room CreateRoom(CornerPos corner, int treeIndex)
 	{
 		Vector2 size = new Vector2(Vector2.Distance(corner.LT, corner.RT), Vector2.Distance(corner.LT, corner.LB));
 		Vector2 pos = new Vector2(corner.LT.x + size.x * 0.5f, corner.LT.y - size.y * 0.5f);
 
 		GameObject newRoom = Instantiate(RoomPrefab);
-		newRoom.name += Random.Range(-5, 6).ToString();
+		newRoom.name += $"({treeIndex})";
 		newRoom.transform.SetParent(transform);
 		newRoom.transform.position = pos;
 		newRoom.transform.localScale = new Vector2(Mathf.FloorToInt(size.x), Mathf.FloorToInt(size.y)) /** 0.95f*/;
@@ -314,7 +291,7 @@ public class RoomGenerator : MonoBehaviour
 		roomObj.transform.localScale = dungeonSize;
 		Room room = roomObj.GetComponent<Room>();
 		room.cornerPos.CalcCorner(roomObj.transform);
-
+		roomObj.name += "(0)";
 		//rooms.Add(roomScript);
 		roomTree = new Tree<Room>(room);
 	}
