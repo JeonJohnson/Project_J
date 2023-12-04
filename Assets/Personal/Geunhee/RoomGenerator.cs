@@ -36,6 +36,10 @@ public class RoomGenerator : MonoBehaviour
 	[Range(0f, 1f)]
 	public float minDivideRatio, maxDivideRatio;
 	public int divideTimes;
+	[Tooltip("구역 줄여서 방 생성할때, 최소 최대 비율")]
+	public float xOffset, yOffset;
+
+
 	//[Tooltip("These Values are Inclusive")]
 	//public Vector2 minRoomSize, maxRoomSize;
 
@@ -54,41 +58,28 @@ public class RoomGenerator : MonoBehaviour
 	////public Vector2 expectLeastRoomSize, expectMostRoomSize;
 	//public void Test()
 	//{ 
-		
+
 	//}
 
-
 	public void GeneratingRooms()
-	{
-		int tryCount = divideTimes;
-
-		if (dividedCount == divideTimes)
-		{
-			return;
-		}
-		else if (dividedCount > divideTimes)
-		{
-			ResetRooms();
-		}
-		else if (dividedCount < divideTimes)
-		{
-			tryCount -= dividedCount;
-		}
-
-
-		for (int i = 0; i < tryCount; ++i)
-		{
-			Divide();
-		}
+	{ 
+	
 	}
 
+
+
+
+
+
+
+	/// 1. 구역 나누기
 	//public void Divide_Old()
 	//{
 	//	if (rooms.Count >= maxRoomCount)
 	//	{
 	//		return;
 	//	}
-		
+
 	//	List<Room> tempRooms = rooms.ToList(); 
 	//	List<Room> newRooms = new List<Room>(); 
 
@@ -130,13 +121,35 @@ public class RoomGenerator : MonoBehaviour
 	//	System.Random rnd = new System.Random();
 	//	var temp = rooms.OrderBy(a => rnd.Next()).ToList();
 	//}
+	public void Divieding()
+	{
+		int tryCount = divideTimes;
 
-	public void Divide()
+		if (dividedCount == divideTimes)
+		{
+			return;
+		}
+		else if (dividedCount > divideTimes)
+		{
+			ResetRooms();
+		}
+		else if (dividedCount < divideTimes)
+		{
+			tryCount -= dividedCount;
+		}
+
+
+		for (int i = 0; i < tryCount; ++i)
+		{
+			Divied();
+		}
+	}
+	public void Divied()
 	{
 
 		foreach (var node in roomTree.GetLeafNodes())
 		{
-			var newRooms = DivideRoom(node.Value);
+			var newRooms = DiviedRoom(node.Value);
 
 			roomTree.AddNode(node ,newRooms[0], newRooms[1]);
 
@@ -148,7 +161,7 @@ public class RoomGenerator : MonoBehaviour
 		roomCount = roomTree.GetLeafNodes().Count;
 	}
 
-	private List<Room> DivideRoom(Room room)
+	private List<Room> DiviedRoom(Room room)
 	{
 		List<Room> tempRooms = new List<Room>();
 
@@ -281,17 +294,50 @@ public class RoomGenerator : MonoBehaviour
 	}
 
 
+	///2. 나눈 구역 보다 작게 방 만들기
+	public void ShrinkRooms()
+	{
+		foreach (var node in roomTree.GetLeafNodes())
+		{
+			Shrink(node.Value);
+		}
+	}
+
+
+	private void Shrink(Room room)
+	{
+		Vector2 size = room.transform.localScale;
+		Vector2 pos = room.transform.position;
+		int w = Mathf.FloorToInt(Random.Range(size.x * 0.5f, size.x - xOffset));
+		int h = Mathf.FloorToInt(Random.Range(size.y * 0.5f, size.y - yOffset));
+
+		float x = Random.Range(pos.x - size.x * 0.5f + w * 0.5f, pos.x + size.x * 0.5f - w * 0.5f);
+		float y = Random.Range(pos.y - size.y * 0.5f + h * 0.5f, pos.y + size.y * 0.5f - h * 0.5f);
+
+		room.transform.position = new Vector2(x, y);
+		room.transform.localScale = new Vector2(w, h);
+	}
+
+	//// 양옆(형제 노드)들의 방끼리 이어주기 
+	//// 모든 height에서.
+	public void ConnectingRooms()
+	{ 
+	
+	}
+
+	private void ConnectSiblingRoom()
+	{ 
+	
+	}
+
+	private void CreateCorridor()
+	{ 
+	
+	}
+
+
 	public void ResetRooms()
 	{
-		//foreach (var item in rooms)
-		//{
-		//	Destroy(item.gameObject);
-		//}
-
-		//rooms.Clear();
-		//divideCount = 0;
-		//CreateInitDungeon();
-
 		foreach (var node in roomTree.nodeList)
 		{
 			Destroy(node.Value.gameObject);
@@ -322,15 +368,9 @@ public class RoomGenerator : MonoBehaviour
 		roomCount = 1;
 	}
 
-	//private void CalcExpectSize()
-	//{ 
-	//	//원하는 방 개수로
-	//	//예상 깊이 (나누는 횟수)로 구함
-	//}
 
 	private void Awake()
 	{
-		//rooms = new List<Room>();
 		dividedCount = 0;
 
 		CreateInitDungeon();
