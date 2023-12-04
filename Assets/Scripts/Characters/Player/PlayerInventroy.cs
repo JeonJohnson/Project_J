@@ -1,72 +1,176 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Structs;
+using Enums;
 
 public class PlayerInventroy : MonoBehaviour
 {
     private Player player;
-    public ItemData curActiveItem;
-    public List<ItemData> lastPassiveItem;
+    public Item_Active activeItemSlot;
+    public Item_Passive[] passiveItemSlot = new Item_Passive[6];
+    public Item[] useableItemSlot = new Item[25];
+
+    public BonusStatus invenBonusStatus;
+
+    private float activeItem_CooldownTimer;
 
     private void Awake()
     {
         player = GetComponent<Player>();
-
-        lastPassiveItem = new List<ItemData>();
     }
 
-    private void Equip(ItemData data)
+    private void Update()
     {
-        switch (data.e_item_Type)
+        if (Input.GetKeyDown(KeyCode.F) && activeItemSlot != null)
+        {
+              activeItemSlot.Use(player);
+        }
+    }
+
+    private void AddItem(Item itemData)
+    {
+        switch (itemData.e_item_Type)
         {
             case Enums.Item_Type.Active:
                 {
-                    if (curActiveItem != null)
-                    {
-                        curActiveItem.UnEquipItem(player);
-                    }
-                    curActiveItem = data;
-                    curActiveItem.EquipItem(player);
-                    UiController_Proto.Instance.playerUiView.UpdateActiveItem(curActiveItem.item_sprite);
+                    if (activeItemSlot != null) RemoveItemBonus(activeItemSlot.BonusStatus);
+                    activeItemSlot = (Item_Active)itemData;
+                    AddItemBonus(itemData.BonusStatus);
+                    UiController_Proto.Instance.playerUiView.UpdateActiveItem(itemData.item_sprite);
                 }
                 break;
             case Enums.Item_Type.Passive:
                 {
-                    lastPassiveItem.Add(data);
-                    curActiveItem.EquipItem(player);
+                    if(Funcs.IsArrayFull(passiveItemSlot)) { Debug.Log("! Inventory is Full"); }
+                    else
+                    {
+                        Funcs.ArrayAdd(passiveItemSlot, itemData);
+                        AddItemBonus(itemData.BonusStatus);
+
+                        //ui 처리
+                        UiController_Proto.Instance.playerUiView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
+                    }
+
+                }
+                break;
+            case Enums.Item_Type.Useable:
+                {
+                    if (Funcs.IsArrayFull(useableItemSlot)) { Debug.Log("! Inventory is Full"); }
+                    else
+                    {
+                        Funcs.ArrayAdd(useableItemSlot, itemData);
+                        AddItemBonus(itemData.BonusStatus);
+                    }
+
                 }
                 break;
         }
     }
 
-    private void UnEquip(ItemData data)
+    private void RemoveItem(Item itemData)
     {
-        switch (data.e_item_Type)
+        RemoveItemBonus(itemData.BonusStatus);
+
+        switch (itemData.e_item_Type)
         {
             case Enums.Item_Type.Active:
                 {
-                    if (curActiveItem != null)
-                    {
-                        curActiveItem.UnEquipItem(player);
-                        curActiveItem = null;
-                    }
+                    activeItemSlot = null;
                 }
                 break;
             case Enums.Item_Type.Passive:
                 {
-
-                    lastPassiveItem.Remove(data);
+                    Funcs.ArrayRemove(passiveItemSlot, itemData);
+                }
+                break;
+            case Enums.Item_Type.Useable:
+                {
+                    Funcs.ArrayRemove(useableItemSlot, itemData);
                 }
                 break;
         }
     }
 
+    public void ReplaceItem(Item itemData, int index)
+    {
+        switch (itemData.e_item_Type)
+        {
+            case Enums.Item_Type.Active:
+                {
+                    if (activeItemSlot != null) RemoveItemBonus(activeItemSlot.BonusStatus);
+
+                    activeItemSlot = (Item_Active)itemData;
+                    AddItemBonus(itemData.BonusStatus);
+                    UiController_Proto.Instance.playerUiView.UpdateActiveItem(itemData.item_sprite);
+                }
+                break;
+            case Enums.Item_Type.Passive:
+                {
+                    if (Funcs.IsArrayFull(passiveItemSlot)) { Debug.Log("! Inventory is Full"); }
+                    else
+                    {
+                        if (passiveItemSlot[index] != null) RemoveItemBonus(passiveItemSlot[index].BonusStatus);
+                        Funcs.ArrayReplace(passiveItemSlot, itemData, index);
+                        AddItemBonus(itemData.BonusStatus);
+                        UiController_Proto.Instance.playerUiView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
+                    }
+
+                }
+                break;
+            case Enums.Item_Type.Useable:
+                {
+                    if (Funcs.IsArrayFull(useableItemSlot)) { Debug.Log("! Inventory is Full"); }
+                    else
+                    {
+                        if (useableItemSlot[index] != null) RemoveItemBonus(useableItemSlot[index].BonusStatus);
+                        Funcs.ArrayReplace(useableItemSlot, itemData, index);
+                        AddItemBonus(itemData.BonusStatus);
+                    }
+
+                }
+                break;
+        }
+    }
+
+
+    #region itemBonusCalcFuncs
+    private void AddItemBonus(BonusStatus itemBonus)
+    {
+        this.invenBonusStatus.bonus_Player_Hp += itemBonus.bonus_Player_Hp;
+        this.invenBonusStatus.bonus_Player_Armor += itemBonus.bonus_Player_Armor;
+        this.invenBonusStatus.bonus_Player_Speed += itemBonus.bonus_Player_Speed;
+        this.invenBonusStatus.bonus_Weapon_Speed += itemBonus.bonus_Weapon_Speed;
+        this.invenBonusStatus.bonus_Weapon_Spread += itemBonus.bonus_Weapon_Spread;
+        this.invenBonusStatus.bonus_Weapon_Damage += itemBonus.bonus_Weapon_Damage;
+        this.invenBonusStatus.bonus_Weapon_FireRate += itemBonus.bonus_Weapon_FireRate;
+        this.invenBonusStatus.bonus_Weapon_BulletNumPerFire += itemBonus.bonus_Weapon_BulletNumPerFire;
+        this.invenBonusStatus.bonus_Weapon_Critial += itemBonus.bonus_Weapon_Critial;
+    }
+
+    private void RemoveItemBonus(BonusStatus itemBonus)
+    {
+        this.invenBonusStatus.bonus_Player_Hp -= itemBonus.bonus_Player_Hp;
+        this.invenBonusStatus.bonus_Player_Armor -= itemBonus.bonus_Player_Armor;
+        this.invenBonusStatus.bonus_Player_Speed -= itemBonus.bonus_Player_Speed;
+        this.invenBonusStatus.bonus_Weapon_Speed -= itemBonus.bonus_Weapon_Speed;
+        this.invenBonusStatus.bonus_Weapon_Spread -= itemBonus.bonus_Weapon_Spread;
+        this.invenBonusStatus.bonus_Weapon_Damage -= itemBonus.bonus_Weapon_Damage;
+        this.invenBonusStatus.bonus_Weapon_FireRate -= itemBonus.bonus_Weapon_FireRate;
+        this.invenBonusStatus.bonus_Weapon_BulletNumPerFire -= itemBonus.bonus_Weapon_BulletNumPerFire;
+        this.invenBonusStatus.bonus_Weapon_Critial -= itemBonus.bonus_Weapon_Critial;
+    }
+    #endregion
+
+    private void AddWeaponUpgradeData(WeaponUpgradeData weaponUpgradeData, Weapon_Player weapon)
+    {
+
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
-            collision.gameObject.GetComponent<Item>().ShowInteractButton(true);
+            collision.gameObject.GetComponent<ItemPicker>().ShowInteractButton(true);
         }
     }
 
@@ -74,11 +178,12 @@ public class PlayerInventroy : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
-            if(Input.GetKeyDown(KeyCode.E))
+            if(Input.GetKey(KeyCode.E))
             {
-                Debug.Log("음 눌렸군");
-                ItemData itemData = collision.gameObject.GetComponent<Item>().itemData;
-                Equip(itemData);
+                Debug.Log("템 추가");
+                ItemPicker itemPicker = collision.gameObject.GetComponent<ItemPicker>();
+                AddItem(itemPicker.itemData);
+                itemPicker.Equip(player);
                 collision.gameObject.SetActive(false);
             }
         }
@@ -87,7 +192,7 @@ public class PlayerInventroy : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
         {
-            collision.gameObject.GetComponent<Item>().ShowInteractButton(false);
+            collision.gameObject.GetComponent<ItemPicker>().ShowInteractButton(false);
         }
     }
 }

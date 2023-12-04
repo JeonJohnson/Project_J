@@ -1,3 +1,4 @@
+using Enums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,17 +6,13 @@ using UnityEngine;
 public class PlayerAttackController : MonoBehaviour
 {
     private Player player;
-    private Weapon_Player weapon;
+    public Weapon_Player weapon;
     public bool isFirePossible;
 
     private void Awake()
     {
         player = GetComponent<Player>();
         weapon = player.curWeapon;
-    }
-
-    void Start()
-    {
         weapon.Init(player);
         isFirePossible = true;
     }

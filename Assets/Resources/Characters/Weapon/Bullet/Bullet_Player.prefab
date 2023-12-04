@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d704bc66ec8b4543aa774c99e66e6e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  suckedOption: 1
+  suckedOption: 0
   defaultStat:
     dmg: 1
     moveSpd: 300

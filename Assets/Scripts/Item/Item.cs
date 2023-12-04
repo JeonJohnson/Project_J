@@ -1,29 +1,54 @@
-using Enums;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
+using Enums;
+using Structs;
 
-public class Item : MonoBehaviour
+[CreateAssetMenu(fileName = "New Item", menuName = "Scriptable Object/Items/New Item Data")]
+public class Item : ScriptableObject
 {
-    public ItemData itemData;
+    public Item_Type e_item_Type;
+    public string item_name;
+    public string item_description;
+    public string item_explain;
 
-    [SerializeField] SpriteRenderer itemSpriteRenderer;
-    [SerializeField] GameObject interactButton;
+    public Sprite item_sprite;
+    public Sprite item_sprite_Big;
 
-    private void Awake()
+    [SerializeField]
+    private BonusStatus bonusStatus;
+
+    [HideInInspector]
+    public BonusStatus BonusStatus { get { return bonusStatus; } }
+
+    public virtual T Copy<T>() where T : Item
     {
-        itemSpriteRenderer.sprite = itemData.item_sprite;
+        string name = this.name;
+        T clone = Instantiate(this) as T;
+        clone.name = name;
+        return clone;
     }
 
-    public void Equip(Player player)
-    {
-        this.gameObject.SetActive(false);
-    }
+    /// <summary>
+    /// What happens when the object is picked - override this to add your own behaviors
+    /// </summary>
+    public virtual bool Pick(Player player) { return true; }
 
-    public void ShowInteractButton(bool value)
-    {
-        interactButton.SetActive(value);
-    }
+    /// <summary>
+    /// What happens when the object is used - override this to add your own behaviors
+    /// </summary>
+    public virtual bool Use(Player player) { return true; }
+
+    /// <summary>
+    /// What happens when the object is equipped - override this to add your own behaviors
+    /// </summary>
+    public virtual bool Equip(Player player) { return true; }
+
+    /// <summary>
+    /// What happens when the object is unequipped (called when dropped) - override this to add your own behaviors
+    /// </summary>
+    public virtual bool UnEquip(Player player) { return true; }
+
+    /// <summary>
+    /// What happens when the object gets swapped for another object
+    /// </summary>
+    public virtual void Swap(Player player) { }
 }
