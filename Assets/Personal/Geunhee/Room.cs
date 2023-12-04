@@ -45,7 +45,13 @@ public class Room : MonoBehaviour
 {
 	public CornerPos cornerPos = new CornerPos();
 
-	
+	public List<Room> linkedRooms;
+
+	private void Awake()
+	{
+		linkedRooms = new List<Room>();
+	}
+
 	public void Start()
 	{
 		//cornerPos = new CornerPos();

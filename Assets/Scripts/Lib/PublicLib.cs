@@ -555,6 +555,11 @@ namespace JeonJohnson
 			return leafNodes;
 		}
 
+		public List<TreeNode<T>> GetCertainDepthNodes(int depth)
+		{
+			return nodeList.FindAll(x => x.Depth == depth);
+		}
+
 
 		public void AddNode(TreeNode<T> motherNode, TreeNode<T> left, TreeNode<T> right)
 		{

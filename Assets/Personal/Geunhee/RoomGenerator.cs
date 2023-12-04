@@ -32,7 +32,9 @@ public class RoomGenerator : MonoBehaviour
 	[Header("Setting Vals")]
 	public Vector2 dungeonSize;
 	public GameObject RoomPrefab;
-    //public int maxRoomCount;
+	public GameObject CorridorPrefab;
+	//public int maxRoomCount;
+
 	[Range(0f, 1f)]
 	public float minDivideRatio, maxDivideRatio;
 	public int divideTimes;
@@ -283,12 +285,11 @@ public class RoomGenerator : MonoBehaviour
 		newRoom.transform.SetParent(transform);
 		newRoom.transform.position = pos;
 		newRoom.transform.localScale = new Vector2(Mathf.FloorToInt(size.x), Mathf.FloorToInt(size.y)) /** 0.95f*/;
-																														
 
 		Room roomScript = newRoom.GetComponent<Room>();
 		roomScript.cornerPos.CalcCorner(newRoom.transform);
 
-		newRoom.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f,1f), Random.Range(0f,1f) ,Random.Range(0f,1f));
+		newRoom.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f,1f), Random.Range(0f,1f) ,Random.Range(0f,1f), 0.5f);
 
 		return roomScript;
 	}
@@ -319,20 +320,59 @@ public class RoomGenerator : MonoBehaviour
 	}
 
 	//// 양옆(형제 노드)들의 방끼리 이어주기 
-	//// 모든 height에서.
+	//// 모든 depth 에서.
 	public void ConnectingRooms()
 	{ 
-	
+		
 	}
 
-	private void ConnectSiblingRoom()
-	{ 
-	
+	public void ConnectSiblingRoom()
+	{
+		int fullDepth = dividedCount;
+
+		for (int i = fullDepth; i > 0; i--)
+		{
+			var list = roomTree.GetCertainDepthNodes(i);
+
+			for (int k = 0; k < list.Count; k += 2)
+			{
+				var olderRoom = list[k].Value;
+				var youngerRoom = list[k + 1].Value;
+
+				Vector2 olderRoomPos = olderRoom.transform.position;
+				Vector2 youngerRoomPos= youngerRoom.transform.position;
+
+				//왼쪽(형 노드)방의 세로(y값)을 기준으로 일단 선 하나
+				Vector2 startPos = new Vector2(olderRoomPos.x, olderRoomPos.y);
+				Vector2 endPos = new Vector2(youngerRoomPos.x, olderRoomPos.y);
+				GameObject corridor1 = CreateCorridor(startPos, endPos);
+
+				//오른쪽(동생 노드)방의 가로(x값)을 기준으로 일단 선 하나 더
+				Vector2 startPos2 = new Vector2(youngerRoomPos.x, olderRoomPos.y);
+				Vector2 endPos2 = new Vector2(youngerRoomPos.x, youngerRoomPos.y);
+				GameObject corridor2 = CreateCorridor(startPos2, endPos2);
+
+				olderRoom.linkedRooms.Add(youngerRoom);
+				youngerRoom.linkedRooms.Add(olderRoom);
+			}
+		}
+		
 	}
 
-	private void CreateCorridor()
-	{ 
-	
+	private GameObject CreateCorridor(Vector2 startPos, Vector2 endPos)
+	{
+		//일단은 따로 만들고 나중에 하나로 합치기 
+		float w = Mathf.Abs(startPos.x -  endPos.x);
+		float h = Mathf.Abs(startPos.y - endPos.y);
+
+		Vector2 centerPos = (startPos + endPos) * 0.5f;
+
+		GameObject corridorObj = Instantiate(CorridorPrefab);
+
+		corridorObj.transform.position = centerPos;
+		corridorObj.transform.localScale = new Vector2(Mathf.Clamp(w,1,w), Mathf.Clamp(h,1,h));
+
+		return corridorObj;
 	}
 
 

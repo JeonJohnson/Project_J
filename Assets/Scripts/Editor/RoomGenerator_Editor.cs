@@ -36,7 +36,7 @@ public class RoomGenerator_Editor : Editor
 
 		if (GUILayout.Button("Connecting Rooms"))
 		{
-			generator.ConnectingRooms();
+			generator.ConnectSiblingRoom();
 		}
 
 		GUILayout.Label("");
