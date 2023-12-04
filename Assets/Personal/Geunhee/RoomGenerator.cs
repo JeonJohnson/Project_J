@@ -56,6 +56,7 @@ public class RoomGenerator : MonoBehaviour
 
 	[HideInInspector]
 	public JeonJohnson.Tree<Room> roomTree;
+	public List<Corridor> corridors;
 
 	////public Vector2 expectLeastRoomSize, expectMostRoomSize;
 	//public void Test()
@@ -352,6 +353,9 @@ public class RoomGenerator : MonoBehaviour
 				Vector2 endPos2 = new Vector2(youngerRoomPos.x, youngerRoomPos.y);
 				GameObject corridor2 = CreateCorridor(startPos2, endPos2);
 
+				corridors.Add(corridor1.GetComponent<Corridor>());
+				corridors.Add(corridor2.GetComponent<Corridor>());
+
 				olderRoom.linkedRooms.Add(youngerRoom);
 				youngerRoom.linkedRooms.Add(olderRoom);
 			}
@@ -390,6 +394,13 @@ public class RoomGenerator : MonoBehaviour
 
 		dividedCount = 0;
 
+		foreach (var item in corridors)
+		{
+			Destroy(item.gameObject);
+		}
+		corridors.Clear();
+		corridors = new List<Corridor>();
+			
 		CreateInitDungeon();
 	}
 
