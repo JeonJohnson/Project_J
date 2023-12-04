@@ -5290,6 +5290,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8221069537219252803, guid: 0e571fec5d9f1104ab4ebd4bc77dc9a4, type: 3}
   m_PrefabInstance: {fileID: 376918832}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &376918834 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4238969131914922576, guid: 0e571fec5d9f1104ab4ebd4bc77dc9a4, type: 3}
+  m_PrefabInstance: {fileID: 376918832}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &381451173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9066,6 +9071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerUiView: {fileID: 986418374}
+  detailStatusCanvasGo: {fileID: 376918834}
   player: {fileID: 7604071219289805772}
 --- !u!213 &765696502
 Sprite:

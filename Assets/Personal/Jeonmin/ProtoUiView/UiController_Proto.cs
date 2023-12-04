@@ -6,6 +6,7 @@ using UnityEngine;
 public class UiController_Proto : Singleton<UiController_Proto>
 {
     public UiView playerUiView;
+    public GameObject detailStatusCanvasGo;
 
     public Player player;
 

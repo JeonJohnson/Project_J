@@ -25,6 +25,15 @@ public class PlayerInventroy : MonoBehaviour
         {
               activeItemSlot.Use(player);
         }
+
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            UiController_Proto.Instance.detailStatusCanvasGo.SetActive(true);
+        }
+        else
+        {
+            UiController_Proto.Instance.detailStatusCanvasGo.SetActive(false);
+        }
     }
 
     private void AddItem(Item itemData)
