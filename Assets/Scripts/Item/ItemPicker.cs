@@ -59,7 +59,7 @@ public class ItemPicker : MonoBehaviour
     private Vector3 targetPosition;
     private float currentTime = 0f;
 
-    public void Sucking(Player _player)
+    public bool Sucking(Player _player)
     {
         startPosition = this.transform.position;
         itemSpriteRenderer.color = Color.black;
@@ -69,11 +69,17 @@ public class ItemPicker : MonoBehaviour
 
         currentTime += Time.deltaTime * 2f;
         float t = currentTime / 1f;
-        Debug.Log(t);
         transform.position = Vector3.Lerp(startPosition, targetPosition, Mathf.Clamp01(t));
         if (t >= 1f)
         {
             Equip(_player);
+            Debug.Log("È£·Î·Ï");
+            this.gameObject.SetActive(false);
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 }

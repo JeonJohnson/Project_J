@@ -179,6 +179,9 @@ public class Weapon_Player : Weapon
 
     private float suckingItemTime = 3f;
     private float suckingItemTimer;
+   [SerializeField] private ItemPicker curItemPicker;
+    [SerializeField] private List<ItemPicker> itemPickerList = new List<ItemPicker>();
+
     public void Suction()
     {
         if (Input.GetKey(KeyCode.Mouse1))
@@ -187,6 +190,7 @@ public class Weapon_Player : Weapon
             {
                 //Recharging();
                 fovSprite.color = this.suctionStat.fovIdleColor;
+                suckingItemTimer = 0f;
                 return;
             }
 
@@ -195,9 +199,13 @@ public class Weapon_Player : Weapon
             if (suctionStat.curSuctionRatio.Value < amount)
             {
                 //Recharging();
+                Debug.Log("이건머고");
                 fovSprite.color = suctionStat.fovIdleColor;
                 return;
             }
+
+            itemPickerList.Clear();
+            Debug.Log(itemPickerList.Count);
 
             suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value - amount, 0f, 1f);
 
@@ -218,7 +226,6 @@ public class Weapon_Player : Weapon
                 if (angleToTarget <= (suctionStat.suctionAngle))
                 {
                     //여기서 총알들 한테 흡수 ㄱ
-                    Debug.Log(col.gameObject.name);
                     Bullet bullet = col.gameObject.GetComponent<Bullet>();
                     if (bullet)
                     {
@@ -234,10 +241,28 @@ public class Weapon_Player : Weapon
                         ItemPicker itemPicker = col.gameObject.GetComponent<ItemPicker>();
                         if (itemPicker)
                         {
-                            itemPicker.Sucking(owner);
+                            itemPickerList.Add(itemPicker);
+                            //itemPicker.Sucking(owner);
                         }
                     }
                 }
+            }
+
+            if (itemPickerList.Count > 0)
+            {
+                if(curItemPicker == null)
+                {
+                    curItemPicker = itemPickerList[0];
+                }
+                else if (!itemPickerList.Contains(curItemPicker))
+                {
+                    curItemPicker = itemPickerList[0];
+                }
+            }
+
+            if (curItemPicker != null)
+            {
+                if(!curItemPicker.Sucking(owner)) curItemPicker = null;
             }
         }
         else
