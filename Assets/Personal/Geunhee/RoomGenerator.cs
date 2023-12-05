@@ -11,6 +11,7 @@ using UnityEditor.Rendering;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEditor.Experimental.GraphView;
 using TreeEditor;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 
 public struct RoomStatus
@@ -369,12 +370,12 @@ public class RoomGenerator : MonoBehaviour
 				//왼쪽(형 노드)방의 세로(y값)을 기준으로 일단 선 하나
 				Vector2 startPos = new Vector2(olderRoomPos.x, olderRoomPos.y);
 				Vector2 endPos = new Vector2(youngerRoomPos.x, olderRoomPos.y);
-				GameObject corridor1 = CreateCorridor(startPos, endPos);
+				GameObject corridor1 = CreateCorridor(startPos, endPos,i);
 
 				//오른쪽(동생 노드)방의 가로(x값)을 기준으로 일단 선 하나 더
 				Vector2 startPos2 = new Vector2(youngerRoomPos.x, olderRoomPos.y);
 				Vector2 endPos2 = new Vector2(youngerRoomPos.x, youngerRoomPos.y);
-				GameObject corridor2 = CreateCorridor(startPos2, endPos2);
+				GameObject corridor2 = CreateCorridor(startPos2, endPos2,i);
 
 				corridors.Add(corridor1.GetComponent<Corridor>());
 				corridors.Add(corridor2.GetComponent<Corridor>());
@@ -425,12 +426,12 @@ public class RoomGenerator : MonoBehaviour
 			//왼쪽(형 노드)방의 세로(y값)을 기준으로 일단 선 하나
 			Vector2 startPos = new Vector2(olderRoomPos.x, olderRoomPos.y);
 			Vector2 endPos = new Vector2(youngerRoomPos.x, olderRoomPos.y);
-			GameObject corridor1 = CreateCorridor(startPos, endPos);
+			GameObject corridor1 = CreateCorridor(startPos, endPos, i);
 
 			//오른쪽(동생 노드)방의 가로(x값)을 기준으로 일단 선 하나 더
 			Vector2 startPos2 = new Vector2(youngerRoomPos.x, olderRoomPos.y);
 			Vector2 endPos2 = new Vector2(youngerRoomPos.x, youngerRoomPos.y);
-			GameObject corridor2 = CreateCorridor(startPos2, endPos2);
+			GameObject corridor2 = CreateCorridor(startPos2, endPos2, i);
 
 			corridors.Add(corridor1.GetComponent<Corridor>());
 			corridors.Add(corridor2.GetComponent<Corridor>());
@@ -439,7 +440,8 @@ public class RoomGenerator : MonoBehaviour
 			youngerRoom.linkedRooms.Add(olderRoom);
 		}
 
-		curCorridorDepth--;
+
+		curCorridorDepth += curCorridorDepth != 0 ? - 1 : 0;
 	}
 
 	private Room[] GetNearChildrenNode(TreeNode<Room> leftNode, TreeNode<Room> rightNode)
@@ -448,18 +450,23 @@ public class RoomGenerator : MonoBehaviour
 		{
 			return null;
 		}
-
 		
-		Room[] leftChildren  = { leftNode.LeftNode.Value, leftNode.RightNode.Value };
-		Room[] rightChildren = { rightNode.LeftNode.Value, rightNode.RightNode.Value };
+		//Room[] leftChildren  = { leftNode.LeftNode.Value, leftNode.RightNode.Value };
+		//Room[] rightChildren = { rightNode.LeftNode.Value, rightNode.RightNode.Value };
+
+		List<TreeNode<Room>> leftChildren = new List<TreeNode<Room>>();
+		List<TreeNode<Room>> rightChildren = new List<TreeNode<Room>>();
+
+		leftNode.GetAllChildren(leftNode, ref leftChildren);
+		rightNode.GetAllChildren(rightNode, ref rightChildren);
 
 		float dist = float.MaxValue;
 		int indexLeft = 0, indexRight= 0; 
-		for (int i = 0; i < 2; ++i)
+		for (int i = 0; i < leftChildren.Count; ++i)
 		{
-			for (int k = 0; k < 2; ++k)
+			for (int k = 0; k < rightChildren.Count; ++k)
 			{
-				float tempDist = Vector2.Distance(leftChildren[i].transform.position, rightChildren[k].transform.position);
+				float tempDist = Vector2.Distance(leftChildren[i].Value.transform.position, rightChildren[k].Value.transform.position);
 
 				if(tempDist < dist)
 				{
@@ -470,10 +477,10 @@ public class RoomGenerator : MonoBehaviour
 			}
 		}
 
-		return new Room[2] { leftChildren[indexLeft], rightChildren[indexRight] };
+		return new Room[2] { leftChildren[indexLeft].Value, rightChildren[indexRight].Value };
 	}
 
-	private GameObject CreateCorridor(Vector2 startPos, Vector2 endPos)
+	private GameObject CreateCorridor(Vector2 startPos, Vector2 endPos, int depth)
 	{
 		//일단은 따로 만들고 나중에 하나로 합치기 
 		float w = Mathf.Abs(startPos.x -  endPos.x);
@@ -484,6 +491,10 @@ public class RoomGenerator : MonoBehaviour
 
 		corridorObj.transform.position = centerPos;
 		corridorObj.transform.localScale = new Vector2(Mathf.Clamp(w,1,w), Mathf.Clamp(h,1,h));
+
+		var renderer = corridorObj.GetComponent<SpriteRenderer>();
+		renderer.color = depth == 4 ? Color.white : Defines.rainbow[depth];
+
 
 		return corridorObj;
 	}

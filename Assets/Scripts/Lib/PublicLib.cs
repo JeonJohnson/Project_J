@@ -6,6 +6,7 @@ using System.Linq;
 
 using UnityEngine;
 using Structs;
+using UnityEngine.UIElements;
 
 public static class Funcs
 {
@@ -371,6 +372,16 @@ public static class Defines
 
 	public static string managerPrfabFolderPath = "Managers/Prefabs";
 
+	public static Color[] rainbow =
+	{
+		Color.red,
+		new Color(1, 127f/255f, 0f),
+		Color.yellow,
+		Color.green,
+		Color.blue,
+		new Color(0f,0f,0.5f),
+		new Color(139f/255f, 0f, 1f)
+	};
 }
 
 namespace Structs
@@ -748,6 +759,50 @@ namespace JeonJohnson
 		public bool IsLeaf()
 		{
 			return (left == null && right == null);
+		}
+
+		public List<TreeNode<T>> GetAllChildren(TreeNode<T> parent)
+		{
+			var list = new List<TreeNode<T>>();
+
+			if (IsLeaf())
+			{
+				if (this == parent)
+				{
+					return null;
+				}
+				else
+				{
+					list.Add(this);
+				}
+			}
+			else
+			{
+				list.AddRange(left.GetAllChildren(parent));
+				list.AddRange(right.GetAllChildren(parent));
+			}
+
+			return list;
+		}
+
+		public void GetAllChildren(TreeNode<T> parent, ref List<TreeNode<T>> list)
+		{
+			if (IsLeaf())
+			{
+				if (this == parent)
+				{
+					return;
+				}
+				else
+				{
+					list.Add(this);
+				}
+			}
+			else
+			{
+				left.GetAllChildren(parent, ref list);
+				right.GetAllChildren(parent, ref list);
+			}
 		}
 
 		public List<TreeNode<T>> GetLeafChild()
