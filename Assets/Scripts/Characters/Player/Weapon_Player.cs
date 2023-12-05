@@ -259,6 +259,10 @@ public class Weapon_Player : Weapon
                     curItemPicker = itemPickerList[0];
                 }
             }
+            else
+            {
+                curItemPicker = null;
+            }
 
             if (curItemPicker != null)
             {
