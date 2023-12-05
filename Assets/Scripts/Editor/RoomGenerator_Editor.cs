@@ -16,21 +16,49 @@ public class RoomGenerator_Editor : Editor
 
 		GUILayout.Label("\nRoom Generator Buttons", EditorStyles.boldLabel);
 		GUILayout.Label("dont divide upper 12~14 times.\nur Computer hates u...", EditorStyles.miniLabel);
+
 		if (GUILayout.Button("Divied Once"))
 		{
-			generator.Divide();
+			generator.Divied();
 		}
 
-		if (GUILayout.Button("Generate Room"))
+
+		if (GUILayout.Button("Divieding Rooms"))
 		{
-			generator.GeneratingRooms();
+			generator.Divieding();
 		}
 
 
+		if (GUILayout.Button("Shrink Rooms"))
+		{
+			generator.ShrinkRooms();
+		}
+
+		if (GUILayout.Button("Connecting Room Once"))
+		{
+			generator.ConnectSiblingRoom();
+		}
+
+
+		if (GUILayout.Button("Connecting Rooms"))
+		{
+			generator.ConnectingRooms();
+		}
+
+		GUILayout.Label("");
 		if (GUILayout.Button("Reset"))
 		{
 			generator.ResetRooms();
 		}
+
+
+		GUILayout.Label("\n");
+
+		if (GUILayout.Button("Generate Room"))
+		{
+			//generator.GeneratingRooms();
+		}
+
 
 		
 		
