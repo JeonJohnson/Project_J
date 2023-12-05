@@ -47,6 +47,8 @@ public class Room : MonoBehaviour
 
 	public List<Room> linkedRooms;
 
+	public int roomIndex;
+
 	private void Awake()
 	{
 		linkedRooms = new List<Room>();

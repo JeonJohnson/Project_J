@@ -608,10 +608,6 @@ namespace JeonJohnson
 			root = null;
 
 			nodeList = new List<TreeNode<T>>();
-
-			//root.Depth = 0;
-			//root.Index = 0;
-			//maxDepth = 0;
 		}
 
 		public Tree(T rootData)
@@ -624,7 +620,6 @@ namespace JeonJohnson
 			};
 
 			Count = 1;
-			//maxDepth = 0;
 		}
 
 		public Tree(TreeNode<T> rootNode)
@@ -652,20 +647,6 @@ namespace JeonJohnson
 		public int Count { get; private set; }
 		
 
-		//private int maxDepth;
-		//public int MaxDepth
-		//{
-		//	get { return maxDepth; }
-		//}
-
-		//private TreeNode<T> lastNode;
-		
-		//public TreeNode<T> FindLastNode()
-		//{
-		//	lastNode = root.NextNode();
-		//	//Count = lastNode.Index + 1;
-		//	return lastNode;
-		//}
 
 		public List<TreeNode<T>> GetLeafNodes()
 		{
@@ -751,25 +732,6 @@ namespace JeonJohnson
 			}
 		}
 
-		/////IEnumerator <summary>
-		//public object Current => throw new NotImplementedException();
-		//public bool MoveNext()
-		//{
-			
-		//}
-
-		//public void Reset()
-		//{
-			
-		//}
-		/////IEnumerator </summary>
-		/////
-		/////IEnumerable<summary>
-		//public IEnumerator GetEnumerator()
-		//{
-		//	throw new NotImplementedException();
-		//}
-		/////IEnumerable</summary>
 
 	
 	}
@@ -929,37 +891,13 @@ namespace JeonJohnson
 				list.AddRange(right.GetLeafChild());
 			}
 
-			//if (left == null)
-			//{
-			//	list.Add(this);
-			//	return list;
-			//}
-			//else if (left.IsLeaf())
-			//{
-			//	list.Add(left);
-			//}
-			//else
-			//{
-			//	list.AddRange(left.GetLeafChild());
-			//}
-
-			
-			//if (right.IsLeaf())
-			//{
-			//	list.Add(right);
-			//}
-			//else
-			//{
-			//	list.AddRange(right.GetLeafChild());
-			//}
-
 			return list;
 		}
 
 
 
 		public TreeNode<T> NextNode()
-		{ //전위순회 기준에서
+		{ //전위순회 방법으로
 			if (left != null)
 			{
 				return left.NextNode();
@@ -971,44 +909,10 @@ namespace JeonJohnson
 			}
 			else 
 			{
-				//if (mother != null && mother.sibling != null)
-				//{
-				//	if (mother.sibling.index > mother.index)
-				//	{
-				//		return mother.sibling.NextNode();
-				//	}
-
-				//	return this;
-				//}
-				//else
-				//{
-					return this;
-				//}
+				return this;
 			}
 		}
 
-
-		
-
-		//public TreeNode<T> FindNode(T data)
-		//{
-		//	if (left != null)
-		//	{
-		//		if (left.value.GetHashCode() == data.GetHashCode())
-		//		{
-		//			return LeftNode;
-		//		}
-		//		else
-		//		{
-		//			left.FindNode(data);
-		//		}
-		//	}
-		//	else
-		//	{ //가장 마지막 왼쪽인 경우.
-		//		if(right)
-				
-		//	}
-		//}
 	}
 
 }

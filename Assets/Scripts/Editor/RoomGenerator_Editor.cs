@@ -36,7 +36,7 @@ public class RoomGenerator_Editor : Editor
 
 		if (GUILayout.Button("Connecting Room Once"))
 		{
-			generator.ConnectSiblingRoom();
+			generator.ConnectSiblingRoom(generator.curCorridorDepth);
 		}
 
 
@@ -56,7 +56,7 @@ public class RoomGenerator_Editor : Editor
 
 		if (GUILayout.Button("Generate Room"))
 		{
-			//generator.GeneratingRooms();
+			generator.GeneratingRooms();
 		}
 
 
