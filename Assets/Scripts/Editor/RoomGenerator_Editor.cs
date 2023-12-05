@@ -34,9 +34,15 @@ public class RoomGenerator_Editor : Editor
 			generator.ShrinkRooms();
 		}
 
-		if (GUILayout.Button("Connecting Rooms"))
+		if (GUILayout.Button("Connecting Room Once"))
 		{
 			generator.ConnectSiblingRoom();
+		}
+
+
+		if (GUILayout.Button("Connecting Rooms"))
+		{
+			generator.ConnectingRooms();
 		}
 
 		GUILayout.Label("");

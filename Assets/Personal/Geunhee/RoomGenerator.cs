@@ -9,6 +9,8 @@ using JeonJohnson;
 
 using UnityEditor.Rendering;
 using Unity.Collections.LowLevel.Unsafe;
+using UnityEditor.Experimental.GraphView;
+using TreeEditor;
 
 
 public struct RoomStatus
@@ -52,6 +54,9 @@ public class RoomGenerator : MonoBehaviour
 	public int dividedCount;
 	[ReadOnly]
 	public int roomCount = 1;
+
+	[ReadOnly]
+	public int curCorridorDepth = 0;
 	//public List<Room> rooms;
 
 	[HideInInspector]
@@ -160,6 +165,7 @@ public class RoomGenerator : MonoBehaviour
 		}
 
 		++dividedCount;
+		++curCorridorDepth;
 
 		roomCount = roomTree.GetLeafNodes().Count;
 	}
@@ -323,19 +329,12 @@ public class RoomGenerator : MonoBehaviour
 	//// 양옆(형제 노드)들의 방끼리 이어주기 
 	//// 모든 depth 에서.
 	public void ConnectingRooms()
-	{ 
-		
-	}
-
-	public void ConnectSiblingRoom()
 	{
 		int fullDepth = dividedCount;
 
 		for (int i = fullDepth; i > 0; i--)
 		{
 			var list = roomTree.GetCertainDepthNodes(i);
-
-
 
 			for (int k = 0; k < list.Count; k += 2)
 			{
@@ -350,11 +349,16 @@ public class RoomGenerator : MonoBehaviour
 				else if (i == 0)
 				{//Root 일 경우
 
+					break;
 				}
 				else
 				{ //그외 칭긔 칭긔
-					//
-				
+				  //하단 노드 4개를 비교해서 가장 가까운 2개 연결 해보기
+
+					var nearestRooms = GetNearChildrenNode(list[k], list[k + 1]);
+
+					olderRoom = nearestRooms[0];
+					youngerRoom = nearestRooms[1];
 				}
 				//Room olderRoom = list[k].Value;
 				//Room youngerRoom = list[k + 1].Value;
@@ -379,7 +383,94 @@ public class RoomGenerator : MonoBehaviour
 				youngerRoom.linkedRooms.Add(olderRoom);
 			}
 		}
+	}
+
+
+	public void ConnectSiblingRoom()
+	{
+		int i = curCorridorDepth;
+
+		var list = roomTree.GetCertainDepthNodes(i);
+
+		for (int k = 0; k < list.Count; k += 2)
+		{
+			Room olderRoom = null;
+			Room youngerRoom = null;
+
+			if (i == dividedCount)
+			{//Leaf Nodes 일 경우
+				olderRoom = list[k].Value;
+				youngerRoom = list[k + 1].Value;
+			}
+			else if (i == 0)
+			{//Root 일 경우
+
+				break;
+			}
+			else
+			{ //그외 칭긔 칭긔
+			  //하단 노드 4개를 비교해서 가장 가까운 2개 연결 해보기
+
+				var nearestRooms = GetNearChildrenNode(list[k], list[k + 1]);
+
+				olderRoom = nearestRooms[0];
+				youngerRoom = nearestRooms[1];
+			}
+			//Room olderRoom = list[k].Value;
+			//Room youngerRoom = list[k + 1].Value;
+
+			Vector2 olderRoomPos = olderRoom.transform.position;
+			Vector2 youngerRoomPos = youngerRoom.transform.position;
+
+			//왼쪽(형 노드)방의 세로(y값)을 기준으로 일단 선 하나
+			Vector2 startPos = new Vector2(olderRoomPos.x, olderRoomPos.y);
+			Vector2 endPos = new Vector2(youngerRoomPos.x, olderRoomPos.y);
+			GameObject corridor1 = CreateCorridor(startPos, endPos);
+
+			//오른쪽(동생 노드)방의 가로(x값)을 기준으로 일단 선 하나 더
+			Vector2 startPos2 = new Vector2(youngerRoomPos.x, olderRoomPos.y);
+			Vector2 endPos2 = new Vector2(youngerRoomPos.x, youngerRoomPos.y);
+			GameObject corridor2 = CreateCorridor(startPos2, endPos2);
+
+			corridors.Add(corridor1.GetComponent<Corridor>());
+			corridors.Add(corridor2.GetComponent<Corridor>());
+
+			olderRoom.linkedRooms.Add(youngerRoom);
+			youngerRoom.linkedRooms.Add(olderRoom);
+		}
+
+		curCorridorDepth--;
+	}
+
+	private Room[] GetNearChildrenNode(TreeNode<Room> leftNode, TreeNode<Room> rightNode)
+	{
+		if (leftNode.LeftNode == null | rightNode.LeftNode == null)
+		{
+			return null;
+		}
+
 		
+		Room[] leftChildren  = { leftNode.LeftNode.Value, leftNode.RightNode.Value };
+		Room[] rightChildren = { rightNode.LeftNode.Value, rightNode.RightNode.Value };
+
+		float dist = float.MaxValue;
+		int indexLeft = 0, indexRight= 0; 
+		for (int i = 0; i < 2; ++i)
+		{
+			for (int k = 0; k < 2; ++k)
+			{
+				float tempDist = Vector2.Distance(leftChildren[i].transform.position, rightChildren[k].transform.position);
+
+				if(tempDist < dist)
+				{
+					dist = tempDist;
+					indexLeft = i;
+					indexRight = k;
+				}
+			}
+		}
+
+		return new Room[2] { leftChildren[indexLeft], rightChildren[indexRight] };
 	}
 
 	private GameObject CreateCorridor(Vector2 startPos, Vector2 endPos)
@@ -411,6 +502,7 @@ public class RoomGenerator : MonoBehaviour
 		}
 
 		dividedCount = 0;
+		curCorridorDepth = 0;
 
 		foreach (var item in corridors)
 		{
