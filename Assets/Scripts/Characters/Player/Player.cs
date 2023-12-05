@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Player : CObj
 {
     private PlayerMoveActionTable moveActionTable;
@@ -16,10 +15,13 @@ public class Player : CObj
 
     public PlayerAttackController attackController;
 
+    public PlayerInventroy inventroy;
+
     public Rigidbody2D PlayerRigidbody2D { get; private set; }
     public Animator animator { get; private set; }
 
     public PlayerStatus status;
+    public BonusStatus bonusStatus;
     public Transform spriteHolder;
     public Transform weaponHolder;
     public Weapon_Player curWeapon;
@@ -32,37 +34,32 @@ public class Player : CObj
 
     private void Awake()
     {
+    }
+
+    public void InitializePlayer()
+    {
         PlayerRigidbody2D = GetComponent<Rigidbody2D>();
         moveActionTable = GetComponent<PlayerMoveActionTable>();
         aimController = GetComponent<PlayerAimController>();
         afterImageController = spriteHolder.GetComponent<AfterImageEffectController>();
         animator = spriteHolder.GetComponent<Animator>();
         attackController = GetComponent<PlayerAttackController>();
+        inventroy = GetComponent<PlayerInventroy>();
 
-        if (UiController_Proto.Instance != null) { UiController_Proto.Instance.playerUiView.UpdateHpImage(status.curHp); }
-    }
-
-    private void Update()
-    {
-
+        status.curHp = new Data<int>();
+        status.curHp.Value = status.maxHp;
     }
 
     public override HitInfo Hit(int dmg, Vector2 dir)
     {
         if (!status.isInvincible)
         { 
-            status.curHp -= dmg;
+            status.curHp.Value -= dmg;
             SetInvincible(status.invincibleTimeWhenHit);
-
-            if (UiController_Proto.Instance != null)
-            {
-                UiController_Proto.Instance.playerUiView.UpdateHpImage(status.curHp);
-                UiController_Proto.Instance.PlayHitFeedback();
-            }
         }
         //PlayerRigidbody2D.AddForce(dir * 500f);
 
-        if(status.curHp <= 0)
+        if(status.curHp.Value <= 0)
         {
             Dead();
         }

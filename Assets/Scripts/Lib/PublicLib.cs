@@ -353,6 +353,83 @@ public static class Funcs
         return null;
     }
     #endregion
+
+    #region Array Sorting
+    public static void ArrayAdd<T>(T[]itemSlots, T newItem)
+    {
+        // 먼저 비어있는 슬롯을 찾음
+        int emptySlotIndex = -1;
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i] == null)
+            {
+                emptySlotIndex = i;
+                break;
+            }
+        }
+
+        // 비어있는 슬롯이 있는 경우 추가
+        if (emptySlotIndex != -1)
+        {
+            itemSlots[emptySlotIndex] = newItem;
+            Debug.Log("Item added to slot " + emptySlotIndex);
+        }
+        else
+        {
+            Debug.LogWarning("Inventory is full, cannot add item");
+        }
+    }
+
+    public static void ArrayRemove<T>(T[] itemSlots, T item)
+    {
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (EqualityComparer<T>.Default.Equals(itemSlots[i], item))
+            {
+                itemSlots[i] = default(T); // 혹은 null로 설정할 수 있음
+                return;
+            }
+        }
+        Debug.LogWarning("Item not found in the inventory");
+    }
+
+    public static void ArrayRemoveByIndex<T>(T[] itemSlots, int index)
+    {
+        if (index >= 0 && index < itemSlots.Length)
+        {
+            itemSlots[index] = default(T); // 혹은 null로 설정할 수 있음
+        }
+        else
+        {
+            Debug.LogError("Invalid index to remove item");
+        }
+    }
+
+    // 아이템 배열이 꽉 찼는지 확인하는 메서드
+    public static bool IsArrayFull<T>(T[] itemSlots)
+    {
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i] == null)
+            {
+                return false; // 배열에 비어있는 슬롯이 하나라도 있으면 아직 꽉 차지 않음
+            }
+        }
+        return true; // 배열의 모든 슬롯이 차있음
+    }
+
+    public static void ArrayReplace<T>(T[] itemSlots, T newItem, int slotIndex)
+    {
+        if (slotIndex >= 0 && slotIndex < itemSlots.Length)
+        {
+            itemSlots[slotIndex] = newItem;
+        }
+        else
+        {
+            Debug.LogError("Invalid slot index");
+        }
+    }
+    #endregion
 }
 
 public static class Defines
@@ -392,20 +469,52 @@ namespace Structs
     {
         [Header("Stat")]
         public int maxHp;
-        public int curHp;
+        public Data<int> curHp;
         public int maxArmor;
         public int curArmor;
         public float walkSpeed;
-        public float runSpeed;
 
         public float rollSpeed;
         public float rollSpeedDrop;
+
+		public float criticalPercent;
 
         [Header("Hit")]
         public bool isInvincible;
 		public float invincibleTimeWhenHit;
 
 		public bool isDead;
+    }
+
+    [System.Serializable]
+    public struct WeaponStatus
+	{
+        public float bulletSpeed;
+        public float bulletSpread;
+        public int bulletNumPerFire;
+		public int bulletSplatterCount;
+        public float damage;
+        public float fireRate;
+        public float critial;
+
+		public Data<int> bulletCount;
+    }
+
+    [System.Serializable]
+    public struct BonusStatus
+    {
+        [Header("Player")]
+        public int bonus_Player_Hp;
+        public int bonus_Player_Armor;
+        public float bonus_Player_Speed;
+
+        [Header("Weapon")]
+        public float bonus_Weapon_Speed; // 합연산
+        public float bonus_Weapon_Spread; // 곱연산
+        public float bonus_Weapon_Damage; // 곱연산
+        public float bonus_Weapon_FireRate; // 곱연산
+        public int bonus_Weapon_BulletNumPerFire;  // 합연산
+        public float bonus_Weapon_Critial; // 합연산
     }
 
     [System.Serializable]
@@ -444,6 +553,7 @@ namespace Enums
 	{
 		Passive,
 		Active,
+		Useable,
 		End
 	}
 

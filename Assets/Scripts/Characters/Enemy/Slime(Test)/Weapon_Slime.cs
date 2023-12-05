@@ -33,8 +33,7 @@ public class Weapon_Slime : Weapon
 
         //Debug.Log(Quaternion.LookRotation(Vector3.forward, dir));
 
-        GameObject go = Instantiate(testBulletPrefab);
-        go.transform.position = firePos.transform.position;
+        GameObject go = Instantiate(testBulletPrefab, firePos.transform.position, Quaternion.identity);
         go.GetComponent<Bullet>().defaultStat.moveSpd = 200;
         go.GetComponent<Bullet>().Fire(rndDir);
     }

@@ -96,11 +96,11 @@ public class Bullet : MonoBehaviour
         //splatterStat.hitCountTmp.text = cnt.ToString();
     }
 
-    public void Fire(Vector2 dir, int _SplatterCount = 1)
+    public void Fire(Vector2 dir, int _SplatterCount = 1, float moveSpd = 200f)
     {
         curState = BulletState.Fire;
 
-        rb.AddForce(dir * defaultStat.moveSpd, ForceMode2D.Force);
+        rb.AddForce(dir * moveSpd, ForceMode2D.Force);
         SetLeftCount(_SplatterCount); 
     }
 

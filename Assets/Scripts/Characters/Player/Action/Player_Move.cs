@@ -20,7 +20,7 @@ public class Player_Move : Action<Player>
     }
 
     public override void ActionFixedUpdate() {
-        me.PlayerRigidbody2D.velocity = moveDir * me.status.walkSpeed;
+        me.PlayerRigidbody2D.velocity = moveDir * (me.status.walkSpeed + me.inventroy.invenBonusStatus.bonus_Player_Speed);
     }
 
     public override void ActionLateUpdate() { }
@@ -52,11 +52,6 @@ public class Player_Move : Action<Player>
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             moveX = +1f;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            me.MoveActionTable.SetCurAction((int)PlayerMoveActions.Roll);
         }
 
         moveDir = new Vector3(moveX, moveY).normalized;

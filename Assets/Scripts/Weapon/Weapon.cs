@@ -6,14 +6,6 @@ using UnityEngine.UI;
 
 public abstract class Weapon : MonoBehaviour
 {
-    [System.Serializable]
-    public struct Stat
-    {
-        public float fireRate;
-        public int bulletCount;
-    }
-
-    public Stat stat;
     public float fireTimer;
 
     public SpriteRenderer weaponSprite;
@@ -25,7 +17,7 @@ public abstract class Weapon : MonoBehaviour
 
     public virtual void Init(CObj _owner)
     {
-        fireTimer = stat.fireRate;
+
     }
 
     public abstract void Fire();

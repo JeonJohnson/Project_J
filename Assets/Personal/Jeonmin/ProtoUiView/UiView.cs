@@ -31,7 +31,8 @@ public class UiView : MonoBehaviour
 
     [Header("ItemStatus")]
     [SerializeField] Image activeItemImage;
-    [SerializeField] Image[] passiveItemImages;
+    [SerializeField] Transform passiveItemHolder;
+    private Image[] passiveItemImages;
 
     [SerializeField] Image activeItemGauge;
 
@@ -44,6 +45,7 @@ public class UiView : MonoBehaviour
     {
         hpImages = new List<Image>(hpHolderTr.GetComponentsInChildren<Image>());
         armorImages = new List<Image>(armorHolderTr.GetComponentsInChildren<Image>());
+        passiveItemImages = passiveItemHolder.GetComponentsInChildren<Image>();
 
         hpSpriteFiles = new Sprite[2];
         hpSpriteFiles[0] = Funcs.FindSprite(hpSpritePath, hpEmptySpriteName);
@@ -124,15 +126,42 @@ public class UiView : MonoBehaviour
     }
     #endregion
 
+    #region ItemStatus
+    public void UpdateActiveItem(Sprite sprite)
+    {
+        activeItemImage.sprite = sprite;
+        activeItemGauge.sprite = sprite;
+    }
+
+    public void UpdatePassiveItem(Sprite sprite, Item[] passiveItemSlot)
+    {
+        int i = 0;
+        for (int j = 0; j < passiveItemImages.Length; j++)
+        {
+            passiveItemImages[j].gameObject.SetActive(false) ;
+        }
+
+        for (int k = 0; k < passiveItemSlot.Length; k++)
+        {
+            if (passiveItemSlot[k] !=null)
+            {
+                passiveItemImages[i].gameObject.SetActive(true);
+                passiveItemImages[i].sprite = passiveItemSlot[k].item_sprite;
+                i++;
+            }
+        }
+    }
+
+    public void UpdateActiveItemGauge(float value)
+    {
+        activeItemGauge.fillAmount = value;
+    }
+    #endregion
+
     #region Feedbacks
     public void PlayHitFeedback()
     {
         hitFeedback.PlayFeedbacks();
     }
     #endregion
-
-    public void UpdateActiveItem(Sprite sprite)
-    {
-        activeItemImage.sprite = sprite;
-    }
 }
