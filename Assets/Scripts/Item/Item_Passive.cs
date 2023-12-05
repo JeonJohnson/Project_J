@@ -11,6 +11,7 @@ public class Item_Passive : Item
     public override bool Equip(Player player)
     {
         ApplyUpgradeData(player);
+        player.inventroy.AddItem(this);
         return base.Equip(player);
     }
 

@@ -60,7 +60,6 @@ public class Weapon_Player : Weapon
         // °¢µµ Ã¼Å©
         float spreadAngle = defaltStatus.bulletSpread + owner.inventroy.invenBonusStatus.bonus_Weapon_Spread + owner.bonusStatus.bonus_Weapon_Spread;
         spreadAngle = CheckSpreadAngle(upgradeData, spreadAngle);
-        Debug.Log(spreadAngle);
 
         // ÃÑ¾Ë°¹¼ö Ã¼Å©
         int bulletNum = defaltStatus.bulletNumPerFire + owner.inventroy.invenBonusStatus.bonus_Weapon_BulletNumPerFire + owner.bonusStatus.bonus_Weapon_BulletNumPerFire;
@@ -84,7 +83,6 @@ public class Weapon_Player : Weapon
         }
         fireTimer = defaltStatus.fireRate * (1f - owner.inventroy.invenBonusStatus.bonus_Weapon_FireRate / 100f);
         fireTimer = CheckFireTimer(upgradeData, fireTimer);
-        Debug.Log(fireTimer);
         #region OldCode
         //fireTimer -= Time.deltaTime;
         //fireTimer = Mathf.Clamp(fireTimer, 0, stat.fireRate);
@@ -179,6 +177,8 @@ public class Weapon_Player : Weapon
         return bullet;
     }
 
+    private float suckingItemTime = 3f;
+    private float suckingItemTimer;
     public void Suction()
     {
         if (Input.GetKey(KeyCode.Mouse1))
@@ -220,7 +220,6 @@ public class Weapon_Player : Weapon
                     //¿©±â¼­ ÃÑ¾Ëµé ÇÑÅ× Èí¼ö ¤¡
                     Debug.Log(col.gameObject.name);
                     Bullet bullet = col.gameObject.GetComponent<Bullet>();
-                    Debug.Log(bullet);
                     if (bullet)
                     {
                         bullet.transform.SetParent(null);
@@ -228,6 +227,14 @@ public class Weapon_Player : Weapon
                         {
                             bullet.Sucked((Player)owner);
                             defaltStatus.bulletCount.Value++;
+                        }
+                    }
+                    else
+                    {
+                        ItemPicker itemPicker = col.gameObject.GetComponent<ItemPicker>();
+                        if (itemPicker)
+                        {
+                            itemPicker.Sucking(owner);
                         }
                     }
                 }

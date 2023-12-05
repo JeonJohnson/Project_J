@@ -106,14 +106,12 @@ public class Bangtani_Move : Action<Bangtani>
         me.status.fireTimer -= Time.deltaTime;
 
         Vector3 destinationPos = (me.target.transform.position);
-        Debug.Log("眠利吝");
         me.agent.SetDestination(destinationPos);
         me.agent.isStopped = false;
 
         // 眠利
         if (me.DistToTarget < me.status.attackRange)
         {
-            Debug.Log("眠利场");
             me.agent.isStopped = true;
             me.ActionTable.SetCurAction((int)BangtaniActions.Idle);
         }

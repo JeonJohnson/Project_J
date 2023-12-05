@@ -36,7 +36,7 @@ public class PlayerInventroy : MonoBehaviour
         }
     }
 
-    private void AddItem(Item itemData)
+    public void AddItem(Item itemData)
     {
         switch (itemData.e_item_Type)
         {
@@ -191,8 +191,7 @@ public class PlayerInventroy : MonoBehaviour
             {
                 Debug.Log("≈€ √ﬂ∞°");
                 ItemPicker itemPicker = collision.gameObject.GetComponent<ItemPicker>();
-                AddItem(itemPicker.itemData);
-                itemPicker.Equip(player);
+                //AddItem(itemPicker.itemData);
                 collision.gameObject.SetActive(false);
             }
         }

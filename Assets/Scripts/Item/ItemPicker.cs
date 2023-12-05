@@ -1,10 +1,5 @@
-using Enums;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 using System;
+using UnityEngine;
 
 public class ItemPicker : MonoBehaviour
 {
@@ -12,6 +7,8 @@ public class ItemPicker : MonoBehaviour
 
     [SerializeField] SpriteRenderer itemSpriteRenderer;
     [SerializeField] GameObject interactButton;
+
+    private BulletState state;
 
     private void Awake()
     {
@@ -48,5 +45,35 @@ public class ItemPicker : MonoBehaviour
     public void ShowInteractButton(bool value)
     {
         interactButton.SetActive(value);
+    }
+
+
+    private void Update()
+    {
+        currentTime -= Time.deltaTime;
+        currentTime = Mathf.Clamp(currentTime, 0f, 1f);
+    }
+
+    private bool isStartSucking = false;
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
+    private float currentTime = 0f;
+
+    public void Sucking(Player _player)
+    {
+        startPosition = this.transform.position;
+        itemSpriteRenderer.color = Color.black;
+        state = BulletState.Sucking;
+        startPosition = this.transform.position;
+        targetPosition = _player.curWeapon.firePos.position;
+
+        currentTime += Time.deltaTime * 2f;
+        float t = currentTime / 1f;
+        Debug.Log(t);
+        transform.position = Vector3.Lerp(startPosition, targetPosition, Mathf.Clamp01(t));
+        if (t >= 1f)
+        {
+            Equip(_player);
+        }
     }
 }
