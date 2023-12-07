@@ -49,6 +49,16 @@ public class Room : MonoBehaviour
 
 	public int roomIndex;
 
+	public SpriteRenderer gridRenderer;
+	public void UpdateGrid()
+	{
+		Vector2 size = transform.localScale;
+		size.x = 1 / size.x;
+		size.y = 1 / size.y;
+		gridRenderer.transform.localScale = size;
+		gridRenderer.size = transform.localScale;
+	}
+
 	private void Awake()
 	{
 		linkedRooms = new List<Room>();

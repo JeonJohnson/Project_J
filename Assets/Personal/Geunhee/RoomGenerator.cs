@@ -311,6 +311,7 @@ public class RoomGenerator : MonoBehaviour
 		roomScript.roomIndex = treeIndex;
 
 		newRoom.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f,1f), Random.Range(0f,1f) ,Random.Range(0f,1f), 0.5f);
+		roomScript.UpdateGrid();
 
 		return roomScript;
 	}
@@ -336,10 +337,12 @@ public class RoomGenerator : MonoBehaviour
 		float x = Random.Range(pos.x - size.x * 0.5f + w * 0.5f, pos.x + size.x * 0.5f - w * 0.5f);
 		float y = Random.Range(pos.y - size.y * 0.5f + h * 0.5f, pos.y + size.y * 0.5f - h * 0.5f);
 
-		room.transform.position = new Vector2(x, y);
+		room.transform.position = new Vector2(Mathf.FloorToInt(x), Mathf.FloorToInt(y));
 		room.transform.localScale = new Vector2(w, h);
 
 		room.cornerPos.CalcCorner(room.transform);
+		room.UpdateGrid();
+
 	}
 
 	//// 양옆(형제 노드)들의 방끼리 이어주기 
@@ -415,6 +418,103 @@ public class RoomGenerator : MonoBehaviour
 
 
 		curCorridorDepth += curCorridorDepth != 0 ? - 1 : 0;
+	}
+	public void NewConnectSiblingRoom(int i)
+	{
+		//겹치는 부분 (충돌은 아님ㅎ)에서 통로 만들기 
+
+		//코드는 나중에 정리하기 ㅋㅋ
+		var list = roomTree.GetCertainDepthNodes(i);
+
+		for (int k = 0; k < list.Count; k += 2)
+		{
+			Room olderRoom = null;
+			Room youngerRoom = null;
+
+			if (i == dividedCount)
+			{//Leaf Nodes 일 경우
+				olderRoom = list[k].Value;
+				youngerRoom = list[k + 1].Value;
+			}
+			else if (i == 0)
+			{//Root 일 경우
+
+				break;
+			}
+			else
+			{ //그외 칭긔 칭긔
+			  //하단 노드 4개를 비교해서 가장 가까운 2개 연결 해보기
+
+				var nearestRooms = GetNearChildrenNode(list[k], list[k + 1]);
+
+				olderRoom = nearestRooms[0];
+				youngerRoom = nearestRooms[1];
+			}
+
+			Vector2 olderRoomPos = olderRoom.transform.position;
+			Vector2 olderRoomSize = olderRoom.transform.localScale;
+			Vector2 olderMin = olderRoomPos - olderRoomSize * 0.5f;
+			Vector2 olderMax = olderRoomPos + olderRoomSize * 0.5f;
+
+			Vector2 youngerRoomPos = youngerRoom.transform.position;
+			Vector2 youngerRoomSize = youngerRoom.transform.localScale;
+			Vector2 youngerMin = youngerRoomPos - youngerRoomSize * 0.5f;
+			Vector2 youngerMax = youngerRoomPos + youngerRoomSize * 0.5f;
+
+			float length;
+			if (olderMax.x > youngerMin.x)
+			{
+				//Older이 좌측 , younger이 우측 존재 하는 경우
+				length = olderMax.x - youngerMin.x;
+
+				if (length >= 1)
+				{ 
+				
+				
+				}					
+			}
+			else if (olderMin.x < youngerMax.x)
+			{//younger이 좌측 , Older이 우측 존재 하는 경우
+
+			}
+			else if (olderMax.y > youngerMin.y)
+			{
+
+			}
+			else if (olderMin.y < youngerMax.y)
+			{ 
+			
+			}
+
+
+			////왼쪽(형 노드)방의 세로(y값)을 기준으로 일단 선 하나
+			//Vector2 startPos = new Vector2(olderRoomPos.x, olderRoomPos.y);
+			//Vector2 endPos = new Vector2(youngerRoomPos.x, olderRoomPos.y);
+			//GameObject corridor1 = CreateCorridor(startPos, endPos, i);
+
+			////오른쪽(동생 노드)방의 가로(x값)을 기준으로 일단 선 하나 더
+			//Vector2 startPos2 = new Vector2(youngerRoomPos.x, olderRoomPos.y);
+			//Vector2 endPos2 = new Vector2(youngerRoomPos.x, youngerRoomPos.y);
+			//GameObject corridor2 = CreateCorridor(startPos2, endPos2, i);
+
+			//GameObject corridorBox = new GameObject("CorridorBox");
+			//corridorBox.transform.SetParent(this.transform);
+			//corridorBox.name += $"({olderRoom.roomIndex} - {youngerRoom.roomIndex})";
+			//corridor1.transform.SetParent(corridorBox.transform);
+			//corridor2.transform.SetParent(corridorBox.transform);
+			//corridorBoxes.Add(corridorBox);
+
+
+			//corridors.Add(corridor1.GetComponent<Corridor>());
+			//corridors.Add(corridor2.GetComponent<Corridor>());
+
+
+			olderRoom.linkedRooms.Add(youngerRoom);
+			youngerRoom.linkedRooms.Add(olderRoom);
+		}
+
+
+		curCorridorDepth += curCorridorDepth != 0 ? -1 : 0;
 	}
 
 	private Room[] GetNearChildrenNode(TreeNode<Room> leftNode, TreeNode<Room> rightNode)
