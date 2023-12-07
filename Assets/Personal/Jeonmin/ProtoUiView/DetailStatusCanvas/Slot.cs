@@ -16,7 +16,11 @@ public class Slot : MonoBehaviour
             icon.enabled = true;
             icon.sprite = item.item_sprite;
         }
-        else icon.enabled = false;
+        else
+        {
+            Debug.Log("여기에 아이템 없음");
+            icon.enabled = false;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)

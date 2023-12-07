@@ -28,11 +28,11 @@ public class PlayerInventroy : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Tab))
         {
-            UiController_Proto.Instance.detailStatusCanvasGo.SetActive(true);
+            UiController_Proto.Instance.ShowDetailStatusWindow(true);
         }
         else
         {
-            UiController_Proto.Instance.detailStatusCanvasGo.SetActive(false);
+            UiController_Proto.Instance.ShowDetailStatusWindow(false);
         }
     }
 
@@ -45,7 +45,7 @@ public class PlayerInventroy : MonoBehaviour
                     if (activeItemSlot != null) RemoveItemBonus(activeItemSlot.BonusStatus);
                     activeItemSlot = (Item_Active)itemData;
                     AddItemBonus(itemData.BonusStatus);
-                    UiController_Proto.Instance.playerUiView.UpdateActiveItem(itemData.item_sprite);
+                    UiController_Proto.Instance.playerHudView.UpdateActiveItem(itemData.item_sprite);
                 }
                 break;
             case Enums.Item_Type.Passive:
@@ -57,7 +57,7 @@ public class PlayerInventroy : MonoBehaviour
                         AddItemBonus(itemData.BonusStatus);
 
                         //ui Ã³¸®
-                        UiController_Proto.Instance.playerUiView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
+                        UiController_Proto.Instance.playerHudView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
                     }
 
                 }
@@ -110,7 +110,7 @@ public class PlayerInventroy : MonoBehaviour
 
                     activeItemSlot = (Item_Active)itemData;
                     AddItemBonus(itemData.BonusStatus);
-                    UiController_Proto.Instance.playerUiView.UpdateActiveItem(itemData.item_sprite);
+                    UiController_Proto.Instance.playerHudView.UpdateActiveItem(itemData.item_sprite);
                 }
                 break;
             case Enums.Item_Type.Passive:
@@ -121,7 +121,7 @@ public class PlayerInventroy : MonoBehaviour
                         if (passiveItemSlot[index] != null) RemoveItemBonus(passiveItemSlot[index].BonusStatus);
                         Funcs.ArrayReplace(passiveItemSlot, itemData, index);
                         AddItemBonus(itemData.BonusStatus);
-                        UiController_Proto.Instance.playerUiView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
+                        UiController_Proto.Instance.playerHudView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
                     }
 
                 }
