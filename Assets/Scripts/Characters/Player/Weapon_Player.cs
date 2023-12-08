@@ -171,7 +171,7 @@ public class Weapon_Player : Weapon
                 bullet = Instantiate(testBulletPrefab);
                 break;
             case BulletType.Laser:
-                bullet = Instantiate(testBulletPrefab);
+                bullet = Instantiate(testLaserBulletPrefab);
                 break;
         }
         return bullet;
