@@ -17,11 +17,8 @@ public class Ui_DetailStatus_View : MonoBehaviour
         int passiveItemSlotIndex = 1;
         for(int i = 1; i < itemSlots.Length; i++)
         {
-            if (inventroy.passiveItemSlot[i-1] != null)
-            {
-                itemSlots[passiveItemSlotIndex].UpdateSlot(inventroy.activeItemSlot);
+                itemSlots[passiveItemSlotIndex].UpdateSlot(inventroy.passiveItemSlot[i-1]);
                 passiveItemSlotIndex++;
-            }
         }
     }
 
@@ -42,6 +39,6 @@ public class Ui_DetailStatus_View : MonoBehaviour
         string bulletSpreadText = player.curWeapon.defaltStatus.bulletSpread.ToString();
         string dpsText = player.curWeapon.defaltStatus.fireRate + player.bonusStatus.bonus_Weapon_FireRate+ player.inventroy.invenBonusStatus.bonus_Weapon_FireRate.ToString();
 
-        playerStatusText.text = "";
+        playerStatusText.text = hpText + "\n" +armorText+"\n"+moveSpeedText+"\n"+expectDamageText+"\n"+consumeRangeText+"\n"+consumeAngleText+"\n"+bulletTypeText+"\n"+bulletNumPerFireText+"\n"+bulletSpreadText+"\n"+dpsText;
     }
 }
