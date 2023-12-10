@@ -397,7 +397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ceec1a1706520b46a172c47cc8ebc87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wholeAreaSize: {x: 53, y: 30}
+  wholeAreaSize: {x: 80, y: 45}
   RoomPrefabs:
     _serializedList:
     - Key: {fileID: 2327756051498767326, guid: c705674b38175ad48a694c1ffcfcaca9, type: 3}
@@ -416,8 +416,8 @@ MonoBehaviour:
   roomBox: {fileID: 1543744438}
   corridorBox: {fileID: 657832987}
   splitTimes: 3
-  minSplitRatio: 0.3
-  maxSplitRatio: 0.7
+  minSplitRatio: 0.2
+  maxSplitRatio: 0.8
   xOffset: 1
   yOffset: 1
   minRoomSize: {x: 2147483647, y: 2147483647}

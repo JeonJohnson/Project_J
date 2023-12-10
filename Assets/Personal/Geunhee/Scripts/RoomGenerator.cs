@@ -61,7 +61,9 @@ public class RoomGenerator : MonoBehaviour
 	[Space(10f)]
 	[Header("Display Vals")]
 	[ReadOnly]
-	public Vector2Int minRoomSize, maxRoomSize;
+	public Vector2Int minRoomSize;
+	[ReadOnly]
+	public Vector2Int maxRoomSize;
 	[ReadOnly]
 	public int curSplitCount;
 	[ReadOnly]
@@ -168,6 +170,11 @@ public class RoomGenerator : MonoBehaviour
 
 	public void SplitArea_Once()
 	{
+		if (areaTree == null || areaTree.Count == 0)
+		{
+			Debug.Log("초기화가 되지 않았습니다. 다시 실행해 주세요");
+		}
+
 		foreach (var node in areaTree.GetLeafNodes())
 		{
 			var newArea = Spliting(node.Value);
@@ -188,7 +195,6 @@ public class RoomGenerator : MonoBehaviour
 
 		int curTry = 1;
 		List<Area> splitedArea = new List<Area>();
-
 		Rect[] newRect = new Rect[2];
 
 		//0 = split by horizontal (가로로 나누기)
@@ -773,6 +779,7 @@ public class RoomGenerator : MonoBehaviour
 
 		areaTree = new Tree<Area>();
 
+		Debug.Log("구역 초기화 완료");
 	}
 
 	public void ResetRooms()

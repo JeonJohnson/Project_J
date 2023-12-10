@@ -10,7 +10,7 @@ public class Cam2DZoom : MonoBehaviour
 	{
 		float scrollVal = Input.GetAxis("Mouse ScrollWheel") * zoomSpd;
 
-		cam.orthographicSize += scrollVal;
+		cam.orthographicSize -= scrollVal;
 	}
 
 	private void Awake()
