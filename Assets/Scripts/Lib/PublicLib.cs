@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine;
 using Structs;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
 
 public static class Funcs
 {
@@ -608,6 +609,8 @@ namespace JeonJohnson
 			root = null;
 
 			nodeList = new List<TreeNode<T>>();
+
+			Count = 0;
 		}
 
 		public Tree(T rootData)
@@ -632,6 +635,12 @@ namespace JeonJohnson
 			Count = 1;
 			//maxDepth = 0;
 		}
+
+		~Tree()
+		{ 
+			
+		}
+
 
 		private TreeNode<T> root;
 		public TreeNode<T> RootNode
@@ -663,9 +672,9 @@ namespace JeonJohnson
 		}
 
 
-		public void AddNode(TreeNode<T> motherNode, TreeNode<T> left, TreeNode<T> right)
+		public void AddNode(TreeNode<T> motherNode, TreeNode<T> left = null, TreeNode<T> right = null)
 		{
-			if (!(right == null && nodeList.Count == 0))
+			if (nodeList.Count != 0)
 			{
 				//FindLastNode();
 
@@ -690,11 +699,11 @@ namespace JeonJohnson
 				//Count = right.Index + 1;
 				Count = nodeList.Count;
 			}
-			else
+			else if(left == null && right == null && nodeList.Count == 0)
 			{
-				root = left;
+				root = motherNode;
 				root.Index = 0;
-				nodeList.Add(left);
+				nodeList.Add(motherNode);
 			}
 
 
@@ -704,7 +713,7 @@ namespace JeonJohnson
 		{
 			TreeNode<T> leftNode, rightNode;
 
-			if (!(right == null && nodeList.Count == 0))
+			if (nodeList.Count != 0)
 			{
 				leftNode = new TreeNode<T>(left, motherNode.Depth +1 , nodeList.Count);
 				 rightNode= new TreeNode<T>(right, motherNode.Depth + 1, nodeList.Count+1);
@@ -723,15 +732,21 @@ namespace JeonJohnson
 
 				Count = nodeList.Count;
 			}
-			else
-			{//root 넣을때
-				leftNode = new TreeNode<T>(left, 0, 0);
-				root = leftNode;
-				root.Index = 0;
-				nodeList.Add(leftNode);
-			}
+			//else if()
+			//{//root 넣을때
+			//	leftNode = new TreeNode<T>(left, 0, 0);
+			//	root = leftNode;
+			//	root.Index = 0;
+			//	nodeList.Add(leftNode);
+			//}
 		}
 
+		public void SetRootNode(TreeNode<T> node)
+		{
+			nodeList.Add(node);
+			root = node;
+			Count = 1;
+		}
 
 	
 	}
@@ -767,14 +782,14 @@ namespace JeonJohnson
 			index = _index;
 		}
 
-		//~TreeNode()
-		//{
-		//	//value = null;
-		//	mother = null;
-		//	sibling = null;
-		//	left = null;
-		//	right = null;
-		//}
+		~TreeNode()
+		{
+			//value = null;
+			mother = null;
+			sibling = null;
+			left = null;
+			right = null;
+		}
 
 
 		private int depth;
