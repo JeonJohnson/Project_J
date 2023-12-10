@@ -440,7 +440,7 @@ public class RoomGenerator : MonoBehaviour
 
 					Debug.Log("3번");
 				}
-				else if (min[0].x >= min[1].x && max[0].x <= min[1].x)
+				else if (min[0].x > min[1].x && max[0].x < min[1].x)
 				{//4번
 					corridorRect.xMin = min[0].x;
 					corridorRect.xMax = max[0].x;
@@ -483,6 +483,9 @@ public class RoomGenerator : MonoBehaviour
 			{ //아예 떨어져 있는 경우
 				//원래 방법대로
 				
+
+
+
 			}
 
 			Debug.Log(corridorRect);
