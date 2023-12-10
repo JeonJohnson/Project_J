@@ -4,6 +4,8 @@ using System.Linq;
 
 using UnityEngine;
 
+using AYellowpaper.SerializedCollections;
+
 using Structs;
 using JeonJohnson;
 
@@ -37,8 +39,10 @@ public class RoomGenerator : MonoBehaviour
 	//for Test
 	[Header("Setting Vals")]
 	public Vector2 dungeonSize;
-	public GameObject RoomPrefab;
-	public GameObject CorridorPrefab;
+	[SerializedDictionary("Room Prefab", "Map Size")]
+	public SerializedDictionary<GameObject, Vector2Int> unitPrefab;
+	public GameObject TestRoomPrefab;
+	public GameObject TestCorridorPrefab;
 	//public int maxRoomCount;
 
 	[Range(0f, 1f)]
@@ -54,7 +58,7 @@ public class RoomGenerator : MonoBehaviour
 
 	[Space(10f)]
 	[Header("Display Vals")]
-	[ReadOnly]
+	//[ReadOnly]
 	public int dividedCount;
 	[ReadOnly]
 	public int roomCount = 1;
@@ -89,60 +93,7 @@ public class RoomGenerator : MonoBehaviour
 	}
 
 
-
-
-
-
-
 	/// 1. 구역 나누기
-	//public void Divide_Old()
-	//{
-	//	if (rooms.Count >= maxRoomCount)
-	//	{
-	//		return;
-	//	}
-
-	//	List<Room> tempRooms = rooms.ToList(); 
-	//	List<Room> newRooms = new List<Room>(); 
-
-	//	foreach (var room in rooms)
-	//	{
-	//		if (tempRooms.Count >= maxRoomCount)
-	//		{ //방 하나 나눴는데 만약 개수 넘어가는 경우 그냥 시마이
-	//			break;
-	//		}
-
-	//		newRooms = DivideRoom(room);
-
-	//		if (newRooms.Count != 0)
-	//		{
-	//			tempRooms.Remove(room); //복사한 리스트에서 제거하는거라서 문제 없음.
-	//			Destroy(room.gameObject); //어차피 이거 넘어가면 쓸 일 없음.
-
-	//			foreach (var newRoom in newRooms)
-	//			{
-	//				tempRooms.Add(newRoom);
-	//			}
-	//		}
-	//		else
-	//		{//더 나눌 경우 최소 사이즈보다 작아지거나 뭐 여타 다른 조건들로 인해 방이 안 만들어 진 경우
-
-
-	//		}
-	//	}
-
-	//	rooms.Clear();
-	//	rooms = null;
-	//	rooms = tempRooms;
-
-	//	newRooms.Clear();
-	//	newRooms = null;
-
-	//	++divideCount;
-
-	//	System.Random rnd = new System.Random();
-	//	var temp = rooms.OrderBy(a => rnd.Next()).ToList();
-	//}
 	public bool Divieding()
 	{
 		int tryCount = divideTimes;
@@ -239,71 +190,13 @@ public class RoomGenerator : MonoBehaviour
 		return tempRooms;
 	}
 
-	//private List<Room> DivideRoom_Old(Room room, int tryCount = 100)
-	//{
-	//	List<Room> tempRooms = new List<Room>();
-
-	//	////0 = row (가로로 나누기)
-	//	////1 = Col (세로로 나누기)
-	//	int divideDir = room.transform.localScale.x / room.transform.localScale.y >= 1f ? 1 : 0;
-	//	float divideRatio = Random.Range(minDivideRatio, maxDivideRatio);
-	//	//자를 경우 사이즈부터 한번 체크해서 최소 크기보다 작은 경우 패스하고 다시 ㄱㄱ
-
-	//	//=> 이거 어차피 만드는 부분에서도 특정 횟수 정해두고
-	//	//그만큼 시도해도 안되면 안 나누는 방식일텐데
-	//	//최소, 최대 맵 사이즈는 그냥 실제 맵 까는 (여백 버리는) 과정에서 체크하는게 나을듯
-	//	//ㅇㅇ 그때 버리기?
-
-	//	//0 = left / 1 = right
-	//	//0 = top / 1 = bot
-	//	Vector2[] newVertex = new Vector2[2];
-	//	Room[] newRoom = new Room[2];
-	//	CornerPos[] corner = new CornerPos[2];
-
-	//	if (divideDir == 0)
-	//	{//가로로 나눌 때 
-	//		//Left
-	//		newVertex[0] = new Vector2(room.cornerPos.LT.x,
-	//								(room.cornerPos.LT.y - room.cornerPos.LB.y) * divideRatio + room.cornerPos.LB.y);
-	//		//Right
-	//		newVertex[1] = new Vector2(room.cornerPos.RT.x,
-	//								(room.cornerPos.RT.y - room.cornerPos.RB.y) * divideRatio + room.cornerPos.RB.y);
-
-	//		corner[0] = new CornerPos(room.cornerPos.LT, room.cornerPos.RT, newVertex[1], newVertex[0]);
-	//		corner[1] = new CornerPos(newVertex[0], newVertex[1], room.cornerPos.RB, room.cornerPos.LB);
-
-	//		for (int i = 0; i < 2; ++i)
-	//		{
-	//			newRoom[i] = CreateRoom(corner[i]);
-	//		}
-	//	}
-	//	else
-	//	{
-	//		newVertex[0] = 
-	//				new Vector2((room.cornerPos.RT.x - room.cornerPos.LT.x) * divideRatio + room.cornerPos.LT.x,
-	//				room.cornerPos.LT.y);
-	//		newVertex[1] = 
-	//				new Vector2((room.cornerPos.RB.x - room.cornerPos.LB.x) * divideRatio + room.cornerPos.LB.x,
-	//				room.cornerPos.LB.y);
-
-	//		newRoom[0] = CreateRoom(new CornerPos(room.cornerPos.LT, newVertex[0], newVertex[1], room.cornerPos.LB));
-	//		newRoom[1] = CreateRoom(new CornerPos(newVertex[0], room.cornerPos.RT, room.cornerPos.RB, newVertex[1]));
-	//	}
-
-	//	foreach (var item in newRoom)
-	//	{
-	//		tempRooms.Add(item);
-	//	}
-
-	//	return tempRooms;
-	//}
 
 	private Room CreateRoom(CornerPos corner, int treeIndex)
 	{
 		Vector2 size = new Vector2(Vector2.Distance(corner.LT, corner.RT), Vector2.Distance(corner.LT, corner.LB));
 		Vector2 pos = new Vector2(corner.LT.x + size.x * 0.5f, corner.LT.y - size.y * 0.5f);
 
-		GameObject newRoom = Instantiate(RoomPrefab);
+		GameObject newRoom = Instantiate(TestRoomPrefab);
 		newRoom.name += $"({treeIndex})";
 		newRoom.transform.SetParent(transform);
 		newRoom.transform.position = pos;
@@ -342,11 +235,16 @@ public class RoomGenerator : MonoBehaviour
 		float x = Random.Range(pos.x - size.x * 0.5f + w * 0.5f, pos.x + size.x * 0.5f - w * 0.5f);
 		float y = Random.Range(pos.y - size.y * 0.5f + h * 0.5f, pos.y + size.y * 0.5f - h * 0.5f);
 
-		room.transform.position = new Vector2(Mathf.FloorToInt(x), Mathf.FloorToInt(y));
+		x = Mathf.FloorToInt(x);
+		y = Mathf.FloorToInt(y);
+
+		x = w % 2 == 0 ? x : x + 0.5f;
+		y = h % 2 == 0 ? y : y + 0.5f;
+
+		room.transform.position = new Vector2(x,y);
 		room.transform.localScale = new Vector2(w, h);
 
 		room.cornerPos.CalcCorner(room.transform);
-
 
 		SpriteGrid grid = room.GetComponentInChildren<SpriteGrid>();
 		grid.UpdateGrid();
@@ -467,35 +365,119 @@ public class RoomGenerator : MonoBehaviour
 			{
 				Vector2 pos = rooms[j].transform.position;
 				Vector2 size = rooms[j].transform.localScale;
-				
-				min[j] = pos - size * 0.5f;
-				max[j] = pos + size * 0.5f;
+
+				min[j].x = pos.x - (size.x * 0.5f);
+				min[j].y = pos.y - (size.y * 0.5f);
+
+				max[j].x = pos.x + (size.x * 0.5f);
+				max[j].y = pos.y + (size.y * 0.5f);
+
+				Debug.Log(rooms[j].gameObject.name + min[j] + max[j]);
+				//min[j] = pos - size * 0.5f;
+				//max[j] = pos + size * 0.5f;
 			}
 
 			Rect corridorRect = Rect.zero;
 			BesideRelate relate = BesideRelate.End;
 		
-			if (/*!(min[0].x < max[1].x || max[0].x > min[1].x)*/
-				max[0].x > min[1].x && min[0].x < max[1].x)
+		
+			if (max[0].y > min[1].y && min[0].y < max[1].y)
 			{
-				corridorRect.x = min[0].x <= min[1].x ? min[0].x : min[1].x;
-				corridorRect.width = Mathf.Abs((max[0].x >= max[1].x ? max[1].x : max[0].x) - corridorRect.x);
+				relate = BesideRelate.Horizon;
 
-				corridorRect.y = min[0].y > max[1].y ? min[0].y : min[1].y;
-				corridorRect.height =  Mathf.Abs((min[0].y > max[1].y ? max[1].y : max[0].y) - corridorRect.y);
+				if (max[0].y >= max[1].y && min[0].y <= min[1].y)
+				{//3번
+					corridorRect.xMin = max[0].x;
+					corridorRect.xMax = min[1].x;
+					//corridorRect.width = Mathf.Abs(min[1].x - max[0].x);
+					corridorRect.yMin = min[1].y;
+					corridorRect.yMax = max[1].y;
+					//corridorRect.height = max[1].y - min[1].y;
+					Debug.Log("3번");
+
+				}
+				else if (max[0].y < max[1].y && min[0].y > min[1].y)
+				{//4번
+					corridorRect.xMin = max[0].x;
+					corridorRect.width = Mathf.Abs(max[0].x - min[1].x);
+					corridorRect.yMin = min[0].y;
+					corridorRect.height = max[0].y - min[0].y;
+					Debug.Log("4번");
+				}
+				else if (max[0].y < max[1].y)
+				{//1번
+					corridorRect.xMin = max[0].x;
+					corridorRect.width = Mathf.Abs(max[0].x - min[1].x);
+					corridorRect.yMin = min[1].y;
+					corridorRect.height = Mathf.Abs(max[0].y - min[1].y);
+					Debug.Log("1번");
+				}
+				else if (min[0].y > min[1].y)
+				{//2번
+					corridorRect.xMin = max[0].x;
+					corridorRect.width = Mathf.Abs(max[0].x - min[1].x);
+					corridorRect.yMin = min[0].y;
+					corridorRect.height = Mathf.Abs(min[0].y - max[1].y);
+					Debug.Log("2번");
+				}
+				//corridorRect.xMin = max[0].x < min[1].x ? max[0].x : max[1].x;
+				//corridorRect.width = Mathf.Abs((max[0].x < max[1].x ? min[1].x : min[0].x) - corridorRect.x);
+
+				//corridorRect.yMax = max[0].y <= max[1].y ?  max[0].y : max[1].y;
+				//corridorRect.height = Mathf.Abs((min[0].y > min[1].y ? min[0].y : min[1].y) -corridorRect.y);
+			}
+			else if ( max[0].x > min[1].x && min[0].x < max[1].x)
+			{
 				relate = BesideRelate.Vertical;
 
-			}
-			else if (/*!(max[0].y < min[1].y || min[0].y > max[1].y)*/
-				max[0].y > min[1].y && min[0].y < max[1].y)
-			{
-				corridorRect.x = max[0].x < min[1].x ? max[0].x : max[1].x;
-				corridorRect.width = Mathf.Abs((max[0].x < max[1].x ? min[1].x : min[0].x) - corridorRect.x);
+				if (min[0].x <= min[1].x && max[0].x >= max[1].x)
+				{//3번
+					corridorRect.xMin = min[1].x;
+					corridorRect.xMax = max[1].x;
 
-				corridorRect.y = max[0].y <= max[1].y ?  max[0].y : max[1].y;
-				corridorRect.height = Mathf.Abs((min[0].y > min[1].y ? min[0].y : min[1].y) -corridorRect.y);
+					corridorRect.yMin = max[1].y;
+					corridorRect.yMax = min[0].y;
 
-				relate = BesideRelate.Horizon;
+					Debug.Log("3번");
+				}
+				else if (min[0].x >= min[1].x && max[0].x <= min[1].x)
+				{//4번
+					corridorRect.xMin = min[0].x;
+					corridorRect.xMax = max[0].x;
+
+					corridorRect.yMin = max[1].y;
+					corridorRect.yMax = min[0].y;
+
+					Debug.Log("4번");
+				}
+				else if (min[0].x > min[1].x)
+				{//1번
+
+					corridorRect.xMin = min[0].x;
+					corridorRect.xMax = max[1].x;
+				
+					corridorRect.yMin = max[1].y;
+					corridorRect.yMax = min[0].y;
+					Debug.Log("1번");
+				}
+				else if (max[0].x < max[1].x)
+				{//2번
+
+					corridorRect.xMin = min[1].x;
+					corridorRect.xMax = max[0].x;
+					corridorRect.yMin = max[1].y;
+					corridorRect.yMax = min[0].y;
+
+					Debug.Log("2번");
+				}
+
+				
+				//corridorRect.xMin = min[0].x <= min[1].x ? min[0].x : min[1].x;
+				//corridorRect.width = Mathf.Abs((max[0].x >= max[1].x ? max[1].x : max[0].x) - corridorRect.x);
+				//corridorRect.yMin = min[0].y > max[1].y ? min[0].y : min[1].y;
+				//corridorRect.height =  Mathf.Abs((min[0].y > max[1].y ? max[1].y : max[0].y) - corridorRect.y);
+
+
 			}
 			else 
 			{ //아예 떨어져 있는 경우
@@ -503,7 +485,7 @@ public class RoomGenerator : MonoBehaviour
 				
 			}
 
-
+			Debug.Log(corridorRect);
 
 			var corridor =  CreateCorridor(corridorRect, depth,relate);
 
@@ -566,7 +548,7 @@ public class RoomGenerator : MonoBehaviour
 		float h = Mathf.Abs(startPos.y - endPos.y);
 		Vector2 centerPos = (startPos + endPos) * 0.5f;
 
-		GameObject corridorObj = Instantiate(CorridorPrefab);
+		GameObject corridorObj = Instantiate(TestCorridorPrefab);
 
 		corridorObj.transform.position = centerPos;
 		corridorObj.transform.localScale = new Vector2(Mathf.Clamp(w,1,w), Mathf.Clamp(h,1,h));
@@ -579,9 +561,7 @@ public class RoomGenerator : MonoBehaviour
 
 	private GameObject CreateCorridor(Rect rect, int depth, BesideRelate relate)
 	{
-
-		GameObject corridorObj = Instantiate(CorridorPrefab);
-
+		GameObject corridorObj = Instantiate(TestCorridorPrefab);
 
 		Vector2 pos = Vector2.zero;
 		Vector2 size = Vector2.zero;
@@ -589,14 +569,14 @@ public class RoomGenerator : MonoBehaviour
 
 		if (relate == BesideRelate.Horizon)
 		{
-			pos.y = rect.y - (Random.Range(0, rect.height) + 0.5f);
 			pos.x = rect.center.x;
+			pos.y = rect.yMin + (Random.Range(0, (int)rect.height) + 0.5f);
 			size = rect.size;
 			size.y = 1f;
 		}
 		else
 		{
-			pos.x = rect.x + Random.Range(0, rect.width) + 0.5f;
+			pos.x = rect.xMin + Random.Range(0, (int)rect.width) + 0.5f;
 			pos.y = rect.center.y;
 			size = rect.size;
 			size.x = 1f;
@@ -644,7 +624,7 @@ public class RoomGenerator : MonoBehaviour
 
 	private void CreateInitDungeon()
 	{
-		GameObject roomObj = Instantiate(RoomPrefab);
+		GameObject roomObj = Instantiate(TestRoomPrefab);
 		roomObj.transform.SetParent(transform);
 		roomObj.transform.localScale = dungeonSize;
 		Room room = roomObj.GetComponent<Room>();

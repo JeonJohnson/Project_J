@@ -301,7 +301,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 100
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -406,8 +406,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dungeonSize: {x: 53, y: 30}
-  RoomPrefab: {fileID: 2327756051498767326, guid: caa5e628a746cec4aac49b7a38eb16d3, type: 3}
-  CorridorPrefab: {fileID: 5234041001302881509, guid: 6511f37762291694ba4057010535947b, type: 3}
+  unitPrefab:
+    _serializedList:
+    - Key: {fileID: 0}
+      Value: {x: 0, y: 0}
+  TestRoomPrefab: {fileID: 2327756051498767326, guid: caa5e628a746cec4aac49b7a38eb16d3, type: 3}
+  TestCorridorPrefab: {fileID: 5234041001302881509, guid: 6511f37762291694ba4057010535947b, type: 3}
   minDivideRatio: 0.3
   maxDivideRatio: 0.7
   divideTimes: 4
