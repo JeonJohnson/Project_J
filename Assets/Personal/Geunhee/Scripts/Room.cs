@@ -55,10 +55,7 @@ public class Room : MonoBehaviour
 		linkedRooms = new List<Room>();
 	}
 
-	public void Start()
-	{
-
-	}
+	
 
 	private void OnDestroy()
 	{

@@ -6,8 +6,8 @@ public class Area : MonoBehaviour
 {
 	public int index;
 	public Rect rect;
-	public SpriteRenderer sr;
 
+	public SpriteGrid frame;
 	public void SetRect()
 	{
 		rect.size = transform.localScale;
@@ -15,9 +15,6 @@ public class Area : MonoBehaviour
 	}
 	private void Awake()
 	{
-		if (!sr)
-		{ 
-			sr = GetComponent<SpriteRenderer>();
-		}
+		
 	}
 }

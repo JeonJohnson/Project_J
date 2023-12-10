@@ -31,6 +31,9 @@ public enum eDirection
 //=> 이런 방식의 문제점. 최소, 최대 방크기가 기준이 되기 애매함
 public class RoomGenerator : MonoBehaviour
 {
+
+	
+
 	//for Test
 	[Header("Setting Vals")]
 	public Vector2 wholeAreaSize; //나눠지지 않은, 온전한 던전의 초기 넓이 값.
@@ -60,44 +63,40 @@ public class RoomGenerator : MonoBehaviour
 	[ReadOnly]
 	public Vector2Int minRoomSize, maxRoomSize;
 	[ReadOnly]
-	public int curRoomCount = 0;
+	public int curSplitCount;
 	[ReadOnly]
-	public int curSplitCount = 0;
+	public int curRoomCount = 0;
 	[ReadOnly]
 	public int curCorridorDepth = 0;
 
 	[HideInInspector]
-	private List<Room> roomList;
-	private JeonJohnson.Tree<Area> areaTree;
-	private List<Corridor> corridors;
+	private List<Room> roomList = null;
+	private JeonJohnson.Tree<Area> areaTree=null;
+	private List<Corridor> corridors=null;
 
 
 
 	public void Initialize()
 	{//0. 초기화
-		if (roomList == null)
-		{ roomList = new List<Room>(); }
-		if (areaTree == null)
-		{ areaTree = new Tree<Area>(); }
-		if (corridors == null)
-		{ corridors = new List<Corridor>(); }
-			
+
+		roomList ??= new List<Room>();
+		areaTree ??= new Tree<Area>();
+		corridors ??= new List<Corridor>();
+
 		//밑에 배열 안쓰고 일일이 박스 만든건
 		//타 파트 분들도 직관적으로 알 수 있도록 하기 위해서
-		if (!areaBox)
-		{
-			areaBox = new GameObject("Area Box").transform;
-		}
 
-		if (!roomBox)
-		{
-			roomBox = new GameObject("Room Box").transform;
-		}
+		//유니티에서는 ?? 연산자 웬만하면 쓰지말라함.
+		//null 비교 연산 자체도 오버로딩 되있는거라서 그런듯
+		//걍 한줄로 처리하자
 
-		if (!corridorBox)
-		{
-			corridorBox = new GameObject("Corridor Box").transform;
-		}
+		//areaBox = areaBox ?? new GameObject("Area Box").transform;
+		//roomBox = roomBox ?? new GameObject("Room Box").transform;
+		//corridorBox ??= new GameObject("Corridor Box").transform;
+
+		if (!areaBox) areaBox = new GameObject("Area Box").transform;
+		if (!roomBox) roomBox = new GameObject("Room Box").transform;
+		if (!corridorBox) corridorBox = new GameObject("Corridor Box").transform;
 
 		Vector2Int minSize = new Vector2Int(int.MaxValue, int.MaxValue);
 		Vector2Int maxSize = new Vector2Int(int.MinValue, int.MinValue);
@@ -139,7 +138,7 @@ public class RoomGenerator : MonoBehaviour
 	#region 1.Area Setting
 	public void CreateWholeArea()
 	{//1. 큰 공간 하나 만들기
-		Area area = CreateArea(Vector2.zero, wholeAreaSize, Color.black);
+		Area area = CreateArea(Vector2.zero, wholeAreaSize,areaTree.Count);
 
 		areaTree.SetRootNode(new TreeNode<Area>(area,0,0));
 	}
@@ -210,8 +209,7 @@ public class RoomGenerator : MonoBehaviour
 						left.width *= splitRatio;
 
 						float rightWidth = area.rect.width * (1f - splitRatio);
-						//Rect right = new Rect(left.xMax,left.yMin,area.rect.width * (1f-splitRatio), area.rect.height); 
-						Rect right = new Rect(area.rect.xMin + rightWidth, area.rect.yMin, rightWidth, area.rect.height);
+						Rect right = new Rect(area.rect.xMin + area.rect.width*splitRatio, area.rect.yMin, rightWidth, area.rect.height);
 
 						newRect[0] = left;
 						newRect[1] = right;
@@ -243,46 +241,50 @@ public class RoomGenerator : MonoBehaviour
 		}
 		while (curTry < tryCount);
 
-		Color randomColor = Random.ColorHSV();
-		randomColor = new Color(Random.value, Random.value, Random.value);
+		//Color randomColor = Random.ColorHSV();
+		Color randomColor = new Color(Random.value, Random.value, Random.value);
 		for (int i = 0; i < 2; ++i)
 		{
-			splitedArea.Add(CreateArea(newRect[i], randomColor));
+			splitedArea.Add(CreateArea(newRect[i], areaTree.Count + i,randomColor));
 		}
 
 		return splitedArea;
 	}
 
-	private Area CreateArea(Vector2 pos, Vector2 size, Color color)
+	private Area CreateArea(Vector2 pos, Vector2 size, int index,  Color? color = null)
 	{
 		GameObject areaObj = Instantiate(AreaPrefab);
 
-		areaObj.name = $"Area_{areaTree.Count}";
+		areaObj.name = $"Area_{index}";
 		areaObj.transform.position = pos;
 		areaObj.transform.localScale = size;
 		areaObj.transform.SetParent(areaBox);
 
 		Area areaScript = areaObj.GetComponent<Area>();
 		areaScript.SetRect();
-		areaScript.index = areaTree.Count;
-		areaScript.sr.color = color;
+		areaScript.frame.UpdateGrid();
+		areaScript.index = index;
+
+		areaScript.frame.mySR.color = color ?? Color.white;
 
 		return areaScript;
 	}
 
-	private Area CreateArea(Rect rect, Color color)
+	private Area CreateArea(Rect rect, int index,Color? color = null)
 	{
 		GameObject areaObj = Instantiate(AreaPrefab);
 
-		areaObj.name = $"Area_{areaTree.Count}";
+		areaObj.name = $"Area_{index}";
 		areaObj.transform.position = rect.center;
 		areaObj.transform.localScale = new Vector2(rect.width, rect.height);
 		areaObj.transform.SetParent(areaBox);
 
 		Area areaScript = areaObj.GetComponent<Area>();
 		areaScript.SetRect();
-		areaScript.index = areaTree.Count;
-		areaScript.sr.color = color;
+		areaScript.frame.UpdateGrid();
+		areaScript.index = index;
+
+		areaScript.frame.mySR.color = color ?? Color.white;
 
 		return areaScript;
 	}
@@ -763,8 +765,14 @@ public class RoomGenerator : MonoBehaviour
 	}
 
 	public void ResetArea()
-	{ 
-		
+	{
+		for (int i = 0; i < areaBox.transform.childCount; ++i)
+		{
+			Destroy(areaBox.transform.GetChild(i).gameObject);
+		}
+
+		areaTree = new Tree<Area>();
+
 	}
 
 	public void ResetRooms()
@@ -786,29 +794,25 @@ public class RoomGenerator : MonoBehaviour
 	{
 	
 	}
+
+
 	
 
 	private void Awake()
 	{
-		//dividedCount = 0;
-
-		//CreateInitDungeon();
-
 		Initialize();
 	}
 
 
-	private void Start()
-	{
-		
-	}
-	
+
 
 	private void Update()
 	{
+
+		//Zoom();
+
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			//GeneratingRooms();
 			GeneratingRandomDungeon();
 		}
 	}

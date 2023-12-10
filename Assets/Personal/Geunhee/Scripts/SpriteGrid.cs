@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,8 +33,10 @@ public class SpriteGrid : MonoBehaviour
 
     public Vector2 defaultSize;
 
-    private SpriteRenderer mySR;
-    private SpriteRenderer planeSR;
+	[HideInInspector]
+    public SpriteRenderer mySR;
+	[HideInInspector]
+	public SpriteRenderer planeSR;
     public void UpdateGrid()
     {
         Vector2 planeObjSize = PlaneObject.transform.localScale;
@@ -44,21 +46,23 @@ public class SpriteGrid : MonoBehaviour
         mySR.size = new Vector2 (planeObjSize.x / defaultSize.x, planeObjSize.y / defaultSize.y);
     }
 
+	private void Awake()
+	{
+		mySR = GetComponent<SpriteRenderer>();
+	}
 	// Start is called before the first frame update
 	void Start()
     {
-		if (PlaneObject == null)
-		{
-			PlaneObject = transform.parent.gameObject;
-		}
-		if (!planeSR)
-		{
-			planeSR = PlaneObject.GetComponent<SpriteRenderer>();
-        }
+		//유니티에서는 ?? 연산자 웬만하면 쓰지말라함.
+		//null 비교 연산 자체도 오버로딩 되있는거라서 그런듯
+		//걍 한줄로 처리하자
 
-        mySR = GetComponent<SpriteRenderer>();
-
-        mySR.sortingOrder = planeSR.sortingOrder + 1;
+		//PlaneObject ??= transform.parent.gameObject;
+		if(!PlaneObject) PlaneObject = transform.parent.gameObject;
+		//planeSR ??= PlaneObject.GetComponent<SpriteRenderer>();
+		if(!planeSR) planeSR = PlaneObject.GetComponent<SpriteRenderer>();
+		if (planeSR)
+		{ mySR.sortingOrder = planeSR.sortingOrder + 1; }
 	}
 
   

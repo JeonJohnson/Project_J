@@ -17,16 +17,12 @@ public class RoomGenerator_Editor : Editor
 
 
 		GUILayout.Label("\nRoom Generator Buttons", EditorStyles.boldLabel);
-		GUILayout.Label("dont divide upper 12~14 times.\nur Computer hates u...", EditorStyles.miniLabel);
+		//GUILayout.Label("dont divide upper 12~14 times.\nur Computer hates u...", EditorStyles.miniLabel);
 
 		//1. 초기화
 		//기본 바닥 만들어 주기
 		if (GUILayout.Button("Create Whole Area"))
 		{
-			//if (!isInit)
-			//{
-			//	generator.Initialize();
-			//}
 			generator.CreateWholeArea();
 		}
 
@@ -40,10 +36,10 @@ public class RoomGenerator_Editor : Editor
 		{
 			generator.SplitArea_End();
 		}
-		//if (GUILayout.Button("SetActive"))
-		//{
-		//	generator.SplitArea_End();
-		//}
+		if (GUILayout.Button("Reset Area"))
+		{
+			generator.ResetArea();
+		}
 
 		//3. 해당 구역 안에서 방 생성
 
