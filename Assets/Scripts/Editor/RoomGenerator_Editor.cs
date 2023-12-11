@@ -19,14 +19,12 @@ public class RoomGenerator_Editor : Editor
 		GUILayout.Label("\nRoom Generator Buttons", EditorStyles.boldLabel);
 		//GUILayout.Label("dont divide upper 12~14 times.\nur Computer hates u...", EditorStyles.miniLabel);
 
-		//1. 초기화
+		//1. 초기화 / 구역 나눠주기
 		//기본 바닥 만들어 주기
 		if (GUILayout.Button("Create Whole Area"))
 		{
 			generator.CreateWholeArea();
 		}
-
-		//2. 구역 나눠주기
 		GUILayout.Label("");
 		if (GUILayout.Button("Split Area Once"))
 		{
@@ -41,10 +39,19 @@ public class RoomGenerator_Editor : Editor
 			generator.ResetArea();
 		}
 
-		//3. 해당 구역 안에서 방 생성
+		//2. 여러 규칙에 알맞은 방 찾기
+		GUILayout.Label("");
+		if (GUILayout.Button("Assing Rooms"))
+		{
+			generator.AssignRooms();
+		}
 
-
-		//4. 복도 생성
+		//3. 중점 조절
+		GUILayout.Label("");
+		if (GUILayout.Button("Calibrate Position"))
+		{
+			generator.CalibratePosition();
+		}
 
 
 		//if (GUILayout.Button("Divied Once"))

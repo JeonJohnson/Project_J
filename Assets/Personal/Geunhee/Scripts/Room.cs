@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RoomType
+{ 
+	Start,
+	Normal,
+	Event,
+	Shop,
+	Boss,
+	End
+}
 
 //[System.Serializable]
 //public class CornerPos
@@ -46,13 +55,28 @@ public class Room : MonoBehaviour
 	public Rect rect;
 	public int roomIndex;
 
+	public RoomType roomType;
+
 	public List<Room> linkedRooms;
 
-	public SpriteRenderer gridRenderer;
+	//public SpriteRenderer gridRenderer;
+	public SpriteRenderer mySR;
+	public SpriteGrid grid;
+	
+	public void SetScale(Vector2 size)
+	{ 
+		transform.localScale = size;
+		grid.UpdateGrid();
+	}
 
 	private void Awake()
 	{
 		linkedRooms = new List<Room>();
+
+		if(!grid) grid = GetComponentInChildren<SpriteGrid>();	
+		if(!mySR) mySR = GetComponent<SpriteRenderer>();
+
+		grid.UpdateGrid();
 	}
 
 	

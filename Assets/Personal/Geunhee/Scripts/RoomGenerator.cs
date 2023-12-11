@@ -32,7 +32,7 @@ public enum eDirection
 public class RoomGenerator : MonoBehaviour
 {
 
-	
+
 
 	//for Test
 	[Header("Setting Vals")]
@@ -54,7 +54,7 @@ public class RoomGenerator : MonoBehaviour
 	[Range(0.5f, 0.9f)]
 	public float maxSplitRatio;
 	[Tooltip("구역 줄여서 방 생성할때, 최소 최대 비율")]
-	public float xOffset, yOffset;
+	public float shrinkOffset;
 
 
 
@@ -65,7 +65,7 @@ public class RoomGenerator : MonoBehaviour
 	[ReadOnly]
 	public Vector2Int maxRoomSize;
 	[ReadOnly]
-	public int curSplitCount;
+	public int curSplitCount = 0;
 	[ReadOnly]
 	public int curRoomCount = 0;
 	[ReadOnly]
@@ -73,13 +73,17 @@ public class RoomGenerator : MonoBehaviour
 
 	[HideInInspector]
 	private List<Room> roomList = null;
-	private JeonJohnson.Tree<Area> areaTree=null;
-	private List<Corridor> corridors=null;
+	private JeonJohnson.Tree<Area> areaTree = null;
+	private List<Corridor> corridors = null;
 
 
 
 	public void Initialize()
 	{//0. 초기화
+
+		curSplitCount = 0;
+		curRoomCount = 0;
+		curCorridorDepth = 0;
 
 		roomList ??= new List<Room>();
 		areaTree ??= new Tree<Area>();
@@ -140,9 +144,9 @@ public class RoomGenerator : MonoBehaviour
 	#region 1.Area Setting
 	public void CreateWholeArea()
 	{//1. 큰 공간 하나 만들기
-		Area area = CreateArea(Vector2.zero, wholeAreaSize,areaTree.Count);
+		Area area = CreateArea(Vector2.zero, wholeAreaSize, areaTree.Count);
 
-		areaTree.SetRootNode(new TreeNode<Area>(area,0,0));
+		areaTree.SetRootNode(new TreeNode<Area>(area, 0, 0));
 	}
 
 	public void SplitArea_End()
@@ -184,6 +188,8 @@ public class RoomGenerator : MonoBehaviour
 				areaTree.AddNode(node, newArea[0], newArea[1]);
 			}
 		}
+
+		++curSplitCount;
 	}
 
 	private List<Area> Spliting(Area area, int tryCount = 100)
@@ -195,7 +201,7 @@ public class RoomGenerator : MonoBehaviour
 
 		int curTry = 1;
 		List<Area> splitedArea = new List<Area>();
-		Rect[] newRect = new Rect[2];
+		Rect[] newRect = new Rect[2] { Rect.zero, Rect.zero };
 
 		//0 = split by horizontal (가로로 나누기)
 		//1 = split by vertical (세로로 나누기)
@@ -215,7 +221,7 @@ public class RoomGenerator : MonoBehaviour
 						left.width *= splitRatio;
 
 						float rightWidth = area.rect.width * (1f - splitRatio);
-						Rect right = new Rect(area.rect.xMin + area.rect.width*splitRatio, area.rect.yMin, rightWidth, area.rect.height);
+						Rect right = new Rect(area.rect.xMin + area.rect.width * splitRatio, area.rect.yMin, rightWidth, area.rect.height);
 
 						newRect[0] = left;
 						newRect[1] = right;
@@ -238,26 +244,32 @@ public class RoomGenerator : MonoBehaviour
 					break;
 			}
 
-			if (newRect[0].width > minRoomSize.x && newRect[1].width > minRoomSize.x && newRect[0].height > minRoomSize.y && newRect[1].height > minRoomSize.y)
+			if (newRect[0].width > minRoomSize.x + shrinkOffset 
+				&& newRect[1].width > minRoomSize.x + shrinkOffset 
+				&& newRect[0].height > minRoomSize.y + shrinkOffset 
+				&& newRect[1].height > minRoomSize.y + shrinkOffset)
 			{
 				break;
 			}
-
 			++curTry;
 		}
 		while (curTry < tryCount);
 
-		//Color randomColor = Random.ColorHSV();
+		if (curTry >= tryCount)
+		{
+			return null;
+		}
+
 		Color randomColor = new Color(Random.value, Random.value, Random.value);
 		for (int i = 0; i < 2; ++i)
 		{
-			splitedArea.Add(CreateArea(newRect[i], areaTree.Count + i,randomColor));
+			splitedArea.Add(CreateArea(newRect[i], areaTree.Count + i, randomColor));
 		}
 
 		return splitedArea;
 	}
 
-	private Area CreateArea(Vector2 pos, Vector2 size, int index,  Color? color = null)
+	private Area CreateArea(Vector2 pos, Vector2 size, int index, Color? color = null)
 	{
 		GameObject areaObj = Instantiate(AreaPrefab);
 
@@ -276,10 +288,14 @@ public class RoomGenerator : MonoBehaviour
 		return areaScript;
 	}
 
-	private Area CreateArea(Rect rect, int index,Color? color = null)
+	private Area CreateArea(Rect rect, int index, Color? color = null)
 	{
-		GameObject areaObj = Instantiate(AreaPrefab);
+		if (rect == Rect.zero)
+		{
+			return null;
+		}
 
+		GameObject areaObj = Instantiate(AreaPrefab);
 		areaObj.name = $"Area_{index}";
 		areaObj.transform.position = rect.center;
 		areaObj.transform.localScale = new Vector2(rect.width, rect.height);
@@ -294,6 +310,73 @@ public class RoomGenerator : MonoBehaviour
 
 		return areaScript;
 	}
+	#endregion
+
+	#region 2.Assigning Room
+	public void AssignRooms()
+	{
+		foreach (var area in areaTree.GetLeafNodes())
+		{
+			roomList.Add(CreateFitRoom(area.Value,area.Value.frame.mySR.color));
+		}
+	}
+
+	private Room CreateFitRoom(Area area, Color color)
+	{
+		var areaSize = area.rect.size;
+
+		List<GameObject> availablePrefabs = new List<GameObject>();
+		foreach (var prefab in RoomPrefabs)
+		{
+			Vector2 size = prefab.Key.transform.localScale;
+
+			if (areaSize.x > size.x && areaSize.y > size.y)
+			{
+				availablePrefabs.Add(prefab.Key);
+			}
+		}
+
+		if(availablePrefabs.Count <= 0) 
+		{
+			Debug.Log("사이즈에 맞는 방을 찾지 못했습니다.");
+			return null;
+		}
+
+		int rand = Random.Range(0, availablePrefabs.Count);
+
+		GameObject newRoomObj = Instantiate(availablePrefabs[rand]);
+		newRoomObj.name = $"Room_{area.index}";
+		newRoomObj.transform.position = area.rect.center;
+		//newRoomObj.transform.localScale = areaSize;
+
+		Room newRoomScript = newRoomObj.GetComponent<Room>();
+		newRoomScript.mySR.color = color;
+		newRoomScript.roomIndex = area.index;
+
+		newRoomObj.transform.SetParent(roomBox);
+
+		return newRoomScript;
+	}
+
+
+	#endregion
+
+	#region 3.중점 조절, 보정
+	public void CalibratePosition()
+	{
+		foreach (var item in areaTree.GetLeafNodes())
+		{
+			
+		}
+	}
+
+	private void Calibrate(Room origin)
+	{
+			
+
+
+	}
+
 	#endregion
 
 	public void GeneratingRandomDungeon()

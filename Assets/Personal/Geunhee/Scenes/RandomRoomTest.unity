@@ -418,8 +418,7 @@ MonoBehaviour:
   splitTimes: 3
   minSplitRatio: 0.2
   maxSplitRatio: 0.8
-  xOffset: 1
-  yOffset: 1
+  shrinkOffset: 3
   minRoomSize: {x: 2147483647, y: 2147483647}
   maxRoomSize: {x: -2147483648, y: -2147483648}
   curSplitCount: 0
