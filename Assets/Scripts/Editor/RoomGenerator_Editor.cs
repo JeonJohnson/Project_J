@@ -39,11 +39,15 @@ public class RoomGenerator_Editor : Editor
 			generator.ResetArea();
 		}
 
-		//2. 여러 규칙에 알맞은 방 찾기
+		//2. 여러 규칙에 알맞은 방 찾아서 배치해주기
 		GUILayout.Label("");
 		if (GUILayout.Button("Assing Rooms"))
 		{
 			generator.AssignRooms();
+		}
+		if (GUILayout.Button("Reset Rooms"))
+		{
+			generator.ResetRooms();
 		}
 
 		//3. 중점 조절

@@ -13,6 +13,8 @@ using System;
 
 using Random = UnityEngine.Random;
 
+
+
 public enum eDirection
 { 
 	Vertical,
@@ -49,12 +51,13 @@ public class RoomGenerator : MonoBehaviour
 	public Transform corridorBox;
 
 	public int splitTimes;//분할 하고 싶은 횟수
+	public int splitTryCount;
 	[Range(0.1f, 0.5f)]
 	public float minSplitRatio;
 	[Range(0.5f, 0.9f)]
 	public float maxSplitRatio;
 	[Tooltip("구역 줄여서 방 생성할때, 최소 최대 비율")]
-	public float shrinkOffset;
+	public float centerPosOffset;
 
 
 
@@ -179,17 +182,24 @@ public class RoomGenerator : MonoBehaviour
 			Debug.Log("초기화가 되지 않았습니다. 다시 실행해 주세요");
 		}
 
-		foreach (var node in areaTree.GetLeafNodes())
+		var nodes = areaTree.GetLeafNodes();
+		int passCount = 0;
+		foreach (var node in nodes)
 		{
-			var newArea = Spliting(node.Value);
+			var newArea = Spliting(node.Value,splitTryCount);
 
 			if (newArea != null)
 			{
 				areaTree.AddNode(node, newArea[0], newArea[1]);
 			}
+			else { passCount += 1; }
 		}
 
-		++curSplitCount;
+		if (nodes.Count != passCount)
+		{
+			++curSplitCount;
+		}
+		
 	}
 
 	private List<Area> Spliting(Area area, int tryCount = 100)
@@ -244,10 +254,10 @@ public class RoomGenerator : MonoBehaviour
 					break;
 			}
 
-			if (newRect[0].width > minRoomSize.x + shrinkOffset 
-				&& newRect[1].width > minRoomSize.x + shrinkOffset 
-				&& newRect[0].height > minRoomSize.y + shrinkOffset 
-				&& newRect[1].height > minRoomSize.y + shrinkOffset)
+			if (newRect[0].width > minRoomSize.x + centerPosOffset
+				&& newRect[1].width > minRoomSize.x + centerPosOffset
+				&& newRect[0].height > minRoomSize.y + centerPosOffset
+				&& newRect[1].height > minRoomSize.y + centerPosOffset)
 			{
 				break;
 			}
@@ -326,13 +336,24 @@ public class RoomGenerator : MonoBehaviour
 		var areaSize = area.rect.size;
 
 		List<GameObject> availablePrefabs = new List<GameObject>();
+
+		int differMin= int.MaxValue;
+
+		//1. 사이즈 체크
 		foreach (var prefab in RoomPrefabs)
 		{
 			Vector2 size = prefab.Key.transform.localScale;
 
-			if (areaSize.x > size.x && areaSize.y > size.y)
+			if (areaSize.x >= size.x + centerPosOffset && areaSize.y >= size.y + centerPosOffset)
 			{
 				availablePrefabs.Add(prefab.Key);
+
+				float tempDiffer = Mathf.Abs(size.x * size.y - areaSize.x * areaSize.y);
+				
+				if (differMin > tempDiffer)
+				{
+					differMin = Mathf.CeilToInt(tempDiffer);
+				}
 			}
 		}
 
@@ -342,16 +363,22 @@ public class RoomGenerator : MonoBehaviour
 			return null;
 		}
 
+		//2. 가장 사이즈 차이가 안나는거 찾기
+			//대신 이 조건을 넣으면 맵 사이즈를 어떻게 설정하느냐에 따라서
+			//작은 맵들은 안쓰일 경우가 많을꺼임;
+			//그래서 일단 뺌
+		//availablePrefabs.RemoveAll(x =>
+		//(x.transform.localScale.x * x.transform.localScale.y) +differMin <= (areaSize.x * areaSize.y) );
+
 		int rand = Random.Range(0, availablePrefabs.Count);
 
 		GameObject newRoomObj = Instantiate(availablePrefabs[rand]);
-		newRoomObj.name = $"Room_{area.index}";
+		newRoomObj.name = $"Room_in ({area.index}) Area";
 		newRoomObj.transform.position = area.rect.center;
-		//newRoomObj.transform.localScale = areaSize;
 
 		Room newRoomScript = newRoomObj.GetComponent<Room>();
-		newRoomScript.mySR.color = color;
-		newRoomScript.roomIndex = area.index;
+		if(newRoomScript.mySR) newRoomScript.mySR.color = color;
+		newRoomScript.belongsIndex = area.index;
 
 		newRoomObj.transform.SetParent(roomBox);
 
@@ -366,15 +393,37 @@ public class RoomGenerator : MonoBehaviour
 	{
 		foreach (var item in areaTree.GetLeafNodes())
 		{
-			
+			var rooms = roomList.FindAll(x => x.belongsIndex == item.Value.index);
+
+			for(int i = 0; i < rooms.Count; i++) 
+			{
+				Calibrate(item.Value, rooms[i]);
+			}
 		}
 	}
 
-	private void Calibrate(Room origin)
+	private void Calibrate(Area area, Room origin)
 	{
-			
+		Vector2 pos = Vector2.zero;
 
+		int w = (int)origin.transform.localScale.x;
+		int h = (int)origin.transform.localScale.y;
 
+		float xMin = area.transform.position.x - (area.rect.width * 0.5f) + (w * 0.5f) + centerPosOffset;
+		float xMax = area.transform.position.x + (area.rect.width * 0.5f) - (w * 0.5f) - centerPosOffset - 0.5f;
+		pos.x = xMin >= xMax ? area.transform.position.x : Random.Range(xMin, xMax);
+
+		float yMin = area.transform.position.y - (area.rect.height * 0.5f) + (h * 0.5f) + centerPosOffset;
+		float yMax = area.transform.position.y + (area.rect.height * 0.5f) - (h * 0.5f) - centerPosOffset - 0.5f;
+		pos.y = yMin >= yMax ? area.transform.position.y : Random.Range(yMin, yMax);
+		//pos.y = Random.Range(yMin, yMax);
+
+		pos.x = w % 2 == 0 ? Mathf.FloorToInt(pos.x) : Mathf.FloorToInt(pos.x) + 0.5f;
+		pos.y = h % 2 == 0 ? Mathf.FloorToInt(pos.y) : Mathf.FloorToInt(pos.y) + 0.5f;
+
+		origin.transform.position = pos;
+
+		origin.UpdateRect();
 	}
 
 	#endregion
@@ -866,8 +915,15 @@ public class RoomGenerator : MonoBehaviour
 	}
 
 	public void ResetRooms()
-	{ 
+	{
+		for (int i = 0; i < roomBox.transform.childCount; ++i)
+		{
+			Destroy(roomBox.transform.GetChild(i).gameObject);
+		}
 
+		roomList = new();
+
+		Debug.Log("Room 초기화 완료");
 	}
 
 	public void ResetCorridors()

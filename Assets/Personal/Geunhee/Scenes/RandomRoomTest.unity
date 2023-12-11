@@ -416,9 +416,10 @@ MonoBehaviour:
   roomBox: {fileID: 1543744438}
   corridorBox: {fileID: 657832987}
   splitTimes: 3
+  splitTryCount: 500
   minSplitRatio: 0.2
   maxSplitRatio: 0.8
-  shrinkOffset: 3
+  centerPosOffset: 1
   minRoomSize: {x: 2147483647, y: 2147483647}
   maxRoomSize: {x: -2147483648, y: -2147483648}
   curSplitCount: 0

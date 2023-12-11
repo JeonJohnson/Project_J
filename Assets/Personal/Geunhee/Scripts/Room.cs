@@ -53,7 +53,9 @@ public enum RoomType
 public class Room : MonoBehaviour
 {
 	public Rect rect;
-	public int roomIndex;
+
+	public int belongsIndex;
+	//public int roomIndex;
 
 	public RoomType roomType;
 
@@ -69,12 +71,20 @@ public class Room : MonoBehaviour
 		grid.UpdateGrid();
 	}
 
+	public void UpdateRect()
+	{
+		rect.size = transform.localScale;
+		rect.center = transform.position;
+	}
+
 	private void Awake()
 	{
 		linkedRooms = new List<Room>();
 
 		if(!grid) grid = GetComponentInChildren<SpriteGrid>();	
 		if(!mySR) mySR = GetComponent<SpriteRenderer>();
+
+		UpdateRect();
 
 		grid.UpdateGrid();
 	}
