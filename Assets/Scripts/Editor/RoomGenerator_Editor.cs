@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -19,8 +19,8 @@ public class RoomGenerator_Editor : Editor
 		GUILayout.Label("\nRoom Generator Buttons", EditorStyles.boldLabel);
 		//GUILayout.Label("dont divide upper 12~14 times.\nur Computer hates u...", EditorStyles.miniLabel);
 
-		//1. ÃÊ±âÈ­ / ±¸¿ª ³ª´²ÁÖ±â
-		//±âº» ¹Ù´Ú ¸¸µé¾î ÁÖ±â
+		//1. ì´ˆê¸°í™” / êµ¬ì—­ ë‚˜ëˆ ì£¼ê¸°
+		//ê¸°ë³¸ ë°”ë‹¥ ë§Œë“¤ì–´ ì£¼ê¸°
 		if (GUILayout.Button("Create Whole Area"))
 		{
 			generator.CreateWholeArea();
@@ -39,7 +39,7 @@ public class RoomGenerator_Editor : Editor
 			generator.ResetArea();
 		}
 
-		//2. ¿©·¯ ±ÔÄ¢¿¡ ¾Ë¸ÂÀº ¹æ Ã£¾Æ¼­ ¹èÄ¡ÇØÁÖ±â
+		//2. ì—¬ëŸ¬ ê·œì¹™ì— ì•Œë§ì€ ë°© ì°¾ì•„ì„œ ë°°ì¹˜í•´ì£¼ê¸°
 		GUILayout.Label("");
 		if (GUILayout.Button("Assing Rooms"))
 		{
@@ -50,13 +50,19 @@ public class RoomGenerator_Editor : Editor
 			generator.ResetRooms();
 		}
 
-		//3. ÁßÁ¡ Á¶Àı
+		//3. ì¤‘ì  ì¡°ì ˆ
 		GUILayout.Label("");
 		if (GUILayout.Button("Calibrate Position"))
 		{
 			generator.CalibratePosition();
 		}
 
+		//4.ë³µë„ ìƒì„±í•˜ê¸°
+		GUILayout.Label("");
+		if (GUILayout.Button("ConnectingRoom"))
+		{
+			generator.ConnectingRoom();	
+		}
 
 		//if (GUILayout.Button("Divied Once"))
 		//{

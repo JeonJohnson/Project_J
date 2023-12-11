@@ -388,7 +388,7 @@ public class RoomGenerator : MonoBehaviour
 
 	#endregion
 
-	#region 3.중점 조절, 보정
+	#region 3.Room Position Calibrate
 	public void CalibratePosition()
 	{
 		foreach (var item in areaTree.GetLeafNodes())
@@ -426,6 +426,57 @@ public class RoomGenerator : MonoBehaviour
 		origin.UpdateRect();
 	}
 
+	#endregion
+
+	#region 4.Connecting Room / Create Corridor
+
+	public void ConnectingRoom()
+	{ 
+	
+	}
+
+	private Corridor CreateCorridor(Rect rect)
+	{
+
+		return null;
+	}
+
+	private List<Room> FindSiblingRooms(TreeNode<Area> leftNode, TreeNode<Area> rightNode)
+	{
+		return null;
+		//private Room[] GetNearChildrenNode(TreeNode<Room> leftNode, TreeNode<Room> rightNode)
+		//{
+		//	if (leftNode.LeftNode == null | rightNode.LeftNode == null)
+		//	{
+		//		return null;
+		//	}
+
+		//	List<TreeNode<Room>> leftChildren = new List<TreeNode<Room>>();
+		//	List<TreeNode<Room>> rightChildren = new List<TreeNode<Room>>();
+
+		//	leftNode.GetAllChildren(leftNode, ref leftChildren);
+		//	rightNode.GetAllChildren(rightNode, ref rightChildren);
+
+		//	float dist = float.MaxValue;
+		//	int indexLeft = 0, indexRight = 0;
+		//	for (int i = 0; i < leftChildren.Count; ++i)
+		//	{
+		//		for (int k = 0; k < rightChildren.Count; ++k)
+		//		{
+		//			float tempDist = Vector2.Distance(leftChildren[i].Value.transform.position, rightChildren[k].Value.transform.position);
+
+		//			if (tempDist < dist)
+		//			{
+		//				dist = tempDist;
+		//				indexLeft = i;
+		//				indexRight = k;
+		//			}
+		//		}
+		//	}
+
+		//	return new Room[2] { leftChildren[indexLeft].Value, rightChildren[indexRight].Value };
+		//}
+	}
 	#endregion
 
 	public void GeneratingRandomDungeon()
