@@ -34,6 +34,12 @@ public class Weapon_Player : Weapon
 
     }
 
+    private void Start()
+    {
+       // upgradeData.bulletType = BulletType.Laser;
+        defaltStatus.bulletCount.Value = 50;
+    }
+
     private void Update()
     {
 
@@ -67,6 +73,18 @@ public class Weapon_Player : Weapon
         // 총알속도 체크
         float bulletSpeed = defaltStatus.bulletSpeed + owner.inventroy.invenBonusStatus.bonus_Weapon_Speed + owner.bonusStatus.bonus_Weapon_Speed;
 
+        // 총알 크기 체크
+        float bulletSize = defaltStatus.bulletSize + owner.inventroy.invenBonusStatus.bonus_Weapon_BulletSize + owner.bonusStatus.bonus_Weapon_BulletSize;
+
+        // 총알 데미지 체크
+
+        int dmg = Mathf.CeilToInt(defaltStatus.damage + owner.inventroy.invenBonusStatus.bonus_Weapon_Damage + owner.bonusStatus.bonus_Weapon_Damage);
+
+        float criticalValue = defaltStatus.critial + owner.inventroy.invenBonusStatus.bonus_Weapon_Critial + owner.bonusStatus.bonus_Weapon_Critial;
+        criticalValue = Mathf.Clamp(criticalValue, 0, 100);
+        int rndValue = Random.Range(0, 100);
+        if (rndValue < criticalValue) dmg = dmg * 2;
+
         // 총알종류 체크 & 발사
 
         for (int i = 0; i < bulletNum; i++)
@@ -78,7 +96,7 @@ public class Weapon_Player : Weapon
             Quaternion rndRot = Quaternion.Euler(0f, 0f, rnd);
             Vector2 rndDir = rndRot * firePos.up;
             rndDir.Normalize();
-            bullet.GetComponent<Bullet>().Fire(rndDir, 5, bulletSpeed);
+            bullet.GetComponent<Bullet>().Fire(rndDir, 5, bulletSpeed, bulletSize);
             defaltStatus.bulletCount.Value--;
         }
         fireTimer = defaltStatus.fireRate * (1f - owner.inventroy.invenBonusStatus.bonus_Weapon_FireRate / 100f);
@@ -199,7 +217,6 @@ public class Weapon_Player : Weapon
             if (suctionStat.curSuctionRatio.Value < amount)
             {
                 //Recharging();
-                Debug.Log("이건머고");
                 fovSprite.color = suctionStat.fovIdleColor;
                 return;
             }

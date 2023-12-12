@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BangtaniActionTable : ActionTable<Bangtani>
+public class TangtangiActionTable : ActionTable<Tangtangi>
 {
     [SerializeField]
-    private BangtaniActions preAction_e;
+    private TangtangiActions preAction_e;
     [SerializeField]
-    private BangtaniActions curAction_e;
+    private TangtangiActions curAction_e;
 
     private Vector3 dir;
 
@@ -16,22 +16,22 @@ public class BangtaniActionTable : ActionTable<Bangtani>
 
     protected override void Initialize()
     {
-        if (owner == null) owner = GetComponent<Bangtani>();
+        if (owner == null) owner = GetComponent<Tangtangi>();
         if (owner != null)
         {
             owner.ActionTable = this;
-            actions = new Action<Bangtani>[(int)BangtaniActions.End];
+            actions = new Action<Tangtangi>[(int)TangtangiActions.End];
         }
 
-        actions[(int)BangtaniActions.Idle] = new Bangtani_Idle();
-        actions[(int)BangtaniActions.Move] = new Bangtani_Move();
-        actions[(int)BangtaniActions.Attack] = new Bangtani_Attack();
-        actions[(int)BangtaniActions.Death] = new Bangtani_Death();
+        actions[(int)TangtangiActions.Idle] = new Tangtangi_Idle();
+        actions[(int)TangtangiActions.Move] = new Tangtangi_Move();
+        actions[(int)TangtangiActions.Attack] = new Tangtangi_Attack();
+        actions[(int)TangtangiActions.Death] = new Tangtangi_Death();
     }
     protected override void Awake()
     {
         base.Awake();
-        SetCurAction((int)BangtaniActions.Idle);
+        SetCurAction((int)HwasariActions.Idle);
     }
     protected override void Start()
     {
@@ -54,17 +54,17 @@ public class BangtaniActionTable : ActionTable<Bangtani>
 
     public override void SetCurAction(int index)
     {
-        preAction_e = (BangtaniActions)preAction_i;
+        preAction_e = (TangtangiActions)preAction_i;
         base.SetCurAction(index);
-        curAction_e = (BangtaniActions)curAction_i;
+        curAction_e = (TangtangiActions)curAction_i;
     }
 }
 
 
 
-public class Bangtani_Idle : Action<Bangtani>
+public class Tangtangi_Idle : Action<Tangtangi>
 {
-    public override void ActionEnter(Bangtani script)
+    public override void ActionEnter(Tangtangi script)
     {
         base.ActionEnter(script);
         //timer = me.status.shootWaitTime;
@@ -75,13 +75,13 @@ public class Bangtani_Idle : Action<Bangtani>
         me.status.fireTimer -= Time.deltaTime;
         if (me.DistToTarget > me.status.traceRange)
         {
-            me.ActionTable.SetCurAction((int)BangtaniActions.Move);
+            me.ActionTable.SetCurAction((int)TangtangiActions.Move);
         }
         else
         {
             if (me.status.fireTimer < 0f)
             {
-                me.ActionTable.SetCurAction((int)BangtaniActions.Attack);
+                me.ActionTable.SetCurAction((int)TangtangiActions.Attack);
                 me.status.fireTimer = me.status.fireWaitTime;
             }
         }
@@ -94,9 +94,10 @@ public class Bangtani_Idle : Action<Bangtani>
     public override void ActionExit() { }
 }
 
-public class Bangtani_Move : Action<Bangtani>
+
+public class Tangtangi_Move : Action<Tangtangi>
 {
-    public override void ActionEnter(Bangtani script)
+    public override void ActionEnter(Tangtangi script)
     {
         base.ActionEnter(script);
         me.animator.SetBool("IsMove", true);
@@ -113,7 +114,7 @@ public class Bangtani_Move : Action<Bangtani>
         if (me.DistToTarget < me.status.attackRange)
         {
             me.agent.isStopped = true;
-            me.ActionTable.SetCurAction((int)BangtaniActions.Idle);
+            me.ActionTable.SetCurAction((int)TangtangiActions.Idle);
         }
     }
 
@@ -127,12 +128,12 @@ public class Bangtani_Move : Action<Bangtani>
     }
 }
 
-public class Bangtani_Attack : Action<Bangtani>
+public class Tangtangi_Attack : Action<Tangtangi>
 {
     float timer;
     int curbulletCount;
 
-    public override void ActionEnter(Bangtani script)
+    public override void ActionEnter(Tangtangi script)
     {
         base.ActionEnter(script);
         timer = me.status.fireRate;
@@ -169,9 +170,9 @@ public class Bangtani_Attack : Action<Bangtani>
 }
 
 
-public class Bangtani_Death : Action<Bangtani>
+public class Tangtangi_Death : Action<Tangtangi>
 {
-    public override void ActionEnter(Bangtani script)
+    public override void ActionEnter(Tangtangi script)
     {
         base.ActionEnter(script);
         //GameObject slim_prop = PoolingManager.Instance.LentalObj("Slime_Prop");

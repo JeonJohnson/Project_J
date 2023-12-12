@@ -1,14 +1,21 @@
 using Structs;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Bullet_Normal : Bullet
 {
+    private Light2D light2D;
+    public Color maxColor;
+    public Color minColor;
 
-    public override void Fire(Vector2 dir, int _SplatterCount = 1, float moveSpd = 200f)
+    public override void Fire(Vector2 dir, int _SplatterCount = 1, float moveSpd = 200f, float bulletSize = 1f, int dmg = 1)
     {
+        defaultStat.dmg = dmg;
         curState = BulletState.Fire;
+        this.transform.localScale = new Vector2(bulletSize, bulletSize);
 
         rb.AddForce(dir * moveSpd, ForceMode2D.Force);
         SetLeftCount(_SplatterCount);
@@ -90,11 +97,25 @@ public class Bullet_Normal : Bullet
     private void Awake()
     {
         FindDefaultComps();
-
+        light2D = GetComponent<Light2D>();
+        SetBulletColor();
         defaultStat.aliveTime = 30;
+
     }
 
+    private void SetBulletColor()
+    {
+        int leftCount = Mathf.Clamp(splatterStat.leftCount, 0, 1);
+        Color lerpedColor = Color.Lerp(minColor, maxColor, leftCount);
+        light2D.color = lerpedColor;
+        srdr.material.SetColor("_BlendColor", lerpedColor);
+    }
 
+    public override void SetLeftCount(int cnt)
+    {
+        base.SetLeftCount(cnt);
+        SetBulletColor();
+    }
 
     void Update()
     {
@@ -107,10 +128,9 @@ public class Bullet_Normal : Bullet
         //Splatter ø…º« ¿œ∂ß∏∏ »£√‚µ…µÌ
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            --splatterStat.leftCount;
-            SetLeftCount(splatterStat.leftCount);
+            SetLeftCount(splatterStat.leftCount - 1);
 
-            if (splatterStat.leftCount <= 0)
+            if (splatterStat.leftCount < 0)
             {
                 GenerateSmoke();
                 Resetting();
@@ -137,10 +157,9 @@ public class Bullet_Normal : Bullet
 
                 if (hitinfo.isDurable)
                 {
-                    --splatterStat.leftCount;
-                    SetLeftCount(splatterStat.leftCount);
+                    SetLeftCount(splatterStat.leftCount - 1);
 
-                    if (splatterStat.leftCount <= 0)
+                    if (splatterStat.leftCount < 0)
                     {
                         GenerateSmoke();
                         Resetting();
@@ -155,7 +174,7 @@ public class Bullet_Normal : Bullet
             }
         }
 
-        if (splatterStat.leftCount <= 0)
+        if (splatterStat.leftCount < 0)
         {
             Resetting();
             Debug.Log("æÃ º˝¿⁄¥Ÿµ  ∆ƒ±´");

@@ -71,6 +71,8 @@ MonoBehaviour:
   col: {fileID: 7157247293949954388}
   rb: {fileID: 1575031155422879869}
   srdr: {fileID: 6808215688205360986}
+  maxColor: {r: 0, g: 0, b: 0, a: 0}
+  minColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!50 &1575031155422879869
 Rigidbody2D:
   serializedVersion: 4
@@ -235,7 +237,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 1f4c863ce793c2b45baedd791c828f6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

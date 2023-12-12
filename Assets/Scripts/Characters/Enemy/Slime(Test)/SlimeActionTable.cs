@@ -136,7 +136,7 @@ public class Slime_Attack : Action<Slime>
     {
         base.ActionEnter(script);
         timer = me.status.fireRate;
-        curbulletCount = me.status.bulletCountWhenAttackOnce;
+        curbulletCount = me.status.fireCountPerAttack;
     }
 
     public override void ActionUpdate()

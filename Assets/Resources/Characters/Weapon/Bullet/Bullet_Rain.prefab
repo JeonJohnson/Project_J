@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6345419971129403020}
-  - component: {fileID: 5927231331011353801}
   - component: {fileID: 1575031155422879869}
   - component: {fileID: 5460953971496390725}
   - component: {fileID: 7157247293949954388}
+  - component: {fileID: 1465522469559602599}
   m_Layer: 12
-  m_Name: Bullet_Enemy
+  m_Name: Bullet_Rain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,50 +29,13 @@ Transform:
   m_GameObject: {fileID: 927224229131076647}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5001805885618035557}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5927231331011353801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 927224229131076647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c9c3d857de8a4e41a39aff583f09377, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  suckedOption: 1
-  defaultStat:
-    dmg: 1
-    moveSpd: 200
-    aliveTime: 30
-    targetLayer:
-      serializedVersion: 2
-      m_Bits: 128
-  splatterStat:
-    bulletDir: {x: 0, y: 0}
-    maxCount: 5
-    leftCount: 0
-    hitCountTmp: {fileID: 0}
-  suckedStat:
-    suckWaitRandTime: 0
-    suckingRandTime: 0
-    suckingTimeRatio: 0
-    suckStartPos: {x: 0, y: 0}
-    player: {fileID: 0}
-  curState: 0
-  col: {fileID: 7157247293949954388}
-  rb: {fileID: 1575031155422879869}
-  srdr: {fileID: 6808215688205360986}
-  maxColor: {r: 1, g: 0.009225734, b: 0, a: 1}
-  minColor: {r: 1, g: 0.6862745, b: 0, a: 1}
 --- !u!50 &1575031155422879869
 Rigidbody2D:
   serializedVersion: 4
@@ -117,7 +80,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 0.68761706, b: 0, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -185,6 +148,43 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &1465522469559602599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927224229131076647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4561cc3e94c1556448d57a008df10ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  suckedOption: 1
+  defaultStat:
+    dmg: 1
+    moveSpd: 0
+    aliveTime: 0
+    targetLayer:
+      serializedVersion: 2
+      m_Bits: 128
+  splatterStat:
+    bulletDir: {x: 0, y: 0}
+    maxCount: 0
+    leftCount: 0
+    hitCountTmp: {fileID: 0}
+  suckedStat:
+    suckWaitRandTime: 0
+    suckingRandTime: 0
+    suckingTimeRatio: 0
+    suckStartPos: {x: 0, y: 0}
+    player: {fileID: 0}
+  curState: 0
+  col: {fileID: 7157247293949954388}
+  rb: {fileID: 1575031155422879869}
+  srdr: {fileID: 6808215688205360986}
+  bulletPrefab: {fileID: 927224229131076647, guid: 779d6c9b89072ad4eb4b76c4596d9d3f, type: 3}
+  light2D: {fileID: 5460953971496390725}
 --- !u!1 &8963644971894233228
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +237,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 77c5f4d4335101345b09f61beff1058a, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -258,7 +258,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: 21300000, guid: fa9b565369d39bb4183895c32bee6bc7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9de49bce3c222254488f6b5f91c26add, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

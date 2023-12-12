@@ -86,13 +86,13 @@ public class Bullet : MonoBehaviour
             srdr = Funcs.IsComponentExistInFamily<SpriteRenderer>(this.gameObject);
         }
     }
-    public void SetLeftCount(int cnt)
+    public virtual void SetLeftCount(int cnt)
     {
         splatterStat.leftCount = cnt;
         //splatterStat.hitCountTmp.text = cnt.ToString();
     }
 
-    public virtual void Fire(Vector2 dir, int _SplatterCount = 1, float moveSpd = 200f)
+    public virtual void Fire(Vector2 dir, int _SplatterCount = 1, float moveSpd = 200f, float bulletSize = 1f, int dmg = 1)
     {
 
     }

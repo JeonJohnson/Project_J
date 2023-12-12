@@ -72,7 +72,7 @@ public class ItemPicker : MonoBehaviour
     }
 
     private float suckingTimeRatio;
-    private float suckingTime = 1f;
+    private float suckingTime = 0.15f;
     private bool isSuckCoroPlayed = false;
 
     IEnumerator SuckCoro(Player player)
@@ -80,7 +80,7 @@ public class ItemPicker : MonoBehaviour
         isSuckCoroPlayed = true;
         while (suckingTimeRatio >= 1f)
         {
-            suckingTimeRatio += Time.deltaTime / suckingTime;
+            suckingTimeRatio += Time.deltaTime * suckingTime;
             transform.position = Vector2.Lerp(startPosition, player.curWeapon.firePos.position, suckingTimeRatio);
             yield return null;
         }

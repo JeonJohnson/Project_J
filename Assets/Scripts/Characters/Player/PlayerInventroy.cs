@@ -154,6 +154,7 @@ public class PlayerInventroy : MonoBehaviour
         this.invenBonusStatus.bonus_Weapon_FireRate += itemBonus.bonus_Weapon_FireRate;
         this.invenBonusStatus.bonus_Weapon_BulletNumPerFire += itemBonus.bonus_Weapon_BulletNumPerFire;
         this.invenBonusStatus.bonus_Weapon_Critial += itemBonus.bonus_Weapon_Critial;
+        this.invenBonusStatus.bonus_Weapon_BulletSize += itemBonus.bonus_Weapon_BulletSize;
     }
 
     private void RemoveItemBonus(BonusStatus itemBonus)
@@ -167,6 +168,7 @@ public class PlayerInventroy : MonoBehaviour
         this.invenBonusStatus.bonus_Weapon_FireRate -= itemBonus.bonus_Weapon_FireRate;
         this.invenBonusStatus.bonus_Weapon_BulletNumPerFire -= itemBonus.bonus_Weapon_BulletNumPerFire;
         this.invenBonusStatus.bonus_Weapon_Critial -= itemBonus.bonus_Weapon_Critial;
+        this.invenBonusStatus.bonus_Weapon_BulletSize -= itemBonus.bonus_Weapon_BulletSize;
     }
     #endregion
 

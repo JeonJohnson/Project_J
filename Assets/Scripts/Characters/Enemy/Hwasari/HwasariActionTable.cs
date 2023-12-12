@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BangtaniActionTable : ActionTable<Bangtani>
+public class HwasariActionTable : ActionTable<Hwasari>
 {
     [SerializeField]
-    private BangtaniActions preAction_e;
+    private HwasariActions preAction_e;
     [SerializeField]
-    private BangtaniActions curAction_e;
+    private HwasariActions curAction_e;
 
     private Vector3 dir;
 
@@ -16,22 +16,22 @@ public class BangtaniActionTable : ActionTable<Bangtani>
 
     protected override void Initialize()
     {
-        if (owner == null) owner = GetComponent<Bangtani>();
+        if (owner == null) owner = GetComponent<Hwasari>();
         if (owner != null)
         {
             owner.ActionTable = this;
-            actions = new Action<Bangtani>[(int)BangtaniActions.End];
+            actions = new Action<Hwasari>[(int)HwasariActions.End];
         }
 
-        actions[(int)BangtaniActions.Idle] = new Bangtani_Idle();
-        actions[(int)BangtaniActions.Move] = new Bangtani_Move();
-        actions[(int)BangtaniActions.Attack] = new Bangtani_Attack();
-        actions[(int)BangtaniActions.Death] = new Bangtani_Death();
+        actions[(int)HwasariActions.Idle] = new Hwasari_Idle();
+        actions[(int)HwasariActions.Move] = new Hwasari_Move();
+        actions[(int)HwasariActions.Attack] = new Hwasari_Attack();
+        actions[(int)HwasariActions.Death] = new Hwasari_Death();
     }
     protected override void Awake()
     {
         base.Awake();
-        SetCurAction((int)BangtaniActions.Idle);
+        SetCurAction((int)HwasariActions.Idle);
     }
     protected override void Start()
     {
@@ -54,17 +54,17 @@ public class BangtaniActionTable : ActionTable<Bangtani>
 
     public override void SetCurAction(int index)
     {
-        preAction_e = (BangtaniActions)preAction_i;
+        preAction_e = (HwasariActions)preAction_i;
         base.SetCurAction(index);
-        curAction_e = (BangtaniActions)curAction_i;
+        curAction_e = (HwasariActions)curAction_i;
     }
 }
 
 
 
-public class Bangtani_Idle : Action<Bangtani>
+public class Hwasari_Idle : Action<Hwasari>
 {
-    public override void ActionEnter(Bangtani script)
+    public override void ActionEnter(Hwasari script)
     {
         base.ActionEnter(script);
         //timer = me.status.shootWaitTime;
@@ -75,13 +75,13 @@ public class Bangtani_Idle : Action<Bangtani>
         me.status.fireTimer -= Time.deltaTime;
         if (me.DistToTarget > me.status.traceRange)
         {
-            me.ActionTable.SetCurAction((int)BangtaniActions.Move);
+            me.ActionTable.SetCurAction((int)HwasariActions.Move);
         }
         else
         {
             if (me.status.fireTimer < 0f)
             {
-                me.ActionTable.SetCurAction((int)BangtaniActions.Attack);
+                me.ActionTable.SetCurAction((int)HwasariActions.Attack);
                 me.status.fireTimer = me.status.fireWaitTime;
             }
         }
@@ -94,9 +94,9 @@ public class Bangtani_Idle : Action<Bangtani>
     public override void ActionExit() { }
 }
 
-public class Bangtani_Move : Action<Bangtani>
+public class Hwasari_Move : Action<Hwasari>
 {
-    public override void ActionEnter(Bangtani script)
+    public override void ActionEnter(Hwasari script)
     {
         base.ActionEnter(script);
         me.animator.SetBool("IsMove", true);
@@ -113,7 +113,7 @@ public class Bangtani_Move : Action<Bangtani>
         if (me.DistToTarget < me.status.attackRange)
         {
             me.agent.isStopped = true;
-            me.ActionTable.SetCurAction((int)BangtaniActions.Idle);
+            me.ActionTable.SetCurAction((int)HwasariActions.Idle);
         }
     }
 
@@ -127,12 +127,12 @@ public class Bangtani_Move : Action<Bangtani>
     }
 }
 
-public class Bangtani_Attack : Action<Bangtani>
+public class Hwasari_Attack : Action<Hwasari>
 {
     float timer;
     int curbulletCount;
 
-    public override void ActionEnter(Bangtani script)
+    public override void ActionEnter(Hwasari script)
     {
         base.ActionEnter(script);
         timer = me.status.fireRate;
@@ -147,14 +147,20 @@ public class Bangtani_Attack : Action<Bangtani>
         {
             if (timer <= 0f)
             {
-                me.weapon.Fire();
+                float startAngle = -me.status.spread / 2;  // 시작 각도
+                float angleStep = me.status.spread / (me.status.bulletNumPerFire - 1);
+                for (int i = 0; i < me.status.bulletNumPerFire; i++)
+                {
+                    Debug.Log("타아아앙");
+                    me.weapon.Fire(startAngle + i * angleStep);
+                }
                 curbulletCount--;
                 timer = me.status.fireRate;
             }
         }
         else
         {
-            me.ActionTable.SetCurAction((int)BangtaniActions.Idle);
+            me.ActionTable.SetCurAction((int)HwasariActions.Idle);
         }
     }
 
@@ -169,9 +175,9 @@ public class Bangtani_Attack : Action<Bangtani>
 }
 
 
-public class Bangtani_Death : Action<Bangtani>
+public class Hwasari_Death : Action<Hwasari>
 {
-    public override void ActionEnter(Bangtani script)
+    public override void ActionEnter(Hwasari script)
     {
         base.ActionEnter(script);
         //GameObject slim_prop = PoolingManager.Instance.LentalObj("Slime_Prop");
