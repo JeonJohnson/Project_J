@@ -652,37 +652,40 @@ public class RoomGenerator : MonoBehaviour
 
 		Vector2 pos = Vector2.zero;
 		Vector2 size = Vector2.zero;
-		float width = corridorObj.transform.localScale.x;
-
+		int corridorWidth = (int)corridorObj.transform.localScale.x;
+		
 		if (relateDir == eDirection.Horizon)
 		{
 			pos.x = rect.center.x;
 
-			if ((int)width % 2 == 0)
-			{
-				pos.y = rect.yMin + (Random.Range(Mathf.FloorToInt(width* 0.5f), (int)rect.height));
-			}
-			else
-			{
-				pos.y = rect.yMin + (Random.Range(Mathf.FloorToInt(width * 0.5f), (int)rect.height)-0.5f);
-				pos.y += 0.5f;
-			}
+			pos.y = rect.yMin + Random.Range(0, (int)rect.height - corridorWidth);
+			pos.y += corridorWidth * 0.5f;
+			//if (corridorWidth % 2 == 0)
+			//{
+			//	pos.y = rect.yMin + Random.Range(corridorWidth / 2, (int)rect.height - corridorWidth / 2);
+			//}
+			//else
+			//{
+			//	pos.y = rect.yMin + Random.Range(corridorWidth, rect.height - corridorWidth);
+				
+			//}
 			
 			size = rect.size;
 			size.y = CorridorPrefab.transform.localScale.x;
 		}
 		else
 		{
-
-			if ((int)width % 2 == 0)
-			{
-				pos.x = rect.xMin + (Random.Range(Mathf.FloorToInt(width * 0.5f), (int)rect.width));
-			}
-			else
-			{
-				pos.x = rect.xMin + (Random.Range(Mathf.FloorToInt(width * 0.5f), (int)rect.width)-0.5f);
-				pos.x += 0.5f;
-			}
+			pos.x = rect.xMin + Random.Range(0, (int)rect.width - corridorWidth);
+			pos.x += corridorWidth * 0.5f;
+			//if ((int)width % 2 == 0)
+			//{
+			//	pos.x = rect.xMin + (Random.Range(Mathf.FloorToInt(width * 0.5f), (int)rect.width));
+			//}
+			//else
+			//{
+			//	pos.x = rect.xMin + (Random.Range(Mathf.FloorToInt(width * 0.5f), (int)rect.width)-0.5f);
+			//	pos.x += 0.5f;
+			//}
 
 			pos.y = rect.center.y;
 			size = rect.size;

@@ -16,6 +16,15 @@ public static class Funcs
 		return script == null;
 	}
 
+	public static float Random_Dot5(float min, float max)
+	{
+		//C# float to Int 명시적 캐스팅은 무조건 버림임.
+		float temp = UnityEngine.Random.Range(min, max);
+
+		temp = temp - Mathf.FloorToInt(temp) > 0.5 ? Mathf.FloorToInt(temp) + 0.5f : Mathf.FloorToInt(temp);
+
+		return temp;
+	}
 
 
 	#region C# default Val Type Casting
