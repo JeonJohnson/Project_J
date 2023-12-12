@@ -8,6 +8,15 @@ public class Area : MonoBehaviour
 	public Rect rect;
 
 	public SpriteGrid frame;
+
+	[SerializeField]
+	private Room assignedRoom = null;
+
+	public Room AssignedRoom
+	{
+		get { return assignedRoom; }
+		set { assignedRoom = value; }
+	}
 	public void SetRect()
 	{
 		rect.size = transform.localScale;

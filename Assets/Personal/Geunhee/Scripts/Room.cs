@@ -59,7 +59,7 @@ public class Room : MonoBehaviour
 
 	public RoomType roomType;
 
-	public List<Room> linkedRooms;
+	//public List<Room> linkedRooms;
 
 	//public SpriteRenderer gridRenderer;
 	public SpriteRenderer mySR;
@@ -79,7 +79,7 @@ public class Room : MonoBehaviour
 
 	private void Awake()
 	{
-		linkedRooms = new List<Room>();
+		//linkedRooms = new List<Room>();
 
 		if(!grid) grid = GetComponentInChildren<SpriteGrid>();	
 		if(!mySR) mySR = GetComponent<SpriteRenderer>();
@@ -93,6 +93,6 @@ public class Room : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		linkedRooms = null;
+		//linkedRooms = null;
 	}
 }

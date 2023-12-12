@@ -661,7 +661,7 @@ namespace JeonJohnson
 		{
 			List<TreeNode<T>> leafNodes = new List<TreeNode<T>>();
 
-			leafNodes.AddRange(root.GetLeafChild());
+			leafNodes.AddRange(root.GetLeafChildren());
 
 			return leafNodes;
 		}
@@ -848,51 +848,44 @@ namespace JeonJohnson
 			return (left == null && right == null);
 		}
 
-		public List<TreeNode<T>> GetAllChildren(TreeNode<T> parent)
-		{
-			var list = new List<TreeNode<T>>();
+		//public List<TreeNode<T>> GetAllChildren(TreeNode<T> parent)
+		//{
+		//	var list = new List<TreeNode<T>>();
 
+		//	if (IsLeaf())
+		//	{
+		//		if (this == parent)
+		//		{
+		//			return null;
+		//		}
+		//		else
+		//		{
+		//			list.Add(this);
+		//		}
+		//	}
+		//	else
+		//	{
+		//		list.AddRange(left.GetAllChildren(parent));
+		//		list.AddRange(right.GetAllChildren(parent));
+		//	}
+
+		//	return list;
+		//}
+
+		public void GetLeafChildren(TreeNode<T> parent, ref List<TreeNode<T>> list)
+		{
 			if (IsLeaf())
 			{
-				if (this == parent)
-				{
-					return null;
-				}
-				else
-				{
-					list.Add(this);
-				}
+				list.Add(this);
 			}
 			else
 			{
-				list.AddRange(left.GetAllChildren(parent));
-				list.AddRange(right.GetAllChildren(parent));
-			}
-
-			return list;
-		}
-
-		public void GetAllChildren(TreeNode<T> parent, ref List<TreeNode<T>> list)
-		{
-			if (IsLeaf())
-			{
-				if (this == parent)
-				{
-					return;
-				}
-				else
-				{
-					list.Add(this);
-				}
-			}
-			else
-			{
-				left.GetAllChildren(parent, ref list);
-				right.GetAllChildren(parent, ref list);
+				left.GetLeafChildren(parent, ref list);
+				right.GetLeafChildren(parent, ref list);
 			}
 		}
 
-		public List<TreeNode<T>> GetLeafChild()
+		public List<TreeNode<T>> GetLeafChildren()
 		{
 			var list = new List<TreeNode<T>>();
 
@@ -902,8 +895,8 @@ namespace JeonJohnson
 			}
 			else
 			{
-				list.AddRange(left.GetLeafChild());
-				list.AddRange(right.GetLeafChild());
+				list.AddRange(left.GetLeafChildren());
+				list.AddRange(right.GetLeafChildren());
 			}
 
 			return list;

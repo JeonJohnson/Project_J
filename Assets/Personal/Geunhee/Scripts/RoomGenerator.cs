@@ -56,8 +56,8 @@ public class RoomGenerator : MonoBehaviour
 	public float minSplitRatio;
 	[Range(0.5f, 0.9f)]
 	public float maxSplitRatio;
-	[Tooltip("구역 줄여서 방 생성할때, 최소 최대 비율")]
 	public float centerPosOffset;
+	//public float corridorWidth;
 
 
 
@@ -382,6 +382,8 @@ public class RoomGenerator : MonoBehaviour
 
 		newRoomObj.transform.SetParent(roomBox);
 
+		area.AssignedRoom = newRoomScript;
+
 		return newRoomScript;
 	}
 
@@ -393,12 +395,7 @@ public class RoomGenerator : MonoBehaviour
 	{
 		foreach (var item in areaTree.GetLeafNodes())
 		{
-			var rooms = roomList.FindAll(x => x.belongsIndex == item.Value.index);
-
-			for(int i = 0; i < rooms.Count; i++) 
-			{
-				Calibrate(item.Value, rooms[i]);
-			}
+			Calibrate(item.Value, item.Value.AssignedRoom);
 		}
 	}
 
@@ -432,51 +429,257 @@ public class RoomGenerator : MonoBehaviour
 
 	public void ConnectingRoom()
 	{ 
+		for(int i = curSplitCount; i >= 0; i--) 
+		{
+			ConnectSiblingRoom(i);
+		}
+	}
+
 	
+
+	private void ConnectSiblingRoom(int depth)
+	{
+		var list = areaTree.GetCertainDepthNodes(depth);
+		//var rooms = roomList.FindAll(x => x.belongsIndex == depth);
+
+		for (int i = 0; i < list.Count; i += 2)
+		{
+			Room[] rooms = new Room[2];
+
+			if (depth == 0)
+			{ //루트 노드의 경우
+				break;
+			}
+			else if (depth == curSplitCount)
+			{
+				rooms[0] = list[i].Value.AssignedRoom;
+				rooms[1] = list[i + 1].Value.AssignedRoom;
+			}
+			else
+			{
+				var nearestRooms = GetNearestRooms(list[i], list[i + 1]);
+				rooms[0] = nearestRooms[0];
+				rooms[1] = nearestRooms[1];
+			}
+
+			Vector2[] min = new Vector2[2], max = new Vector2[2];
+
+			for (int k = 0; k < 2; ++k)
+			{
+				Vector2 pos = rooms[k].transform.position;
+				Vector2 size = rooms[k].transform.localScale;
+
+				min[k].x = pos.x - (size.x * 0.5f);
+				min[k].y = pos.y - (size.y * 0.5f);
+
+				max[k].x = pos.x + (size.x * 0.5f);
+				max[k].y = pos.y + (size.y * 0.5f);
+
+				//Debug.Log(rooms[k].gameObject.name + min[k] + max[k]);
+			}
+
+			Rect corridorRect = Rect.zero;
+			eDirection relate = eDirection.End;
+
+			if (max[0].y > min[1].y && min[0].y < max[1].y)
+			{
+				relate = eDirection.Horizon;
+
+				if (max[0].y >= max[1].y && min[0].y <= min[1].y)
+				{//3번
+					corridorRect.xMin = max[0].x;
+					corridorRect.xMax = min[1].x;
+					corridorRect.yMin = min[1].y;
+					corridorRect.yMax = max[1].y;
+					Debug.Log("3번");
+
+				}
+				else if (max[0].y < max[1].y && min[0].y > min[1].y)
+				{//4번
+					corridorRect.xMin = max[0].x;
+					corridorRect.width = Mathf.Abs(max[0].x - min[1].x);
+					corridorRect.yMin = min[0].y;
+					corridorRect.height = max[0].y - min[0].y;
+					Debug.Log("4번");
+				}
+				else if (max[0].y < max[1].y)
+				{//1번
+					corridorRect.xMin = max[0].x;
+					corridorRect.width = Mathf.Abs(max[0].x - min[1].x);
+					corridorRect.yMin = min[1].y;
+					corridorRect.height = Mathf.Abs(max[0].y - min[1].y);
+					Debug.Log("1번");
+				}
+				else if (min[0].y > min[1].y)
+				{//2번
+					corridorRect.xMin = max[0].x;
+					corridorRect.width = Mathf.Abs(max[0].x - min[1].x);
+					corridorRect.yMin = min[0].y;
+					corridorRect.height = Mathf.Abs(min[0].y - max[1].y);
+					Debug.Log("2번");
+				}
+			}
+			else if (max[0].x > min[1].x && min[0].x < max[1].x)
+			{
+				relate = eDirection.Vertical;
+
+				if (min[0].x <= min[1].x && max[0].x >= max[1].x)
+				{//3번
+					corridorRect.xMin = min[1].x;
+					corridorRect.xMax = max[1].x;
+
+					corridorRect.yMin = max[1].y;
+					corridorRect.yMax = min[0].y;
+
+					Debug.Log("3번");
+				}
+				else if (min[0].x > min[1].x && max[0].x < min[1].x)
+				{//4번
+					corridorRect.xMin = min[0].x;
+					corridorRect.xMax = max[0].x;
+
+					corridorRect.yMin = max[1].y;
+					corridorRect.yMax = min[0].y;
+
+					Debug.Log("4번");
+				}
+				else if (min[0].x > min[1].x)
+				{//1번
+
+					corridorRect.xMin = min[0].x;
+					corridorRect.xMax = max[1].x;
+
+					corridorRect.yMin = max[1].y;
+					corridorRect.yMax = min[0].y;
+					Debug.Log("1번");
+				}
+				else if (max[0].x < max[1].x)
+				{//2번
+
+					corridorRect.xMin = min[1].x;
+					corridorRect.xMax = max[0].x;
+					corridorRect.yMin = max[1].y;
+					corridorRect.yMax = min[0].y;
+
+					Debug.Log("2번");
+				}
+			}
+
+			var corridor = CreateCorridor(corridorRect, relate,rooms);
+
+			if (corridor != null)
+			{
+				corridors.Add(corridor);
+			}
+
+		}
+
 	}
 
-	private Corridor CreateCorridor(Rect rect)
+	private Room[] GetNearestRooms(TreeNode<Area> leftNode, TreeNode<Area> rightNode)
 	{
+		if (leftNode == null | rightNode == null)
+		{
+			return null;
+		}
 
-		return null;
+		List<TreeNode<Area>> leftChildren = new List<TreeNode<Area>>();
+		List<TreeNode<Area>> rightChildren = new List<TreeNode<Area>>();
+
+		leftNode.GetLeafChildren(leftNode, ref leftChildren);
+		rightNode.GetLeafChildren(rightNode, ref rightChildren);
+
+		float dist = float.MaxValue;
+		int indexLeft = 0, indexRight = 0;
+		for (int i = 0; i < leftChildren.Count; ++i)
+		{
+			for (int k = 0; k < rightChildren.Count; ++k)
+			{
+				float tempDist = Vector2.Distance(leftChildren[i].Value.transform.position, rightChildren[k].Value.transform.position);
+
+				if (tempDist < dist)
+				{
+					dist = tempDist;
+					indexLeft = i;
+					indexRight = k;
+				}
+			}
+		}
+
+		return new Room[2] { leftChildren[indexLeft].Value.AssignedRoom, rightChildren[indexRight].Value.AssignedRoom };
 	}
 
-	private List<Room> FindSiblingRooms(TreeNode<Area> leftNode, TreeNode<Area> rightNode)
+
+	private Corridor CreateCorridor(Rect rect, eDirection relateDir, Room[] rooms)
 	{
-		return null;
-		//private Room[] GetNearChildrenNode(TreeNode<Room> leftNode, TreeNode<Room> rightNode)
+		//switch (relateDir)
 		//{
-		//	if (leftNode.LeftNode == null | rightNode.LeftNode == null)
-		//	{
-		//		return null;
-		//	}
-
-		//	List<TreeNode<Room>> leftChildren = new List<TreeNode<Room>>();
-		//	List<TreeNode<Room>> rightChildren = new List<TreeNode<Room>>();
-
-		//	leftNode.GetAllChildren(leftNode, ref leftChildren);
-		//	rightNode.GetAllChildren(rightNode, ref rightChildren);
-
-		//	float dist = float.MaxValue;
-		//	int indexLeft = 0, indexRight = 0;
-		//	for (int i = 0; i < leftChildren.Count; ++i)
-		//	{
-		//		for (int k = 0; k < rightChildren.Count; ++k)
+		//	case eDirection.Vertical:
 		//		{
-		//			float tempDist = Vector2.Distance(leftChildren[i].Value.transform.position, rightChildren[k].Value.transform.position);
-
-		//			if (tempDist < dist)
+		//			if (rect.width < CorridorPrefab.transform.localScale.x)
 		//			{
-		//				dist = tempDist;
-		//				indexLeft = i;
-		//				indexRight = k;
+		//				return null;
 		//			}
 		//		}
-		//	}
-
-		//	return new Room[2] { leftChildren[indexLeft].Value, rightChildren[indexRight].Value };
+		//		break;
+		//	case eDirection.Horizon:
+		//		if (rect.height < CorridorPrefab.transform.localScale.x)
+		//		{
+		//			return null;
+		//		}
+		//		break;
+		//	case eDirection.End:
+		//		break;
+		//	default:
+		//		break;
 		//}
+
+
+		GameObject corridorObj = Instantiate(CorridorPrefab);
+
+		Corridor script = corridorObj.GetComponent<Corridor>();
+
+
+
+		Vector2 pos = Vector2.zero;
+		Vector2 size = Vector2.zero;
+		float width = corridorObj.transform.localScale.x;
+
+		if (relateDir == eDirection.Horizon)
+		{
+			pos.x = rect.center.x;
+			pos.y = rect.yMin + (Random.Range(Mathf.FloorToInt(width* 0.5f), (int)rect.height));
+			pos.y += (int)width % 2 != 0 ? 0.5f : 0f;
+			size = rect.size;
+			size.y = CorridorPrefab.transform.localScale.x;
+		}
+		else
+		{
+			//pos.x = rect.xMin + Random.Range(0, (int)rect.width) + 0.5f;
+
+			pos.x = rect.xMin + (Random.Range(Mathf.FloorToInt(width * 0.5f), (int)rect.width));
+			pos.x += (int)width % 2 != 0 ? 0.5f : 0f;
+
+			pos.y = rect.center.y;
+			size = rect.size;
+			size.x = CorridorPrefab.transform.localScale.x;
+		}
+
+		corridorBox.transform.position = pos;
+		corridorBox.transform.localScale = size;
+		script.grid.UpdateGrid();
+
+		corridorObj.transform.SetParent(corridorBox);
+		corridorObj.name = $"Corridor {rooms[0]}-{rooms[1]}";
+
+		for (int i = 0; i < 2; ++i) 
+		{
+			script.linkedRooms.Add(rooms[i]);
+		}
+
+		return script;
 	}
+
 	#endregion
 
 	public void GeneratingRandomDungeon()

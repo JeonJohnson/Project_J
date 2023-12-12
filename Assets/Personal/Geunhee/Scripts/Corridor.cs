@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class Corridor : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public SpriteGrid grid;
+
+	public List<Room> linkedRooms;
+
+	private void Awake()
+	{
+		linkedRooms = new List<Room>();
+	}
 }
