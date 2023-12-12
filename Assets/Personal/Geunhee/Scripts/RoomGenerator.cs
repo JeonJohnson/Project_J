@@ -144,6 +144,16 @@ public class RoomGenerator : MonoBehaviour
 		maxRoomSize = maxSize;
 	}
 
+
+	public void GeneratingRandomDungeon()
+	{
+		CreateWholeArea();
+		SplitArea_End();
+		AssignRooms();
+		CalibratePosition();
+		ConnectingRoom();
+	}
+
 	#region 1.Area Setting
 	public void CreateWholeArea()
 	{//1. 큰 공간 하나 만들기
@@ -640,7 +650,6 @@ public class RoomGenerator : MonoBehaviour
 		Corridor script = corridorObj.GetComponent<Corridor>();
 
 
-
 		Vector2 pos = Vector2.zero;
 		Vector2 size = Vector2.zero;
 		float width = corridorObj.transform.localScale.x;
@@ -648,29 +657,44 @@ public class RoomGenerator : MonoBehaviour
 		if (relateDir == eDirection.Horizon)
 		{
 			pos.x = rect.center.x;
-			pos.y = rect.yMin + (Random.Range(Mathf.FloorToInt(width* 0.5f), (int)rect.height));
-			pos.y += (int)width % 2 != 0 ? 0.5f : 0f;
+
+			if ((int)width % 2 == 0)
+			{
+				pos.y = rect.yMin + (Random.Range(Mathf.FloorToInt(width* 0.5f), (int)rect.height));
+			}
+			else
+			{
+				pos.y = rect.yMin + (Random.Range(Mathf.FloorToInt(width * 0.5f), (int)rect.height)-0.5f);
+				pos.y += 0.5f;
+			}
+			
 			size = rect.size;
 			size.y = CorridorPrefab.transform.localScale.x;
 		}
 		else
 		{
-			//pos.x = rect.xMin + Random.Range(0, (int)rect.width) + 0.5f;
 
-			pos.x = rect.xMin + (Random.Range(Mathf.FloorToInt(width * 0.5f), (int)rect.width));
-			pos.x += (int)width % 2 != 0 ? 0.5f : 0f;
+			if ((int)width % 2 == 0)
+			{
+				pos.x = rect.xMin + (Random.Range(Mathf.FloorToInt(width * 0.5f), (int)rect.width));
+			}
+			else
+			{
+				pos.x = rect.xMin + (Random.Range(Mathf.FloorToInt(width * 0.5f), (int)rect.width)-0.5f);
+				pos.x += 0.5f;
+			}
 
 			pos.y = rect.center.y;
 			size = rect.size;
 			size.x = CorridorPrefab.transform.localScale.x;
 		}
 
-		corridorBox.transform.position = pos;
-		corridorBox.transform.localScale = size;
+		corridorObj.transform.position = pos;
+		corridorObj.transform.localScale = size;
 		script.grid.UpdateGrid();
 
 		corridorObj.transform.SetParent(corridorBox);
-		corridorObj.name = $"Corridor {rooms[0]}-{rooms[1]}";
+		corridorObj.name = $"Corridor {rooms[0].belongsIndex}-{rooms[1].belongsIndex}";
 
 		for (int i = 0; i < 2; ++i) 
 		{
@@ -682,20 +706,7 @@ public class RoomGenerator : MonoBehaviour
 
 	#endregion
 
-	public void GeneratingRandomDungeon()
-	{
 
-		//if (Divieding())
-		//{
-		//	ShrinkRooms();
-		//	ConnectingRooms();
-		//}
-		//else
-		//{
-		//	ResetRooms();
-		//	GeneratingRooms();
-		//}
-	}
 
 	#region Old(before Clean)
 	///// 1. 구역 나누기
@@ -1151,11 +1162,7 @@ public class RoomGenerator : MonoBehaviour
 	#endregion
 
 
-	public void ResetDungeon()
-	{
-		
-	}
-
+	#region Reset
 	public void ResetArea()
 	{
 		for (int i = 0; i < areaBox.transform.childCount; ++i)
@@ -1182,8 +1189,25 @@ public class RoomGenerator : MonoBehaviour
 
 	public void ResetCorridors()
 	{
-	
+		for (int i = 0; i < corridorBox.transform.childCount; ++i)
+		{
+			Destroy(corridorBox.transform.GetChild(i).gameObject);
+		}
+
+		corridors = new();
+
+		Debug.Log("복도 초기화 완료.");
 	}
+
+	public void AllReset()
+	{
+		ResetCorridors();
+		ResetRooms();
+		ResetArea();
+
+		Initialize();
+	}
+	#endregion
 
 	public void SetActiveAllArea(bool active)
 	{

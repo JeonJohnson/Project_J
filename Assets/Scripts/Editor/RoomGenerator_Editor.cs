@@ -63,6 +63,20 @@ public class RoomGenerator_Editor : Editor
 		{
 			generator.ConnectingRoom();	
 		}
+		if (GUILayout.Button("Rest Corridor"))
+		{
+			generator.ResetCorridors();
+		}
+
+		GUILayout.Label("");
+		if (GUILayout.Button("Generating Dungeon"))
+		{
+			generator.GeneratingRandomDungeon();
+		}
+		if (GUILayout.Button("Reset Dungeon"))
+		{
+			generator.AllReset();
+		}
 
 		//if (GUILayout.Button("Divied Once"))
 		//{
