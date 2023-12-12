@@ -6,7 +6,7 @@ public enum RoomType
 { 
 	Start,
 	Normal,
-	Event,
+	Event,//추후 구체화
 	Shop,
 	Boss,
 	End
@@ -55,13 +55,9 @@ public class Room : MonoBehaviour
 	public Rect rect;
 
 	public int belongsIndex;
-	//public int roomIndex;
 
 	public RoomType roomType;
 
-	//public List<Room> linkedRooms;
-
-	//public SpriteRenderer gridRenderer;
 	public SpriteRenderer mySR;
 	public SpriteGrid grid;
 	

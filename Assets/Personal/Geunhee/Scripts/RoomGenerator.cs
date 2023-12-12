@@ -709,7 +709,14 @@ public class RoomGenerator : MonoBehaviour
 
 	#endregion
 
+	#region 5.RoomWallContruct
 
+	#endregion
+
+	#region 6.Room Type Setting
+	//방중에서 가장 값 작은거 시작방, 가장 값 큰거 끝방.
+	//그외 스테이지 데이터 가지고 판단하기
+	#endregion
 
 	#region Old(before Clean)
 	///// 1. 구역 나누기
@@ -1165,7 +1172,7 @@ public class RoomGenerator : MonoBehaviour
 	#endregion
 
 
-	#region Reset
+	#region Reset Functions
 	public void ResetArea()
 	{
 		for (int i = 0; i < areaBox.transform.childCount; ++i)
@@ -1212,18 +1219,6 @@ public class RoomGenerator : MonoBehaviour
 	}
 	#endregion
 
-	public void SetActiveAllArea(bool active)
-	{
-
-	}
-
-	public void SetActiveAllRooms(bool active) 
-	{
-	
-	}
-
-
-	
 
 	private void Awake()
 	{
