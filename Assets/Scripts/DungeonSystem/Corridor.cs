@@ -64,6 +64,7 @@ public class Corridor : MonoBehaviour
 			default:
 				break;
 		}
+
 		wallTileMap.gameObject.GetComponent<CompositeCollider2D>().GenerateGeometry();
 
 	}

@@ -231,5 +231,15 @@ https://upbo.tistory.com/111
 할거
 방 벽 뚫기
 
+Order
+Room 	- Ground : -1
+	- Wall
 
+player - 5
 
+Corridor - 
+
+08:02 23-12-14
+벽 지우기 까지는 됐는디,,,
+아 이거 또 조건 추가할게 생기네
+방 벽이 2칸인거는 제외하고 생각해야함...

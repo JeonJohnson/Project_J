@@ -662,8 +662,8 @@ public class RoomGenerator : MonoBehaviour
 
 		if (relateDir == eDirection.Horizon)
 		{
-			newRect.xMin = rect.xMin;
-			newRect.xMax = rect.xMax;
+			newRect.xMin = rect.xMin - 1;
+			newRect.xMax = rect.xMax + 1;
 
 			//정수 아니면 .5단위로 뽑아야해서 이렇게 했음.
 			int randVal = Random.Range(0, (int)rect.height - thickness);
@@ -672,8 +672,8 @@ public class RoomGenerator : MonoBehaviour
 		}
 		else
 		{
-			newRect.yMin = rect.yMin;
-			newRect.yMax = rect.yMax;
+			newRect.yMin = rect.yMin -1 ;
+			newRect.yMax = rect.yMax + 1;
 
 			int randVal = Random.Range(0, (int)rect.width - thickness);
 			newRect.xMin += rect.xMin + randVal /*+ (thickness * 0.5f)*/;
@@ -688,7 +688,11 @@ public class RoomGenerator : MonoBehaviour
 		for (int i = 0; i < 2; ++i) 
 		{
 			script.linkedRooms.Add(rooms[i]);
+			rooms[i].FindWallTiles();
+			rooms[i].DoorConstruction(script);
 		}
+
+		
 
 		return script;
 	}
