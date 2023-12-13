@@ -14,6 +14,7 @@ public abstract class Enemy : CObj
     public virtual void Awake()
     {
         Initialize();
+        if (target == null) target = IngameController.Instance.Player;
     }
 
     protected abstract void Initialize();
@@ -29,6 +30,7 @@ public abstract class Enemy : CObj
     {
         get
         {
+            if (target == null) target = IngameController.Instance.Player;
             distToTarget = Vector3.Distance(target.transform.position, this.transform.position);
             return distToTarget;
         }

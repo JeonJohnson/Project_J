@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Structs;
 using Enums;
+using UnityEngine.WSA;
 
 public class PlayerInventroy : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerInventroy : MonoBehaviour
     public BonusStatus invenBonusStatus;
 
     private float activeItem_CooldownTimer;
+    private bool isWindowActivated = false;
 
     private void Awake()
     {
@@ -26,13 +28,10 @@ public class PlayerInventroy : MonoBehaviour
               activeItemSlot.Use(player);
         }
 
-        if (Input.GetKey(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            UiController_Proto.Instance.detailStatusCanvasGo.SetActive(true);
-        }
-        else
-        {
-            UiController_Proto.Instance.detailStatusCanvasGo.SetActive(false);
+            isWindowActivated = !isWindowActivated;
+            UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
         }
     }
 
@@ -45,7 +44,7 @@ public class PlayerInventroy : MonoBehaviour
                     if (activeItemSlot != null) RemoveItemBonus(activeItemSlot.BonusStatus);
                     activeItemSlot = (Item_Active)itemData;
                     AddItemBonus(itemData.BonusStatus);
-                    UiController_Proto.Instance.playerUiView.UpdateActiveItem(itemData.item_sprite);
+                    UiController_Proto.Instance.playerHudView.UpdateActiveItem(itemData.item_sprite);
                 }
                 break;
             case Enums.Item_Type.Passive:
@@ -57,7 +56,7 @@ public class PlayerInventroy : MonoBehaviour
                         AddItemBonus(itemData.BonusStatus);
 
                         //ui Ã³¸®
-                        UiController_Proto.Instance.playerUiView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
+                        UiController_Proto.Instance.playerHudView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
                     }
 
                 }
@@ -110,7 +109,7 @@ public class PlayerInventroy : MonoBehaviour
 
                     activeItemSlot = (Item_Active)itemData;
                     AddItemBonus(itemData.BonusStatus);
-                    UiController_Proto.Instance.playerUiView.UpdateActiveItem(itemData.item_sprite);
+                    UiController_Proto.Instance.playerHudView.UpdateActiveItem(itemData.item_sprite);
                 }
                 break;
             case Enums.Item_Type.Passive:
@@ -121,7 +120,7 @@ public class PlayerInventroy : MonoBehaviour
                         if (passiveItemSlot[index] != null) RemoveItemBonus(passiveItemSlot[index].BonusStatus);
                         Funcs.ArrayReplace(passiveItemSlot, itemData, index);
                         AddItemBonus(itemData.BonusStatus);
-                        UiController_Proto.Instance.playerUiView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
+                        UiController_Proto.Instance.playerHudView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
                     }
 
                 }
@@ -154,6 +153,7 @@ public class PlayerInventroy : MonoBehaviour
         this.invenBonusStatus.bonus_Weapon_FireRate += itemBonus.bonus_Weapon_FireRate;
         this.invenBonusStatus.bonus_Weapon_BulletNumPerFire += itemBonus.bonus_Weapon_BulletNumPerFire;
         this.invenBonusStatus.bonus_Weapon_Critial += itemBonus.bonus_Weapon_Critial;
+        this.invenBonusStatus.bonus_Weapon_BulletSize += itemBonus.bonus_Weapon_BulletSize;
     }
 
     private void RemoveItemBonus(BonusStatus itemBonus)
@@ -167,6 +167,7 @@ public class PlayerInventroy : MonoBehaviour
         this.invenBonusStatus.bonus_Weapon_FireRate -= itemBonus.bonus_Weapon_FireRate;
         this.invenBonusStatus.bonus_Weapon_BulletNumPerFire -= itemBonus.bonus_Weapon_BulletNumPerFire;
         this.invenBonusStatus.bonus_Weapon_Critial -= itemBonus.bonus_Weapon_Critial;
+        this.invenBonusStatus.bonus_Weapon_BulletSize -= itemBonus.bonus_Weapon_BulletSize;
     }
     #endregion
 

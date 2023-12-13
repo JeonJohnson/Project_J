@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6345419971129403020}
-  - component: {fileID: 4097831556220943765}
+  - component: {fileID: 8408392006623499666}
   - component: {fileID: 1575031155422879869}
   - component: {fileID: 5460953971496390725}
   - component: {fileID: 7157247293949954388}
@@ -36,7 +36,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4097831556220943765
+--- !u!114 &8408392006623499666
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 927224229131076647}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d704bc66ec8b4543aa774c99e66e6e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c9c3d857de8a4e41a39aff583f09377, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   suckedOption: 0
@@ -71,6 +71,8 @@ MonoBehaviour:
   col: {fileID: 7157247293949954388}
   rb: {fileID: 1575031155422879869}
   srdr: {fileID: 6808215688205360986}
+  maxColor: {r: 0, g: 0, b: 0, a: 0}
+  minColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!50 &1575031155422879869
 Rigidbody2D:
   serializedVersion: 4
@@ -235,7 +237,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 1f4c863ce793c2b45baedd791c828f6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

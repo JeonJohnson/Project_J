@@ -142,14 +142,14 @@ public static class Item_Active_Actions
 {
     public static void Dash()
     {
-        Player player = IngameController.Instance.player;
+        Player player = IngameController.Instance.Player;
         player.MoveActionTable.SetCurAction((int)PlayerMoveActions.Roll);
         // player가 앞으로 대쉬하는 스크립트
     }
 
     public static void AddBonusStat()
     {
-        Player player = IngameController.Instance.player;
+        Player player = IngameController.Instance.Player;
         // player 공격범위가 5초동안 증가하는 스크립트
     }
 }

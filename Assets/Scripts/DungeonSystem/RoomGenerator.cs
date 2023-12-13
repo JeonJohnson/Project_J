@@ -646,11 +646,9 @@ public class RoomGenerator : MonoBehaviour
 		//		break;
 		//}
 
-
 		GameObject corridorObj = Instantiate(CorridorPrefab);
 
 		Corridor script = corridorObj.GetComponent<Corridor>();
-
 
 		Vector2 pos = Vector2.zero;
 		Vector2 size = Vector2.zero;

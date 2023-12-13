@@ -13,6 +13,7 @@ public abstract class Weapon : MonoBehaviour
 
     [Header("TEST FUNCS")]
     public GameObject testBulletPrefab;
+    public GameObject testLaserBulletPrefab;
 
 
     public virtual void Init(CObj _owner)

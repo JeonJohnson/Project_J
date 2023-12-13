@@ -136,7 +136,7 @@ public class Bangtani_Attack : Action<Bangtani>
     {
         base.ActionEnter(script);
         timer = me.status.fireRate;
-        curbulletCount = me.status.bulletCountWhenAttackOnce;
+        curbulletCount = me.status.fireCountPerAttack;
     }
 
     public override void ActionUpdate()
