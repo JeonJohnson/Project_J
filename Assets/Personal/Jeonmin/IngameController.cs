@@ -23,10 +23,12 @@ public class IngameController : Singleton<IngameController>
         if(player == null)
         {
             GameObject playerGo = GameObject.Find("Player");
-            if (playerGo != null) player = playerGo.GetComponent<Player>();
-            else
-            { Debug.Log("씬에서 플레이어를 찾을수 없습니다");} // player = PoolingManager.Instance.
-            player.InitializePlayer();
+            if (playerGo != null)
+            { 
+                player = playerGo.GetComponent<Player>();
+                player.InitializePlayer();
+            }
+            else { Debug.Log("씬에서 플레이어를 찾을수 없습니다"); } // player = PoolingManager.Instance.
         }
     }
 
