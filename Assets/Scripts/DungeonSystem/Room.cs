@@ -59,7 +59,7 @@ public class Room : MonoBehaviour
 	public int belongsIndex;
 	public RoomType roomType;
 
-	public SpriteRenderer mySR;
+	public SpriteRenderer planeSR;
 	public SpriteGrid grid;
 
 	public Tilemap tileMap;
@@ -89,7 +89,7 @@ public class Room : MonoBehaviour
 
 	public void UpdateRect()
 	{
-		rect.size = mySR.transform.localScale;
+		rect.size = planeSR.transform.localScale;
 		rect.center = new Vector2(transform.position.x + rect.size.x * 0.5f , transform.position.y + rect.size.y * 0.5f);
 
 	}
@@ -99,7 +99,7 @@ public class Room : MonoBehaviour
 		//linkedRooms = new List<Room>();
 
 		if(!grid) grid = GetComponentInChildren<SpriteGrid>();	
-		if(!mySR) mySR = GetComponent<SpriteRenderer>();
+		if(!planeSR) planeSR = GetComponent<SpriteRenderer>();
 
 		UpdateRect();
 

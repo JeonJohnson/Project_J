@@ -387,7 +387,7 @@ public class RoomGenerator : MonoBehaviour
 
 		Room newRoomScript = newRoomObj.GetComponent<Room>();
 		newRoomScript.SetPosition(area.rect.center);
-		if(newRoomScript.mySR) newRoomScript.mySR.color = color;
+		if(newRoomScript.planeSR) newRoomScript.planeSR.color = color;
 		newRoomScript.belongsIndex = area.index;
 
 		newRoomObj.transform.SetParent(roomBox);
