@@ -47,16 +47,20 @@ MonoBehaviour:
   wholeAreaSize: {x: 80, y: 45}
   RoomPrefabs:
     _serializedList:
-    - Key: {fileID: 2327756051498767326, guid: c705674b38175ad48a694c1ffcfcaca9, type: 3}
+    - Key: {fileID: 7538017898559712734, guid: d54efe7942b4390468a0ba454a16c367, type: 3}
       Value: {x: 15, y: 15}
-    - Key: {fileID: 2327756051498767326, guid: 888e6d292655e3848be0c060aa134fe2, type: 3}
+    - Key: {fileID: 2327756051498767326, guid: b28b61ca5e584e547b696c88b1a80b70, type: 3}
+      Value: {x: 15, y: 15}
+    - Key: {fileID: 2327756051498767326, guid: f2c1bbde7d0bd2340a4918aa8c80b212, type: 3}
       Value: {x: 15, y: 20}
-    - Key: {fileID: 2327756051498767326, guid: dc3d937ffacce4f4cba47573097d1f4c, type: 3}
+    - Key: {fileID: 2327756051498767326, guid: 8085750966f41aa43bc265e1d9fb5668, type: 3}
       Value: {x: 20, y: 15}
-    - Key: {fileID: 2327756051498767326, guid: fa05d0f7452fb9d4a94689b98bd92f3a, type: 3}
+    - Key: {fileID: 2327756051498767326, guid: 2bac42aa49669274ead30989b7bb03a1, type: 3}
       Value: {x: 20, y: 20}
   AreaPrefab: {fileID: 4294179682766107946, guid: bd715798bbfd23d4db9efdf7dec7f934, type: 3}
-  CorridorPrefab: {fileID: 5234041001302881509, guid: 6511f37762291694ba4057010535947b, type: 3}
+  CorridorPrefab:
+  - {fileID: 1112924921229326246, guid: 3970d95f78c35024b99974a0b36e2d09, type: 3}
+  - {fileID: 8545738694788904002, guid: 602b272b22562934eb340346e098aed5, type: 3}
   areaBox: {fileID: 0}
   roomBox: {fileID: 0}
   corridorBox: {fileID: 0}
