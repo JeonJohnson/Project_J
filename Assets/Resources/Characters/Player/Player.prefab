@@ -1437,7 +1437,7 @@ Transform:
   - {fileID: 6560926452103219062}
   - {fileID: 6902458997841827575}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1291308421587941723
 Rigidbody2D:
@@ -1582,6 +1582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimPos: {x: 0, y: 0}
+  cinemachineConfiner: {fileID: 0}
 --- !u!114 &3567347464483554949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1983,7 +1984,7 @@ MonoBehaviour:
   m_BoundingVolume: {fileID: 0}
   m_BoundingShape2D: {fileID: 0}
   m_ConfineScreenEdges: 1
-  m_Damping: 0
+  m_Damping: 1
 --- !u!1 &5760940129931415662
 GameObject:
   m_ObjectHideFlags: 0

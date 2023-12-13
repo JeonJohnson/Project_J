@@ -17,7 +17,6 @@ public class IngameController : Singleton<IngameController>
             }
         } 
     }
-    [SerializeField] GameObject playerPrefab;
 
     private void FindPlayer()
     {
@@ -25,8 +24,18 @@ public class IngameController : Singleton<IngameController>
         {
             GameObject playerGo = GameObject.Find("Player");
             if (playerGo != null) player = playerGo.GetComponent<Player>();
-            else player = Instantiate(playerPrefab).GetComponent<Player>(); // player = PoolingManager.Instance.
+            else
+            { Debug.Log("씬에서 플레이어를 찾을수 없습니다");} // player = PoolingManager.Instance.
             player.InitializePlayer();
         }
+    }
+
+    public GameObject SpawnPlayer(Vector3 position)
+    {
+        GameObject playerGo = null ;
+        GameObject obj = Resources.Load<GameObject>("Characters/Player/Player");
+        if (obj != null) { playerGo = Instantiate(obj, position, Quaternion.identity); }
+        else { Debug.Log("플레이어 폴더에서 못찾음"); }
+        return playerGo;
     }
 }
