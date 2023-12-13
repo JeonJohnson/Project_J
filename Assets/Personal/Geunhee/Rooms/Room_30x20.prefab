@@ -137,9 +137,11 @@ MonoBehaviour:
     y: 0
     width: 0
     height: 0
-  roomIndex: 0
-  linkedRooms: []
-  gridRenderer: {fileID: 4088835387492798193}
+  belongsIndex: 0
+  roomType: 0
+  mySR: {fileID: 0}
+  grid: {fileID: 0}
+  tileMap: {fileID: 0}
 --- !u!1 &5132950814782166942
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,6 +241,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlaneObject: {fileID: 2327756051498767326}
   defaultSize: {x: 1, y: 1}
+  mySR: {fileID: 0}
+  planeSR: {fileID: 0}
 --- !u!1 &7120985822336770501
 GameObject:
   m_ObjectHideFlags: 0

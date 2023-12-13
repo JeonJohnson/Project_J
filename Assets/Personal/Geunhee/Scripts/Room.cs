@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using static UnityEditor.PlayerSettings;
 
 public enum RoomType
 { 
@@ -53,24 +56,42 @@ public enum RoomType
 public class Room : MonoBehaviour
 {
 	public Rect rect;
-
 	public int belongsIndex;
-
 	public RoomType roomType;
 
 	public SpriteRenderer mySR;
 	public SpriteGrid grid;
-	
-	public void SetScale(Vector2 size)
-	{ 
-		transform.localScale = size;
-		grid.UpdateGrid();
+
+	public Tilemap tileMap;
+
+	//public void SetScale(Vector2 size)
+	//{ 
+	//	transform.localScale = size;
+	//	grid.UpdateGrid();
+	//}
+
+	public void SetPosition(Vector2 pos)
+	{
+		transform.position = new Vector3(pos.x - rect.width * 0.5f, pos.y - rect.height * 0.5f);
+
+		UpdateRect();
 	}
+
+	public void SetPosition(int x, int y)
+	{
+		Vector2 pos = new(x, y);
+		transform.position = new Vector3(pos.x - rect.width * 0.5f, pos.y - rect.height * 0.5f);
+
+		UpdateRect();
+	}
+
+	
 
 	public void UpdateRect()
 	{
-		rect.size = transform.localScale;
-		rect.center = transform.position;
+		rect.size = mySR.transform.localScale;
+		rect.center = new Vector2(transform.position.x + rect.size.x * 0.5f , transform.position.y + rect.size.y * 0.5f);
+
 	}
 
 	private void Awake()

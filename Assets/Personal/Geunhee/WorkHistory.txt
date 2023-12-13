@@ -185,4 +185,36 @@ Area 구역 나누기 까지 재 성공
 6. 게임매니저, 인게임 매니저등 기본적인 씬 플로우 잡기
 	=> 이후 정민이에게 물어보기
 
+Tile palette에서 Layer는
+Grid를 가지고 있는 부모가 있으면
+자식으로 TileMap컴포넌트를 가지고 있는 자식이 있는데 
+그 자식들의 GameObject Name에 맞춰 생성됨.
 
+TilemapCollider2D
+Composite Collider 2D 
+두개 추가해주기
+
+아 시 ㅡ 발 Tilemap이거 Rect처럼 origin Pos가 min x,y 임;
+Tilemap.origin => 해당 타일맵에서 minX, minY
+
+15:44 23-12-13
+https://upbo.tistory.com/111
+1. 코드상에서 타일 정보 가져와보기
+2. 방생성 규칙에서 원점 gameObject.transform.position 하지말고 Rect.center를 우선으로 해주고 transform.position을 맞춰주기 
+
+16:28 23-12-13
+타일맵의 타일값 가져오기 성공!
+->GetTile은 CellPosition을 들고 와야함.
+
+17:33 23-12-13
+기존 시스템 변경
+-> Room의 Trnasform.Scale, position 사용x
+	=> 타일맵의 시작(0,0타일의 좌측 하단)을 0,0으로 할 예정.
+	=> 실제 렌더링은 타일맵 처럼 렌더링용 자식 오브젝트
+	=> 실질적인 Transform은 Rect로 처리하기
+할거
+1. 맵 깔기
+2. 코드로 정보 들고오기
+3. 통로 가로형 세로형 따로 찍기
+4. 통로 공사
+5. 시작 방 튜토리얼방, 마지막 방 보스방

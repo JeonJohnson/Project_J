@@ -352,7 +352,7 @@ public class RoomGenerator : MonoBehaviour
 		//1. 사이즈 체크
 		foreach (var prefab in RoomPrefabs)
 		{
-			Vector2 size = prefab.Key.transform.localScale;
+			Vector2 size = prefab.Key.GetComponent<Room>().rect.size;
 
 			if (areaSize.x >= size.x + centerPosOffset && areaSize.y >= size.y + centerPosOffset)
 			{
@@ -384,9 +384,10 @@ public class RoomGenerator : MonoBehaviour
 
 		GameObject newRoomObj = Instantiate(availablePrefabs[rand]);
 		newRoomObj.name = $"Room_in ({area.index}) Area";
-		newRoomObj.transform.position = area.rect.center;
+		//newRoomObj.transform.position = area.rect.center;
 
 		Room newRoomScript = newRoomObj.GetComponent<Room>();
+		newRoomScript.SetPosition(area.rect.center);
 		if(newRoomScript.mySR) newRoomScript.mySR.color = color;
 		newRoomScript.belongsIndex = area.index;
 
@@ -413,8 +414,10 @@ public class RoomGenerator : MonoBehaviour
 	{
 		Vector2 pos = Vector2.zero;
 
-		int w = (int)origin.transform.localScale.x;
-		int h = (int)origin.transform.localScale.y;
+		//int w = (int)origin.transform.localScale.x;
+		//int h = (int)origin.transform.localScale.y;
+		int w = (int)origin.rect.width;
+		int h = (int)origin.rect.height;
 
 		float xMin = area.transform.position.x - (area.rect.width * 0.5f) + (w * 0.5f) + centerPosOffset;
 		float xMax = area.transform.position.x + (area.rect.width * 0.5f) - (w * 0.5f) - centerPosOffset - 0.5f;
@@ -428,7 +431,7 @@ public class RoomGenerator : MonoBehaviour
 		pos.x = w % 2 == 0 ? Mathf.FloorToInt(pos.x) : Mathf.FloorToInt(pos.x) + 0.5f;
 		pos.y = h % 2 == 0 ? Mathf.FloorToInt(pos.y) : Mathf.FloorToInt(pos.y) + 0.5f;
 
-		origin.transform.position = pos;
+		origin.SetPosition(pos);
 
 		origin.UpdateRect();
 	}
@@ -476,8 +479,8 @@ public class RoomGenerator : MonoBehaviour
 
 			for (int k = 0; k < 2; ++k)
 			{
-				Vector2 pos = rooms[k].transform.position;
-				Vector2 size = rooms[k].transform.localScale;
+				Vector2 pos = rooms[k].rect.center;
+				Vector2 size = rooms[k].rect.size;
 
 				min[k].x = pos.x - (size.x * 0.5f);
 				min[k].y = pos.y - (size.y * 0.5f);
