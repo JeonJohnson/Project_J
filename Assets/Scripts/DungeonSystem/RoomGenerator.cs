@@ -36,7 +36,6 @@ public class RoomGenerator : MonoBehaviour
 
 
 
-	//for Test
 	[Header("Setting Vals")]
 	public Vector2 wholeAreaSize; //나눠지지 않은, 온전한 던전의 초기 넓이 값.
 	[Header("Prefabs")]
