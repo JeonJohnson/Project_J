@@ -16,7 +16,7 @@ public class Tangtangi : Enemy
     {
         status.curHp = status.maxHp;
         weapon.Init(this);
-
+        Rigidbody2D = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -27,7 +27,6 @@ public class Tangtangi : Enemy
     public override void Awake()
     {
         base.Awake();
-        Rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     public override HitInfo Hit(int dmg, Vector2 dir)

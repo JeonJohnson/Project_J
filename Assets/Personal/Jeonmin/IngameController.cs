@@ -4,11 +4,29 @@ using UnityEngine;
 
 public class IngameController : Singleton<IngameController>
 {
-    public Player player;
+    private Player player;
+    public Player Player 
+    { 
+        get 
+        {
+            if (player != null) return player;
+            else 
+            {
+                FindPlayer();
+                return player;
+            }
+        } 
+    }
+    [SerializeField] GameObject playerPrefab;
 
-    private void Awake()
+    private void FindPlayer()
     {
-        player = GameObject.Find("Player").GetComponent<Player>(); // 다른에셋들 참고해 보니 싱글톤 등으로 접근가능한 경로를 만든뒤 그걸 참조하는 형식을 많이 사용함
-        player.InitializePlayer();
+        if(player == null)
+        {
+            GameObject playerGo = GameObject.Find("Player");
+            if (playerGo != null) player = playerGo.GetComponent<Player>();
+            else player = Instantiate(playerPrefab).GetComponent<Player>(); // player = PoolingManager.Instance.
+            player.InitializePlayer();
+        }
     }
 }

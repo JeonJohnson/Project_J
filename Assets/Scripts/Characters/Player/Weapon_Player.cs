@@ -222,7 +222,6 @@ public class Weapon_Player : Weapon
             }
 
             itemPickerList.Clear();
-            Debug.Log(itemPickerList.Count);
 
             suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value - amount, 0f, 1f);
 

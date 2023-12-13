@@ -8,28 +8,20 @@ using Unity.VisualScripting;
 public class Slot : MonoBehaviour
 {
     [SerializeField] Image icon;
+    [HideInInspector] public Item holdingItem;
+    public Button button;
 
     public void UpdateSlot(Item item)
     {
         if (item != null)
         {
+            holdingItem = item;
             icon.enabled = true;
             icon.sprite = item.item_sprite;
         }
         else
         {
-            Debug.Log("여기에 아이템 없음");
             icon.enabled = false;
         }
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log("인포 활성화");
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        Debug.Log("인포 비활성화");
     }
 }

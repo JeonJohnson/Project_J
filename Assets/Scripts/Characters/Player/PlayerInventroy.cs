@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Structs;
 using Enums;
+using UnityEngine.WSA;
 
 public class PlayerInventroy : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerInventroy : MonoBehaviour
     public BonusStatus invenBonusStatus;
 
     private float activeItem_CooldownTimer;
+    private bool isWindowActivated = false;
 
     private void Awake()
     {
@@ -26,13 +28,10 @@ public class PlayerInventroy : MonoBehaviour
               activeItemSlot.Use(player);
         }
 
-        if (Input.GetKey(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            UiController_Proto.Instance.ShowDetailStatusWindow(true);
-        }
-        else
-        {
-            UiController_Proto.Instance.ShowDetailStatusWindow(false);
+            isWindowActivated = !isWindowActivated;
+            UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
         }
     }
 

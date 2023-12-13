@@ -82,6 +82,7 @@ public class Boss_Idle : Action<Boss_Demo>
         timer -= Time.deltaTime;
         if (timer < 0f)
         {
+            me.animator.SetTrigger("Attack");
             RandomlyExecuteSkill();
             timer = me.status.fireWaitTime;
         }

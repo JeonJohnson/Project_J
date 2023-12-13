@@ -52,7 +52,7 @@ public class ItemPicker : MonoBehaviour
 
     public bool Sucking(Player player)
     {
-        currentTime += Time.deltaTime * 2f;
+        currentTime += Time.deltaTime * 10f;
         float t = currentTime / 1f;
         if (t >= 1f)
         {
@@ -85,7 +85,6 @@ public class ItemPicker : MonoBehaviour
             yield return null;
         }
         Equip(player);
-        Debug.Log("È£·Î·Ï");
         this.gameObject.SetActive(false);
     } 
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class UiController_Proto : Singleton<UiController_Proto>
 {
@@ -22,13 +23,12 @@ public class UiController_Proto : Singleton<UiController_Proto>
 
     private void Awake()
     {
-        GameObject playerGo = GameObject.Find("Player");
-        if (playerGo != null) player = playerGo.GetComponent<Player>();
-        else Debug.Log("Can't Find Player On Scene");
+
     }
 
     private void Start()
     {
+        player = IngameController.Instance.Player;
         SubscribeUiToPlayer();
 
         // 초기설정
@@ -75,8 +75,9 @@ public class UiController_Proto : Singleton<UiController_Proto>
         {
             if (playerDetailStatusView.gameObject.activeSelf) return;
             playerDetailStatusView.gameObject.SetActive(isTrue);
-            playerDetailStatusView.UpdatePlayerStatus(player);
-            playerDetailStatusView.UpdateSlots(player.inventroy);
+            playerDetailStatusView.UpdatePlayerStatusHolder(player);
+            playerDetailStatusView.UpdateItemBoardHolder(player.inventroy);
+            playerDetailStatusView.UpdateItemInfoBoardHolder(player.inventroy.activeItemSlot);
         }
         else
         {
