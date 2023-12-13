@@ -7,6 +7,7 @@ public class CamCtrl : MonoBehaviour
     Vector2 mousePos;
     [SerializeField] Player player;
     [SerializeField] float maxDist = 3f;
+    [SerializeField] float dampingPower = 1f;
 
     public void Init(Player owner)
     {
@@ -33,6 +34,6 @@ public class CamCtrl : MonoBehaviour
             mousePos = playerPos - direction * maxDist;
         }
 
-        this.transform.position = mousePos;
+        this.transform.position = Vector2.Lerp(this.transform.position, mousePos, Time.deltaTime * dampingPower);
     }
 }

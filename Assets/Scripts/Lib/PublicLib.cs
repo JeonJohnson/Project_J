@@ -501,6 +501,7 @@ namespace Structs
 	{
         public float bulletSpeed;
         public float bulletSpread;
+		public float bulletSize;
         public int bulletNumPerFire;
 		public int bulletSplatterCount;
         public float damage;
@@ -525,6 +526,7 @@ namespace Structs
         public float bonus_Weapon_FireRate; // 곱연산
         public int bonus_Weapon_BulletNumPerFire;  // 합연산
         public float bonus_Weapon_Critial; // 합연산
+		public float bonus_Weapon_BulletSize;
     }
 
     [System.Serializable]
@@ -544,9 +546,11 @@ namespace Structs
 		public float fireTimer;
 		public float fireWaitTime;
         public float fireRate;
-        public int bulletCountWhenAttackOnce;
+        public int fireCountPerAttack;
+        public int bulletNumPerFire;
+		public float bulletSize;
 
-		public float attackRange;
+        public float attackRange;
 		public float spread;
     }
 
@@ -584,11 +588,40 @@ namespace Enums
         End
     }
 
+    public enum TangtangiActions
+    {
+        Idle,
+        Move,
+        Attack,
+        Death,
+        End
+    }
+
     public enum BangtaniActions
     {
         Idle,
         Move,
         Attack,
+        Death,
+        End
+    }
+
+    public enum HwasariActions
+    {
+        Idle,
+        Move,
+        Attack,
+        Death,
+        End
+    }
+
+    public enum BossDemoActions
+    {
+        Idle,
+        Move,
+        Attack0,
+        Attack1,
+        Attack2,
         Death,
         End
     }

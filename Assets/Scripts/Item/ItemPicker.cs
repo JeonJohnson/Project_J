@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class ItemPicker : MonoBehaviour
@@ -7,8 +8,6 @@ public class ItemPicker : MonoBehaviour
 
     [SerializeField] SpriteRenderer itemSpriteRenderer;
     [SerializeField] GameObject interactButton;
-
-    private BulletState state;
 
     private void Awake()
     {
@@ -47,34 +46,17 @@ public class ItemPicker : MonoBehaviour
         interactButton.SetActive(value);
     }
 
-
-    private void Update()
-    {
-        currentTime -= Time.deltaTime;
-        currentTime = Mathf.Clamp(currentTime, 0f, 1f);
-    }
-
     private bool isStartSucking = false;
     private Vector3 startPosition;
-    private Vector3 targetPosition;
     private float currentTime = 0f;
 
-    public bool Sucking(Player _player)
+    public bool Sucking(Player player)
     {
-        startPosition = this.transform.position;
-        itemSpriteRenderer.color = Color.black;
-        state = BulletState.Sucking;
-        startPosition = this.transform.position;
-        targetPosition = _player.curWeapon.firePos.position;
-
-        currentTime += Time.deltaTime * 2f;
+        currentTime += Time.deltaTime * 10f;
         float t = currentTime / 1f;
-        transform.position = Vector3.Lerp(startPosition, targetPosition, Mathf.Clamp01(t));
         if (t >= 1f)
         {
-            Equip(_player);
-            Debug.Log("È£·Î·Ï");
-            this.gameObject.SetActive(false);
+            if(isSuckCoroPlayed == false) StartCoroutine(SuckCoro(player));
             return false;
         }
         else
@@ -82,4 +64,27 @@ public class ItemPicker : MonoBehaviour
             return true;
         }
     }
+
+    private void Update()
+    {
+        currentTime -= Time.deltaTime;
+        currentTime = Mathf.Clamp(currentTime, 0f, 1f);
+    }
+
+    private float suckingTimeRatio;
+    private float suckingTime = 0.15f;
+    private bool isSuckCoroPlayed = false;
+
+    IEnumerator SuckCoro(Player player)
+    {
+        isSuckCoroPlayed = true;
+        while (suckingTimeRatio >= 1f)
+        {
+            suckingTimeRatio += Time.deltaTime * suckingTime;
+            transform.position = Vector2.Lerp(startPosition, player.curWeapon.firePos.position, suckingTimeRatio);
+            yield return null;
+        }
+        Equip(player);
+        this.gameObject.SetActive(false);
+    } 
 }

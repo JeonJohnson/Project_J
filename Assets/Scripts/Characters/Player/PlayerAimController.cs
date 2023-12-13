@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerAimController: MonoBehaviour
 {
     public Vector2 aimPos;
     private Vector3 aimDir;
     private Player player;
+
+    public CinemachineConfiner cinemachineConfiner;
 
     private enum State
     {

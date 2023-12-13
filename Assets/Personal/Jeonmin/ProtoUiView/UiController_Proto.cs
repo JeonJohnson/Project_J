@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class UiController_Proto : Singleton<UiController_Proto>
 {
-    public UiView playerUiView;
-    public GameObject detailStatusCanvasGo;
+    public Ui_DetailStatus_View playerDetailStatusView;
+    public UiView playerHudView;
 
     public Player player;
 
@@ -22,18 +23,17 @@ public class UiController_Proto : Singleton<UiController_Proto>
 
     private void Awake()
     {
-        GameObject playerGo = GameObject.Find("Player");
-        if (playerGo != null) player = playerGo.GetComponent<Player>();
-        else Debug.Log("Can't Find Player On Scene");
+
     }
 
     private void Start()
     {
+        player = IngameController.Instance.Player;
         SubscribeUiToPlayer();
 
         // 초기설정
         UpdateHpImage(player.status.curHp.Value);
-        playerUiView.UpdatePassiveItem(null, player.inventroy.passiveItemSlot);
+        playerHudView.UpdatePassiveItem(null, player.inventroy.passiveItemSlot);
     }
 
     private void SubscribeUiToPlayer()
@@ -45,10 +45,10 @@ public class UiController_Proto : Singleton<UiController_Proto>
             player.inventroy.activeItemSlot.cooldownTimer.onChange += UpdateActiveItemGauge;
 
         if (player.curWeapon.suctionStat.curSuctionRatio != null)
-            player.curWeapon.suctionStat.curSuctionRatio.onChange += playerUiView.UpdateWeaponConsume;
+            player.curWeapon.suctionStat.curSuctionRatio.onChange += playerHudView.UpdateWeaponConsume;
 
         if (player.curWeapon.defaltStatus.bulletCount != null)
-            player.curWeapon.defaltStatus.bulletCount.onChange += playerUiView.UpdateBulletCount;
+            player.curWeapon.defaltStatus.bulletCount.onChange += playerHudView.UpdateBulletCount;
     }
 
     public void SubscribeActiveUiToItem()
@@ -59,13 +59,29 @@ public class UiController_Proto : Singleton<UiController_Proto>
 
     private void UpdateHpImage(int hp)
     {
-        playerUiView.UpdateHpImage(hp, player.status.maxHp);
-        playerUiView.PlayHitFeedback();
+        playerHudView.UpdateHpImage(hp, player.status.maxHp);
+        playerHudView.PlayHitFeedback();
     }
 
     public void UpdateActiveItemGauge(float value)
     {
-        playerUiView.UpdateActiveItemGauge(value / player.inventroy.activeItemSlot.cooldownTime);
+        playerHudView.UpdateActiveItemGauge(value / player.inventroy.activeItemSlot.cooldownTime);
         Debug.Log(value / player.inventroy.activeItemSlot.cooldownTime);
+    }
+
+    public void ShowDetailStatusWindow(bool isTrue)
+    {
+        if(isTrue)
+        {
+            if (playerDetailStatusView.gameObject.activeSelf) return;
+            playerDetailStatusView.gameObject.SetActive(isTrue);
+            playerDetailStatusView.UpdatePlayerStatusHolder(player);
+            playerDetailStatusView.UpdateItemBoardHolder(player.inventroy);
+            playerDetailStatusView.UpdateItemInfoBoardHolder(player.inventroy.activeItemSlot);
+        }
+        else
+        {
+            playerDetailStatusView.gameObject.SetActive(isTrue);
+        }
     }
 }
