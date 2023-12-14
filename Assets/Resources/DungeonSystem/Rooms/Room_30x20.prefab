@@ -139,7 +139,7 @@ MonoBehaviour:
     height: 0
   belongsIndex: 0
   roomType: 0
-  mySR: {fileID: 0}
+  planeSR: {fileID: 0}
   grid: {fileID: 0}
   tileMap: {fileID: 0}
 --- !u!1 &5132950814782166942

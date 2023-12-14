@@ -42,7 +42,7 @@ public class RoomGenerator : MonoBehaviour
 	[SerializedDictionary("Room Prefab", "Map Size")]
 	public SerializedDictionary<GameObject, Vector2Int> RoomPrefabs;
 	public GameObject AreaPrefab;
-	public GameObject CorridorPrefab;
+	public GameObject[] CorridorPrefab;
 
 	[Header("Boxes")]
 	public Transform areaBox;
@@ -624,77 +624,63 @@ public class RoomGenerator : MonoBehaviour
 
 	private Corridor CreateCorridor(Rect rect, eDirection relateDir, Room[] rooms)
 	{
-		//switch (relateDir)
+
+		GameObject corridorObj = Instantiate(CorridorPrefab[(int)relateDir]);
+		Corridor script =corridorObj.GetComponent<Corridor>();
+
+		Rect newRect = Rect.zero;
+		int thickness = 3;
+		//Vector2 pos = Vector2.zero;
+		//Vector2 size = Vector2.zero;
+		//int corridorWidth = 3;
+		//int corridorWidth = (int)corridorObj.transform.localScale.x;
+
+		//if (relateDir == eDirection.Horizon)
 		//{
-		//	case eDirection.Vertical:
-		//		{
-		//			if (rect.width < CorridorPrefab.transform.localScale.x)
-		//			{
-		//				return null;
-		//			}
-		//		}
-		//		break;
-		//	case eDirection.Horizon:
-		//		if (rect.height < CorridorPrefab.transform.localScale.x)
-		//		{
-		//			return null;
-		//		}
-		//		break;
-		//	case eDirection.End:
-		//		break;
-		//	default:
-		//		break;
+		//	pos.x = rect.center.x;
+
+		//	pos.y = rect.yMin + Random.Range(0, (int)rect.height - corridorWidth);
+		//	pos.y += corridorWidth * 0.5f;
+
+		//	//size = rect.size;
+		//	//size.y = CorridorPrefab.transform.localScale.x;
+		//}
+		//else
+		//{
+		//	pos.x = rect.xMin + Random.Range(0, (int)rect.width - corridorWidth);
+		//	pos.x += corridorWidth * 0.5f;
+
+		//	pos.y = rect.center.y;
+
+		//	//size = rect.size;
+		//	//size.x = CorridorPrefab.transform.localScale.x;
 		//}
 
-		GameObject corridorObj = Instantiate(CorridorPrefab);
+		//corridorObj.transform.position = pos;
+		//corridorObj.transform.localScale = size;
 
-		Corridor script = corridorObj.GetComponent<Corridor>();
 
-		Vector2 pos = Vector2.zero;
-		Vector2 size = Vector2.zero;
-		int corridorWidth = (int)corridorObj.transform.localScale.x;
-		
 		if (relateDir == eDirection.Horizon)
 		{
-			pos.x = rect.center.x;
+			newRect.xMin = rect.xMin - 1;
+			newRect.xMax = rect.xMax + 1;
 
-			pos.y = rect.yMin + Random.Range(0, (int)rect.height - corridorWidth);
-			pos.y += corridorWidth * 0.5f;
-			//if (corridorWidth % 2 == 0)
-			//{
-			//	pos.y = rect.yMin + Random.Range(corridorWidth / 2, (int)rect.height - corridorWidth / 2);
-			//}
-			//else
-			//{
-			//	pos.y = rect.yMin + Random.Range(corridorWidth, rect.height - corridorWidth);
-				
-			//}
-			
-			size = rect.size;
-			size.y = CorridorPrefab.transform.localScale.x;
+			//정수 아니면 .5단위로 뽑아야해서 이렇게 했음.
+			int randVal = Random.Range(0, (int)rect.height - thickness);
+			newRect.yMin += rect.yMin + randVal /*- (thickness * 0.5f)*/;
+			newRect.height = thickness;
 		}
 		else
 		{
-			pos.x = rect.xMin + Random.Range(0, (int)rect.width - corridorWidth);
-			pos.x += corridorWidth * 0.5f;
-			//if ((int)width % 2 == 0)
-			//{
-			//	pos.x = rect.xMin + (Random.Range(Mathf.FloorToInt(width * 0.5f), (int)rect.width));
-			//}
-			//else
-			//{
-			//	pos.x = rect.xMin + (Random.Range(Mathf.FloorToInt(width * 0.5f), (int)rect.width)-0.5f);
-			//	pos.x += 0.5f;
-			//}
+			newRect.yMin = rect.yMin -1 ;
+			newRect.yMax = rect.yMax + 1;
 
-			pos.y = rect.center.y;
-			size = rect.size;
-			size.x = CorridorPrefab.transform.localScale.x;
+			int randVal = Random.Range(0, (int)rect.width - thickness);
+			newRect.xMin += rect.xMin + randVal /*+ (thickness * 0.5f)*/;
+			newRect.width = thickness;
 		}
-
-		corridorObj.transform.position = pos;
-		corridorObj.transform.localScale = size;
-		script.grid.UpdateGrid();
+		
+		script.SetRect(newRect);
 
 		corridorObj.transform.SetParent(corridorBox);
 		corridorObj.name = $"Corridor {rooms[0].belongsIndex}-{rooms[1].belongsIndex}";
@@ -702,7 +688,11 @@ public class RoomGenerator : MonoBehaviour
 		for (int i = 0; i < 2; ++i) 
 		{
 			script.linkedRooms.Add(rooms[i]);
+			rooms[i].FindWallTiles();
+			rooms[i].DoorConstruction(script);
 		}
+
+		
 
 		return script;
 	}
