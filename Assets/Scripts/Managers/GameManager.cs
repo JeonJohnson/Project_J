@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
+using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +10,32 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameManager : Singleton<GameManager>
 {
-    public void CheckStartScene()
+
+    public void LoadScene(int sceneIndex)
+    { 
+        SceneManager.LoadScene(sceneIndex);
+
+        //좀 있다가 씬 로더 ㄱㄱ
+    }
+
+    public void LoadNextScene()
+    {
+        int curIndex = SceneManager.GetActiveScene().buildIndex;
+
+        LoadScene(curIndex + 1);
+    }
+
+    public void ExitApp()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+  Application.Quit();
+#endif
+
+	}
+
+	private void AppInitCheck()
     {
         int curSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
@@ -18,6 +43,39 @@ public class GameManager : Singleton<GameManager>
         {
             Debug.Log("엥 시작씬이 이상한데염");
         }
+        else 
+        {
+            Debug.Log("GameManager 잘 만들었구연, 씬1로 갑니당");
+            SceneManager.LoadScene(1);
+        }
+    }
+
+
+
+    public void InitializeScene(int sceneIndex)
+    {
+        switch (sceneIndex)
+        {
+            case 1:
+                { }
+                break;
+
+            case 2:
+                { }
+                break;
+
+			case 3:
+				{ }
+                break;
+
+            case 4:
+                { }
+                break;
+
+            default:
+                break;
+        }
+
     }
 
 	private void Awake()
@@ -25,19 +83,25 @@ public class GameManager : Singleton<GameManager>
 		Debug.Log("GameManager Awake");
         CreateManagerBoxes();
 		SetDestructible(false);
-	
+
         
 
 	}
 	void Start()
     {
         Debug.Log("GameManager Start");
-    }
+
+		AppInitCheck();
+	}
 
     void Update()
     {
-   
+        
     }
 
+	public override void OnSceneChanged(Scene scene, LoadSceneMode mode)
+	{
+        InitializeScene(scene.buildIndex);
+	}
 
 }

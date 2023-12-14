@@ -247,4 +247,21 @@ Corridor -
 08:03 23-12-14
 랜덤 방생성 기각. 그냥 프리셋 찍기
 
-일단 씬 트리 ㄱㄱ
+일단 씬 플로우ㄱㄱ
+
+17:20 23-12-14
+1. AppInitScene -> IntroScene
+2. loading 기능 추가
+3. titleScene 타이틀, 버튼 구성
+4. MainGame에서 
+	4-1. 맵배치
+	4-2. 플레이어 배치
+	4-3. 몬스터 배치
+5. 몹 다 잡으면 문 열리고 그런거 ㄱㄱ
+	=> StageController 하나 만들어서 ㄱㄱ
+
+18:41 23-12-14
+AppInit -> Intro -> Title
+할거
+Loading 추가
+MainGamㄷ파트

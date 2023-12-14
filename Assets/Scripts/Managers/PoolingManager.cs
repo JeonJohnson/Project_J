@@ -1,20 +1,26 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 using System.Linq;
 
+using AYellowpaper.SerializedCollections;
+
 public class PoolingManager : Singleton<PoolingManager>
 {
-	[SerializeField] GameObject[] prefabs; //ÇÁ¸®ÆÕµé ´ã¾ÆµÑ°÷
+	[SerializeField] GameObject[] prefabs; //í”„ë¦¬íŒ¹ë“¤ ë‹´ì•„ë‘˜ê³³
+	//[SerializedDictionary("Prefabs, Pool Count")]
+	//public SerializedDictionary<GameObject, int> prefabs;
+
     string prefabsFolderPath = "Prefabs";
 
-    GameObject[] objBoxes; //°¢ ¿ÀºêÁ§Æ® ´ã¾Æ ³õÀ» ¹Ú½º
-						   //ºó °ÔÀÓ¿ÀºêÁ§Æ®, ÀÎ½ºÆåÅÍÃ¢¿¡ ½ÇÁ¦·Î ¸¸µé²¨ÀÓ
-						   //±×´Ï±î °¢ ¿ÀºêÁ§Æ® ÃÖ»óÀ§ EmptyGameObject
+    GameObject[] objBoxes; //ê° ì˜¤ë¸Œì íŠ¸ ë‹´ì•„ ë†“ì„ ë°•ìŠ¤
+						   //ë¹ˆ ê²Œì„ì˜¤ë¸Œì íŠ¸, ì¸ìŠ¤í™í„°ì°½ì— ì‹¤ì œë¡œ ë§Œë“¤êº¼ì„
+						   //ê·¸ë‹ˆê¹Œ ê° ì˜¤ë¸Œì íŠ¸ ìµœìƒìœ„ EmptyGameObject
 
 	Queue<GameObject>[] poolingObjQueue;
-	//¿©±â¿¡ ´ã¾ÆµÎ°í ÇÏ³ª¾¿ »©¾µ²¨ÀÓ
+	//ì—¬ê¸°ì— ë‹´ì•„ë‘ê³  í•˜ë‚˜ì”© ë¹¼ì“¸êº¼ì„
 
 	public Dictionary<string, Queue<GameObject>> poolingObjDic;
 
@@ -102,7 +108,7 @@ public class PoolingManager : Singleton<PoolingManager>
 
 	public GameObject LentalObj(string objName, int count = 1)
 	{
-		//µğ½ºÀÌÁî ¶÷´Ù½Ä
+		//ë””ìŠ¤ì´ì¦ˆ ëŒë‹¤ì‹
 		var tempPair = poolingObjDic.FirstOrDefault(t => t.Key == objName);
 		if (tempPair.Value.Count < count)
 		{
@@ -120,8 +126,8 @@ public class PoolingManager : Singleton<PoolingManager>
 
 	public void ReturnObj(GameObject obj)
 	{
-		//¹«~~ÁÖ°Ç ¹Û¿¡¼­ ¸®Áöµå¹Ùµğ³ª ¹¹ Æ®·£½ºÆûµé ÃÊ±âÈ­ ½ÃÅ°°í º¸³»¼À
-		//¾Æ´Ï¸é ¹İÇ°Ã³¸®ÇÔ
+		//ë¬´~~ì£¼ê±´ ë°–ì—ì„œ ë¦¬ì§€ë“œë°”ë””ë‚˜ ë­ íŠ¸ëœìŠ¤í¼ë“¤ ì´ˆê¸°í™” ì‹œí‚¤ê³  ë³´ë‚´ì…ˆ
+		//ì•„ë‹ˆë©´ ë°˜í’ˆì²˜ë¦¬í•¨
 
 		obj.transform.position = Vector3.zero;
 		obj.transform.rotation = Quaternion.identity;
