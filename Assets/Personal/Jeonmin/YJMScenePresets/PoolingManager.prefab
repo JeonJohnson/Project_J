@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3377918859874553301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6905988518847946000}
+  - component: {fileID: 2226145265899761525}
+  m_Layer: 0
+  m_Name: PoolingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6905988518847946000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3377918859874553301}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2226145265899761525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3377918859874553301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27777277ef2761e48b9669686f6edefd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Prefabs:
+    _serializedList:
+    - Key: {fileID: 6444353810435219826, guid: d3858c3f1c706b546b1a3eb09018e0b1, type: 3}
+      Value: 3
+    - Key: {fileID: 927224229131076647, guid: 779d6c9b89072ad4eb4b76c4596d9d3f, type: 3}
+      Value: 50
+    - Key: {fileID: 8521660115929654938, guid: 5936da70609153f4d8a3e168afd97204, type: 3}
+      Value: 8
+    - Key: {fileID: 927224229131076647, guid: 0fa743813889b2448ad4dcc6e54d9485, type: 3}
+      Value: 8
+    - Key: {fileID: 927224229131076647, guid: 5b246048c24bbe44589b1c6ed5ac98f7, type: 3}
+      Value: 150
+    - Key: {fileID: 5588090487502025292, guid: 13176f0dc9575d2468895a29579e913a, type: 3}
+      Value: 8
+    - Key: {fileID: 6646885120104738441, guid: 33c634c06693ebd4cb3261c06bd20557, type: 3}
+      Value: 5
+    - Key: {fileID: 5089270263667796438, guid: 832ceb57fde68914abc65e3ca9e710cd, type: 3}
+      Value: 5
+    - Key: {fileID: 1468130119842113512, guid: 6bbe40ca4a06fc649bffe2c6bf78e433, type: 3}
+      Value: 5
+    - Key: {fileID: 2123085958192169844, guid: ce963d095d466db47a18dfce580541c3, type: 3}
+      Value: 5
+    - Key: {fileID: 5946319561467641337, guid: 6fd124f3af7c45e4fb0b2ba1edd6b862, type: 3}
+      Value: 5
+    - Key: {fileID: 1744888417959865281, guid: 6734d0df36069344bb43d130b69019a2, type: 3}
+      Value: 5
+    - Key: {fileID: 7378698504926859296, guid: 27a614a6bfef09a4baf87d6a74a9dc06, type: 3}
+      Value: 5
+    - Key: {fileID: 1383878232384856558, guid: 3650efd5bd20bf94fb1761ec1ed3baf2, type: 3}
+      Value: 5
+    - Key: {fileID: 7393974754576099880, guid: 5d6aa2388e2cf91469edd4681919cbc0, type: 3}
+      Value: 15
+    - Key: {fileID: 1078790295975429420, guid: c7f2c163e608151479c29704b3eb9e85, type: 3}
+      Value: 15
+    - Key: {fileID: 8874571772106672022, guid: c6b57d0daed4ebd4ca7694cde651e9a0, type: 3}
+      Value: 15
+    - Key: {fileID: 2774166416708146928, guid: c8cbdad80e7851647a59cc6c5be54130, type: 3}
+      Value: 1
+    - Key: {fileID: 3248517246740276478, guid: 1d703cd7990e0d845a17dea1c53f400d, type: 3}
+      Value: 5
+    - Key: {fileID: 1484967627999422253, guid: 19a623aef49fcc344a02996618467245, type: 3}
+      Value: 5
+    - Key: {fileID: 7187409638835505174, guid: 70d82a2bd7fc26f40ac119b04acd1ca1, type: 3}
+      Value: 5
+    - Key: {fileID: 1952683061875817037, guid: d2f37adde59340343aad4173fd9acd41, type: 3}
+      Value: 1
+    - Key: {fileID: 6039508826039274344, guid: f35f53e0abb03fa409abb5233b43d369, type: 3}
+      Value: 1
+    - Key: {fileID: 6039143979611408496, guid: cd54e56ae43c1d9459bf026e824397d4, type: 3}
+      Value: 1
+    - Key: {fileID: 7444548919791847873, guid: d615e6b0e338dde4f83a9411877b03e2, type: 3}
+      Value: 1
+    - Key: {fileID: 5113832836495676657, guid: 0a9e1b162750a9b43961d7d354fc14e1, type: 3}
+      Value: 1

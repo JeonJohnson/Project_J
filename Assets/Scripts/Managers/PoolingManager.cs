@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
-
 using AYellowpaper.SerializedCollections;
-
 using Enums;
 
 public class PoolingManager: Singleton<PoolingManager>
@@ -15,6 +13,7 @@ public class PoolingManager: Singleton<PoolingManager>
 	//정민아 여기다가 프리펩 하나씩 채우면 됨.
 	//우리가 이제 폴더 정리를 객체 기준으로 하기로 해서
 	//Prefab이라는 폴더 자체가 없음!!!
+
 
 	List<KeyValuePair<GameObject, int>> allPrefabList;
 	//private List<GameObject>prefabs; //인스펙터에서 담은 프리팹들 모아놓을 곳
