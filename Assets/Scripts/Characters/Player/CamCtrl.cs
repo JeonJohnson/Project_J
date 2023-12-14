@@ -16,10 +16,16 @@ public class CamCtrl : MonoBehaviour
 
     private void Start()
     {
-
+        player = IngameController.Instance.Player;
+        player.camController = this;    
     }
 
     private void Update()
+    {
+        UpdateCam();
+    }
+
+    public void UpdateCam()
     {
         mousePos = Input.mousePosition;
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);

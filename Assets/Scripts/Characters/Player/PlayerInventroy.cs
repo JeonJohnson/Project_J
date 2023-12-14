@@ -14,7 +14,6 @@ public class PlayerInventroy : MonoBehaviour
     public BonusStatus invenBonusStatus;
 
     private float activeItem_CooldownTimer;
-    private bool isWindowActivated = false;
 
     private void Awake()
     {
@@ -26,12 +25,6 @@ public class PlayerInventroy : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && activeItemSlot != null)
         {
               activeItemSlot.Use(player);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            isWindowActivated = !isWindowActivated;
-            UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
         }
     }
 

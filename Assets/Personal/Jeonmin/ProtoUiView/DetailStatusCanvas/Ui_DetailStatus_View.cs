@@ -6,18 +6,41 @@ using UnityEngine.UI;
 
 public class Ui_DetailStatus_View : MonoBehaviour
 {
+    public enum MenuList
+    {
+        Status,
+        Inventory,
+        CombineList,
+        Option,
+        Exit
+    }
+
+    [Header("Menu Functions")]
+    public Button[] Menu_Buttons; //0 내정보, 1 인벤토리, 2 조합식, 3 옵션, 4 메인메뉴
+    public MenuList curMenu;
+
     [Header("PLAYER STATUS BOARD")]
+    [SerializeField] GameObject statusBoardHolder;
     [SerializeField] TextMeshProUGUI playerStatusText;
 
     [Header("ITEM BOARD")]
+    [SerializeField] GameObject ItemBoardHolder;
     [SerializeField] Slot[] ItemBoard_itemSlots;
     [SerializeField] TextMeshProUGUI ItemBoard_InformText;
     [SerializeField] GameObject ItemBoard_SelectFrame;
 
     [Header("ITEM INFO BOARD")]
+    [SerializeField] GameObject ItemInfoBoardHolder;
     [SerializeField] Slot[] ItemInfoHolder_itemSlots;
     [SerializeField] TextMeshProUGUI ItemInfoHolder_SelectedItemText;
     [SerializeField] TextMeshProUGUI ItemInfoHolder_SelectedItemInfoText;
+
+    [Header("COMBINELIST BOARD")]
+    [SerializeField] GameObject CombinelistBoardHolder;
+
+    [Header("OPTION BOARD")]
+    [SerializeField] GameObject OptionBoardHolder;
+
 
     public void UpdateItemBoardHolder(PlayerInventroy inventroy)
     {
@@ -103,5 +126,57 @@ public class Ui_DetailStatus_View : MonoBehaviour
         string dpsText = player.curWeapon.defaltStatus.fireRate + player.bonusStatus.bonus_Weapon_FireRate+ player.inventroy.invenBonusStatus.bonus_Weapon_FireRate.ToString();
 
         playerStatusText.text = hpText + "\n" +armorText+"\n"+moveSpeedText+"\n"+expectDamageText+"\n"+consumeRangeText+"\n"+consumeAngleText+"\n"+bulletTypeText+"\n"+bulletNumPerFireText+"\n"+bulletSpreadText+"\n"+dpsText;
+    }
+
+    public void ShowMenu(MenuList menu)
+    {
+        statusBoardHolder.SetActive(false);
+        ItemBoardHolder.SetActive(false);
+        ItemInfoBoardHolder.SetActive(false);
+        CombinelistBoardHolder.SetActive(false);
+        OptionBoardHolder.SetActive(false);
+
+        switch (menu)
+        {
+            case MenuList.Status:
+            {
+               statusBoardHolder.SetActive(true);
+            }
+            break;
+        case MenuList.Inventory:
+            {
+                    ItemBoardHolder.SetActive(true);
+                    ItemInfoBoardHolder.SetActive(true);
+            }
+            break;
+            case MenuList.CombineList:
+                {
+                    CombinelistBoardHolder.SetActive(true);
+                }
+                break;
+        case MenuList.Option:
+            {
+                    OptionBoardHolder.SetActive(true);
+            }
+            break;
+        case MenuList.Exit:
+            {
+
+            }
+            break;
+        }
+    }
+
+    public void ChangeButtonSprite(MenuList menu)
+    {
+        Sprite defaultButtonSprite = Resources.Load<Sprite>("Sprites/SpriteSheet/UI_Sheet_01_3");
+        Sprite selectButtonSprite = Resources.Load<Sprite>("Sprites/SpriteSheet/UI_Sheet_01_2");
+
+        for (int i = 0; i < Menu_Buttons.Length; i++)
+        {
+            Menu_Buttons[i].gameObject.GetComponent<Image>().sprite = defaultButtonSprite;
+        }
+
+        Menu_Buttons[(int)menu].GetComponent<Image>().sprite = selectButtonSprite;
     }
 }

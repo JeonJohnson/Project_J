@@ -15,6 +15,8 @@ public class Player : CObj
 
     public PlayerAttackController attackController;
 
+    public CamCtrl camController;
+
     public PlayerInventroy inventroy;
 
     public Rigidbody2D PlayerRigidbody2D { get; private set; }
@@ -121,6 +123,26 @@ public class Player : CObj
             }
             invincibleCor =
             StartCoroutine(InvincibleCor(time));
+        }
+    }
+
+    public void LockPlayer(bool value)
+    {
+        if (value)
+        {
+            camController.enabled = false;
+            aimController.enabled = false;
+            attackController.enabled = false;
+            moveActionTable.enabled = false;
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            camController.enabled = true;
+            aimController.enabled = true;
+            attackController.enabled = true;
+            moveActionTable.enabled = true;
+            Time.timeScale = 1.0f;
         }
     }
 }

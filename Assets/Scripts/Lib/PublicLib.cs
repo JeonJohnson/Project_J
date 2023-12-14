@@ -494,6 +494,8 @@ namespace Structs
 		public float invincibleTimeWhenHit;
 
 		public bool isDead;
+
+
     }
 
     [System.Serializable]
