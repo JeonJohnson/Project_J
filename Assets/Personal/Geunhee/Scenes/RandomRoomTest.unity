@@ -485,18 +485,6 @@ PrefabInstance:
       propertyPath: corridorBox
       value: 
       objectReference: {fileID: 657832987}
-    - target: {fileID: 8326873618023959440, guid: 9078c2a640aa0c0418f40f5680eba2dd, type: 3}
-      propertyPath: RoomPrefabs._serializedList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326873618023959440, guid: 9078c2a640aa0c0418f40f5680eba2dd, type: 3}
-      propertyPath: RoomPrefabs._serializedList.Array.data[0].Value.x
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 8326873618023959440, guid: 9078c2a640aa0c0418f40f5680eba2dd, type: 3}
-      propertyPath: RoomPrefabs._serializedList.Array.data[0].Value.y
-      value: 19
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
