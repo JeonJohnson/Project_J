@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField]
+    private SceneLoader sceneLoader;
 
     public void LoadScene(int sceneIndex)
     { 

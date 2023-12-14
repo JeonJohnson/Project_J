@@ -264,4 +264,10 @@ Corridor -
 AppInit -> Intro -> Title
 할거
 Loading 추가
-MainGamㄷ파트
+MainGame파트
+
+19:46 23-12-14
+sceneLoader 추가
+할일
+SceneLoader로 바꾸기
+맵 실제로 깔아보기
