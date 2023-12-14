@@ -11,6 +11,7 @@ public class PlayerAimController: MonoBehaviour
     private Player player;
 
     public CinemachineConfiner cinemachineConfiner;
+    public CamCtrl camCtrl;
 
     private enum State
     {

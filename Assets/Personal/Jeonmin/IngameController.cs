@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.WSA;
+using static UnityEngine.Rendering.DebugUI;
 
 public class IngameController : Singleton<IngameController>
 {
@@ -17,6 +19,8 @@ public class IngameController : Singleton<IngameController>
             }
         } 
     }
+
+    private bool isWindowActivated = false;
 
     private void FindPlayer()
     {
@@ -39,5 +43,15 @@ public class IngameController : Singleton<IngameController>
         if (obj != null) { playerGo = Instantiate(obj, position, Quaternion.identity); }
         else { Debug.Log("플레이어 폴더에서 못찾음"); }
         return playerGo;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            isWindowActivated = !isWindowActivated;
+            player.LockPlayer(isWindowActivated);
+            UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
+        }
     }
 }

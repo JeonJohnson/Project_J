@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
-using static UnityEditor.Progress;
+using static Ui_DetailStatus_View;
 
 public class UiController_Proto : Singleton<UiController_Proto>
 {
@@ -30,6 +31,7 @@ public class UiController_Proto : Singleton<UiController_Proto>
     {
         player = IngameController.Instance.Player;
         SubscribeUiToPlayer();
+        InjectMenuButtonEvent();
 
         // 초기설정
         UpdateHpImage(player.status.curHp.Value);
@@ -75,13 +77,54 @@ public class UiController_Proto : Singleton<UiController_Proto>
         {
             if (playerDetailStatusView.gameObject.activeSelf) return;
             playerDetailStatusView.gameObject.SetActive(isTrue);
-            playerDetailStatusView.UpdatePlayerStatusHolder(player);
-            playerDetailStatusView.UpdateItemBoardHolder(player.inventroy);
-            playerDetailStatusView.UpdateItemInfoBoardHolder(player.inventroy.activeItemSlot);
+            ShowMenu(MenuList.Status);
         }
         else
         {
             playerDetailStatusView.gameObject.SetActive(isTrue);
+        }
+    }
+
+    public void InjectMenuButtonEvent()
+    {
+        for(int i = 0; i < playerDetailStatusView.Menu_Buttons.Length; i++)
+        {
+            int temp = i;
+            playerDetailStatusView.Menu_Buttons[i].onClick.AddListener(()=> { ShowMenu((MenuList)temp); });
+        }
+    }
+
+    public void ShowMenu(MenuList menu)
+    {
+        playerDetailStatusView.ShowMenu(menu);
+        switch (menu)
+        {
+            case MenuList.Status:
+                {
+                    playerDetailStatusView.UpdatePlayerStatusHolder(player);
+                }
+                break;
+            case MenuList.Inventory:
+                {
+                    playerDetailStatusView.UpdateItemBoardHolder(player.inventroy);
+                    playerDetailStatusView.UpdateItemInfoBoardHolder(player.inventroy.activeItemSlot);
+                }
+                break;
+            case MenuList.CombineList:
+                {
+
+                }
+                break;
+            case MenuList.Option:
+                {
+
+                }
+                break;
+            case MenuList.Exit:
+                {
+
+                }
+                break;
         }
     }
 }
