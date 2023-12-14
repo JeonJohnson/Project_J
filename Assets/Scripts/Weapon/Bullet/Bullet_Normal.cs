@@ -165,9 +165,16 @@ public class Bullet_Normal : Bullet
                         Resetting();
                         Destroy(this.gameObject);
                     }
+                    else
+                    {
+                        GameObject particle = PoolingManager.Instance.LentalObj("Effect_Smoke_04");
+                        particle.transform.position = this.transform.position;
+                    }
                 }
                 else
                 {
+                    GameObject particle = PoolingManager.Instance.LentalObj("Effect_Hit_" + Random.Range(0, 3).ToString());
+                    particle.transform.position = this.transform.position + -(Vector3)normalDir * 1.5f;
                     Resetting();
                     Destroy(this.gameObject);
                 }
@@ -184,7 +191,7 @@ public class Bullet_Normal : Bullet
 
     private void GenerateSmoke()
     {
-        //GameObject smoke = PoolingManager.Instance.LentalObj("BulletHitSmoke");
-        //smoke.transform.position = this.transform.position;
+        GameObject smoke = PoolingManager.Instance.LentalObj("Effect_Smoke_01");
+        smoke.transform.position = this.transform.position;
     }
 }

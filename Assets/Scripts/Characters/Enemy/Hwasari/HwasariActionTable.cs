@@ -135,7 +135,9 @@ public class Hwasari_Attack : Action<Hwasari>
     public override void ActionEnter(Hwasari script)
     {
         base.ActionEnter(script);
-        timer = me.status.fireRate;
+        me.attackFeedback.InitialDelay = me.status.fireWaitTime - 1.5f;
+        me.attackFeedback.PlayFeedbacks();
+        timer = me.status.fireWaitTime;
         curbulletCount = me.status.fireCountPerAttack;
     }
 

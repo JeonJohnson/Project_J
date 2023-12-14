@@ -12,6 +12,7 @@ public class Player_Roll : Action<Player>
     public override void ActionEnter(Player script)
     {
         base.ActionEnter(script);
+        me.footstepParticle.Play();
         rollDir = me.MoveActionTable.LastMoveDir;
         rollSpeed = me.status.rollSpeed;
         me.afterImageController.enable = true;
@@ -33,6 +34,7 @@ public class Player_Roll : Action<Player>
 
     public override void ActionExit() 
     {
+        me.footstepParticle.Stop();
         me.afterImageController.enable = false;
         if (me.attackController != null) { me.attackController.isFirePossible = true; }
     }

@@ -11,7 +11,7 @@ public class Bullet_RainHolder : MonoBehaviour
     public void Fire(float time, float distance)
     {
         targetPosSpriteRenderer.color = Color.clear;
-        targetPosSpriteRenderer.DOColor(Color.white, 0.2f);
+        targetPosSpriteRenderer.DOColor(Color.red, 0.15f).SetLoops(3);
         GameObject bulletGo = Instantiate(bullet_Rain_Prefab, this.transform.position + new Vector3(0f, distance, 0f), Quaternion.identity);
         bulletGo.GetComponent<Bullet_Rain>().Fire(targetPosSpriteRenderer.transform.position, time);
         StartCoroutine(FireCoro(time + 2f));
