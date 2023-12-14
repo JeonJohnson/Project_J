@@ -625,8 +625,30 @@ namespace Enums
         Attack1,
         Attack2,
         Death,
+		Hide,
         End
     }
+
+	public enum MonsterNames
+	{
+		Bangtani,
+		Tangtangi,
+		Hwasari
+	}
+
+    public enum ItemNames
+    {
+        Active_Dash,
+        Passive_BulletSpeedUp,
+        Passive_Laser,
+        Passive_Rapid,
+        Passive_Shotgun
+    }
+
+	public enum BossNames
+	{
+		Boss_Demo
+	}
 }
 
 namespace JeonJohnson

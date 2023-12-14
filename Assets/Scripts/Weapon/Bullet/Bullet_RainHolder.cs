@@ -10,6 +10,7 @@ public class Bullet_RainHolder : MonoBehaviour
 
     public void Fire(float time, float distance)
     {
+        SoundManager.Instance.PlayTempSound("Alarm Loop 5", this.transform.position, 0.2f, 0.8f, 0.9f);
         targetPosSpriteRenderer.color = Color.clear;
         targetPosSpriteRenderer.DOColor(Color.red, 0.15f).SetLoops(3);
         GameObject bulletGo = Instantiate(bullet_Rain_Prefab, this.transform.position + new Vector3(0f, distance, 0f), Quaternion.identity);

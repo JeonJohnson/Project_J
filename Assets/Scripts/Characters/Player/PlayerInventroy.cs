@@ -185,7 +185,7 @@ public class PlayerInventroy : MonoBehaviour
             {
                 Debug.Log("≈€ √ﬂ∞°");
                 ItemPicker itemPicker = collision.gameObject.GetComponent<ItemPicker>();
-                //AddItem(itemPicker.itemData);
+                AddItem(itemPicker.itemData);
                 collision.gameObject.SetActive(false);
             }
         }

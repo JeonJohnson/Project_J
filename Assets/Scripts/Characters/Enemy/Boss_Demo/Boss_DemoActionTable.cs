@@ -30,6 +30,7 @@ public class Boss_DemoActionTable : ActionTable<Boss_Demo>
         actions[(int)BossDemoActions.Attack1] = new Boss_Attack1();
         actions[(int)BossDemoActions.Attack2] = new Boss_Attack2();
         actions[(int)BossDemoActions.Death] = new Boss_Death();
+        actions[(int)BossDemoActions.Hide] = new Boss_Hide();
     }
     protected override void Awake()
     {
@@ -176,6 +177,7 @@ public class Boss_Attack0 : Action<Boss_Demo>
         curIndex = 0;
 
         me.animator.SetTrigger("Attack0");
+        SoundManager.Instance.PlayTempSound("Explosion 37", me.transform.position, 1f, 0.8f, 1f);
         GameObject particle = PoolingManager.Instance.LentalObj("Effect_Magic_00");
         particle.transform.position = me.weapon.firePos.position;
     }
@@ -194,6 +196,7 @@ public class Boss_Attack0 : Action<Boss_Demo>
             // 각도에 해당하는 방향 벡터 계산
             Vector2 direction = new Vector2(Mathf.Cos(angleRadians), Mathf.Sin(angleRadians));
 
+            SoundManager.Instance.PlayTempSound("Shooting Gun  30", me.transform.position, 0.5f, 0.75f, 1f);
             me.weapon.Fire(direction, me.status.spread, 200f);
             curbulletCount++;
         }
@@ -225,6 +228,7 @@ public class Boss_Attack1 : Action<Boss_Demo>
     IEnumerator ShootCoro()
     {
         me.animator.SetTrigger("Attack1");
+        SoundManager.Instance.PlayTempSound("Shooting Gun  31", me.transform.position, 0.75f, 0.75f, 1f);
         for (int i = 0; i < 8; i++)
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * i;
@@ -234,6 +238,7 @@ public class Boss_Attack1 : Action<Boss_Demo>
         yield return new WaitForSeconds(0.8f);
 
         me.animator.SetTrigger("Attack0");
+        SoundManager.Instance.PlayTempSound("Shooting Gun  31", me.transform.position, 0.75f, 0.75f, 1f);
         for (int i = 0; i < 8; i++)
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * (float)i + 22.5f;
@@ -243,6 +248,7 @@ public class Boss_Attack1 : Action<Boss_Demo>
         yield return new WaitForSeconds(0.8f);
 
         me.animator.SetTrigger("Attack1");
+        SoundManager.Instance.PlayTempSound("Shooting Gun  31", me.transform.position, 0.75f, 0.75f, 1f);
         for (int i = 0; i < 8; i++)
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * i;
@@ -251,16 +257,19 @@ public class Boss_Attack1 : Action<Boss_Demo>
         }
         yield return new WaitForSeconds(1.2f);
 
+        SoundManager.Instance.PlayTempSound("Shooting Gun  31", me.transform.position, 0.75f, 0.75f, 1f);
         me.animator.SetTrigger("Attack0");
         Vector2 dir = me.target.transform.position - me.weapon.firePos.transform.position;
         me.weapon.FireCrossBullet(dir);
         yield return new WaitForSeconds(0.8f);
 
+        SoundManager.Instance.PlayTempSound("Shooting Gun  31", me.transform.position, 0.75f, 0.75f, 1f);
         me.animator.SetTrigger("Attack1");
         dir = me.target.transform.position - me.weapon.firePos.transform.position;
         me.weapon.FireCrossBullet(dir);
         yield return new WaitForSeconds(0.8f);
 
+        SoundManager.Instance.PlayTempSound("Shooting Gun  31", me.transform.position, 0.75f, 0.75f, 1f);
         me.animator.SetTrigger("Attack0");
         dir = me.target.transform.position - me.weapon.firePos.transform.position;
         me.weapon.FireCrossBullet(dir);
@@ -336,7 +345,7 @@ public class Boss_Death : Action<Boss_Demo>
     public override void ActionEnter(Boss_Demo script)
     {
         base.ActionEnter(script);
-        me.gameObject.SetActive(false);
+        StageManager.Instance?.OnMonsterDeath();
     }
 
     public override void ActionUpdate() { }
@@ -346,4 +355,43 @@ public class Boss_Death : Action<Boss_Demo>
     public override void ActionLateUpdate() { }
 
     public override void ActionExit() { }
+
+    private void HideEffect()
+    {
+
+    }
+}
+
+public class Boss_Hide : Action<Boss_Demo>
+{
+    public override void ActionEnter(Boss_Demo script)
+    {
+        base.ActionEnter(script);
+        me.StopAllCoroutines();
+        me.status.isDurable = true;
+        me.animator.SetTrigger("Idle");
+        me.agent.enabled = false;
+        me.StartCoroutine(RunEffectCoro());
+        //StageManager.Instance?.OnMonsterDeath();
+        //me.gameObject.SetActive(false);
+    }
+
+    public override void ActionUpdate() { }
+
+    public override void ActionFixedUpdate() { }
+
+    public override void ActionLateUpdate() { }
+
+    public override void ActionExit() { }
+
+    private IEnumerator RunEffectCoro()
+    {
+        me.runFeedback.PlayFeedbacks();
+        yield return new WaitForSeconds(3.6f);
+        GameObject runEffectGo = PoolingManager.Instance.LentalObj("RunEffect");
+        runEffectGo.transform.position = me.transform.position;
+        yield return new WaitForSeconds(0.2f);
+        me.gameObject.SetActive(false);
+        StageManager.Instance?.OnMonsterDeath();
+    }
 }

@@ -153,7 +153,6 @@ public class Hwasari_Attack : Action<Hwasari>
                 float angleStep = me.status.spread / (me.status.bulletNumPerFire - 1);
                 for (int i = 0; i < me.status.bulletNumPerFire; i++)
                 {
-                    Debug.Log("Å¸¾Æ¾Æ¾Ó");
                     me.weapon.Fire(startAngle + i * angleStep);
                 }
                 curbulletCount--;
@@ -191,7 +190,7 @@ public class Hwasari_Death : Action<Hwasari>
         //wp_prop.transform.position = me.transform.position;
         //wp_prop.transform.localScale = me.transform.localScale;
         //wp_prop.GetComponent<Prop>().Play(1.5f);
-
+        StageManager.Instance?.OnMonsterDeath();
         me.gameObject.SetActive(false);
     }
 

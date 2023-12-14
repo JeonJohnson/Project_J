@@ -43,6 +43,8 @@ public class Bullet_Rain : Bullet
 
     private void Explosion()
     {
+        SoundManager.Instance.PlayTempSound("Explosion 37", this.transform.position, 1f, 0.8f, 1f);
+
         for (int i = 0; i < 8; i++)
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * i;

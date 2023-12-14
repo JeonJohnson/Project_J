@@ -62,7 +62,7 @@ public class Player : CObj
         }
         //PlayerRigidbody2D.AddForce(dir * 500f);
 
-        if(status.curHp.Value <= 0)
+        if(status.curHp.Value <= 0 && !status.isDead)
         {
             Dead();
         }
@@ -74,12 +74,17 @@ public class Player : CObj
 
     private void Dead()
     {
+        status.isDead = true;
         this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         PlayerRigidbody2D.simulated = false;
         spriteHolder.gameObject.SetActive(false);
         weaponHolder.gameObject.SetActive(false);
+        aimController.enabled = false;
+        aimController.camCtrl.enabled = false;
         moveActionTable.enabled = false;
         attackController.enabled = false;
+
+        UiController_Proto.Instance.ShowResultWindow(true, false);
     }
 
     public IEnumerator InvincibleCor(float time)
@@ -113,8 +118,7 @@ public class Player : CObj
             {
                 StopCoroutine(invincibleCor);
             }
-            invincibleCor =
-            StartCoroutine(InvincibleCor(time));
+            invincibleCor = StartCoroutine(InvincibleCor(time));
         }
         else
         {
@@ -122,8 +126,7 @@ public class Player : CObj
             {
                 StopCoroutine(invincibleCor);
             }
-            invincibleCor =
-            StartCoroutine(InvincibleCor(time));
+            invincibleCor = StartCoroutine(InvincibleCor(time));
         }
     }
 
@@ -144,6 +147,18 @@ public class Player : CObj
             attackController.enabled = true;
             moveActionTable.enabled = true;
             Time.timeScale = 1.0f;
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            SetInvincible(99999);
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            StopCoroutine(invincibleCor);
         }
     }
 }

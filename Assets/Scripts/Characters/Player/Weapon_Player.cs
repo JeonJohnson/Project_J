@@ -282,7 +282,7 @@ public class Weapon_Player : Weapon
 
             if (curItemPicker != null)
             {
-                if(!curItemPicker.Sucking(owner)) curItemPicker = null;
+                //if(!curItemPicker.Sucking(owner)) curItemPicker = null;
             }
         }
         else

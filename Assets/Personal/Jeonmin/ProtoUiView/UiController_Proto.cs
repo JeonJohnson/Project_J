@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -32,6 +33,7 @@ public class UiController_Proto : Singleton<UiController_Proto>
         player = IngameController.Instance.Player;
         SubscribeUiToPlayer();
         InjectMenuButtonEvent();
+        
 
         // 초기설정
         UpdateHpImage(player.status.curHp.Value);
@@ -62,7 +64,7 @@ public class UiController_Proto : Singleton<UiController_Proto>
     private void UpdateHpImage(int hp)
     {
         playerHudView.UpdateHpImage(hp, player.status.maxHp);
-        playerHudView.PlayHitFeedback();
+        if (hp < player.status.maxHp) playerHudView.PlayHitFeedback();
     }
 
     public void UpdateActiveItemGauge(float value)
@@ -125,6 +127,17 @@ public class UiController_Proto : Singleton<UiController_Proto>
 
                 }
                 break;
+        }
+    }
+
+    public void ShowResultWindow(bool value, bool isWin)
+    {
+        playerHudView.resultCanvasGroup.alpha = 0f;
+        playerHudView.resultHolder.SetActive(value);
+        if (value == true) 
+        {
+            playerHudView.UpdateResult(isWin);
+            playerHudView.resultCanvasGroup.DOFade(1f, 0.5f);
         }
     }
 }

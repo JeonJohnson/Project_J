@@ -22,8 +22,11 @@ public class SceneLoader : MonoBehaviour
 
     int loadSceneNumber;
 
+    [HideInInspector] public bool isSceneLoading = false;
+
     public void LoadScene(int sceneNumber)
     {
+        isSceneLoading = true;
         gameObject.SetActive(true);
         SceneManager.sceneLoaded += OnSceneLoaded;
         loadSceneNumber = sceneNumber;
@@ -37,6 +40,7 @@ public class SceneLoader : MonoBehaviour
             print(arg0.buildIndex);
             StartCoroutine(Fade(false));
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            isSceneLoading = false;
             //GameManager.Instance.SceneCheck(SceneManager.GetActiveScene().buildIndex);
         }
     }

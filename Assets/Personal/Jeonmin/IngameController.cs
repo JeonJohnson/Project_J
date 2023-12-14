@@ -47,7 +47,7 @@ public class IngameController : Singleton<IngameController>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             isWindowActivated = !isWindowActivated;
             player.LockPlayer(isWindowActivated);

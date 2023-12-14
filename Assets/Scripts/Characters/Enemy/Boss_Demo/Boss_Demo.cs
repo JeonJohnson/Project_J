@@ -16,6 +16,7 @@ public class Boss_Demo : Enemy
 
     public ParticleSystem footstepParticle;
     [SerializeField] MMF_Player hitFeedback;
+    public MMF_Player runFeedback;
 
     protected override void Initialize()
     {
@@ -27,6 +28,9 @@ public class Boss_Demo : Enemy
         agent.updateUpAxis = false;
         agent.speed = status.walkSpeed;
         status.fireTimer = status.fireWaitTime;
+
+        //원래는 구독해서 써야하는데.. 시간읎당
+        UiController_Proto.Instance.playerHudView?.bossHpBarHolder.SetActive(true);
     }
 
     public override void Awake()
@@ -38,11 +42,23 @@ public class Boss_Demo : Enemy
     public override HitInfo Hit(int dmg, Vector2 dir)
     {
         Rigidbody2D.AddForce(dir * 2);
-        status.curHp -= dmg;
-        hitFeedback.PlayFeedbacks();
+        if (!status.isDurable)
+        {
+            status.curHp -= dmg;
+            hitFeedback.PlayFeedbacks();
+
+            // 나중에 OnHit 이벤트 만들어서 구독해서 쓰게 바꾸기
+            if (status.curHp <= status.maxHp * (30f / 100f)) { ActionTable.SetCurAction((int)BossDemoActions.Hide); Rigidbody2D.AddForce(dir * 50, ForceMode2D.Impulse); }
+            UiController_Proto.Instance.playerHudView?.UpdateBossHpBar((float)status.curHp / (float)status.maxHp);
+        }
+        else
+        {
+
+        }
         if (status.curHp <= 0) ActionTable.SetCurAction((int)BossDemoActions.Death);
 
         HitInfo hitInfo = new HitInfo();
+        hitInfo.isDurable = status.isDurable;
         return hitInfo;
     }
 

@@ -1,10 +1,13 @@
 ﻿
+using Enums;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 using static UnityEditor.PlayerSettings;
+using static UnityEditor.Progress;
 
 public enum eRandomGenList
 { 
@@ -35,6 +38,8 @@ public class Demo_Room : MonoBehaviour
     //public List<Vector2> bossGenPos;
 
     public int curMonsterCount;
+
+    public BoxCollider cameraCollider;
 
 
     /// <summary>
@@ -98,7 +103,7 @@ public class Demo_Room : MonoBehaviour
             }
         }
 
-        curMonsterCount = randomGenList[(int)eRandomGenList.Monster].Count;
+        curMonsterCount = randomGenList[(int)eRandomGenList.Monster].Count + randomGenList[(int)eRandomGenList.Boss].Count;
     }
 
     public void RandomObjectGen()
@@ -120,17 +125,49 @@ public class Demo_Room : MonoBehaviour
                         foreach (var item in randomGenList[i])
                         {
                             pos = item;
+
+                            string[] itemNames = {"Active_Dash","Passive_BulletSpeedUp","Passive_Laser","Passive_Rapid", "Passive_Shotgun" };
+                            int randomIndex = Random.Range(0, itemNames.Length);
+
+                            GameObject itemGo = PoolingManager.Instance.LentalObj(itemNames[randomIndex]);
+                            itemGo.transform.position = pos;
                         }
 					}
                     break;
                 case eRandomGenList.Monster:
-                    { 
+                    {
                         //정민아 여기서 몬스터 랜덤 생성
+                        foreach (var monster in randomGenList[i])
+                        {
+                            pos = monster;
+
+                            string[] monsterNames = { "Bangtani", "Tangtangi", "Hwasari" };
+                            int randomIndex = Random.Range(0, monsterNames.Length);
+
+                            GameObject monsterGo = PoolingManager.Instance.LentalObj(monsterNames[randomIndex]);
+                            monsterGo.GetComponent<Enemy>().agent.enabled = false;
+                            monsterGo.transform.position = pos;
+                            monsterGo.GetComponent<Enemy>().agent.enabled = true;
+                        }
                     }
                     break;
                 case eRandomGenList.Boss:
-                    { 
+                    {
                         //정민아 여기서 보스 몬스터 랜덤 생성.
+                        foreach (var boss in randomGenList[i])
+                        {
+                            pos = boss;
+
+                            string[] bossNames = { "Boss_Demo" };
+                            int randomIndex = Random.Range(0, bossNames.Length);
+
+                            GameObject bossGo = PoolingManager.Instance.LentalObj(bossNames[randomIndex]);
+                            bossGo.GetComponent<Enemy>().agent.enabled = false;
+                            bossGo.transform.position = pos;
+                            bossGo.GetComponent<Enemy>().agent.enabled = true;
+
+
+                        }
                     }
                     break;
                 default:
@@ -162,6 +199,6 @@ public class Demo_Room : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 }

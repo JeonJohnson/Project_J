@@ -14,8 +14,9 @@ public class GameManager : Singleton<GameManager>
     private SceneLoader sceneLoader;
 
     public void LoadScene(int sceneIndex)
-    { 
+    {
         //SceneManager.LoadScene(sceneIndex);
+        if (sceneLoader.isSceneLoading) { Debug.LogWarning("씬이 이미 불러와지는 중입니다"); return; };
         sceneLoader.LoadScene(sceneIndex);
         //좀 있다가 씬 로더 ㄱㄱ
     }
