@@ -12,13 +12,16 @@ public class PoolingManager: Singleton<PoolingManager>
 {
 	[SerializedDictionary("Prefabs", "Pool Count")]
 	public SerializedDictionary<GameObject, int> Prefabs;
-	
+	//정민아 여기다가 프리펩 하나씩 채우면 됨.
+	//우리가 이제 폴더 정리를 객체 기준으로 하기로 해서
+	//Prefab이라는 폴더 자체가 없음!!!
+
 	List<KeyValuePair<GameObject, int>> allPrefabList;
 	//private List<GameObject>prefabs; //인스펙터에서 담은 프리팹들 모아놓을 곳
 
 	GameObject[] objBoxes; //각 오브젝트 담아 놓을 박스
     //빈 게임오브젝트, 인스펙터창에 실제로 만들꺼임
-    //그니까 각 오브젝트 최상위 EmptyGameObject
+    //그니까 각 오브젝트 최상위 EmptyGameObjectpartial
 
 
     public Dictionary<string, Queue<GameObject>> poolingObjDic;

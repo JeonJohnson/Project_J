@@ -276,7 +276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1863306030
 Transform:
   m_ObjectHideFlags: 0
@@ -308,6 +308,8 @@ MonoBehaviour:
     _serializedList:
     - Key: {fileID: 2885988267654085666, guid: bb04795c159ab1b4bb5ee79f3519e698, type: 3}
       Value: 1
+    - Key: {fileID: 927224229131076647, guid: 5b246048c24bbe44589b1c6ed5ac98f7, type: 3}
+      Value: 250
 --- !u!1 &1939514735
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1939514736
 Transform:
   m_ObjectHideFlags: 0
@@ -353,10 +355,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rooms:
-  - {fileID: 7901270106375405953}
+  - {fileID: 6682307990751405748}
   - {fileID: 8448074165233289237}
   - {fileID: 8207644169342277906}
-  curRoom: {fileID: 0}
+  curRoomIndex: 0
+  curMonsterCount: 0
 --- !u!156049354 &25468264919077732
 Grid:
   m_ObjectHideFlags: 0
@@ -4757,7 +4760,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -4945,7 +4948,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -12088,7 +12091,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -12598,7 +12601,7 @@ GameObject:
   - component: {fileID: 8483526917284723709}
   - component: {fileID: 8483526917284723708}
   m_Layer: 0
-  m_Name: Door_Entrance
+  m_Name: Door_Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12745,7 +12748,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -12836,7 +12839,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -12885,7 +12888,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -13198,12 +13201,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c27e33f1f502d4e9191cd5ff9f4d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enterance: {fileID: 4981210602404336633}
-  exit: {fileID: 0}
+  enterance: {fileID: 0}
+  exit: {fileID: 4981210602404336633}
   randomTM: {fileID: 4335729647826552750}
-  monsterGenPos: []
-  itemGenPos: []
-  bossGenPos: []
   curMonsterCount: 0
 --- !u!1 &6792840509396706571
 GameObject:
@@ -13516,7 +13516,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -13598,6 +13598,9 @@ GameObject:
   - component: {fileID: 8402274484852545510}
   - component: {fileID: 6404313957371626585}
   - component: {fileID: 5330193067940175297}
+  - component: {fileID: 8402274484852545513}
+  - component: {fileID: 8402274484852545512}
+  - component: {fileID: 8402274484852545511}
   m_Layer: 0
   m_Name: Door_Entrance
   m_TagString: Untagged
@@ -13616,6 +13619,9 @@ GameObject:
   - component: {fileID: 5468257116077162221}
   - component: {fileID: 4619421583754508429}
   - component: {fileID: 5872093516764309898}
+  - component: {fileID: 7561993427514255384}
+  - component: {fileID: 7561993427514255383}
+  - component: {fileID: 7561993427514255382}
   m_Layer: 0
   m_Name: Door_Exit
   m_TagString: Untagged
@@ -13623,6 +13629,126 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!66 &7561993427514255382
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7561993427514255381}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 1
+  m_GenerationType: 1
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 7561993427514255384}
+    m_ColliderPaths:
+    - - X: 162500000
+        Y: 70000000
+      - X: 150000000
+        Y: 70000000
+      - X: 150000000
+        Y: 50000000
+      - X: 162500000
+        Y: 50000000
+  m_CompositePaths:
+    m_Paths:
+    - - {x: 16.249971, y: 5}
+      - {x: 16.249971, y: 7}
+      - {x: 15, y: 6.9999704}
+      - {x: 15.000029, y: 5}
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
+  m_CompositeGameObject: {fileID: 7561993427514255381}
+--- !u!50 &7561993427514255383
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7561993427514255381}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!19719996 &7561993427514255384
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7561993427514255381}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 1
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &7571131827561437824
 GameObject:
   m_ObjectHideFlags: 0
@@ -13670,6 +13796,9 @@ GameObject:
   - component: {fileID: 8088498410638247651}
   - component: {fileID: 6645711952924841308}
   - component: {fileID: 5558101688428235972}
+  - component: {fileID: 8088498410638247654}
+  - component: {fileID: 8088498410638247653}
+  - component: {fileID: 8088498410638247652}
   m_Layer: 0
   m_Name: Door_Entrance
   m_TagString: Untagged
@@ -13737,7 +13866,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5328495654179543288}
-  - component: {fileID: 7901270106375405953}
   m_Layer: 0
   m_Name: Rooms
   m_TagString: Untagged
@@ -13745,25 +13873,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &7901270106375405953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7901270106375405952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85c27e33f1f502d4e9191cd5ff9f4d55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enterance: {fileID: 0}
-  exit: {fileID: 0}
-  randomTM: {fileID: 4335729647826552750}
-  monsterGenPos: []
-  itemGenPos: []
-  bossGenPos: []
-  curMonsterCount: 0
 --- !u!1 &7910834548628605829
 GameObject:
   m_ObjectHideFlags: 0
@@ -13797,6 +13906,126 @@ Transform:
   m_Father: {fileID: 8448074165233289236}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!66 &8088498410638247652
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827561411418471774}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 1
+  m_GenerationType: 1
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 8088498410638247654}
+    m_ColliderPaths:
+    - - X: 20000000
+        Y: 90000000
+      - X: 7500000
+        Y: 90000000
+      - X: 7500000
+        Y: 70000000
+      - X: 20000000
+        Y: 70000000
+  m_CompositePaths:
+    m_Paths:
+    - - {x: 1.9999708, y: 7}
+      - {x: 1.9999708, y: 9}
+      - {x: 0.75, y: 8.99997}
+      - {x: 0.7500293, y: 7}
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
+  m_CompositeGameObject: {fileID: 7827561411418471774}
+--- !u!50 &8088498410638247653
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827561411418471774}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!19719996 &8088498410638247654
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827561411418471774}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 1
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!4 &8207644169342277905
 Transform:
   m_ObjectHideFlags: 0
@@ -13831,9 +14060,6 @@ MonoBehaviour:
   enterance: {fileID: 7528870630917565531}
   exit: {fileID: 0}
   randomTM: {fileID: 1256680702638487564}
-  monsterGenPos: []
-  itemGenPos: []
-  bossGenPos: []
   curMonsterCount: 0
 --- !u!1 &8295136971583871657
 GameObject:
@@ -13871,6 +14097,126 @@ Transform:
   m_Father: {fileID: 8207644169342277905}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!66 &8402274484852545511
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7528870630917565531}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 1
+  m_GenerationType: 1
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 8402274484852545513}
+    m_ColliderPaths:
+    - - X: 20000000
+        Y: 100000000
+      - X: 7500000
+        Y: 100000000
+      - X: 7500000
+        Y: 80000000
+      - X: 20000000
+        Y: 80000000
+  m_CompositePaths:
+    m_Paths:
+    - - {x: 1.9999708, y: 8}
+      - {x: 1.9999708, y: 10}
+      - {x: 0.75, y: 9.99997}
+      - {x: 0.7500293, y: 8}
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
+  m_CompositeGameObject: {fileID: 7528870630917565531}
+--- !u!50 &8402274484852545512
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7528870630917565531}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!19719996 &8402274484852545513
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7528870630917565531}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 1
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!4 &8448074165233289236
 Transform:
   m_ObjectHideFlags: 0
@@ -13906,9 +14252,6 @@ MonoBehaviour:
   enterance: {fileID: 7827561411418471774}
   exit: {fileID: 7561993427514255381}
   randomTM: {fileID: 1561163727641487625}
-  monsterGenPos: []
-  itemGenPos: []
-  bossGenPos: []
   curMonsterCount: 0
 --- !u!1839735485 &8483526917284723707
 Tilemap:
