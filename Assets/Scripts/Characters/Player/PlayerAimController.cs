@@ -40,6 +40,7 @@ public class PlayerAimController: MonoBehaviour
         player.animator.SetFloat("Horizontal", aimDir.x);
         player.animator.SetFloat("Vertical", aimDir.y);
 
+        UiController_Proto.Instance?.playerHudView.UpdateCrossHairAnchorPos(MousePosition);
         //if(aimState == State.Aiming)
         //{
         //    float dot = Vector3.Dot(player.transform.right, aimDir);

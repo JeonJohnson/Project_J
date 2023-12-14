@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Weapon_Tangtangi : Weapon
 {
+    private Vector3 originPos;
     private Tangtangi owner;
     public override void Init(CObj _owner)
     {
@@ -14,6 +15,7 @@ public class Weapon_Tangtangi : Weapon
 
     private void Awake()
     {
+        originPos = this.transform.localPosition;
     }
 
     private void Update()
@@ -36,8 +38,16 @@ public class Weapon_Tangtangi : Weapon
         go.GetComponent<Bullet>().defaultStat.moveSpd = 200;
         go.GetComponent<Bullet>().Fire(rndDir);
 
-        //transform.DOLocalMove(originPos - weaponRecoilDir * 0.1f, 0.03f).OnComplete(() => { RecoilEffect(); });
-    }
+        Vector3 weaponRecoilDir;
+        weaponRecoilDir = this.transform.up;
 
+        if (owner.spriteDir == Vector3.left) weaponRecoilDir.x *= -1;
+
+        transform.DOLocalMove(originPos - weaponRecoilDir * 0.1f, 0.03f).OnComplete(() => { RecoilEffect(); });
+    }
+    public void RecoilEffect()
+    {
+        transform.DOLocalMove(originPos, 0.12f);
+    }
 
 }

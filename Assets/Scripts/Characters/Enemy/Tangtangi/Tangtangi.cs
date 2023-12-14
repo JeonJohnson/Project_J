@@ -31,11 +31,32 @@ public class Tangtangi : Enemy
 
     public override HitInfo Hit(int dmg, Vector2 dir)
     {
-        Rigidbody2D.AddForce(dir * 2);
+        Rigidbody2D.AddForce(dir);
         status.curHp -= dmg;
         if (status.curHp <= 0) ActionTable.SetCurAction((int)BangtaniActions.Death);
 
         HitInfo hitInfo = new HitInfo();
         return hitInfo;
+    }
+
+    private void FixedUpdate()
+    {
+        CalcSpriteDir();
+    }
+
+    private void CalcSpriteDir()
+    {
+        Vector2 targetDir = target.transform.position - this.transform.position;
+        float angleToPlayer = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
+        if (angleToPlayer > -90f && angleToPlayer < 90f)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+            spriteDir = Vector3.right;
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+            spriteDir = Vector3.left;
+        }
     }
 }

@@ -9,6 +9,10 @@ public class PlayerAttackController : MonoBehaviour
     public Weapon_Player weapon;
     public bool isFirePossible;
 
+
+    private bool isFiring = false;
+    private bool isGuarding = false;
+
     private void Awake()
     {
         player = GetComponent<Player>();

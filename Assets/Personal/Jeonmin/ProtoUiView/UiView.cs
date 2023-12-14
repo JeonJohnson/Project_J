@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,6 +47,9 @@ public class UiView : MonoBehaviour
     public CanvasGroup resultCanvasGroup;
     [SerializeField] TextMeshProUGUI resultText;
     [SerializeField] Button resultButton;
+
+    [Header("CrossHair")]
+    public RectTransform crossHair;
 
     private void Awake()
     {
@@ -191,6 +194,12 @@ public class UiView : MonoBehaviour
         resultButton.onClick.RemoveAllListeners();
         resultButton.onClick.AddListener(() => GameManager.Instance.LoadScene(2));
         resultButton.transform.DOScale(new Vector3(1f, 1f, 1f), 0.5f).SetDelay(3f);
+    }
+
+    public void UpdateCrossHairAnchorPos(Vector3 screenPos, bool isActivate = true)
+    {
+        if (!isActivate) return;
+        //crossHair.anchoredPosition = screenPos; 족버그;;
     }
 
     #region Feedbacks

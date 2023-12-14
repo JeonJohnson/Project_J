@@ -53,7 +53,7 @@ public class StageManager : Singleton<StageManager>
         IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 2f;
 		yield return new WaitForSeconds(2f);
         IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 0.08f;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 0.01f;
         yield return new WaitForSeconds(1f);
         IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 0f;
