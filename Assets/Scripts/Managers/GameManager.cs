@@ -15,8 +15,8 @@ public class GameManager : Singleton<GameManager>
 
     public void LoadScene(int sceneIndex)
     { 
-        SceneManager.LoadScene(sceneIndex);
-
+        //SceneManager.LoadScene(sceneIndex);
+        sceneLoader.LoadScene(sceneIndex);
         //좀 있다가 씬 로더 ㄱㄱ
     }
 
@@ -48,8 +48,14 @@ public class GameManager : Singleton<GameManager>
         else 
         {
             Debug.Log("GameManager 잘 만들었구연, 씬1로 갑니당");
-            SceneManager.LoadScene(1);
-        }
+
+#if UNITY_EDITOR
+            SceneManager.LoadScene(Defines.editorStartScene);
+#else
+			SceneManager.LoadScene(1);
+#endif
+
+		}
     }
 
 

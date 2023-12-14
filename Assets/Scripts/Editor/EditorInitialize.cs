@@ -31,7 +31,6 @@ public static class EditorAppInitializer
 			Debug.Log($"{Defines.editorStartScene}번째 씬으로 시작 하였으나 초기화를 위해 0번째 씬으로 이동합니다.");
 			Defines.editorStartScene = curSceneIndex;
 			scenePath = EditorBuildSettings.scenes[0].path;
-
 		}
 		
 		var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);

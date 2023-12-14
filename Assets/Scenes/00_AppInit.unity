@@ -268,13 +268,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1524716958}
     m_Modifications:
-    - target: {fileID: 1210997893373870452, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 4378217957150263785, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
       propertyPath: m_Name
       value: SceneLoader
+      objectReference: {fileID: 0}
+    - target: {fileID: 6753709965564174396, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6753709965564174396, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6753709965564174396, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6753709965564174396, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380412875864610643, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 377c8d5b18fb52d419828ef3094e4236, type: 3}
+    - target: {fileID: 7380412875864610643, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380412875864610643, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380412875864610643, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7380412875864610643, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
+      propertyPath: m_FillAmount
+      value: 0.544
       objectReference: {fileID: 0}
     - target: {fileID: 8775421953180121654, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
       propertyPath: m_Pivot.x
@@ -370,6 +402,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8775421953180121654, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
   m_PrefabInstance: {fileID: 1271989254}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1271989256 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4937110085844041074, guid: b6635db446cfa754c8e3def5da3c5e86, type: 3}
+  m_PrefabInstance: {fileID: 1271989254}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1f5b63c80f1a2429d613f682a0f5ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1316256652
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,7 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2f307fcc48e11a4e8dca97863b1b59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneLoader: {fileID: 0}
+  sceneLoader: {fileID: 1271989256}
 --- !u!4 &1524716958
 Transform:
   m_ObjectHideFlags: 0

@@ -1,85 +1,88 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 using UnityEngine;
 
+using System.Linq;
+
 using AYellowpaper.SerializedCollections;
 
-using Enums;
-
-public class PoolingManager: Singleton<PoolingManager>
+public class PoolingManager_Old : Singleton<PoolingManager_Old>
 {
-	[SerializedDictionary("Prefabs", "Pool Count")]
-	public SerializedDictionary<GameObject, int> Prefabs;
-	
-	List<KeyValuePair<GameObject, int>> allPrefabList;
-	//private List<GameObject>prefabs; //인스펙터에서 담은 프리팹들 모아놓을 곳
+	//	[SerializeField] GameObject[] prefabs; //프리팹들 담아둘곳
+	[SerializedDictionary("Prefabs, Pool Count")]
+	public SerializedDictionary<GameObject, int> prefabs;
 
-	GameObject[] objBoxes; //각 오브젝트 담아 놓을 박스
-    //빈 게임오브젝트, 인스펙터창에 실제로 만들꺼임
-    //그니까 각 오브젝트 최상위 EmptyGameObject
+	//string prefabsFolderPath = "Prefabs";
+
+    GameObject[] objBoxes; //각 오브젝트 담아 놓을 박스
+						   //빈 게임오브젝트, 인스펙터창에 실제로 만들꺼임
+						   //그니까 각 오브젝트 최상위 EmptyGameObject
+
+	Queue<GameObject>[] poolingObjQueue;
+	//여기에 담아두고 하나씩 빼쓸꺼임
+
+	public Dictionary<string, Queue<GameObject>> poolingObjDic;
 
 
-    public Dictionary<string, Queue<GameObject>> poolingObjDic;
+	[HideInInspector]
+	public List<GameObject> trashBin = new List<GameObject>();
+	public Transform trashBinCan;
 
-
+	public void AddTrashBin(GameObject obj)
+	{
+		obj.SetActive(false);
+		obj.transform.SetParent(trashBinCan);
+		trashBin.Add(obj);
+	}
 
 	public void CreateBoxes()
 	{
-		objBoxes = new GameObject[allPrefabList.Count];
+        //prefabs = Resources.LoadAll<GameObject>(prefabsFolderPath);
+        objBoxes = new GameObject[prefabs.Count];
 
-		for(int i = 0; i< allPrefabList.Count; ++i)
+		int i = 0;
+		foreach (var prefab in prefabs)
 		{
-			GameObject box = new GameObject(allPrefabList[i].Key.name + "_Box");
-			box.transform.SetParent(this.gameObject.transform);
-			objBoxes[i] = box;
-		}
-
-		
-	}
-
-	public void FillAllObjects()
-	{
-		//1. 각 종류 프리팹들 한곳으로 모으기
-		//prefabs = new List<GameObject>();
-
-		//prefabs.AddRange(UnitPrefabs);
-		//prefabs.AddRange(BuildingPrefabs);
-		//prefabs.AddRange(EnemyPrefabs);
-		allPrefabList = new();
-
-		allPrefabList.AddRange(Prefabs.ToList());
-
-		//2. 해당 길이만큼 박스 만들기
-		CreateBoxes();
-
-
-		//3. 이제 하나씩 채우기
-		//굳이 각 오브젝트 속성(유닛,건물 등) 으로 하는거 보다
-		//이런식으로 하는게 더 편한듯
-		poolingObjDic = new Dictionary<string, Queue<GameObject>>();
-
-		for(int i = 0; i< allPrefabList.Count; ++i)
-		{
-			if (allPrefabList[i].Key == null)
+			if (prefab.Key == null)
 			{
 				continue;
 			}
 
-			GameObject prefab = allPrefabList[i].Key;
+			GameObject box = new GameObject(prefab.Key.name + "_Box");
+			box.transform.SetParent(this.gameObject.transform);
+			objBoxes[i] = box;
+
+			++i;
+		}
+	}
+
+	public void FillAllObjects(int iCount = 10)
+	{
+		poolingObjDic = new Dictionary<string, Queue<GameObject>>();
+
+		//		foreach (var prefab in prefabs)
+		//for (int i = 0; i < prefabs.Count; ++i)
+		int i = 0;
+		foreach (var prefab in prefabs)
+		{
+			if (prefab.Key == null)
+			{
+				continue;
+			}
 
 			Queue<GameObject> tempQueue = new Queue<GameObject>();
 
-			for (int k = 0; k < allPrefabList[i].Value; ++k)
+			for (int k = 0; k < iCount; ++k)
 			{
-				GameObject tempObj = Instantiate(prefab, objBoxes[i].transform);
+				GameObject tempObj = Instantiate(prefab.Key, objBoxes[i].transform);
 				tempObj.name = tempObj.name.Replace("(Clone)", string.Empty);
 				tempObj.SetActive(false);
 				tempQueue.Enqueue(tempObj);
 			}
 
-			poolingObjDic.Add(prefab.name, tempQueue);
+			poolingObjDic.Add(prefab.Key.name, tempQueue);
+			++i;
 		}
 	}
 
@@ -99,15 +102,13 @@ public class PoolingManager: Singleton<PoolingManager>
 
 			if (objBoxes[i].name.Equals(boxName))
 			{
-				GameObject newObj = Instantiate(allPrefabList[i].Key, objBoxes[i].transform);
+				GameObject newObj = Instantiate(prefabs.ToList()[i].Key, objBoxes[i].transform);
 				newObj.name = newObj.name.Replace("(Clone)", string.Empty);
 				newObj.SetActive(false);
 				tempPair.Value.Enqueue(newObj);
 			}
 		}
 	}
-
-	//public T	LentalObj<T>(string obj) 
 
 	public GameObject LentalObj(string objName, int count = 1)
 	{
@@ -118,7 +119,7 @@ public class PoolingManager: Singleton<PoolingManager>
 			FillObject(objName, count * 2);
 			return LentalObj(objName, count);
 		}
-		else 
+		else
 		{
 			GameObject tempObj = tempPair.Value.Dequeue();
 			tempObj.SetActive(true);
@@ -135,9 +136,18 @@ public class PoolingManager: Singleton<PoolingManager>
 		obj.transform.position = Vector3.zero;
 		obj.transform.rotation = Quaternion.identity;
 		//obj.transform.localScale = new Vector3(1f, 1f, 1f);
-		
+
 		string realName = obj.name.Replace("(Clone)", string.Empty);
 		var tempPair = poolingObjDic.FirstOrDefault(t => t.Key == realName);
+
+		//default(KeyValuePair<string, Queue<GameObject>>);
+
+		if (default(KeyValuePair<string, Queue<GameObject>>).Equals(tempPair))
+		{
+			obj.SetActive(false);
+			return;
+		}
+
 		string boxName = realName + "_Box";
 
 		for (int i = 0; i < objBoxes.Length; ++i)
@@ -156,13 +166,24 @@ public class PoolingManager: Singleton<PoolingManager>
 		}
 	}
 
-	void Awake()
+
+	public void Awake()
 	{
-        //CreateBoxes();
+		CreateBoxes();
 		FillAllObjects();
-
-    }
-
+	}
 
 
+	// Start is called before the first frame update
+	void Start()
+	{
+
+	}
+
+	// Update is called once per frame
+	void Update()
+	{
+
+	}
 }
+
