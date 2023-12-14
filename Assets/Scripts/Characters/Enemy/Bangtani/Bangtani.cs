@@ -1,4 +1,5 @@
 using Enums;
+using MoreMountains.Feedbacks;
 using Structs;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,10 @@ public class Bangtani : Enemy
     public Animator animator;
     public float guardAngle = 90f;
     public Weapon weapon;
+
+    [Header("Feedbacks")]
+    public MMF_Player guardFeedback;
+    public MMF_Player hitFeedback;
 
     protected override void Initialize()
     {
@@ -39,10 +44,12 @@ public class Bangtani : Enemy
 
         if (isGuard)
         {
+            guardFeedback.PlayFeedbacks();
             Rigidbody2D.AddForce(dir * 0.5f);
         }
         else
         {
+            hitFeedback.PlayFeedbacks();
             Rigidbody2D.AddForce(dir * 2);
             status.curHp -= dmg;
             if(status.curHp <= 0) ActionTable.SetCurAction((int)BangtaniActions.Death);

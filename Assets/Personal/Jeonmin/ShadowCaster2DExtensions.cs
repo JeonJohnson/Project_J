@@ -70,9 +70,9 @@ public class ShadowCaster2DGenerator
     public static void GenerateShadowCasters()
     {
         CompositeCollider2D[] colliders = GameObject.FindObjectsOfType<CompositeCollider2D>();
-
         for (int i = 0; i < colliders.Length; ++i)
         {
+            Debug.Log("À½");
             GenerateTilemapShadowCastersInEditor(colliders[i], false);
         }
     }

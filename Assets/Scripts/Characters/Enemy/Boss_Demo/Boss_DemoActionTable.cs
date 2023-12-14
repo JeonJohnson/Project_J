@@ -75,6 +75,8 @@ public class Boss_Idle : Action<Boss_Demo>
     public override void ActionEnter(Boss_Demo script)
     {
         base.ActionEnter(script);
+        me.animator.SetTrigger("Idle");
+        me.footstepParticle.Stop();
     }
 
     public override void ActionUpdate()
@@ -82,7 +84,6 @@ public class Boss_Idle : Action<Boss_Demo>
         timer -= Time.deltaTime;
         if (timer < 0f)
         {
-            me.animator.SetTrigger("Attack");
             RandomlyExecuteSkill();
             timer = me.status.fireWaitTime;
         }
@@ -134,7 +135,7 @@ public class Boss_Move : Action<Boss_Demo>
     public override void ActionEnter(Boss_Demo script)
     {
         base.ActionEnter(script);
-        me.animator.SetBool("IsMove", true);
+        me.footstepParticle.Play();
     }
     public override void ActionUpdate()
     {
@@ -173,6 +174,10 @@ public class Boss_Attack0 : Action<Boss_Demo>
         base.ActionEnter(script);
         curbulletCount = 0;
         curIndex = 0;
+
+        me.animator.SetTrigger("Attack0");
+        GameObject particle = PoolingManager.Instance.LentalObj("Effect_Magic_00");
+        particle.transform.position = me.weapon.firePos.position;
     }
 
     public override void ActionUpdate()
@@ -193,7 +198,7 @@ public class Boss_Attack0 : Action<Boss_Demo>
             curbulletCount++;
         }
 
-        if (curbulletCount == 36)
+        if (curbulletCount >= 36)
         {
             me.ActionTable.SetCurAction((int)BossDemoActions.Idle);
         }
@@ -219,6 +224,7 @@ public class Boss_Attack1 : Action<Boss_Demo>
 
     IEnumerator ShootCoro()
     {
+        me.animator.SetTrigger("Attack1");
         for (int i = 0; i < 8; i++)
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * i;
@@ -226,6 +232,8 @@ public class Boss_Attack1 : Action<Boss_Demo>
             me.weapon.Fire(direction, 0, 200);
         }
         yield return new WaitForSeconds(0.8f);
+
+        me.animator.SetTrigger("Attack0");
         for (int i = 0; i < 8; i++)
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * (float)i + 22.5f;
@@ -233,6 +241,8 @@ public class Boss_Attack1 : Action<Boss_Demo>
             me.weapon.Fire(direction, 0, 200);
         }
         yield return new WaitForSeconds(0.8f);
+
+        me.animator.SetTrigger("Attack1");
         for (int i = 0; i < 8; i++)
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * i;
@@ -240,15 +250,22 @@ public class Boss_Attack1 : Action<Boss_Demo>
             me.weapon.Fire(direction, 0, 200);
         }
         yield return new WaitForSeconds(1.2f);
+
+        me.animator.SetTrigger("Attack0");
         Vector2 dir = me.target.transform.position - me.weapon.firePos.transform.position;
         me.weapon.FireCrossBullet(dir);
         yield return new WaitForSeconds(0.8f);
+
+        me.animator.SetTrigger("Attack1");
         dir = me.target.transform.position - me.weapon.firePos.transform.position;
         me.weapon.FireCrossBullet(dir);
         yield return new WaitForSeconds(0.8f);
+
+        me.animator.SetTrigger("Attack0");
         dir = me.target.transform.position - me.weapon.firePos.transform.position;
         me.weapon.FireCrossBullet(dir);
 
+        yield return new WaitForSeconds(1.4f);
 
         me.ActionTable.SetCurAction((int)BossDemoActions.Idle);
     }
@@ -260,6 +277,9 @@ public class Boss_Attack2 : Action<Boss_Demo>
     public override void ActionEnter(Boss_Demo script)
     {
         base.ActionEnter(script);
+        GameObject particle = PoolingManager.Instance.LentalObj("Effect_Magic_01");
+        particle.transform.position = me.transform.position + new Vector3(0f, 1.5f, 0f);
+        me.animator.SetTrigger("Attack0");
         me.StartCoroutine(AttackCoro());
     }
 
@@ -304,7 +324,6 @@ public class Boss_Attack2 : Action<Boss_Demo>
 
         if(hits.Length > 0)
         {
-            Debug.Log(hits[0].name);
             return true;
         }
         else

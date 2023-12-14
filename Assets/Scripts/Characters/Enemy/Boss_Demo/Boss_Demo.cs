@@ -14,6 +14,7 @@ public class Boss_Demo : Enemy
     public float guardAngle = 90f;
     public Boss_Demo_Weapon weapon;
 
+    public ParticleSystem footstepParticle;
     [SerializeField] MMF_Player hitFeedback;
 
     protected override void Initialize()
@@ -43,5 +44,26 @@ public class Boss_Demo : Enemy
 
         HitInfo hitInfo = new HitInfo();
         return hitInfo;
+    }
+
+    private void FixedUpdate()
+    {
+        CalcSpriteDir();
+    }
+
+    private void CalcSpriteDir()
+    {
+        Vector2 targetDir = target.transform.position - this.transform.position;
+        float angleToPlayer = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
+        if (angleToPlayer > -90f && angleToPlayer < 90f)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+            spriteDir = Vector3.right;
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+            spriteDir = Vector3.left;
+        }
     }
 }
