@@ -168,6 +168,8 @@ public class Bullet_Normal : Bullet
                 }
                 else
                 {
+                    GameObject particle = PoolingManager.Instance.LentalObj("Effect_Hit_" + Random.Range(0, 3).ToString());
+                    particle.transform.position = this.transform.position + -(Vector3)normalDir * 1.5f;
                     Resetting();
                     Destroy(this.gameObject);
                 }

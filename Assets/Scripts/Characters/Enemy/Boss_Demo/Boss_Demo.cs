@@ -1,4 +1,5 @@
 using Enums;
+using MoreMountains.Feedbacks;
 using Structs;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ public class Boss_Demo : Enemy
     public Animator animator;
     public float guardAngle = 90f;
     public Boss_Demo_Weapon weapon;
+
+    [SerializeField] MMF_Player hitFeedback;
 
     protected override void Initialize()
     {
@@ -33,9 +36,10 @@ public class Boss_Demo : Enemy
 
     public override HitInfo Hit(int dmg, Vector2 dir)
     {
-            Rigidbody2D.AddForce(dir * 2);
-            status.curHp -= dmg;
-            if (status.curHp <= 0) ActionTable.SetCurAction((int)BossDemoActions.Death);
+        Rigidbody2D.AddForce(dir * 2);
+        status.curHp -= dmg;
+        hitFeedback.PlayFeedbacks();
+        if (status.curHp <= 0) ActionTable.SetCurAction((int)BossDemoActions.Death);
 
         HitInfo hitInfo = new HitInfo();
         return hitInfo;

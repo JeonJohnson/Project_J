@@ -276,12 +276,11 @@ public class Boss_Attack2 : Action<Boss_Demo>
 
         while(isMakingBullet)
         {
-            Vector3 rndPos = me.transform.position + new Vector3(Random.Range(-10f, 10f), Random.Range(-5f, 5f), 0f);
-            Debug.Log(rndPos);
+            Vector3 rndPos = me.transform.position + new Vector3(Random.Range(-5f, 5f), Random.Range(-3f, 3f), 0f);
 
             if (CheckWall(rndPos))
             {
-                Debug.Log(checkWallCount + "번 벽 걸림");
+                //Debug.Log(checkWallCount + "번 벽 걸림");
                 checkWallCount++;
                 if (checkWallCount > 50) break;
             }

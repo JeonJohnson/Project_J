@@ -59,12 +59,14 @@ public class Player_Move : Action<Player>
         bool isMove = moveX != 0 || moveY != 0;
         if (isMove)
         {
+            me.footstepParticle.Play();
             me.animator.SetBool("isMove", true);
             me.MoveActionTable.LastMoveDir = moveDir;
             //조준, 사격기능 활성화
         }
         else
         {
+            me.footstepParticle.Stop();
             me.animator.SetBool("isMove", false);
         }
     }
