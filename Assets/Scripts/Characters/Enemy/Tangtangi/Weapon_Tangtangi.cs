@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,5 +35,9 @@ public class Weapon_Tangtangi : Weapon
         GameObject go = Instantiate(testBulletPrefab, firePos.transform.position, Quaternion.identity);
         go.GetComponent<Bullet>().defaultStat.moveSpd = 200;
         go.GetComponent<Bullet>().Fire(rndDir);
+
+        //transform.DOLocalMove(originPos - weaponRecoilDir * 0.1f, 0.03f).OnComplete(() => { RecoilEffect(); });
     }
+
+
 }

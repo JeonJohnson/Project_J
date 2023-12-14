@@ -1,4 +1,5 @@
 using Enums;
+using MoreMountains.Feedbacks;
 using Structs;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,9 @@ public class Hwasari : Enemy
     public Rigidbody2D Rigidbody2D { get; private set; }
     public Animator animator;
     public Weapon_Hwasari weapon;
+
+    public MMF_Player attackFeedback;
+    [SerializeField] MMF_Player hitFeedback;
 
     protected override void Initialize()
     {
@@ -31,7 +35,9 @@ public class Hwasari : Enemy
 
     public override HitInfo Hit(int dmg, Vector2 dir)
     {
-            Rigidbody2D.AddForce(dir * 2);
+        hitFeedback.PlayFeedbacks();
+
+            Rigidbody2D.AddForce(dir);
             status.curHp -= dmg;
             if (status.curHp <= 0) ActionTable.SetCurAction((int)BangtaniActions.Death);
 

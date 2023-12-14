@@ -31,6 +31,7 @@ public class Player : CObj
     [Header("Feedbacks")]
     [SerializeField] MMBlink hitBlink;
     [SerializeField] MMF_Player hitFeedback;
+    public ParticleSystem footstepParticle;
 
     private Coroutine invincibleCor;
 

@@ -10,6 +10,7 @@ public abstract class Enemy : CObj
     public Player target;
     public NavMeshAgent agent;
     public EnemyStatus status;
+    [HideInInspector] public Vector3 spriteDir;
 
     public virtual void Awake()
     {
