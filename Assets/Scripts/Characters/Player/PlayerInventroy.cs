@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Structs;
 using Enums;
-using UnityEngine.WSA;
 
 public class PlayerInventroy : MonoBehaviour
 {
@@ -185,7 +184,7 @@ public class PlayerInventroy : MonoBehaviour
             {
                 Debug.Log("≈€ √ﬂ∞°");
                 ItemPicker itemPicker = collision.gameObject.GetComponent<ItemPicker>();
-                AddItem(itemPicker.itemData);
+                //AddItem(itemPicker.itemData);
                 itemPicker.Equip(player);
                 collision.gameObject.SetActive(false);
             }

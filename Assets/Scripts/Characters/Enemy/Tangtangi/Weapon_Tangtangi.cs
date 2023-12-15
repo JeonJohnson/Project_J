@@ -2,9 +2,13 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Weapon_Tangtangi : Weapon
 {
+    [SerializeField] Animator muzzleFlashAnim;
+    [SerializeField] Light2D muzzlFlashLight;
+    private float flashTimer = 0f;
     private Vector3 originPos;
     private Tangtangi owner;
     public override void Init(CObj _owner)
@@ -24,10 +28,25 @@ public class Weapon_Tangtangi : Weapon
         dir.Normalize();
 
         this.transform.rotation = Quaternion.LookRotation(this.transform.forward, dir);
+
+        flashTimer -= Time.deltaTime;
+        flashTimer = Mathf.Clamp(flashTimer, 0f, 1f);
+
+        if(flashTimer > 0f)
+        {
+            muzzleFlashAnim.gameObject.SetActive(true);
+            muzzlFlashLight.gameObject.SetActive(true);
+        }
+        else
+        {
+            muzzleFlashAnim.gameObject.SetActive(false);
+            muzzlFlashLight.gameObject.SetActive(false);
+        }
     }
 
     public override void Fire()
     {
+        flashTimer = 0.25f;
         float rnd = Random.Range(-owner.status.spread * 0.5f, owner.status.spread * 0.5f);
         Quaternion rndRot = Quaternion.Euler(0f, 0f, rnd);
         Quaternion dispersionRotation = Quaternion.Euler(0f, 0f, rnd);

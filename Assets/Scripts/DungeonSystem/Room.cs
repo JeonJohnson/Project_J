@@ -4,7 +4,6 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static UnityEditor.PlayerSettings;
 
 public enum RoomType
 { 
@@ -31,10 +30,9 @@ public class Room : MonoBehaviour
 
 
 
-#if UNITY_EDITOR
+
 	public SpriteRenderer planeSR;
 	public SpriteGrid grid;
-#endif
 
 	public void SetPosition(Vector2 pos)
 	{

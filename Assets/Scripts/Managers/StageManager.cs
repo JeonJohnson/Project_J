@@ -25,7 +25,7 @@ public class StageManager : Singleton<StageManager>
 
 			if (rooms[curRoomIndex] == rooms[rooms.Count - 1])
 			{ //이건 보스방 클리어 조건
-                UiController_Proto.Instance.ShowResultWindow(true, true);
+                if (IngameController.Instance.gameStatus == IngameController.GameStatus.Playing) UiController_Proto.Instance.ShowResultWindow(true, true);
             }
 			else
 			{ //일반방 클리어 조건

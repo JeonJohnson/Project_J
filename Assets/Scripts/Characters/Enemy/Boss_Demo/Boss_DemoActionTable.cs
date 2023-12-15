@@ -197,7 +197,7 @@ public class Boss_Attack0 : Action<Boss_Demo>
             Vector2 direction = new Vector2(Mathf.Cos(angleRadians), Mathf.Sin(angleRadians));
 
             SoundManager.Instance.PlayTempSound("Shooting Gun  30", me.transform.position, 0.5f, 0.75f, 1f);
-            me.weapon.Fire(direction, me.status.spread, 100f, 1f);
+            me.weapon.Fire(direction, me.status.spread, 150f, 1f);
             curbulletCount++;
         }
 
@@ -233,7 +233,7 @@ public class Boss_Attack1 : Action<Boss_Demo>
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * i;
             Vector2 direction = new Vector2(Mathf.Cos(angleRadians), Mathf.Sin(angleRadians));
-            me.weapon.Fire(direction, 0, 100f, 1f);
+            me.weapon.Fire(direction, 0, 150f, 1f);
         }
         yield return new WaitForSeconds(0.8f);
 
@@ -243,7 +243,7 @@ public class Boss_Attack1 : Action<Boss_Demo>
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * (float)i + 22.5f;
             Vector2 direction = new Vector2(Mathf.Cos(angleRadians), Mathf.Sin(angleRadians));
-            me.weapon.Fire(direction, 0, 100f, 1f);
+            me.weapon.Fire(direction, 0, 150f, 1f);
         }
         yield return new WaitForSeconds(0.8f);
 
@@ -253,7 +253,7 @@ public class Boss_Attack1 : Action<Boss_Demo>
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * i;
             Vector2 direction = new Vector2(Mathf.Cos(angleRadians), Mathf.Sin(angleRadians));
-            me.weapon.Fire(direction, 0, 100f, 1f);
+            me.weapon.Fire(direction, 0, 150f, 1f);
         }
         yield return new WaitForSeconds(1.2f);
 

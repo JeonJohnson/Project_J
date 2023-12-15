@@ -84,7 +84,7 @@ public class Player : CObj
         moveActionTable.enabled = false;
         attackController.enabled = false;
 
-        UiController_Proto.Instance.ShowResultWindow(true, false);
+        if(IngameController.Instance.gameStatus == IngameController.GameStatus.Playing) UiController_Proto.Instance.ShowResultWindow(true, false);
     }
 
     public IEnumerator InvincibleCor(float time)

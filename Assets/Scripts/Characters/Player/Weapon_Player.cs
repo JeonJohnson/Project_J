@@ -36,8 +36,7 @@ public class Weapon_Player : Weapon
 
     private void Start()
     {
-       // upgradeData.bulletType = BulletType.Laser;
-        defaltStatus.bulletCount.Value = 50;
+
     }
 
     private void Update()

@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.WSA;
-using static UnityEngine.Rendering.DebugUI;
 
 public class IngameController : Singleton<IngameController>
 {
@@ -21,6 +19,14 @@ public class IngameController : Singleton<IngameController>
     }
 
     private bool isWindowActivated = false;
+    public enum GameStatus
+    {
+        Playing,
+        Win,
+        Lose
+    }
+
+    public GameStatus gameStatus = GameStatus.Playing;
 
     private void FindPlayer()
     {
