@@ -136,7 +136,7 @@ public class Tangtangi_Attack : Action<Tangtangi>
     public override void ActionEnter(Tangtangi script)
     {
         base.ActionEnter(script);
-        timer = me.status.fireRate;
+        timer = me.status.fireWaitTime;
         curbulletCount = me.status.fireCountPerAttack;
     }
 

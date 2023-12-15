@@ -38,7 +38,7 @@ public class Boss_Demo_Weapon : Weapon
         go.GetComponent<Bullet>().Fire(rndDir);
     }
 
-    public void Fire(Vector2 angle, float spread, float speed)
+    public void Fire(Vector2 angle, float spread, float speed, float size = 1f)
     {
         float rnd = Random.Range(-spread * 0.5f, spread * 0.5f);
         Quaternion rndRot = Quaternion.Euler(0f, 0f, rnd);
@@ -50,6 +50,7 @@ public class Boss_Demo_Weapon : Weapon
 
         GameObject go = Instantiate(testBulletPrefab, firePos.transform.position, Quaternion.identity);
         go.GetComponent<Bullet>().Fire(rndDir, 4, speed, 0.5f);
+        go.transform.localScale = new Vector2(size,size);
     }
 
     public void FireRainBullet(Vector3 Pos, float time, float distance)

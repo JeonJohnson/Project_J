@@ -175,8 +175,8 @@ MonoBehaviour:
   status:
     maxHp: 5
     curHp: 5
-    walkSpeed: 2
-    traceRange: 15
+    walkSpeed: 0.8
+    traceRange: 5
     isInvincible: 0
     isDurable: 0
     fireTimer: 0
@@ -185,7 +185,7 @@ MonoBehaviour:
     fireCountPerAttack: 5
     bulletNumPerFire: 1
     bulletSize: 0.5
-    attackRange: 10
+    attackRange: 4
     spread: 10
   spriteDir: {x: 0, y: 0, z: 0}
   ActionTable: {fileID: 3753632867403724042}

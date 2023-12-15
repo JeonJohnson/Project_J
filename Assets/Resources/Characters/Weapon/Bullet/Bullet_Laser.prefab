@@ -514,7 +514,7 @@ MonoBehaviour:
   knockBackPower: 15
   laserLineRenderer: {fileID: 4300789257732577111}
   infoLineRenderer: {fileID: 5144874354415212057}
-  fireWaitTime: 1
+  fireWaitTime: 0.5
   wallLayer:
     serializedVersion: 2
     m_Bits: 1024

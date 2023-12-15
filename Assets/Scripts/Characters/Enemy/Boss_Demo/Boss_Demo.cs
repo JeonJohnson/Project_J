@@ -28,9 +28,6 @@ public class Boss_Demo : Enemy
         agent.updateUpAxis = false;
         agent.speed = status.walkSpeed;
         status.fireTimer = status.fireWaitTime;
-
-        //원래는 구독해서 써야하는데.. 시간읎당
-        UiController_Proto.Instance.playerHudView?.bossHpBarHolder.SetActive(true);
     }
 
     public override void Awake()
@@ -41,6 +38,10 @@ public class Boss_Demo : Enemy
 
     public override HitInfo Hit(int dmg, Vector2 dir)
     {
+        //원래는 구독해서 써야하는데.. 시간읎당
+        Debug.Log("1");
+        UiController_Proto.Instance.playerHudView?.bossHpBarHolder.SetActive(true);
+
         Rigidbody2D.AddForce(dir * 2);
         if (!status.isDurable)
         {
