@@ -12,6 +12,7 @@ using Unity.VisualScripting;
 using System;
 
 using Random = UnityEngine.Random;
+using UnityEngine.Analytics;
 
 
 
@@ -108,43 +109,45 @@ public class RoomGenerator : MonoBehaviour
 
 		Vector2Int minSize = new Vector2Int(int.MaxValue, int.MaxValue);
 		Vector2Int maxSize = new Vector2Int(int.MinValue, int.MinValue);
+
+
+
 		foreach (var prefab in RoomPrefabs.ToList())
 		{
-			//int curPrefabSize = 0;
 			if (prefab.Value == Vector2Int.zero)
 			{
 				Room room = prefab.Key.GetComponent<Room>();
 				if (room != null)
 				{
-					
+					room.UpdateRect();
 					Vector2 tempSize = room.rect.size;
 					RoomPrefabs[prefab.Key] = new Vector2Int((int)tempSize.x, (int)tempSize.y);
 				}
 				else
-				{ 
-					//오류 띄워주기
+				{
+					
 				}
 			}
 
-			if (prefab.Value.x < minSize.x)
+			if (RoomPrefabs[prefab.Key].x < minSize.x)
 			{
-				minSize.x = prefab.Value.x;
+				minSize.x = RoomPrefabs[prefab.Key].x;
 			}
 
-			if (prefab.Value.x > maxSize.x)
+			if (RoomPrefabs[prefab.Key].x > maxSize.x)
 			{
-				maxSize.x = prefab.Value.x;
+				maxSize.x = RoomPrefabs[prefab.Key].x;
 			}
 
 
-			if (prefab.Value.y < minSize.y)
+			if (RoomPrefabs[prefab.Key].y < minSize.y)
 			{
-				minSize.y = prefab.Value.y;
+				minSize.y = RoomPrefabs[prefab.Key].y;
 			}
 
-			if (prefab.Value.y > maxSize.y)
+			if (RoomPrefabs[prefab.Key].y > maxSize.y)
 			{
-				maxSize.y = prefab.Value.y;
+				maxSize.y = RoomPrefabs[prefab.Key].y;
 			}
 		}
 
@@ -220,7 +223,7 @@ public class RoomGenerator : MonoBehaviour
 		
 	}
 
-	private List<Area> Spliting(Area area, int tryCount = 100)
+	private List<Area> Spliting(Area area, int tryCount = 1000)
 	{
 		if (area.rect.width <= minRoomSize.x || area.rect.height <= minRoomSize.y)
 		{
@@ -272,16 +275,26 @@ public class RoomGenerator : MonoBehaviour
 					break;
 			}
 
-			if (newRect[0].width > minRoomSize.x + centerPosOffset
-				&& newRect[1].width > minRoomSize.x + centerPosOffset
-				&& newRect[0].height > minRoomSize.y + centerPosOffset
-				&& newRect[1].height > minRoomSize.y + centerPosOffset)
+			//if (newRect[0].width > minRoomSize.x + centerPosOffset
+			//	&& newRect[1].width > minRoomSize.x + centerPosOffset
+			//	&& newRect[0].height > minRoomSize.y + centerPosOffset
+			//	&& newRect[1].height > minRoomSize.y + centerPosOffset)
+			//{
+			//	break;
+			//}
+			//else
+			//{
+			//	++curTry;
+			//}
+
+			if (IsRoomSizeAppropriate(newRect[0], newRect[1]))
 			{
 				break;
 			}
-			++curTry;
+			else { ++curTry; }
+			
 		}
-		while (curTry < tryCount);
+		while (curTry <= tryCount);
 
 		if (curTry >= tryCount)
 		{
@@ -295,6 +308,25 @@ public class RoomGenerator : MonoBehaviour
 		}
 
 		return splitedArea;
+	}
+
+	private bool IsRoomSizeAppropriate(Rect rect1, Rect rect2)
+	{
+		foreach (var prefab in RoomPrefabs)
+		{
+			if (rect1.width > prefab.Value.x + centerPosOffset
+				&& rect2.width > prefab.Value.x + centerPosOffset
+				&& rect1.height > prefab.Value.y + centerPosOffset
+				&& rect2.height > prefab.Value.y + centerPosOffset)
+			{
+				continue;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private Area CreateArea(Vector2 pos, Vector2 size, int index, Color? color = null)
@@ -392,12 +424,24 @@ public class RoomGenerator : MonoBehaviour
 
 		GameObject newRoomObj = Instantiate(availablePrefabs[rand]);
 		newRoomObj.name = $"Room_in ({area.index}) Area";
-		//newRoomObj.transform.position = area.rect.center;
+
 
 		Room newRoomScript = newRoomObj.GetComponent<Room>();
 		//newRoomScript.SetPosition(area.rect.center);
+		float x = area.rect.center.x;
+		x -= newRoomScript.rect.size.x * 0.5f;
+
+		float y = area.rect.center.y;
+		y -= newRoomScript.rect.size.y * 0.5f;
+
+		newRoomScript.transform.position = new Vector3(x, y, 0);
+
+		newRoomScript.UpdateRect();
+
 		if(newRoomScript.planeSR) newRoomScript.planeSR.color = color;
 		newRoomScript.belongsIndex = area.index;
+		
+
 
 		newRoomObj.transform.SetParent(roomBox);
 
@@ -420,6 +464,11 @@ public class RoomGenerator : MonoBehaviour
 
 	private void Calibrate(Area area, Room origin)
 	{
+		if (origin == null)
+		{
+			return;
+		}
+
 		Vector2 pos = Vector2.zero;
 
 		
@@ -438,7 +487,7 @@ public class RoomGenerator : MonoBehaviour
 		pos.y = h % 2 == 0 ? Mathf.FloorToInt(pos.y) : Mathf.FloorToInt(pos.y) + 0.5f;
 
 
-		origin.transform.position = new Vector3(pos.x - w * 0.5f, pos.y - w * 0.5f);
+		origin.transform.position = new Vector3(pos.x - w * 0.5f, pos.y - h * 0.5f);
 
 		origin.UpdateRect();
 	}
@@ -632,46 +681,23 @@ public class RoomGenerator : MonoBehaviour
 
 	private Corridor CreateCorridor(Rect rect, eDirection relateDir, Room[] rooms)
 	{
+		if (relateDir == eDirection.End)
+		{
+			AllReset();
+			return null;
+		}
+
 
 		GameObject corridorObj = Instantiate(CorridorPrefab[(int)relateDir]);
 		Corridor script =corridorObj.GetComponent<Corridor>();
 
 		Rect newRect = Rect.zero;
 		int thickness = 3;
-		//Vector2 pos = Vector2.zero;
-		//Vector2 size = Vector2.zero;
-		//int corridorWidth = 3;
-		//int corridorWidth = (int)corridorObj.transform.localScale.x;
-
-		//if (relateDir == eDirection.Horizon)
-		//{
-		//	pos.x = rect.center.x;
-
-		//	pos.y = rect.yMin + Random.Range(0, (int)rect.height - corridorWidth);
-		//	pos.y += corridorWidth * 0.5f;
-
-		//	//size = rect.size;
-		//	//size.y = CorridorPrefab.transform.localScale.x;
-		//}
-		//else
-		//{
-		//	pos.x = rect.xMin + Random.Range(0, (int)rect.width - corridorWidth);
-		//	pos.x += corridorWidth * 0.5f;
-
-		//	pos.y = rect.center.y;
-
-		//	//size = rect.size;
-		//	//size.x = CorridorPrefab.transform.localScale.x;
-		//}
-
-		//corridorObj.transform.position = pos;
-		//corridorObj.transform.localScale = size;
-
 
 		if (relateDir == eDirection.Horizon)
 		{
-			newRect.xMin = rect.xMin - 1;
-			newRect.xMax = rect.xMax + 1;
+			newRect.xMin = rect.xMin - 2;
+			newRect.xMax = rect.xMax + 2;
 
 			//정수 아니면 .5단위로 뽑아야해서 이렇게 했음.
 			int randVal = Random.Range(0, (int)rect.height - thickness);
@@ -680,8 +706,8 @@ public class RoomGenerator : MonoBehaviour
 		}
 		else
 		{
-			newRect.yMin = rect.yMin -1 ;
-			newRect.yMax = rect.yMax + 1;
+			newRect.yMin = rect.yMin -2 ;
+			newRect.yMax = rect.yMax + 2;
 
 			int randVal = Random.Range(0, (int)rect.width - thickness);
 			newRect.xMin += rect.xMin + randVal /*+ (thickness * 0.5f)*/;

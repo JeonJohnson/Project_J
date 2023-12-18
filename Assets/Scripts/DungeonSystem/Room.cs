@@ -69,12 +69,12 @@ public class Room : MonoBehaviour
 		rect.size = size;
 	}
 
-	public void SetPosition(Vector2 centrPos)
-	{
-		transform.position = new Vector3(centrPos.x - rect.width * 0.5f, centrPos.y - rect.height * 0.5f);
+	//public void SetPosition(Vector2 centrPos)
+	//{
+	//	transform.position = new Vector3(centrPos.x - rect.width * 0.5f, centrPos.y - rect.height * 0.5f);
 
-		UpdateRect();
-	}
+	//	UpdateRect();
+	//}
 
 
 	public void FindWallTiles()
