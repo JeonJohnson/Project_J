@@ -48,7 +48,11 @@ MonoBehaviour:
   RoomPrefabs:
     _serializedList:
     - Key: {fileID: 7538017898559712734, guid: d54efe7942b4390468a0ba454a16c367, type: 3}
-      Value: {x: 19, y: 19}
+      Value: {x: 0, y: 0}
+    - Key: {fileID: 7538017898559712734, guid: 0a5cc6a7f1215934486552e491f6859f, type: 3}
+      Value: {x: 0, y: 0}
+    - Key: {fileID: 7538017898559712734, guid: 6feadcad5ebcf6d4f847df383116179d, type: 3}
+      Value: {x: 0, y: 0}
   AreaPrefab: {fileID: 4294179682766107946, guid: bd715798bbfd23d4db9efdf7dec7f934, type: 3}
   CorridorPrefab:
   - {fileID: 1112924921229326246, guid: 3970d95f78c35024b99974a0b36e2d09, type: 3}

@@ -1,9 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+
+#if UNITY_EDITOR
+using UnityEditor;
+
+[CustomEditor(typeof(Room))]
+public class Room_Editor : Editor
+{
+	public override void OnInspectorGUI()
+	{
+		Room room = (Room)target;
+
+		DrawDefaultInspector();
+
+		if (GUILayout.Button("UpdateRect"))
+		{
+			room.UpdateRect();
+			Debug.Log(room.rect);
+		}
+	}
+}
+#endif
 
 public enum RoomType
 { 
@@ -16,48 +36,44 @@ public enum RoomType
 }
 public class Room : MonoBehaviour
 {
+	//[field: System.NonSerialized]
+	[ReadOnly]
 	public Rect rect;
+	[ReadOnly]
 	public int belongsIndex;
 	public RoomType roomType;
 
-
-
+	[Header("TileMap")]
 	public Tilemap wallTM;
 	public List<KeyValuePair<Tile, Vector2Int>> wallTiles = new List<KeyValuePair<Tile, Vector2Int>>();
 	public Tilemap groundTM;
 
 
-
-
-
-
+	[Header("Grid")] 
 	public SpriteRenderer planeSR;
 	public SpriteGrid grid;
 
-	public void SetPosition(Vector2 pos)
-	{
-		transform.position = new Vector3(pos.x - rect.width * 0.5f, pos.y - rect.height * 0.5f);
-
-		UpdateRect();
-	}
-
-	public void SetPosition(int x, int y)
-	{
-		Vector2 pos = new(x, y);
-		transform.position = new Vector3(pos.x - rect.width * 0.5f, pos.y - rect.height * 0.5f);
-
-		UpdateRect();
-	}
-
-	
-
 	public void UpdateRect()
 	{
-#if UNITY_EDITOR
-		rect.size = planeSR.transform.localScale;
-#endif
-		rect.center = new Vector2(transform.position.x + rect.size.x * 0.5f , transform.position.y + rect.size.y * 0.5f);
+		rect.xMin = transform.position.x;
+		rect.yMin = transform.position.y;
 
+		//이거 타일맵의 cellBound가 이상할경우
+		//Inspector창에서 TileMap 컴포넌트 우측상단에 톱니바퀴 눌러서 compreess bound 해줘야함.
+
+		wallTM.CompressBounds();
+		Vector2 size;
+		size.x = wallTM.cellBounds.size.x;
+		size.y = wallTM.cellBounds.size.y;
+
+		rect.size = size;
+	}
+
+	public void SetPosition(Vector2 centrPos)
+	{
+		transform.position = new Vector3(centrPos.x - rect.width * 0.5f, centrPos.y - rect.height * 0.5f);
+
+		UpdateRect();
 	}
 
 
@@ -68,7 +84,7 @@ public class Room : MonoBehaviour
 			for (int x = 0; x < rect.width; ++x)
 			{
 				Tile tile = wallTM.GetTile<Tile>(new Vector3Int(x, y, 0));
-				
+
 				if (tile != null)
 				{
 					KeyValuePair<Tile, Vector2Int> temp = new(tile, new(x, y));
@@ -77,7 +93,7 @@ public class Room : MonoBehaviour
 
 			}
 		}
-	
+
 	}
 
 	public void DoorConstruction(Corridor cor)
@@ -106,13 +122,13 @@ public class Room : MonoBehaviour
 	{
 		//linkedRooms = new List<Room>();
 
+		
+
+
+
 #if UNITY_EDITOR
 		if(!grid) grid = GetComponentInChildren<SpriteGrid>();	
 		if(!planeSR) planeSR = GetComponent<SpriteRenderer>();
-#endif
-		UpdateRect();
-
-#if UNITY_EDITOR
 		grid.UpdateGrid();
 #endif
 	}

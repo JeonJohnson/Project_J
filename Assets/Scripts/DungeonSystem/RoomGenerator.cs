@@ -108,13 +108,22 @@ public class RoomGenerator : MonoBehaviour
 
 		Vector2Int minSize = new Vector2Int(int.MaxValue, int.MaxValue);
 		Vector2Int maxSize = new Vector2Int(int.MinValue, int.MinValue);
-		foreach (var prefab in RoomPrefabs)
+		foreach (var prefab in RoomPrefabs.ToList())
 		{
 			//int curPrefabSize = 0;
 			if (prefab.Value == Vector2Int.zero)
 			{
-				Vector2 tempSize = prefab.Key.transform.localScale;
-				RoomPrefabs[prefab.Key] = new Vector2Int((int)tempSize.x, (int)tempSize.y);
+				Room room = prefab.Key.GetComponent<Room>();
+				if (room != null)
+				{
+					
+					Vector2 tempSize = room.rect.size;
+					RoomPrefabs[prefab.Key] = new Vector2Int((int)tempSize.x, (int)tempSize.y);
+				}
+				else
+				{ 
+					//오류 띄워주기
+				}
 			}
 
 			if (prefab.Value.x < minSize.x)
@@ -358,7 +367,7 @@ public class RoomGenerator : MonoBehaviour
 				availablePrefabs.Add(prefab.Key);
 
 				float tempDiffer = Mathf.Abs(size.x * size.y - areaSize.x * areaSize.y);
-				
+
 				if (differMin > tempDiffer)
 				{
 					differMin = Mathf.CeilToInt(tempDiffer);
@@ -386,7 +395,7 @@ public class RoomGenerator : MonoBehaviour
 		//newRoomObj.transform.position = area.rect.center;
 
 		Room newRoomScript = newRoomObj.GetComponent<Room>();
-		newRoomScript.SetPosition(area.rect.center);
+		//newRoomScript.SetPosition(area.rect.center);
 		if(newRoomScript.planeSR) newRoomScript.planeSR.color = color;
 		newRoomScript.belongsIndex = area.index;
 
@@ -413,8 +422,7 @@ public class RoomGenerator : MonoBehaviour
 	{
 		Vector2 pos = Vector2.zero;
 
-		//int w = (int)origin.transform.localScale.x;
-		//int h = (int)origin.transform.localScale.y;
+		
 		int w = (int)origin.rect.width;
 		int h = (int)origin.rect.height;
 
@@ -425,12 +433,12 @@ public class RoomGenerator : MonoBehaviour
 		float yMin = area.transform.position.y - (area.rect.height * 0.5f) + (h * 0.5f) + centerPosOffset;
 		float yMax = area.transform.position.y + (area.rect.height * 0.5f) - (h * 0.5f) - centerPosOffset - 0.5f;
 		pos.y = yMin >= yMax ? area.transform.position.y : Random.Range(yMin, yMax);
-		//pos.y = Random.Range(yMin, yMax);
 
 		pos.x = w % 2 == 0 ? Mathf.FloorToInt(pos.x) : Mathf.FloorToInt(pos.x) + 0.5f;
 		pos.y = h % 2 == 0 ? Mathf.FloorToInt(pos.y) : Mathf.FloorToInt(pos.y) + 0.5f;
 
-		origin.SetPosition(pos);
+
+		origin.transform.position = new Vector3(pos.x - w * 0.5f, pos.y - w * 0.5f);
 
 		origin.UpdateRect();
 	}
@@ -487,7 +495,7 @@ public class RoomGenerator : MonoBehaviour
 				max[k].x = pos.x + (size.x * 0.5f);
 				max[k].y = pos.y + (size.y * 0.5f);
 
-				//Debug.Log(rooms[k].gameObject.name + min[k] + max[k]);
+				Debug.Log(rooms[k].gameObject.name + min[k] + max[k]);
 			}
 
 			Rect corridorRect = Rect.zero;
