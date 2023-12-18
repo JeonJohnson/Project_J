@@ -110,22 +110,22 @@ public class Ui_DetailStatus_View : MonoBehaviour
 
     public void UpdatePlayerStatusHolder(Player player)
     {
-        string hpText = player.status.curHp.Value.ToString() + "/" + player.status.maxHp;
+        string hpText = "HP : " + player.status.curHp.Value.ToString() + "/" + player.status.maxHp;
         string armorText = "";
-        string moveSpeedText = player.status.walkSpeed.ToString() + player.inventroy.invenBonusStatus.bonus_Player_Speed.ToString();
+        string moveSpeedText = "Move Speed : " + player.status.walkSpeed.ToString() + player.inventroy.invenBonusStatus.bonus_Player_Speed.ToString();
 
-        string expectDamageText = ((player.curWeapon.defaltStatus.damage + player.inventroy.invenBonusStatus.bonus_Weapon_Damage + player.bonusStatus.bonus_Weapon_Damage) *
+        string expectDamageText = "DMG : " + ((player.curWeapon.defaltStatus.damage + player.inventroy.invenBonusStatus.bonus_Weapon_Damage + player.bonusStatus.bonus_Weapon_Damage) *
             (player.curWeapon.defaltStatus.fireRate + player.bonusStatus.bonus_Weapon_FireRate + player.inventroy.invenBonusStatus.bonus_Weapon_FireRate) *
             (player.curWeapon.defaltStatus.bulletNumPerFire + player.inventroy.invenBonusStatus.bonus_Weapon_BulletNumPerFire + player.bonusStatus.bonus_Weapon_BulletNumPerFire)).ToString();
 
-        string consumeRangeText = player.curWeapon.suctionStat.suctionRange.ToString();
-        string consumeAngleText = player.curWeapon.suctionStat.suctionAngle.ToString();
-        string bulletTypeText = player.curWeapon.upgradeData.bulletType.ToString();
-        string bulletNumPerFireText = (player.curWeapon.defaltStatus.bulletNumPerFire + player.inventroy.invenBonusStatus.bonus_Weapon_BulletNumPerFire + player.bonusStatus.bonus_Weapon_BulletNumPerFire).ToString();
-        string bulletSpreadText = player.curWeapon.defaltStatus.bulletSpread.ToString();
-        string dpsText = player.curWeapon.defaltStatus.fireRate + player.bonusStatus.bonus_Weapon_FireRate+ player.inventroy.invenBonusStatus.bonus_Weapon_FireRate.ToString();
+        string consumeRangeText = "Consume Range : " + player.curWeapon.suctionStat.suctionRange.ToString();
+        string consumeAngleText = "Consume Angle : " + player.curWeapon.suctionStat.suctionAngle.ToString();
+        string bulletTypeText = "Bullet Type : " + player.curWeapon.upgradeData.bulletType.ToString();
+        string bulletNumPerFireText = "Fire Rate : " + (player.curWeapon.defaltStatus.bulletNumPerFire + player.inventroy.invenBonusStatus.bonus_Weapon_BulletNumPerFire + player.bonusStatus.bonus_Weapon_BulletNumPerFire).ToString();
+        string bulletSpreadText = "Spread : " + player.curWeapon.defaltStatus.bulletSpread.ToString();
+        string dpsText = "DPS : " + player.curWeapon.defaltStatus.fireRate + player.bonusStatus.bonus_Weapon_FireRate+ player.inventroy.invenBonusStatus.bonus_Weapon_FireRate.ToString();
 
-        playerStatusText.text = hpText + "\n" +armorText+"\n"+moveSpeedText+"\n"+expectDamageText+"\n"+consumeRangeText+"\n"+consumeAngleText+"\n"+bulletTypeText+"\n"+bulletNumPerFireText+"\n"+bulletSpreadText+"\n"+dpsText;
+        playerStatusText.text = hpText /*+ "\n" +armorText*/+"\n"+moveSpeedText+"\n"+expectDamageText+"\n"+consumeRangeText+"\n"+consumeAngleText+"\n"+bulletTypeText+"\n"+bulletNumPerFireText+"\n"+bulletSpreadText+"\n"+dpsText;
     }
 
     public void ShowMenu(MenuList menu)

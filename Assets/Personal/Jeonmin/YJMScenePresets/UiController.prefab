@@ -2513,7 +2513,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &536395810386780432
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3292,7 +3292,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1975278063215397413
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17096,7 +17096,7 @@ Transform:
   m_Children:
   - {fileID: 209844558242372798}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1014561847854433152
 MonoBehaviour:
@@ -18623,6 +18623,14 @@ MonoBehaviour:
   activeItemImage: {fileID: 5908307258551827459}
   passiveItemHolder: {fileID: 5535472067499280571}
   activeItemGauge: {fileID: 3967830770117942396}
+  bossHpBarHolder: {fileID: 0}
+  bossHpBarImage: []
+  bossHpBarFeedback: {fileID: 0}
+  resultHolder: {fileID: 0}
+  resultCanvasGroup: {fileID: 0}
+  resultText: {fileID: 0}
+  resultButton: {fileID: 0}
+  crossHair: {fileID: 0}
 --- !u!114 &8962072604735378217 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1147875932994123530, guid: 42354c5232646b44bb84f38f29b91d10, type: 3}
