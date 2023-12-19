@@ -124,7 +124,7 @@ public class Demo_Room : MonoBehaviour
                         {
                             pos = item;
 
-                            string[] itemNames = {"Active_Dash","Passive_BulletSpeedUp","Passive_Laser","Passive_Rapid", "Passive_Shotgun" };
+                            string[] itemNames = { "Passive_BulletSpeedUp","Passive_Laser","Passive_Rapid", "Passive_Shotgun" };
                             int randomIndex = Random.Range(0, itemNames.Length);
 
                             GameObject itemGo = PoolingManager.Instance.LentalObj(itemNames[randomIndex]);
