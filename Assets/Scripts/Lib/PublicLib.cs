@@ -342,6 +342,7 @@ public static class Funcs
         //rotation狼 y蔼 euler蔼 持栏搁 forward Dir唱咳.
 
         //炼陛 歹 磊技茄 郴侩篮 氦磐 郴利, 寇利 毫焊祭
+		//이거 주석 와이라노,,, 암 코리안 돈 슛 미 
 
         float radAngle = degreeAngle * Mathf.Deg2Rad;
         return new Vector3(Mathf.Sin(radAngle), Mathf.Cos(radAngle));
