@@ -32,10 +32,8 @@ public enum eDirection
 //6. 직각,수직의 선으로 정리하기
 
 //=> 이런 방식의 문제점. 최소, 최대 방크기가 기준이 되기 애매함
-public class RoomGenerator : MonoBehaviour
+public class RoomGenerator_BSP : MonoBehaviour
 {
-
-
 
 	[Header("Setting Vals")]
 	public Vector2 wholeAreaSize; //나눠지지 않은, 온전한 던전의 초기 넓이 값.

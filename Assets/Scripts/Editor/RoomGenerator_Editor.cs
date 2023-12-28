@@ -5,13 +5,13 @@ using UnityEngine;
 using UnityEditor;
 using MoreMountains.Feedbacks;
 
-[CustomEditor(typeof(RoomGenerator))]
-public class RoomGenerator_Editor : Editor
+[CustomEditor(typeof(RoomGenerator_BSP))]
+public class RoomGenerator_BSP_Editor : Editor
 {
 	//bool isInit = false;
 	public override void OnInspectorGUI()
 	{
-		RoomGenerator generator = (RoomGenerator)target;
+		RoomGenerator_BSP generator = (RoomGenerator_BSP)target;
 		
 		DrawDefaultInspector();
 
