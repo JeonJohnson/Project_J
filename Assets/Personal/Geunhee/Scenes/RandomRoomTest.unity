@@ -220,7 +220,7 @@ MonoBehaviour:
   respawnCountRange: {x: 1, y: 2}
   respawnCount: 0
   newDirPercent: 0.5
-  loopWaitTime: 0.1
+  loopWaitTime: 0.013
   tileSize: 0
   groundCount: 0
   grounds: []

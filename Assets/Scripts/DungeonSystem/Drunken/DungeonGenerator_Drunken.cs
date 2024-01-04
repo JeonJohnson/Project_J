@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Tilemaps;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
 
 
 public enum TileState
@@ -250,34 +251,32 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 		{
 			for (int y = 0; y < areaSize.y - 1; ++y)
 			{
-                if (tiles[x, y] == TileState.Ground)
+    //            x = (int)(x - (areaSize.x * 0.5f));
+				//y = (int)(y - (areaSize.y * 0.5f));
+
+				if (tiles[x, y] == TileState.Ground)
                 {
-                    Vector2Int pos = new Vector2Int(x, y);
+                    Vector2Int index = new Vector2Int(x, y);
 
 					if (tiles[x, y + 1] == TileState.None)
 					{
-                        pos.y += 1;
-						//CreateTile(pos, TileState.Wall);
-						//tiles[x, y + 1] = TileState.Wall;
+						index.y += 1;
 					}
-					if (tiles[x, y - 1] == TileState.None)
+					else if (tiles[x, y - 1] == TileState.None)
 					{
-                        pos.y -= 1;
-						//Spawn(x, y - 1, wallObj);
-						//tiles[x, y - 1] = tilesSpace.wall;
+						index.y -= 1;
 					}
-					if (tiles[x + 1, y] == TileState.None)
+					else if (tiles[x + 1, y] == TileState.None)
 					{
-                        pos.x += 1;
-						//Spawn(x + 1, y, wallObj);
-						//tiles[x + 1, y] = tilesSpace.wall;
+						index.x += 1;
 					}
-					if (tiles[x - 1, y] == TileState.None)
+					else if (tiles[x - 1, y] == TileState.None)
 					{
-                        pos.x -= 1;
-						//tiles[x - 1, y] = tilesSpace.wall;
+						index.x -= 1;
 					}
-					tiles[(int)pos.x, (int)pos.y] = TileState.Wall;
+                    Vector2 pos;
+                    pos.x = (int)(index.x - (areaSize.x * 0.5f));
+					pos.y = (int)(index.y - (areaSize.y * 0.5f));
                     walls.Add(CreateTile(pos, TileState.Wall));
                     wallCount = walls.Count;
 				}

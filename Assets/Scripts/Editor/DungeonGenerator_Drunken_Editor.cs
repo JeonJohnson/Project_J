@@ -29,7 +29,7 @@ public class DungeonGenerator_Drunken_Editor : Editor
 
 		if (GUILayout.Button("Test Wall"))
 		{
-			generator.CreateWall();
+			//generator.CreateWall();
 		}
 		//if (GUILayout.Button("Split Area Once"))
 		//{
