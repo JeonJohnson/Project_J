@@ -32,7 +32,7 @@ public enum eDirection
 //6. 직각,수직의 선으로 정리하기
 
 //=> 이런 방식의 문제점. 최소, 최대 방크기가 기준이 되기 애매함
-public class RoomGenerator_BSP : MonoBehaviour
+public class DungeonGenerator_BSP : MonoBehaviour
 {
 
 	[Header("Setting Vals")]

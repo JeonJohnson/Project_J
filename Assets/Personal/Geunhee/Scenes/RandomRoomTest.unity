@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &657832986
+--- !u!1 &62750162
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,30 +131,30 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 657832987}
+  - component: {fileID: 62750163}
   m_Layer: 0
-  m_Name: CorridorBox
+  m_Name: WallBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &657832987
+--- !u!4 &62750163
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 657832986}
+  m_GameObject: {fileID: 62750162}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 640389051}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1313652151
+--- !u!1 &640389050
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,28 +162,100 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1313652152}
+  - component: {fileID: 640389051}
+  - component: {fileID: 640389052}
   m_Layer: 0
-  m_Name: AreaBox
+  m_Name: DungeonGenerator_Drunken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1313652152
+--- !u!4 &640389051
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313652151}
+  m_GameObject: {fileID: 640389050}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 973374637}
+  - {fileID: 62750163}
   m_Father: {fileID: 0}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &640389052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640389050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 439f7d287510082479b36c4a29e0b3d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GroundBox: {fileID: 973374637}
+  WallBox: {fileID: 62750163}
+  GroundPrefabs:
+  - {fileID: 9021983486952683125, guid: e6afa9c14a459984492453265d292355, type: 3}
+  WallPrefabs:
+  - {fileID: 2475190633897162008, guid: 429d9745b7082124fb4d608cdc886536, type: 3}
+  areaSize: {x: 30, y: 30}
+  areaFillRatio: 0.35
+  ignorePercent: 0.5
+  maxTryCount: 5000
+  curExplorerCount: 0
+  startExplorerCount: 10
+  ExplorerCountRange: {x: 1, y: 10}
+  destoryPercent: 0.2
+  destoryCountRange: {x: 1, y: 2}
+  destoryCount: 0
+  respawnPercent: 0.5
+  respawnCountRange: {x: 1, y: 2}
+  respawnCount: 0
+  newDirPercent: 0.5
+  loopWaitTime: 0.1
+  tileSize: 0
+  groundCount: 0
+  grounds: []
+  wallCount: 0
+  walls: []
+--- !u!1 &973374636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 973374637}
+  m_Layer: 0
+  m_Name: GroundBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &973374637
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973374636}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 640389051}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1496041544
 GameObject:
@@ -337,37 +409,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 1496041546}
   zoomSpd: 5
---- !u!1 &1543744437
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1543744438}
-  m_Layer: 0
-  m_Name: RoomBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1543744438
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1543744437}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2066355074
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,20 +512,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6431563558216827787, guid: 9078c2a640aa0c0418f40f5680eba2dd, type: 3}
       propertyPath: m_Name
-      value: RoomGenerator
+      value: DungeonGenerator_BSP
       objectReference: {fileID: 0}
-    - target: {fileID: 8326873618023959440, guid: 9078c2a640aa0c0418f40f5680eba2dd, type: 3}
-      propertyPath: areaBox
-      value: 
-      objectReference: {fileID: 1313652152}
-    - target: {fileID: 8326873618023959440, guid: 9078c2a640aa0c0418f40f5680eba2dd, type: 3}
-      propertyPath: roomBox
-      value: 
-      objectReference: {fileID: 1543744438}
-    - target: {fileID: 8326873618023959440, guid: 9078c2a640aa0c0418f40f5680eba2dd, type: 3}
-      propertyPath: corridorBox
-      value: 
-      objectReference: {fileID: 657832987}
+    - target: {fileID: 6431563558216827787, guid: 9078c2a640aa0c0418f40f5680eba2dd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

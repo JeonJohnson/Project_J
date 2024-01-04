@@ -26,6 +26,14 @@ public static class Funcs
 		return temp;
 	}
 
+	public static Vector3 ToV3(Vector2Int vec2)
+	{
+		return new Vector3(vec2.x, vec2.y, 0f);
+	}
+	public static Vector2 ToV2(Vector2Int vec2)
+	{
+		return new Vector2(vec2.x, vec2.y);
+	}
 
 	#region C# default Val Type Casting
 	public static string GetEnumName<T>(int index) where T : struct, IConvertible
