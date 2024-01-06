@@ -513,19 +513,19 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
     // Update is called once per frame
 
-    public Vector2 testPos;
-    public Vector2Int testIndex;
+    //public Vector2 testPos;
+    //public Vector2Int testIndex;
     void Update()
     {
-		if (Input.GetKeyDown(KeyCode.A))
-		{
-			Debug.Log("pos : " + GetPos(testIndex));
-		}
+		//if (Input.GetKeyDown(KeyCode.A))
+		//{
+		//	Debug.Log("pos : " + GetPos(testIndex));
+		//}
 
-		if (Input.GetKeyDown(KeyCode.S))
-		{
-			Debug.Log("Index : " + GetIndex(testPos));
-		}
+		//if (Input.GetKeyDown(KeyCode.S))
+		//{
+		//	Debug.Log("Index : " + GetIndex(testPos));
+		//}
 	}
 }
 

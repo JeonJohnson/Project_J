@@ -14,8 +14,6 @@ using System;
 using Random = UnityEngine.Random;
 using UnityEngine.Analytics;
 
-
-
 public enum eDirection
 { 
 	Vertical,
@@ -107,8 +105,6 @@ public class DungeonGenerator_BSP : MonoBehaviour
 
 		Vector2Int minSize = new Vector2Int(int.MaxValue, int.MaxValue);
 		Vector2Int maxSize = new Vector2Int(int.MinValue, int.MinValue);
-
-
 
 		foreach (var prefab in RoomPrefabs.ToList())
 		{

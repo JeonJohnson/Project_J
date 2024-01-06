@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
 public class Corridor : MonoBehaviour
 {
 	public Rect rect;

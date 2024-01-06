@@ -37,10 +37,6 @@ public class DungeonGenerator_Drunken_Editor : Editor
 		{
 			generator.Reset();
 		}
-		//if (GUILayout.Button("Split Area Once"))
-		//{
-		//	//generator.SplitArea_Once();
-		//}
 
 
 
