@@ -26,10 +26,15 @@ public class DungeonGenerator_Drunken_Editor : Editor
 			generator.CreateGround();
 		}
 		GUILayout.Label("");
-
 		if (GUILayout.Button("Test Wall"))
 		{
-			//generator.CreateWall();
+			generator.CreateWall();
+		}
+
+		GUILayout.Label("");
+		if (GUILayout.Button("reset"))
+		{
+			generator.Reset();
 		}
 		//if (GUILayout.Button("Split Area Once"))
 		//{
