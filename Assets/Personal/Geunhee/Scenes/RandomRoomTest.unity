@@ -206,7 +206,10 @@ MonoBehaviour:
   - {fileID: 9021983486952683125, guid: e6afa9c14a459984492453265d292355, type: 3}
   WallPrefabs:
   - {fileID: 2475190633897162008, guid: 429d9745b7082124fb4d608cdc886536, type: 3}
-  areaSize: {x: 30, y: 30}
+  tileSize: 1
+  areaSize: {x: 5, y: 5}
+  originPos: {x: 0, y: 0}
+  tileGridSize: {x: 0, y: 0}
   areaFillRatio: 0.35
   ignorePercent: 0.5
   maxTryCount: 5000
@@ -221,11 +224,12 @@ MonoBehaviour:
   respawnCount: 0
   newDirPercent: 0.5
   loopWaitTime: 0.013
-  tileSize: 0
-  groundCount: 0
   grounds: []
-  wallCount: 0
+  groundCount: 0
   walls: []
+  wallCount: 0
+  testPos: {x: 0, y: 0}
+  testIndex: {x: 0, y: 0}
 --- !u!1 &973374636
 GameObject:
   m_ObjectHideFlags: 0
