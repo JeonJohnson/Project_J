@@ -201,29 +201,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439f7d287510082479b36c4a29e0b3d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  areaTr: {fileID: 2023052113}
+  cam: {fileID: 1496041546}
   GroundBox: {fileID: 973374637}
   WallBox: {fileID: 62750163}
-  areaRd: {fileID: 2023052112}
   GroundPrefabs:
   - {fileID: 9021983486952683125, guid: e6afa9c14a459984492453265d292355, type: 3}
   WallPrefabs:
   - {fileID: 2475190633897162008, guid: 429d9745b7082124fb4d608cdc886536, type: 3}
   tileSize: 1
   areaSize: {x: 30, y: 30}
-  originPos: {x: 0, y: 0}
-  tileGridSize: {x: 0, y: 0}
+  pivotPos: {x: 0, y: 0}
+  originPos: {x: 0.5, y: 0.5}
+  centerPos: {x: 15, y: 15}
+  gridLength: {x: 30, y: 30}
   areaFillRatio: 0.45
   ignorePercent: 0.5
   maxTryCount: 10000
-  curExplorerCount: 0
+  ExplorerSpawnOption: 0
+  curExplorerCount: 10
   startExplorerCount: 10
   ExplorerCountRange: {x: 1, y: 10}
   destoryPercent: 0.2
   destoryCountRange: {x: 1, y: 2}
-  destoryCount: 0
+  destoryCount: 1
   respawnPercent: 0.5
   respawnCountRange: {x: 1, y: 2}
-  respawnCount: 0
+  respawnCount: 1
   newDirPercent: 0.5
   loopWaitTime: 0.013
   grounds: []
@@ -326,7 +330,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 20
+  orthographic size: 16
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -350,7 +354,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496041544}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 15, y: 15, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -492,8 +496,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2023052111}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 15, y: 15, z: 0}
+  m_LocalScale: {x: 30, y: 30, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 640389051}

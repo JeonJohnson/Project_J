@@ -23,23 +23,26 @@ public enum ExplorerDir
     None
 }
 
+
 public struct Explorer
 {
-    public Explorer(Vector2 _pos)
+    public Explorer(Vector2Int _index)
     {
-        pos = _pos;
-        dir = ExplorerDir.None;
+        index = _index;
+        dir = Vector2Int.zero;
 	}
-    public Vector2 pos;
-    public ExplorerDir dir;
+    
+    public Vector2Int index;
+    public Vector2Int dir;
 }
 
 public class DungeonGenerator_Drunken : MonoBehaviour
 {
+    public Transform areaTr;
+    public Camera cam;
     [Header("Boxes")]
     public Transform GroundBox;
     public Transform WallBox;
-    public SpriteRenderer areaRd;
 
     [Header("Room Option")]
     public List<GameObject> GroundPrefabs;
@@ -49,10 +52,14 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     public int tileSize = 1;
     //Unity World unit Scale
     public Vector2Int areaSize;
+    public Vector2 pivotPos;
     [ReadOnly]
     public Vector2 originPos;
     [ReadOnly]
-    public Vector2 tileGridSize;
+    public Vector2 centerPos;
+    [ReadOnly]
+    public Vector2Int gridLength;
+    
     //해당 비율만큼 바닥 만들었으면 끝.
     [Range(0.25f, 0.75f)]
     public float areaFillRatio;
@@ -64,9 +71,12 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     [Range(1000, 10000)]
     public int maxTryCount;
 
+    enum NewExplorerPos { center, prePos};
 
     [Space(10f)]
     [Header("Explorer Option")]
+    [SerializeField]
+    private NewExplorerPos ExplorerSpawnOption;
     [ReadOnly]
     public int curExplorerCount;
     public int startExplorerCount;
@@ -90,12 +100,15 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     public float loopWaitTime;
 
 
-    
+    Vector2Int centerIndex;
+    private Vector2 areaHalfSize;
+    private float tileHalfSize;
     [ReadOnly]
     public List<Explorer> explorers;
     
     public tileGridState[,] tileGrid;
     
+    public GameObject[,] tileObjs;
     [HideInInspector]
     public List<GameObject> grounds;
     [ReadOnly]
@@ -105,7 +118,6 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     [ReadOnly]
     public int wallCount;
 
-    private Camera cam;
 
     public void Setup()
     {
@@ -132,32 +144,62 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             WallPrefabs = new List<GameObject> { tile };
         }
 
+        gridLength.x = Mathf.RoundToInt(areaSize.x / tileSize);
+        gridLength.y = Mathf.RoundToInt(areaSize.y / tileSize);
+        tileGrid = new tileGridState[gridLength.x, gridLength.y];
+
+        areaHalfSize = Funcs.ToV2(gridLength) * 0.5f;
+        tileHalfSize = tileSize * 0.5f;
+
+        centerPos = pivotPos + new Vector2(gridLength.x * 0.5f, gridLength.y * 0.5f);
+        originPos = new Vector2(pivotPos.x + tileHalfSize, pivotPos.y + tileHalfSize);
+
+        areaTr.localScale = new Vector3(gridLength.x, gridLength.y);
+        areaTr.localPosition = new Vector3(gridLength.x * 0.5f, gridLength.y * 0.5f);
+
+        cam.transform.position = new Vector3(centerPos.x, centerPos.y, -10f);
+        cam.orthographicSize = gridLength.x <= gridLength.y ? gridLength.y * 0.5f : gridLength.x * 0.5f;
+        cam.orthographicSize += 1;
+
+
+        centerIndex = new Vector2Int((int)(gridLength.x * 0.5f), (int)(gridLength.y * 0.5f));
         explorers = new List<Explorer>();
         for (int i = 0; i < startExplorerCount; i++)
         {
-            explorers.Add(new Explorer());
+            explorers.Add(new Explorer(centerIndex));
         }
 
         grounds = new List<GameObject>();
         groundCount = grounds.Count;
-             
+
         walls = new List<GameObject>();
         wallCount = walls.Count;
 
-        Vector2 halfArea = Funcs.ToV2(areaSize) * 0.5f;
-		float halfTileSize = tileSize * 0.5f;
-
-		originPos = new(-halfArea.x + halfTileSize, -halfArea.y + halfTileSize);
-
-        tileGridSize = Funcs.ToV2(areaSize) / tileSize;
-		tileGrid = new tileGridState[(int)tileGridSize.x, (int)tileGridSize.y];
-
-        areaRd.transform.localScale = new Vector3(areaSize.x, areaSize.y);
     }
 
     public void CreateGround()
     {
-        StartCoroutine(GroundLoop());
+        if (Application.isPlaying)
+        {
+            StartCoroutine(GroundLoop());
+        }
+        else 
+        {
+            int curTryCount = 0;
+
+            while (curTryCount < maxTryCount)
+            {
+                if (MoveExplorer())
+                {
+                    ++curTryCount;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        
     }
     public IEnumerator GroundLoop()
     {
@@ -219,7 +261,21 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             else
             {
                 if (Random.value <= respawnPercent)
-                { respawnList.Add(new Explorer(explorers[i].pos)); }
+                {
+					switch (ExplorerSpawnOption)
+					{
+						case NewExplorerPos.center:
+                            respawnList.Add(new Explorer(centerIndex));
+                            break;
+						case NewExplorerPos.prePos:
+                            respawnList.Add(new Explorer(explorers[i].index));
+                            break;
+						default:
+							break;
+					}
+					
+                
+                }
             }
         }
         explorers.AddRange(respawnList);
@@ -233,7 +289,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             if (Random.value <= newDirPercent)
             {
                 Explorer temp = explorers[i];
-                temp.dir = (ExplorerDir)(Random.Range((int)ExplorerDir.Up, (int)ExplorerDir.None+1));
+                temp.dir = GetRandomDir();
                 explorers[i] = temp;
                 //이렇게 스왑 해주는 이유
                 //구조체로 이루어진 List등 자료구조에서
@@ -246,29 +302,12 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         for (int i = 0; i < explorers.Count; ++i)
         {
             Explorer temp = explorers[i];
-            temp.pos += GetDir(temp.dir);
-
-            //if (tileGridSize.x % 2 == 0)
-            //{
-            //    temp.pos.x -= 0.5f;
-            //}
-
-            //if (tileGridSize.y % 2 == 0)
-            //{
-            //    temp.pos.y -= 0.5f;
-            //}
-
-            //Vector2 halfSize = Funcs.ToV2(areaSize) * 0.5f;
-            temp.pos.x = Mathf.Clamp(temp.pos.x, originPos.x + 2, -originPos.x - 2);
-			temp.pos.y = Mathf.Clamp(temp.pos.y, originPos.y + 2, -originPos.y - 2);
+            temp.index += temp.dir;
             
+            temp.index.x = Mathf.Clamp(temp.index.x, 1, gridLength.x - 2);
+            temp.index.y = Mathf.Clamp(temp.index.y , 1, gridLength.y - 2);
 
-            if (GetIndex(temp.pos).x == int.MinValue)
-			{
-				return false;
-			}
-
-			var tile = CreateTile(temp.pos, tileGridState.Ground);
+			var tile = CreateTile(temp.index, tileGridState.Ground);
             if (tile != null)
             {
                 ++groundCount;
@@ -282,9 +321,9 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
     public void CreateWall()
     {
-		for (int x = 0; x < tileGridSize.x - 1; ++x)
+		for (int x = 0; x < gridLength.x - 1; ++x)
 		{
-			for (int y = 0; y < tileGridSize.y - 1; ++y)
+			for (int y = 0; y < gridLength.y - 1; ++y)
 			{
 				if (tileGrid[x, y] == tileGridState.Ground)
                 {
@@ -336,62 +375,69 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	}
 
 
-    public Vector2Int GetDir(int num)
-    {
-        switch ((ExplorerDir)num)
-        {
-			case ExplorerDir.Up:
-				return Vector2Int.up;
-			case ExplorerDir.Right:
-				return Vector2Int.right;
-			case ExplorerDir.Down:
-				return Vector2Int.down;
-			case ExplorerDir.Left:
-				return Vector2Int.left;
-			default:
-				return Vector2Int.zero;
-		}
-    }
-	public Vector2 GetDir(ExplorerDir num)
-	{
-        Vector2 val = Vector2Int.zero;
+    //  public Vector2Int GetDir(int num)
+    //  {
+    //      switch ((ExplorerDir)num)
+    //      {
+    //	case ExplorerDir.Up:
+    //		return Vector2Int.up;
+    //	case ExplorerDir.Right:
+    //		return Vector2Int.right;
+    //	case ExplorerDir.Down:
+    //		return Vector2Int.down;
+    //	case ExplorerDir.Left:
+    //		return Vector2Int.left;
+    //	default:
+    //		return Vector2Int.zero;
+    //}
+    //  }
 
-		switch (num)
+    private Vector2Int GetRandomDir()
+    {
+        return GetDir(Random.Range((int)ExplorerDir.Up, (int)ExplorerDir.None + 1));
+    }
+	private Vector2Int GetDir(int num)
+	{
+        Vector2Int val = Vector2Int.zero;
+
+		switch ((ExplorerDir)num)
 		{
 			case ExplorerDir.Up:
-                val = Vector2Int.up;
+                val =  Vector2Int.up;
                 break;
 			case ExplorerDir.Right:
-                val = Vector2Int.right;
+                val =  Vector2Int.right;
                 break;
 			case ExplorerDir.Down:
-                val = Vector2Int.down;
+                val =  Vector2Int.down;
                 break;
 			case ExplorerDir.Left:
-                val = Vector2Int.left;
+                val =  Vector2Int.left;
                 break;
 			default:
+                val =  Vector2Int.zero;
                 break;
 		}
-
-        if (tileGridSize.x % 2 == 0)
-        {
-            val.x *= 0.5f;
-        }
-
-        if (tileGridSize.y % 2 == 0)
-        {
-            val.y *= 0.5f;
-        }
-
+        val *= tileSize;
         return val;
 	}
+    public Vector2 GetPos(Vector2Int index)
+    {
+        if (index.x < 0 | index.y < 0 | index.x >= gridLength.x | index.y >= gridLength.y)
+        {
+            return new Vector2(float.MinValue, float.MinValue);
+        }
+
+        Vector2 pos = pivotPos + new Vector2(index.x * tileSize + tileHalfSize, index.y * tileSize + tileHalfSize);
+
+        return pos;
+    }
 
     public Vector2Int GetIndex(Vector2 pos)
     {
-        Vector2 index = (pos - originPos) / tileSize;
+        Vector2 index = (pos - originPos) * tileSize;
 
-        if (index.x < 0f | index.y < 0f | index.x >= tileGridSize.x | index.y >= tileGridSize.y)
+        if (index.x < 0f | index.y < 0f | index.x >= gridLength.x | index.y >= gridLength.y)
         {
             return new Vector2Int(int.MinValue, int.MinValue);
         }
@@ -399,21 +445,13 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 		return new Vector2Int((int)index.x, (int)index.y);
 	}
 
-	public Vector2 GetPos(Vector2Int index)
-	{
-        if (index.x < 0 | index.y < 0 | index.x >= tileGridSize.x | index.y >= tileGridSize.y)
-        {
-            return new Vector2(float.MinValue, float.MinValue);
-        }
-
-		return originPos + Funcs.ToV2(index) * tileSize;
-	}
+    private GameObject CreateTile(Vector2Int index, tileGridState state)
+    {
+        return CreateTile(GetPos(index), state);
+    }
 
 	private GameObject CreateTile(Vector2 pos, tileGridState state)
     {
-        //Vector2 sizeOffset = Funcs.ToV2(areaSize) * 0.5f;
-
-        //Vector2 index = new Vector2(pos.x, pos.y) + sizeOffset;
         var index = GetIndex(pos);
           
         if (tileGrid[index.x, index.y] != state)
@@ -433,8 +471,6 @@ public class DungeonGenerator_Drunken : MonoBehaviour
                         tile = Instantiate(WallPrefabs[0], pos, Quaternion.identity, WallBox);
                     }
                     break;
-
-             
             }
 
             tile.gameObject.name += $"{index.x} , {index.y}";
@@ -445,14 +481,19 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
 	public void Reset()
 	{
+        
 		foreach (var item in walls)
 		{
-            GameObject.Destroy(item);
+            if (Application.isPlaying)
+            { GameObject.Destroy(item); }
+            else { DestroyImmediate(item); }
 		}
 
         foreach (var item in grounds)
         {
-            GameObject.Destroy(item);
+            if (Application.isPlaying)
+            { GameObject.Destroy(item); }
+            else { DestroyImmediate(item); }
         }
 
         Setup();

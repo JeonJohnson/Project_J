@@ -23,6 +23,7 @@ public class DungeonGenerator_Drunken_Editor : Editor
 		//기본 바닥 만들어 주기
 		if (GUILayout.Button("Test"))
 		{
+
 			generator.CreateGround();
 		}
 		GUILayout.Label("");
