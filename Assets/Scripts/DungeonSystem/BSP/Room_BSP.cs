@@ -7,12 +7,12 @@ using UnityEngine.Tilemaps;
 #if UNITY_EDITOR
 using UnityEditor;
 
-[CustomEditor(typeof(Room))]
-public class Room_Editor : Editor
+[CustomEditor(typeof(Room_BSP))]
+public class Room_BSP_Editor : Editor
 {
 	public override void OnInspectorGUI()
 	{
-		Room room = (Room)target;
+		Room_BSP room = (Room_BSP)target;
 
 		DrawDefaultInspector();
 
@@ -34,7 +34,7 @@ public enum RoomType
 	Boss,
 	End
 }
-public class Room : MonoBehaviour
+public class Room_BSP : MonoBehaviour
 {
 	//[field: System.NonSerialized]
 	[ReadOnly]
@@ -96,7 +96,7 @@ public class Room : MonoBehaviour
 
 	}
 
-	public void DoorConstruction(Corridor cor)
+	public void DoorConstruction(Corridor_BSP cor)
 	{
 		//벽 타일 중에 통로 +2 사이즈 만큼과 닿는 타일들 지우기
 		Rect corRect = cor.rect;

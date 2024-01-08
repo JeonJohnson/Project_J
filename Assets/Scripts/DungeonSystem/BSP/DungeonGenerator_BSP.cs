@@ -71,9 +71,9 @@ public class DungeonGenerator_BSP : MonoBehaviour
 	public int curCorridorDepth = 0;
 
 	[HideInInspector]
-	private List<Room> roomList = null;
-	private JeonJohnson.Tree<Area> areaTree = null;
-	private List<Corridor> corridors = null;
+	private List<Room_BSP> roomList = null;
+	private JeonJohnson.Tree<Area_BSP> areaTree = null;
+	private List<Corridor_BSP> corridors = null;
 
 
 
@@ -84,9 +84,9 @@ public class DungeonGenerator_BSP : MonoBehaviour
 		curRoomCount = 0;
 		curCorridorDepth = 0;
 
-		roomList ??= new List<Room>();
-		areaTree ??= new Tree<Area>();
-		corridors ??= new List<Corridor>();
+		roomList ??= new List<Room_BSP>();
+		areaTree ??= new Tree<Area_BSP>();
+		corridors ??= new List<Corridor_BSP>();
 
 		//밑에 배열 안쓰고 일일이 박스 만든건
 		//타 파트 분들도 직관적으로 알 수 있도록 하기 위해서
@@ -110,7 +110,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 		{
 			if (prefab.Value == Vector2Int.zero)
 			{
-				Room room = prefab.Key.GetComponent<Room>();
+				Room_BSP room = prefab.Key.GetComponent<Room_BSP>();
 				if (room != null)
 				{
 					room.UpdateRect();
@@ -162,9 +162,9 @@ public class DungeonGenerator_BSP : MonoBehaviour
 	#region 1.Area Setting
 	public void CreateWholeArea()
 	{//1. 큰 공간 하나 만들기
-		Area area = CreateArea(Vector2.zero, wholeAreaSize, areaTree.Count);
+		Area_BSP area = CreateArea(Vector2.zero, wholeAreaSize, areaTree.Count);
 
-		areaTree.SetRootNode(new TreeNode<Area>(area, 0, 0));
+		areaTree.SetRootNode(new TreeNode<Area_BSP>(area, 0, 0));
 	}
 
 	public void SplitArea_End()
@@ -217,7 +217,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 		
 	}
 
-	private List<Area> Spliting(Area area, int tryCount = 1000)
+	private List<Area_BSP> Spliting(Area_BSP area, int tryCount = 1000)
 	{
 		if (area.rect.width <= minRoomSize.x || area.rect.height <= minRoomSize.y)
 		{
@@ -225,7 +225,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 		}
 
 		int curTry = 1;
-		List<Area> splitedArea = new List<Area>();
+		List<Area_BSP> splitedArea = new List<Area_BSP>();
 		Rect[] newRect = new Rect[2] { Rect.zero, Rect.zero };
 
 		//0 = split by horizontal (가로로 나누기)
@@ -323,7 +323,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 		return true;
 	}
 
-	private Area CreateArea(Vector2 pos, Vector2 size, int index, Color? color = null)
+	private Area_BSP CreateArea(Vector2 pos, Vector2 size, int index, Color? color = null)
 	{
 		GameObject areaObj = Instantiate(AreaPrefab);
 
@@ -332,7 +332,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 		areaObj.transform.localScale = size;
 		areaObj.transform.SetParent(areaBox);
 
-		Area areaScript = areaObj.GetComponent<Area>();
+		Area_BSP areaScript = areaObj.GetComponent<Area_BSP>();
 		areaScript.SetRect();
 		areaScript.frame.UpdateGrid();
 		areaScript.index = index;
@@ -342,7 +342,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 		return areaScript;
 	}
 
-	private Area CreateArea(Rect rect, int index, Color? color = null)
+	private Area_BSP CreateArea(Rect rect, int index, Color? color = null)
 	{
 		if (rect == Rect.zero)
 		{
@@ -355,7 +355,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 		areaObj.transform.localScale = new Vector2(rect.width, rect.height);
 		areaObj.transform.SetParent(areaBox);
 
-		Area areaScript = areaObj.GetComponent<Area>();
+		Area_BSP areaScript = areaObj.GetComponent<Area_BSP>();
 		areaScript.SetRect();
 		areaScript.frame.UpdateGrid();
 		areaScript.index = index;
@@ -375,7 +375,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 		}
 	}
 
-	private Room CreateFitRoom(Area area, Color color)
+	private Room_BSP CreateFitRoom(Area_BSP area, Color color)
 	{
 		var areaSize = area.rect.size;
 
@@ -386,7 +386,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 		//1. 사이즈 체크
 		foreach (var prefab in RoomPrefabs)
 		{
-			Vector2 size = prefab.Key.GetComponent<Room>().rect.size;
+			Vector2 size = prefab.Key.GetComponent<Room_BSP>().rect.size;
 
 			if (areaSize.x >= size.x + centerPosOffset && areaSize.y >= size.y + centerPosOffset)
 			{
@@ -420,7 +420,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 		newRoomObj.name = $"Room_in ({area.index}) Area";
 
 
-		Room newRoomScript = newRoomObj.GetComponent<Room>();
+		Room_BSP newRoomScript = newRoomObj.GetComponent<Room_BSP>();
 		//newRoomScript.SetPosition(area.rect.center);
 		float x = area.rect.center.x;
 		x -= newRoomScript.rect.size.x * 0.5f;
@@ -456,7 +456,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 		}
 	}
 
-	private void Calibrate(Area area, Room origin)
+	private void Calibrate(Area_BSP area, Room_BSP origin)
 	{
 		if (origin == null)
 		{
@@ -507,7 +507,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 
 		for (int i = 0; i < list.Count; i += 2)
 		{
-			Room[] rooms = new Room[2];
+			Room_BSP[] rooms = new Room_BSP[2];
 
 			if (depth == 0)
 			{ //루트 노드의 경우
@@ -639,15 +639,15 @@ public class DungeonGenerator_BSP : MonoBehaviour
 
 	}
 
-	private Room[] GetNearestRooms(TreeNode<Area> leftNode, TreeNode<Area> rightNode)
+	private Room_BSP[] GetNearestRooms(TreeNode<Area_BSP> leftNode, TreeNode<Area_BSP> rightNode)
 	{
 		if (leftNode == null | rightNode == null)
 		{
 			return null;
 		}
 
-		List<TreeNode<Area>> leftChildren = new List<TreeNode<Area>>();
-		List<TreeNode<Area>> rightChildren = new List<TreeNode<Area>>();
+		List<TreeNode<Area_BSP>> leftChildren = new List<TreeNode<Area_BSP>>();
+		List<TreeNode<Area_BSP>> rightChildren = new List<TreeNode<Area_BSP>>();
 
 		leftNode.GetLeafChildren(leftNode, ref leftChildren);
 		rightNode.GetLeafChildren(rightNode, ref rightChildren);
@@ -669,11 +669,11 @@ public class DungeonGenerator_BSP : MonoBehaviour
 			}
 		}
 
-		return new Room[2] { leftChildren[indexLeft].Value.AssignedRoom, rightChildren[indexRight].Value.AssignedRoom };
+		return new Room_BSP[2] { leftChildren[indexLeft].Value.AssignedRoom, rightChildren[indexRight].Value.AssignedRoom };
 	}
 
 
-	private Corridor CreateCorridor(Rect rect, eDirection relateDir, Room[] rooms)
+	private Corridor_BSP CreateCorridor(Rect rect, eDirection relateDir, Room_BSP[] rooms)
 	{
 		if (relateDir == eDirection.End)
 		{
@@ -683,7 +683,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 
 
 		GameObject corridorObj = Instantiate(CorridorPrefab[(int)relateDir]);
-		Corridor script =corridorObj.GetComponent<Corridor>();
+		Corridor_BSP script =corridorObj.GetComponent<Corridor_BSP>();
 
 		Rect newRect = Rect.zero;
 		int thickness = 3;
@@ -1198,7 +1198,7 @@ public class DungeonGenerator_BSP : MonoBehaviour
 			Destroy(areaBox.transform.GetChild(i).gameObject);
 		}
 
-		areaTree = new Tree<Area>();
+		areaTree = new Tree<Area_BSP>();
 
 		Debug.Log("구역 초기화 완료");
 	}

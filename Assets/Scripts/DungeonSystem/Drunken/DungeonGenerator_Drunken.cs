@@ -1,10 +1,11 @@
-﻿using JetBrains.Annotations;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
 using UnityEditor.Tilemaps;
+
 using UnityEngine;
-using UnityEngine.Experimental.AI;
+using UnityEngine.Tilemaps;
 
 
 public enum tileGridState
@@ -23,7 +24,6 @@ public enum ExplorerDir
     None
 }
 
-
 public struct Explorer
 {
     public Explorer(Vector2Int _index)
@@ -40,14 +40,25 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 {
     public Transform areaTr;
     public Camera cam;
+
+    [Space(10f)]
     [Header("Boxes")]
     public Transform GroundBox;
     public Transform WallBox;
 
+    [Space(10f)]
     [Header("Room Option")]
     public List<GameObject> GroundPrefabs;
     public List<GameObject> WallPrefabs;
 
+    public List<Tile> GroundTiles;
+    public List<Tile> WallTiles;
+
+    [Space(7.5f)]
+    [ReadOnly]
+    public int groundCount;
+    [ReadOnly]
+    public int wallCount;
     [ReadOnly]
     public int tileSize = 1;
     //Unity World unit Scale
@@ -59,7 +70,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     public Vector2 centerPos;
     [ReadOnly]
     public Vector2Int gridLength;
-    
+
     //해당 비율만큼 바닥 만들었으면 끝.
     [Range(0.25f, 0.75f)]
     public float areaFillRatio;
@@ -71,26 +82,34 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     [Range(1000, 10000)]
     public int maxTryCount;
 
-    enum NewExplorerPos { center, prePos};
+    enum NewExplorerPos { center, prePos };
 
     [Space(10f)]
     [Header("Explorer Option")]
     [SerializeField]
     private NewExplorerPos ExplorerSpawnOption;
+
+    [Space(7.5f)]
     [ReadOnly]
     public int curExplorerCount;
     public int startExplorerCount;
     public Vector2Int ExplorerCountRange;
+
+    [Space(7.5f)]
     [Range(0f, 1f)]
     public float destoryPercent;
     public Vector2Int destoryCountRange; //한번에 최고 몇명까지 해고할지
     [ReadOnly]
     public int destoryCount;
+
+    [Space(7.5f)]
     [Range(0f, 1f)]
     public float respawnPercent;
     public Vector2Int respawnCountRange;
     [ReadOnly]
     public int respawnCount;
+
+    [Space(7.5f)]
     [Range(0f, 1f)]
     public float newDirPercent;
 
@@ -99,25 +118,21 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     [Range(0f, 1f)]
     public float loopWaitTime;
 
+    [Space(10f)]
+    [Header("Display Varis")]
 
+
+    //Internal Varis
     Vector2Int centerIndex;
     private Vector2 areaHalfSize;
     private float tileHalfSize;
-    [ReadOnly]
-    public List<Explorer> explorers;
     
-    public tileGridState[,] tileGrid;
-    
-    public GameObject[,] tileObjs;
-    [HideInInspector]
-    public List<GameObject> grounds;
-    [ReadOnly]
-    public int groundCount;
-    [HideInInspector]
-    public List<GameObject> walls;
-    [ReadOnly]
-    public int wallCount;
-
+    private List<Explorer> explorers;
+    private tileGridState[,] tileGrid;
+    private GameObject[,] tileObjs;
+    private List<GameObject> grounds;
+    private List<GameObject> walls;
+    //Internal Varis
 
     public void Setup()
     {

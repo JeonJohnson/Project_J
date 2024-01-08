@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 
-public class Corridor : MonoBehaviour
+public class Corridor_BSP : MonoBehaviour
 {
 	public Rect rect;
 
 	public eDirection dir;
 	
-	public List<Room> linkedRooms;
+	public List<Room_BSP> linkedRooms;
 	
 	public Tilemap wallTileMap;
 	public Tilemap wayTileMap;
@@ -73,6 +73,6 @@ public class Corridor : MonoBehaviour
 
 	private void Awake()
 	{
-		linkedRooms = new List<Room>();
+		linkedRooms = new List<Room_BSP>();
 	}
 }

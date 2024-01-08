@@ -211,20 +211,18 @@ MonoBehaviour:
   ignorePercent: 0.5
   maxTryCount: 5000
   ExplorerSpawnOption: 0
-  curExplorerCount: 10
+  curExplorerCount: 4
   startExplorerCount: 10
-  ExplorerCountRange: {x: 1, y: 10}
-  destoryPercent: 0.2
+  ExplorerCountRange: {x: 1, y: 5}
+  destoryPercent: 0.5
   destoryCountRange: {x: 1, y: 2}
-  destoryCount: 2
+  destoryCount: 1
   respawnPercent: 0.5
   respawnCountRange: {x: 1, y: 2}
-  respawnCount: 1
-  newDirPercent: 0.5
+  respawnCount: 2
+  newDirPercent: 0.658
   loopWaitTime: 0.013
   grounds: []
   groundCount: 0
   walls: []
   wallCount: 0
-  testPos: {x: 0, y: 0}
-  testIndex: {x: 0, y: 0}
