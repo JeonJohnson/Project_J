@@ -42,6 +42,9 @@ namespace MoreMountains.Feedbacks
 		         "Initialization method and passing it an owner. Otherwise, you can have this component initialize " +
 		         "itself at Awake or Start, and in this case the owner will be the MMFeedbacks itself")]
 		public InitializationModes InitializationMode = InitializationModes.Start;
+		/// if you set this to true, the system will make changes to ensure that initialization always happens before play
+		[Tooltip("if you set this to true, the system will make changes to ensure that initialization always happens before play")]
+		public bool AutoInitialization = true;
 		/// the selected safe mode
 		[Tooltip("the selected safe mode")]
 		public SafeModes SafeMode = SafeModes.Full;
@@ -187,6 +190,7 @@ namespace MoreMountains.Feedbacks
 		protected bool _shouldStop = false;
 		protected const float _smallValue = 0.001f;
 		protected float _randomDurationMultiplier = 1f;
+		protected float _lastOnEnableFrame = -1;
 
 		#region INITIALIZATION
 
@@ -243,7 +247,7 @@ namespace MoreMountains.Feedbacks
 		/// <summary>
 		/// Initializes the MMFeedbacks, setting this MMFeedbacks as the owner
 		/// </summary>
-		public virtual void Initialization()
+		public virtual void Initialization(bool forceInitIfPlaying = false)
 		{
 			Initialization(this.gameObject);
 		}
@@ -294,6 +298,18 @@ namespace MoreMountains.Feedbacks
 		public virtual async System.Threading.Tasks.Task PlayFeedbacksTask(Vector3 position, float feedbacksIntensity = 1.0f, bool forceRevert = false)
 		{
 			PlayFeedbacks(position, feedbacksIntensity, forceRevert);
+			while (IsPlaying)
+			{
+				await System.Threading.Tasks.Task.Yield();
+			}
+		}
+        
+		/// <summary>
+		/// Plays all feedbacks and awaits until completion
+		/// </summary>
+		public virtual async System.Threading.Tasks.Task PlayFeedbacksTask()
+		{
+			PlayFeedbacks();
 			while (IsPlaying)
 			{
 				await System.Threading.Tasks.Task.Yield();
@@ -566,7 +582,7 @@ namespace MoreMountains.Feedbacks
 			int count = Feedbacks.Count;
 			for (int i = 0; i < count; i++)
 			{
-				if (Feedbacks[i].IsPlaying)
+				if ((Feedbacks[i] != null) && (Feedbacks[i].IsPlaying))
 				{
 					return true;
 				}
@@ -766,7 +782,10 @@ namespace MoreMountains.Feedbacks
 			{
 				for (int i = 0; i < Feedbacks.Count; i++)
 				{
-					Feedbacks[i].Stop(position, feedbacksIntensity);
+					if (Feedbacks[i] != null)
+					{
+						Feedbacks[i].Stop(position, feedbacksIntensity);	
+					}
 				}    
 			}
 			IsPlaying = false;
@@ -832,7 +851,7 @@ namespace MoreMountains.Feedbacks
         
 		#region MODIFICATION
         
-		public virtual MMFeedback AddFeedback(System.Type feedbackType)
+		public virtual MMFeedback AddFeedback(System.Type feedbackType, bool add = true)
 		{
 			MMFeedback newFeedback;
             
@@ -929,6 +948,16 @@ namespace MoreMountains.Feedbacks
 		/// <returns></returns>
 		protected bool FeedbackCanPlay(MMFeedback feedback)
 		{
+			if (feedback == null)
+			{
+				return false;
+			}
+			
+			if (feedback.Timing == null)
+			{
+				return false;
+			}
+			
 			if (feedback.Timing.MMFeedbacksDirectionCondition == MMFeedbackTiming.MMFeedbacksDirectionConditions.Always)
 			{
 				return true;

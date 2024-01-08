@@ -24,9 +24,12 @@ namespace MoreMountains.Tools
 		/// <returns></returns>
 		private static float SpringVelocity(float currentValue, float targetValue, float velocity, float damping, float frequency, float speed, float deltaTime)
 		{
+			float maxDeltaTime = Mathf.Min(1.0f / (frequency * 10.0f), deltaTime); 
 			frequency = frequency * 2f * Mathf.PI;
+			deltaTime = Mathf.Min(deltaTime, maxDeltaTime);
 			return velocity + (deltaTime * frequency * frequency * (targetValue - currentValue)) + (-2.0f * deltaTime * frequency * damping * velocity);
 		}
+		
 
 		/// <summary>
 		/// Springs a float towards a target value 

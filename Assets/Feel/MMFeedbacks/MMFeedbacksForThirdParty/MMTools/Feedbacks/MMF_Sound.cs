@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,6 +7,8 @@ using UnityEngine;
 using UnityEngine.Audio;
 using MoreMountains.Tools;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace MoreMountains.Feedbacks
 {
@@ -76,23 +79,34 @@ namespace MoreMountains.Feedbacks
 		[Tooltip("the size of the pool when in Pool mode")]
 		[MMFEnumCondition("PlayMethod", (int)PlayMethods.Pool)]
 		public int PoolSize = 10;
-
+		/// in event mode, whether to use legacy events (MMSfxEvent) or the current events (MMSoundManagerSoundPlayEvent)
+		[Tooltip("in event mode, whether to use legacy events (MMSfxEvent) or the current events (MMSoundManagerSoundPlayEvent)")]
+		[MMFEnumCondition("PlayMethod", (int)PlayMethods.Event)]
+		public bool UseLegacyEventsMode = false;
+		/// if this is true, calling Stop on this feedback will also stop the sound from playing further
+		[Tooltip("if this is true, calling Stop on this feedback will also stop the sound from playing further")]
+		public bool StopSoundOnFeedbackStop = true;
+		
 		[MMFInspectorGroup("Sound Properties", true, 28)]
         
 		[Header("Volume")]
 		/// the minimum volume to play the sound at
 		[Tooltip("the minimum volume to play the sound at")]
+		[Range(0f,2f)]
 		public float MinVolume = 1f;
 		/// the maximum volume to play the sound at
 		[Tooltip("the maximum volume to play the sound at")]
+		[Range(0f,2f)]
 		public float MaxVolume = 1f;
 
 		[Header("Pitch")]
 		/// the minimum pitch to play the sound at
 		[Tooltip("the minimum pitch to play the sound at")]
+		[Range(-3f,3f)]
 		public float MinPitch = 1f;
 		/// the maximum pitch to play the sound at
 		[Tooltip("the maximum pitch to play the sound at")]
+		[Range(-3f,3f)]
 		public float MaxPitch = 1f;
 
 		[Header("Mixer")]
@@ -102,6 +116,63 @@ namespace MoreMountains.Feedbacks
 		/// the audiosource priority
 		[Tooltip("the audiosource priority, to be specified if needed between 0 (highest) and 256")] 
 		public int Priority = 128;
+
+		[MMFInspectorGroup("Spatial Settings", true, 33, false, true)]
+		/// Pans a playing sound in a stereo way (left or right). This only applies to sounds that are Mono or Stereo.
+		[Tooltip("Pans a playing sound in a stereo way (left or right). This only applies to sounds that are Mono or Stereo.")]
+		[Range(-1f,1f)]
+		public float PanStereo;
+		/// Sets how much this AudioSource is affected by 3D spatialisation calculations (attenuation, doppler etc). 0.0 makes the sound full 2D, 1.0 makes it full 3D.
+		[Tooltip("Sets how much this AudioSource is affected by 3D spatialisation calculations (attenuation, doppler etc). 0.0 makes the sound full 2D, 1.0 makes it full 3D.")]
+		[Range(0f,1f)]
+		public float SpatialBlend;
+		
+		[MMFInspectorGroup("3D Sound Settings", true, 37, false, true)]
+		/// Sets the Doppler scale for this AudioSource.
+		[Tooltip("Sets the Doppler scale for this AudioSource.")]
+		[Range(0f,5f)]
+		public float DopplerLevel = 1f;
+		/// Sets the spread angle (in degrees) of a 3d stereo or multichannel sound in speaker space.
+		[Tooltip("Sets the spread angle (in degrees) of a 3d stereo or multichannel sound in speaker space.")]
+		[Range(0,360)]
+		public int Spread = 0;
+		/// Sets/Gets how the AudioSource attenuates over distance.
+		[Tooltip("Sets/Gets how the AudioSource attenuates over distance.")]
+		public AudioRolloffMode RolloffMode = AudioRolloffMode.Logarithmic;
+		/// Within the Min distance the AudioSource will cease to grow louder in volume.
+		[Tooltip("Within the Min distance the AudioSource will cease to grow louder in volume.")]
+		public float MinDistance = 1f;
+		/// (Logarithmic rolloff) MaxDistance is the distance a sound stops attenuating at.
+		[Tooltip("(Logarithmic rolloff) MaxDistance is the distance a sound stops attenuating at.")]
+		public float MaxDistance = 500f;
+		/// whether or not to use a custom curve for custom volume rolloff
+		[Tooltip("whether or not to use a custom curve for custom volume rolloff")]
+		public bool UseCustomRolloffCurve = false;
+		/// the curve to use for custom volume rolloff if UseCustomRolloffCurve is true
+		[Tooltip("the curve to use for custom volume rolloff if UseCustomRolloffCurve is true")]
+		[MMFCondition("UseCustomRolloffCurve", true)]
+		public AnimationCurve CustomRolloffCurve;
+		/// whether or not to use a custom curve for spatial blend
+		[Tooltip("whether or not to use a custom curve for spatial blend")]
+		public bool UseSpatialBlendCurve = false;
+		/// the curve to use for custom spatial blend if UseSpatialBlendCurve is true
+		[Tooltip("the curve to use for custom spatial blend if UseSpatialBlendCurve is true")]
+		[MMFCondition("UseSpatialBlendCurve", true)]
+		public AnimationCurve SpatialBlendCurve;
+		/// whether or not to use a custom curve for reverb zone mix
+		[Tooltip("whether or not to use a custom curve for reverb zone mix")]
+		public bool UseReverbZoneMixCurve = false;
+		/// the curve to use for custom reverb zone mix if UseReverbZoneMixCurve is true
+		[Tooltip("the curve to use for custom reverb zone mix if UseReverbZoneMixCurve is true")]
+		[MMFCondition("UseReverbZoneMixCurve", true)]
+		public AnimationCurve ReverbZoneMixCurve;
+		/// whether or not to use a custom curve for spread
+		[Tooltip("whether or not to use a custom curve for spread")]
+		public bool UseSpreadCurve = false;
+		/// the curve to use for custom spread if UseSpreadCurve is true
+		[Tooltip("the curve to use for custom spread if UseSpreadCurve is true")]
+		[MMFCondition("UseSpreadCurve", true)]
+		public AnimationCurve SpreadCurve;
 
 
 		/// the duration of this feedback is the duration of the clip being played
@@ -113,6 +184,7 @@ namespace MoreMountains.Feedbacks
 		protected AudioSource _tempAudioSource;
 		protected float _duration;
 		protected AudioSource _editorAudioSource;
+		protected AudioSource _audioSource;
 
 		public override void InitializeCustomAttributes()
 		{
@@ -236,40 +308,73 @@ namespace MoreMountains.Feedbacks
 			{
 				pitch = -pitch;
 			}
-            
-			if (PlayMethod == PlayMethods.Event)
+
+			switch (PlayMethod)
 			{
-				MMSfxEvent.Trigger(sfx, SfxAudioMixerGroup, volume, pitch, Priority);
+				case PlayMethods.Event:
+					if (UseLegacyEventsMode)
+					{
+						MMSfxEvent.Trigger(sfx, SfxAudioMixerGroup, volume, pitch, Priority);
+					}
+					else
+					{
+						MMSoundManagerPlayOptions options = new MMSoundManagerPlayOptions();
+						options = MMSoundManagerPlayOptions.Default;
+						options.Location = Owner.transform.position;
+						options.AudioGroup = SfxAudioMixerGroup;
+						options.DoNotAutoRecycleIfNotDonePlaying = false;
+						options.Volume = volume;
+						options.Pitch = pitch;
+						if (Priority >= 0)
+						{
+							options.Priority = Mathf.Min(Priority, 256);
+						}
+						options.MmSoundManagerTrack = MMSoundManager.MMSoundManagerTracks.Sfx;
+						options.Loop = false;
+						MMSoundManagerSoundPlayEvent.Trigger(sfx, options);	
+					}
+					break;
+				case PlayMethods.Cached:
+					// we set that audio source clip to the one in paramaters
+					PlayAudioSource(_cachedAudioSource, sfx, volume, pitch, timeSamples, SfxAudioMixerGroup, Priority);
+					break;
+				case PlayMethods.OnDemand:
+					// we create a temporary game object to host our audio source
+					GameObject temporaryAudioHost = new GameObject("TempAudio");
+					SceneManager.MoveGameObjectToScene(temporaryAudioHost.gameObject, Owner.gameObject.scene);
+					// we set the temp audio's position
+					temporaryAudioHost.transform.position = position;
+					// we add an audio source to that host
+					AudioSource audioSource = temporaryAudioHost.AddComponent<AudioSource>() as AudioSource;
+					PlayAudioSource(audioSource, sfx, volume, pitch, timeSamples, SfxAudioMixerGroup, Priority);
+					// we destroy the host after the clip has played
+					Owner.ProxyDestroy(temporaryAudioHost, sfx.length);
+					break;
+				case PlayMethods.Pool:
+					_tempAudioSource = GetAudioSourceFromPool();
+					if (_tempAudioSource != null)
+					{
+						PlayAudioSource(_tempAudioSource, sfx, volume, pitch, timeSamples, SfxAudioMixerGroup, Priority);
+					}
+					break;
+			}
+		}
+
+		/// <summary>
+		/// On Stop, we stop our sound if needed
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="feedbacksIntensity"></param>
+		protected override void CustomStopFeedback(Vector3 position, float feedbacksIntensity = 1)
+		{
+			if (!Active || !FeedbackTypeAuthorized)
+			{
 				return;
 			}
-
-			if (PlayMethod == PlayMethods.OnDemand)
+            
+			if (StopSoundOnFeedbackStop && (_audioSource != null))
 			{
-				// we create a temporary game object to host our audio source
-				GameObject temporaryAudioHost = new GameObject("TempAudio");
-				SceneManager.MoveGameObjectToScene(temporaryAudioHost.gameObject, Owner.gameObject.scene);
-				// we set the temp audio's position
-				temporaryAudioHost.transform.position = position;
-				// we add an audio source to that host
-				AudioSource audioSource = temporaryAudioHost.AddComponent<AudioSource>() as AudioSource;
-				PlayAudioSource(audioSource, sfx, volume, pitch, timeSamples, SfxAudioMixerGroup, Priority);
-				// we destroy the host after the clip has played
-				Owner.ProxyDestroy(temporaryAudioHost, sfx.length);
-			}
-
-			if (PlayMethod == PlayMethods.Cached)
-			{
-				// we set that audio source clip to the one in paramaters
-				PlayAudioSource(_cachedAudioSource, sfx, volume, pitch, timeSamples, SfxAudioMixerGroup, Priority);
-			}
-
-			if (PlayMethod == PlayMethods.Pool)
-			{
-				_tempAudioSource = GetAudioSourceFromPool();
-				if (_tempAudioSource != null)
-				{
-					PlayAudioSource(_tempAudioSource, sfx, volume, pitch, timeSamples, SfxAudioMixerGroup, Priority);
-				}
+				_audioSource.Stop();
 			}
 		}
 
@@ -282,6 +387,7 @@ namespace MoreMountains.Feedbacks
 		/// <param name="pitch"></param>
 		protected virtual void PlayAudioSource(AudioSource audioSource, AudioClip sfx, float volume, float pitch, int timeSamples, AudioMixerGroup audioMixerGroup = null, int priority = 128)
 		{
+			_audioSource = audioSource;
 			// we set that audio source clip to the one in paramaters
 			audioSource.clip = sfx;
 			audioSource.timeSamples = timeSamples;
@@ -289,6 +395,18 @@ namespace MoreMountains.Feedbacks
 			audioSource.volume = volume;
 			audioSource.pitch = pitch;
 			audioSource.priority = priority;
+			// we set spatial settings
+			audioSource.panStereo = PanStereo;
+			audioSource.spatialBlend = SpatialBlend;
+			audioSource.dopplerLevel = DopplerLevel;
+			audioSource.spread = Spread;
+			audioSource.rolloffMode = RolloffMode;
+			audioSource.minDistance = MinDistance;
+			audioSource.maxDistance = MaxDistance;
+			if (UseSpreadCurve) { audioSource.SetCustomCurve(AudioSourceCurveType.Spread, SpreadCurve); }
+			if (UseCustomRolloffCurve) { audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, CustomRolloffCurve); }
+			if (UseSpatialBlendCurve) { audioSource.SetCustomCurve(AudioSourceCurveType.SpatialBlend, SpatialBlendCurve); }
+			if (UseReverbZoneMixCurve) { audioSource.SetCustomCurve(AudioSourceCurveType.ReverbZoneMix, ReverbZoneMixCurve); }
 			// we set our loop setting
 			audioSource.loop = false;
 			if (audioMixerGroup != null)

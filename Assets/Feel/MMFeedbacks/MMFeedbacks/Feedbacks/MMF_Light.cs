@@ -28,6 +28,8 @@ namespace MoreMountains.Feedbacks
 		public override float FeedbackDuration { get { return (Mode == Modes.Instant) ? 0f : ApplyTimeMultiplier(Duration); } set { Duration = value; } }
 		public override bool HasChannel => true;
 		public override bool HasRandomness => true;
+		public override bool HasAutomatedTargetAcquisition => true;
+		protected override void AutomateTargetAcquisition() => BoundLight = FindAutomatedTarget<Light>();
 
 		/// the possible modes for this feedback
 		public enum Modes { OverTime, Instant, ShakerEvent, ToDestination }
@@ -48,7 +50,7 @@ namespace MoreMountains.Feedbacks
 		public bool StartsOff = true;
 		/// if this is true, the light will be disabled when this feedbacks is stopped
 		[Tooltip("if this is true, the light will be disabled when this feedbacks is stopped")] 
-		public bool DisableOnStop = true;
+		public bool DisableOnStop = false;
 		/// whether or not the values should be relative or not
 		[Tooltip("whether or not the values should be relative or not")]
 		[MMFEnumCondition("Mode", (int)Modes.OverTime, (int)Modes.ShakerEvent, (int)Modes.Instant)]
@@ -369,7 +371,6 @@ namespace MoreMountains.Feedbacks
 		/// <param name="status"></param>
 		protected virtual void Turn(bool status)
 		{
-			BoundLight.gameObject.SetActive(status);
 			BoundLight.enabled = status;
 		}
 		
