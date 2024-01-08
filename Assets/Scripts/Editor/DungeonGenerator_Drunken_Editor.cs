@@ -26,11 +26,21 @@ public class DungeonGenerator_Drunken_Editor : Editor
 
 			generator.CreateGround();
 		}
+		if (GUILayout.Button("Test Immediately"))
+		{
+			generator.CreateGround_Immediately();
+		}
 		GUILayout.Label("");
 		if (GUILayout.Button("Test Wall"))
 		{
 			generator.CreateWall();
 		}
+		GUILayout.Label("");
+		if (GUILayout.Button("Test Cliff"))
+		{
+			generator.CreateCliff();
+		}
+
 
 		GUILayout.Label("");
 		if (GUILayout.Button("reset"))
@@ -38,7 +48,7 @@ public class DungeonGenerator_Drunken_Editor : Editor
 			generator.Reset();
 		}
 
-
+		
 
 	}
 

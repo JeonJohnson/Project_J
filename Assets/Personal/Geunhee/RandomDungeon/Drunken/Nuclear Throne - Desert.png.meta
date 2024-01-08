@@ -150,8 +150,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca0b55297e0e17b4181ce3dc2f8e5bbe
-      internalID: 1894355956
+      spriteID: 916dd66981293ff438c7593d22cd57f4
+      internalID: -1395089968
       vertices: []
       indices: 
       edges: []
@@ -160,10 +160,10 @@ TextureImporter:
       name: Nuclear Throne - Desert_1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 102
-        width: 16
-        height: 16
+        x: 32
+        y: 122
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,77 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f60cc1a28d03a0441a2ade65e5859ab4
-      internalID: -798444456
+      spriteID: f6aab11ea3f87e84f8c3c6b37fa0802e
+      internalID: 1939734325
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Nuclear Throne - Desert_2
-      rect:
-        serializedVersion: 2
-        x: 22
-        y: 102
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6cf668ff7fc628e498655f8d592116fd
-      internalID: -741878231
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_3
-      rect:
-        serializedVersion: 2
-        x: 43
-        y: 102
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1c771f6123214c34f849998f21cacd22
-      internalID: -621449122
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_4
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 102
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ce77ea902ef7a8c4d962b7057187f22c
-      internalID: -884214584
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_5
+      name: Nuclear Throne - Desert_7
       rect:
         serializedVersion: 2
         x: 2
@@ -255,14 +192,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9781dff4f0856a943807241610eb3f19
-      internalID: -1554022612
+      spriteID: 548790fac9a911945b1f17e042c305bf
+      internalID: -1464971912
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Nuclear Throne - Desert_6
+      name: Nuclear Throne - Desert_8
       rect:
         serializedVersion: 2
         x: 41
@@ -276,50 +213,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 78c3236e123c85947a5a6dc21d6a3b4b
-      internalID: 708457408
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_7
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 511a1c244005e1e43b9829bda13cf0d6
-      internalID: -2141220064
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_8
-      rect:
-        serializedVersion: 2
-        x: 119
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fec60f3417c843a429b718385641a2f7
-      internalID: -1203249475
+      spriteID: 77076738ccbd9a24a82b7447a1c7b331
+      internalID: 1935136711
       vertices: []
       indices: 
       edges: []
@@ -328,10 +223,10 @@ TextureImporter:
       name: Nuclear Throne - Desert_9
       rect:
         serializedVersion: 2
-        x: 0
-        y: 38
-        width: 20
-        height: 21
+        x: 80
+        y: 41
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -339,8 +234,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb54999a54f44e74e8424d9372286d9c
-      internalID: 1728049047
+      spriteID: d0cf382a8fe8dff4aba026e5df9d31a7
+      internalID: -1898231034
       vertices: []
       indices: 
       edges: []
@@ -349,10 +244,10 @@ TextureImporter:
       name: Nuclear Throne - Desert_10
       rect:
         serializedVersion: 2
-        x: 23
-        y: 38
-        width: 16
-        height: 16
+        x: 112
+        y: 41
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -360,8 +255,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a520526393f9bb447a6ecfc6141844d6
-      internalID: -804369751
+      spriteID: 8b47c3d7f765f1d4385268dbf0937679
+      internalID: -2127256681
       vertices: []
       indices: 
       edges: []
@@ -371,9 +266,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 19
-        width: 16
-        height: 16
+        y: 3
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -381,8 +276,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c7d8eb536e4085b4f82af28c489bf632
-      internalID: 578549325
+      spriteID: 931bf4f1f01208b4ba610079e0aa203e
+      internalID: 1439242171
       vertices: []
       indices: 
       edges: []
@@ -391,29 +286,8 @@ TextureImporter:
       name: Nuclear Throne - Desert_12
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: df069998c3f5c694f974811dcc08d1e8
-      internalID: 667746538
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_13
-      rect:
-        serializedVersion: 2
         x: 32
-        y: 122
+        y: 3
         width: 32
         height: 32
       alignment: 0
@@ -423,407 +297,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 937ed60d751a9d449b5e265d026ca16e
-      internalID: -591913161
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_14
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 122
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 71f5991ff3de9f640b88812bbe88609b
-      internalID: 495723599
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_15
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 122
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7abcecc949b36334aac8db9b03e808a8
-      internalID: 272785477
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_16
-      rect:
-        serializedVersion: 2
-        x: 39
-        y: 38
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 88524011c69387e47b369df48fece703
-      internalID: -483523745
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_17
-      rect:
-        serializedVersion: 2
-        x: 55
-        y: 38
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0ca73894be179af4f853215e7b1a2af3
-      internalID: -1134399721
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_18
-      rect:
-        serializedVersion: 2
-        x: 71
-        y: 38
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 176b596484ff7ab49bfc183267e62e81
-      internalID: -1535104930
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_19
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 19
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d73d6fd5187c86c4d8fba43ffef57784
-      internalID: -36933602
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_20
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 19
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3c3fbcf3a8abc0b4dbca1f5b9a859298
-      internalID: 1302093325
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_21
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 19
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a3c4357304b43c24682ec59b8a0c8aa7
-      internalID: 739398068
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_22
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 19
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b071bfc647691b843b647a7dc9b47f10
-      internalID: -2010920192
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_23
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 19
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 837f393e99b10954c936255689397896
-      internalID: 90635525
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_24
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 19
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 93772c3e679a7af49ad38114d431f824
-      internalID: 1909571851
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_25
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 19
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 21f6484afadc1ea4bb1a6c1282eda282
-      internalID: -2121533094
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_26
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0d148c281a5072e49a6e95a9324dff0d
-      internalID: -1327241881
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_27
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2c81804637caa0e4886fb982d0118bac
-      internalID: 927464052
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_28
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: aee3922687eea0e4db37ead9f388277d
-      internalID: -200167652
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_29
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f1771bc40d13d4d4ba716c49ce94f36a
-      internalID: -1175585104
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_30
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d6820888be45f9f4285244992dd5e28b
-      internalID: 451956554
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_31
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cd21d4fbd373252489bb3c671db1b3b8
-      internalID: -1058304688
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nuclear Throne - Desert_32
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6ac67e38cff86c84388724ef8f741a3f
-      internalID: 38005421
+      spriteID: 5202286e04c9a284ea17aa08678fe0d4
+      internalID: -1967442863
       vertices: []
       indices: 
       edges: []
@@ -839,39 +314,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Nuclear Throne - Desert_0: 1894355956
-      Nuclear Throne - Desert_1: -798444456
-      Nuclear Throne - Desert_10: -804369751
-      Nuclear Throne - Desert_11: 578549325
-      Nuclear Throne - Desert_12: 667746538
-      Nuclear Throne - Desert_13: -591913161
-      Nuclear Throne - Desert_14: 495723599
-      Nuclear Throne - Desert_15: 272785477
-      Nuclear Throne - Desert_16: -483523745
-      Nuclear Throne - Desert_17: -1134399721
-      Nuclear Throne - Desert_18: -1535104930
-      Nuclear Throne - Desert_19: -36933602
-      Nuclear Throne - Desert_2: -741878231
-      Nuclear Throne - Desert_20: 1302093325
-      Nuclear Throne - Desert_21: 739398068
-      Nuclear Throne - Desert_22: -2010920192
-      Nuclear Throne - Desert_23: 90635525
-      Nuclear Throne - Desert_24: 1909571851
-      Nuclear Throne - Desert_25: -2121533094
-      Nuclear Throne - Desert_26: -1327241881
-      Nuclear Throne - Desert_27: 927464052
-      Nuclear Throne - Desert_28: -200167652
-      Nuclear Throne - Desert_29: -1175585104
-      Nuclear Throne - Desert_3: -621449122
-      Nuclear Throne - Desert_30: 451956554
-      Nuclear Throne - Desert_31: -1058304688
-      Nuclear Throne - Desert_32: 38005421
-      Nuclear Throne - Desert_4: -884214584
-      Nuclear Throne - Desert_5: -1554022612
-      Nuclear Throne - Desert_6: 708457408
-      Nuclear Throne - Desert_7: -2141220064
-      Nuclear Throne - Desert_8: -1203249475
-      Nuclear Throne - Desert_9: 1728049047
+      Nuclear Throne - Desert_0: -1395089968
+      Nuclear Throne - Desert_1: 1939734325
+      Nuclear Throne - Desert_10: -2127256681
+      Nuclear Throne - Desert_11: 1439242171
+      Nuclear Throne - Desert_12: -1967442863
+      Nuclear Throne - Desert_13: -145895197
+      Nuclear Throne - Desert_14: -120627498
+      Nuclear Throne - Desert_2: -499854917
+      Nuclear Throne - Desert_3: 215688903
+      Nuclear Throne - Desert_4: 903343468
+      Nuclear Throne - Desert_5: 339842331
+      Nuclear Throne - Desert_6: 1452338164
+      Nuclear Throne - Desert_7: -1464971912
+      Nuclear Throne - Desert_8: 1935136711
+      Nuclear Throne - Desert_9: -1898231034
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
