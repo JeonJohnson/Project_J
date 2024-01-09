@@ -40,13 +40,12 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 {
     public Transform areaTr;
     public Camera cam;
-    //public GameObject tilemapOriginPrefab;
-    //public List<GameObject> environments;
+    public GameObject tilemapOriginPrefab;
 
     [Space(10f)]
-    [Header("Boxes")]
-    public Transform GroundBox;
-    public Transform WallBox;
+    //[Header("Boxes")]
+    //public Transform GroundBox;
+    //public Transform WallBox;
 
     [Space(10f)]
     [Header("Tilemap")]
@@ -58,16 +57,22 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     [Header("Room Option")]
     //public List<GameObject> GroundPrefabs;
     //public List<GameObject> WallPrefabs;
-
+    
     public List<Tile> GroundTiles;
     public List<Tile> WallTiles;
     public List<Tile> CliffTiles;
 
+    //[Range(1,10)]
+    //public int roomCount;
+    //[ReadOnly]
+    //public int curCreateNum;
+    public GameObject rooms;
+    
     [Space(7.5f)]
     [ReadOnly]
-    public int groundCount;
+    public int groundTilesCount;
     [ReadOnly]
-    public int wallCount;
+    public int wallTilesCount;
     [ReadOnly]
     public int tileSize = 1;
     //Unity World unit Scale
@@ -138,9 +143,9 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     
     private List<Explorer> explorers;
     private tileGridState[,] tileGrid;
-    private GameObject[,] tileObjs;
-    private List<GameObject> grounds;
-    private List<GameObject> walls;
+    //private GameObject[,] tileObjs;
+    //private List<GameObject> grounds;
+    //private List<GameObject> walls;
     //Internal Varis
 
     public void Setup()
@@ -193,24 +198,40 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             explorers.Add(new Explorer(centerIndex));
         }
 
-        grounds = new List<GameObject>();
-        groundCount = grounds.Count;
+        //rooms = new GameObject[roomCount];
+        //groundTilemap = new Tilemap[roomCount];
+        //wallTilemap = new Tilemap[roomCount];
 
-        walls = new List<GameObject>();
-        wallCount = walls.Count;
+        //for (int i = 0; i < roomCount; ++i)
+        //{
+            GameObject obj = Instantiate(tilemapOriginPrefab);
+            groundTilemap = obj.transform.Find("Ground").GetComponent<Tilemap>();
+            wallTilemap = obj.transform.Find("Wall").GetComponent<Tilemap>();
+        //}
 
+        //grounds = new List<GameObject>();
+        //groundCount = grounds.Count;
+
+        //walls = new List<GameObject>();
+        //wallCount = walls.Count;
+    }
+
+
+    public void CreateRoom()
+    {
+        //for (int i = 0; i < roomCount; ++i)
+        //{
+        //    curCreateNum = i;
+            CreateGround();
+            CreateWall();
+            CreateCliff();
+        //}
+    
     }
 
     public void CreateGround()
     {
-        if (Application.isPlaying)
-        {
-            StartCoroutine(GroundLoop());
-        }
-        else 
-        {
             int curTryCount = 0;
-
             while (curTryCount < maxTryCount)
             {
                 if (MoveExplorer())
@@ -222,26 +243,27 @@ public class DungeonGenerator_Drunken : MonoBehaviour
                     break;
                 }
             }
-        }
-        
+        //StartCoroutine(GroundLoop());
     }
-    public void CreateGround_Immediately()
-    {
-            int curTryCount = 0;
+    //public void CreateGround_Immediately()
+    //{
+    //    for (int i = 0; i < roomCount; ++i)
+    //    {
+    //        int curTryCount = 0;
 
-            while (curTryCount < maxTryCount)
-            {
-                if (MoveExplorer())
-                {
-                    ++curTryCount;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-    }
+    //        while (curTryCount < maxTryCount)
+    //        {
+    //            if (MoveExplorer())
+    //            {
+    //                ++curTryCount;
+    //            }
+    //            else
+    //            {
+    //                break;
+    //            }
+    //        }
+    //    }
+    //}
     public IEnumerator GroundLoop()
     {
         int curTryCount = 0;
@@ -264,7 +286,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     { //Move Once
 
         //1. Checking ground Count Ratio 
-        if (areaFillRatio <= (float)groundCount / (float)tileGrid.Length)
+        if (areaFillRatio <= (float)groundTilesCount / (float)tileGrid.Length)
         {
             return false;
         }
@@ -362,6 +384,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
     public void CreateWall()
     {
+        
 		for (int x = 0; x < gridLength.x - 1; ++x)
 		{
 			for (int y = 0; y < gridLength.y - 1; ++y)
@@ -446,7 +469,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         {
             Vector2 pos = GetPos(item);
             wallTilemap.SetTile(new Vector3Int((int)pos.x, (int)pos.y, 0), CliffTiles[0]);
-            wallCount++;
+            wallTilesCount++;
         }
     }
 
@@ -540,16 +563,15 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 			{
 				case tileGridState.Ground:
 					{
-
                         groundTilemap.SetTile(new Vector3Int((int)pos.x,(int)pos.y,0), GroundTiles[0]);
-                        groundCount++;
+                        groundTilesCount++;
 						//tile = Instantiate(GroundPrefabs[0], pos, Quaternion.identity, GroundBox);
 					}
 					break;
 				case tileGridState.Wall:
 					{
                         wallTilemap.SetTile(new Vector3Int((int)pos.x, (int)pos.y, 0), WallTiles[0]);
-                        wallCount++;
+                        wallTilesCount++;
                         //tile = Instantiate(WallPrefabs[0], pos, Quaternion.identity, WallBox);
                     }
 					break;
@@ -564,20 +586,31 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
 	public void Reset()
 	{
-        
-		foreach (var item in walls)
-		{
-            if (Application.isPlaying)
-            { GameObject.Destroy(item); }
-            else { DestroyImmediate(item); }
-		}
 
-        foreach (var item in grounds)
-        {
-            if (Application.isPlaying)
-            { GameObject.Destroy(item); }
-            else { DestroyImmediate(item); }
-        }
+        //for (int i = 0; i < roomCount; ++i)
+        //{
+        //    groundTilemap[i].ClearAllTiles();
+        //    wallTilemap[i].ClearAllTiles();
+        //    GameObject.Destroy(rooms[i]);
+        //}
+
+        groundTilemap.ClearAllTiles();
+        wallTilemap.ClearAllTiles();
+        GameObject.Destroy(rooms);
+
+        //foreach (var item in walls)
+        //{
+        //          if (Application.isPlaying)
+        //          { GameObject.Destroy(item); }
+        //          else { DestroyImmediate(item); }
+        //}
+
+        //      foreach (var item in grounds)
+        //      {
+        //          if (Application.isPlaying)
+        //          { GameObject.Destroy(item); }
+        //          else { DestroyImmediate(item); }
+        //      }
 
         Setup();
     }
