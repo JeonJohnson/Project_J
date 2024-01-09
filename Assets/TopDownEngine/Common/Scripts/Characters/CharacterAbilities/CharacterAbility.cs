@@ -49,7 +49,7 @@ namespace MoreMountains.TopDownEngine
 		{
 			get
 			{
-				if (_character != null)
+                if (_character != null)
 				{
 					if ((BlockingMovementStates != null) && (BlockingMovementStates.Length > 0))
 					{
@@ -77,11 +77,11 @@ namespace MoreMountains.TopDownEngine
 					{
 						for (int i = 0; i < BlockingWeaponStates.Length; i++)
 						{
-							foreach (CharacterHandleWeapon handleWeapon in _handleWeaponList)
+                            foreach (CharacterHandleWeapon handleWeapon in _handleWeaponList)
 							{
-								if (handleWeapon.CurrentWeapon != null)
+                                if (handleWeapon.CurrentWeapon != null)
 								{
-									if (BlockingWeaponStates[i] == (handleWeapon.CurrentWeapon.WeaponState.CurrentState))
+                                    if (BlockingWeaponStates[i] == (handleWeapon.CurrentWeapon.WeaponState.CurrentState))
 									{
 										return false;
 									}

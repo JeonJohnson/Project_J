@@ -8,6 +8,7 @@ using UnityEngine;
 using Structs;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
+using TMPro;
 
 public static class Funcs
 {
@@ -570,6 +571,50 @@ namespace Structs
         public bool isDurable;
         public bool isHitSucess;
     }
+
+
+    [Serializable]
+    public struct BulletStat
+    {
+        public int dmg;
+        public float moveSpd;
+        public float aliveTime;
+        public LayerMask targetLayer;
+    }
+
+    public enum BulletState
+    {
+        Fire, //발사만 됐을 때
+        SuckWait, //Suction 시작되고 잠시 위치 멈췄을 때
+        Sucking, //그 후 항아리 입구쪽으로 딸려올 때
+        End
+    }
+
+    [Serializable]
+    public struct SplatterStat
+    {
+        public Vector2 bulletDir;
+        public int maxCount;
+        public int leftCount;
+        public TextMeshProUGUI hitCountTmp;
+    }
+
+    public enum SuckedOption
+    {
+        None,
+        Sucked
+    }
+    [Serializable]
+    public struct SuckedStat
+    {
+        public float suckWaitRandTime; //멈추는 시간 (랜덤줄꺼임)
+        public float suckingRandTime; //멈추고나서 빨려들어갈때 걸리는 시간. (랜덤 줄꺼임)
+        public float suckingTimeRatio;
+
+        public Vector2 suckStartPos;
+        public Player player;
+    }
+
 }
 
 namespace Enums

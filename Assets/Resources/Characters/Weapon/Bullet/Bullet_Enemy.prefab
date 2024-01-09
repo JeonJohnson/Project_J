@@ -55,7 +55,7 @@ MonoBehaviour:
     aliveTime: 30
     targetLayer:
       serializedVersion: 2
-      m_Bits: 128
+      m_Bits: 0
   splatterStat:
     bulletDir: {x: 0, y: 0}
     maxCount: 5
