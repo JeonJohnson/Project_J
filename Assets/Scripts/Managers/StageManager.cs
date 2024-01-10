@@ -7,23 +7,22 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : Singleton<StageManager>
 {
-	//public List<Demo_Room> rooms;
-
-	//public int curRoomIndex;
+	public List<Room_Drunken> rooms;
+	public int curRoomIndex;
 
 	//public Data<int> curMonsterCount; //정민아 이거랑 UI랑 연결하면 될거 같애
 	//public void OnMonsterDeath()
 	//{//정민아 몬스터 죽을 때 마다 호출해줘
 	//	rooms[curRoomIndex].curMonsterCount -= 1;
- //       curMonsterCount.Value = rooms[curRoomIndex].curMonsterCount;
+	//       curMonsterCount.Value = rooms[curRoomIndex].curMonsterCount;
 
- //       if (rooms[curRoomIndex].curMonsterCount <= 0)
+	//       if (rooms[curRoomIndex].curMonsterCount <= 0)
 	//	{ //정민아 여기가 그 방 클리어 조건이야
 
 	//		if (rooms[curRoomIndex] == rooms[rooms.Count - 1])
 	//		{ //이건 보스방 클리어 조건
- //               if (IngameController.Instance.gameStatus == IngameController.GameStatus.Playing) UiController_Proto.Instance.ShowResultWindow(true, true);
- //           }
+	//               if (IngameController.Instance.gameStatus == IngameController.GameStatus.Playing) UiController_Proto.Instance.ShowResultWindow(true, true);
+	//           }
 	//		else
 	//		{ //일반방 클리어 조건
 	//			rooms[curRoomIndex].ExitDoor(true);
@@ -42,35 +41,35 @@ public class StageManager : Singleton<StageManager>
 
 	//	rooms[curRoomIndex].RandomObjectGen();
 	//	StartCoroutine(CameraBoundEffect());
- //   }
+	//   }
 
 	//private IEnumerator CameraBoundEffect()
 	//{
- //       IngameController.Instance.Player.aimController.cinemachineConfiner.m_BoundingVolume = rooms[curRoomIndex].cameraCollider;
- //       IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 2f;
+	//       IngameController.Instance.Player.aimController.cinemachineConfiner.m_BoundingVolume = rooms[curRoomIndex].cameraCollider;
+	//       IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 2f;
 	//	yield return new WaitForSeconds(2f);
- //       IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 0.08f;
- //       yield return new WaitForSeconds(1f);
- //       IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 0.01f;
- //       yield return new WaitForSeconds(1f);
- //       IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 0f;
- //       //IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 0f;
- //   }
+	//       IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 0.08f;
+	//       yield return new WaitForSeconds(1f);
+	//       IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 0.01f;
+	//       yield return new WaitForSeconds(1f);
+	//       IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 0f;
+	//       //IngameController.Instance.Player.aimController.cinemachineConfiner.m_Damping = 0f;
+	//   }
 
 	//private void Awake()
 	//{
-		
+
 	//}
 
 	//private void Start()
 	//{
 	//	curRoomIndex = 0;
- //       rooms[curRoomIndex].RandomObjectGen();
+	//       rooms[curRoomIndex].RandomObjectGen();
 	//	curMonsterCount = new Data<int>();
- //       curMonsterCount.onChange += UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount;
+	//       curMonsterCount.onChange += UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount;
 
 
- //       if (rooms[curRoomIndex].curMonsterCount <= 0)
+	//       if (rooms[curRoomIndex].curMonsterCount <= 0)
 	//	{
 	//		{ //일반방 클리어 조건
 	//			rooms[curRoomIndex].ExitDoor(true);
@@ -86,6 +85,20 @@ public class StageManager : Singleton<StageManager>
 	//	//}
 	//}
 
+	private void SetupRoom()
+	{
+		for (int i = 1; i < rooms.Count; ++i)
+		{
+			rooms[i].gameObject.SetActive(false);
+		}
+	}
+
+	public void NextRoom()
+	{
+		rooms[curRoomIndex].gameObject.SetActive(false);
+		++curRoomIndex;
+		rooms[curRoomIndex].gameObject.SetActive(true);
+	}
 
 	private void Update()
 	{

@@ -219,6 +219,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         
         GameObject obj = Instantiate(tilemapOriginPrefab);
         Room_Drunken roomScript = obj.GetComponent<Room_Drunken>();
+        roomScript.centerPos = GetPos(centerIndex);
         rooms.Add(roomScript);
 
         groundTilemap = roomScript.groundTilemap;
