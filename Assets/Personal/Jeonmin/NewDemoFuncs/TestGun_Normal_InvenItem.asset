@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fac9bd89dcafc049b19f543ccf8fd57, type: 3}
-  m_Name: KoalaRifleAmmo
+  m_Script: {fileID: 11500000, guid: 9529ae2b2ee0d1e4d802b51d271424c3, type: 3}
+  m_Name: TestGun_Normal_InvenItem
   m_EditorClassIdentifier: 
-  ItemID: KoalaRifleAmmo
+  ItemID: KoalaRifle
   TargetInventoryName: KoalaMainInventory
   ForceSlotIndex: 0
   TargetIndex: 0
-  Usable: 1
+  Usable: 0
   Consumable: 1
   ConsumeQuantity: 1
-  Equippable: 0
+  Equippable: 1
   EquippableIfInventoryIsFull: 1
   MoveWhenEquipped: 1
   Droppable: 1
@@ -33,12 +33,11 @@ MonoBehaviour:
     DisplayUseButton: 1
     DisplayUnequipButton: 1
   Quantity: 1
-  ItemName: Assault Rifle Ammo
-  ShortDescription: Goes into an assault rifle
-  Description: A metal projectile for firing from a rifle typically cylindrical and
-    pointed, and sometimes containing an explosive.
-  Icon: {fileID: 21300004, guid: b528708a5a8f28343aefa9e1d46670a7, type: 3}
-  Prefab: {fileID: 1285005204474166, guid: 26615dc5bedcf8349b8dc80d84a1487b, type: 3}
+  ItemName: Assault Rifle
+  ShortDescription: First used during World War II
+  Description: A rapid-fire, magazine-fed automatic rifle designed for infantry use.
+  Icon: {fileID: 21300008, guid: b528708a5a8f28343aefa9e1d46670a7, type: 3}
+  Prefab: {fileID: 1135282862314296, guid: 31967730f9b6ffc4f90155f86f7d5a87, type: 3}
   ForcePrefabDropQuantity: 0
   PrefabDropQuantity: 1
   DropProperties:
@@ -82,11 +81,15 @@ MonoBehaviour:
     MaximumRotation: {x: 0, y: 0, z: 0}
     MinimumScale: {x: 1, y: 1, z: 1}
     MaximumScale: {x: 1, y: 1, z: 1}
-  MaximumStack: 100
-  ItemClass: 3
-  TargetEquipmentInventoryName: 
+  MaximumStack: 1
+  ItemClass: 2
+  TargetEquipmentInventoryName: KoalaWeaponInventory
   EquippedSound: {fileID: 0}
   UsedSound: {fileID: 0}
   MovedSound: {fileID: 0}
   DroppedSound: {fileID: 0}
-  UseDefaultSoundsIfNull: 0
+  UseDefaultSoundsIfNull: 1
+  EquippableWeapon: {fileID: 7526306664444917238, guid: 8f6c74e4c8ef4a54ba23b684964c1732,
+    type: 3}
+  AutoEquipMode: 2
+  HandleWeaponID: 1

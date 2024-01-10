@@ -4906,7 +4906,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 6585f21f352bd2d428e39c0353cdc7ae, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9900,7 +9899,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 0}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9966,6 +9964,7 @@ GameObject:
   - component: {fileID: 61374952899877022}
   - component: {fileID: 50614525472420450}
   - component: {fileID: 8652130142629035444}
+  - component: {fileID: 9131967986488495514}
   m_Layer: 18
   m_Name: KoalaGunBullet 1
   m_TagString: Untagged
@@ -9982,7 +9981,7 @@ Transform:
   m_GameObject: {fileID: 1579859513670320}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.42, y: -1.546, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4034307314382222}
@@ -10244,6 +10243,28 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
   testb: 1
+--- !u!114 &9131967986488495514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579859513670320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d9dd85fd0fb4d498e7faa96e628088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  suckedOption: 1
+  suckedStat:
+    suckWaitRandTime: 0
+    suckingRandTime: 0
+    suckingTimeRatio: 0
+    suckStartPos: {x: 0, y: 0}
+    suckedWeapon: {fileID: 0}
+  curState: 0
+  srdr: {fileID: 212508439041957836}
+  item: {fileID: 11400000, guid: 4bbb20a3fab7bd7458b51d875e72e6e3, type: 2}
 --- !u!1 &1732689920048540
 GameObject:
   m_ObjectHideFlags: 0
@@ -19941,7 +19962,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 6b6fc11d534b7e049a8267efd5722496, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

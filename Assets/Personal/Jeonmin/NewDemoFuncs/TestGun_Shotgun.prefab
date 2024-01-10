@@ -96,8 +96,9 @@ GameObject:
   - component: {fileID: 7526306664444917238}
   - component: {fileID: 1763854847997367789}
   - component: {fileID: 2025223490916241468}
+  - component: {fileID: -2109787573810206184}
   m_Layer: 0
-  m_Name: TestGun
+  m_Name: TestGun_Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,19 +132,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d7ce0b8cf4b34859b9e359283b2e7f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponName: 
+  WeaponName: BasicWeapon
   WeaponCurrentlyActive: 1
   InputAuthorized: 1
   TriggerMode: 1
   DelayBeforeUse: 0
   DelayBeforeUseReleaseInterruption: 1
-  TimeBetweenUses: 1
+  TimeBetweenUses: 0.5
   TimeBetweenUsesReleaseInterruption: 1
   UseBurstMode: 0
-  BurstLength: 3
+  BurstLength: 1
   BurstTimeBetweenShots: 0.1
   MagazineBased: 0
-  MagazineSize: 30
+  MagazineSize: 1
   AutoReload: 0
   NoInputReload: 0
   ReloadTime: 2
@@ -189,19 +190,19 @@ MonoBehaviour:
   WeaponReloadMMFeedback: {fileID: 0}
   WeaponReloadNeededMMFeedback: {fileID: 0}
   WeaponReloadImpossibleMMFeedback: {fileID: 0}
-  InitializeOnStart: 0
+  InitializeOnStart: 1
   Interruptable: 0
   Flipped: 0
   ProjectileSpawnOffset: {x: 0.63, y: 0, z: 0}
   DefaultProjectileDirection: {x: 0, y: 0, z: 1}
-  ProjectilesPerShot: 1
+  ProjectilesPerShot: 3
   SpawnTransforms: []
   SpawnTransformsMode: 1
-  Spread: {x: 0, y: 0, z: 0}
+  Spread: {x: 0, y: 0, z: 3}
   RotateWeaponOnSpread: 0
   RandomSpread: 1
   SpawnPosition: {x: 0.63, y: 0.52000046, z: 0}
-  ObjectPooler: {fileID: 0}
+  ObjectPooler: {fileID: 2025223490916241468}
   SpawnFeedbacks: []
   TestShootButton: 0
 --- !u!114 &1763854847997367789
@@ -223,7 +224,7 @@ MonoBehaviour:
   MinimumAngle: -180
   MaximumAngle: 180
   MinimumMagnitude: 0.2
-  ReticleType: 0
+  ReticleType: 2
   Reticle: {fileID: 1373789777524232, guid: f31b518c2b50cc2479370c46d4485485, type: 3}
   ReticleDistance: 0
   ReticleHeight: 0
@@ -255,3 +256,21 @@ MonoBehaviour:
     type: 3}
   PoolSize: 20
   PoolCanExpand: 1
+--- !u!114 &-2109787573810206184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6329548544163890072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708b09d7c685aa4596060c0c90f2d57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoID: Ammo
+  AmmoInventoryName: KoalaMainInventory
+  MaxAmmo: 100
+  ShouldLoadOnStart: 1
+  ShouldEmptyOnSave: 1
+  CurrentAmmoAvailable: 0

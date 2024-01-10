@@ -54,8 +54,6 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
             base.Initialization();
             randomBool = false;
             characterHandleWeapon = _character?.FindAbility<CharacterHandleWeapon>();
-            suctionGunTr.parent = characterHandleWeapon.CurrentWeapon.transform;
-            suctionGunTr.localEulerAngles = Vector3.zero;
             fovSprite.material.SetFloat("_FovAngle", suctionStat.suctionAngle);
             fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
         }
@@ -74,12 +72,26 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
         protected override void HandleInput()
         {
             base.HandleInput();
-            if(AbilityAuthorized)
+
+            if (characterHandleWeapon.CurrentWeapon == null) return;
+
+            if (AbilityAuthorized)
             {
                 if(Input.GetKey(KeyCode.Mouse1))
                 {
                     suctionGunTr.gameObject.SetActive(true);
-                  //  suctionGunTr.rotation = characterHandleWeapon.CurrentWeapon.transform.rotation;
+                    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    mousePosition.z = 0f; // 2D 게임에서는 z를 0으로 설정
+
+                    // 2. 플레이어와 마우스의 위치 간의 방향 벡터 계산
+                    Vector3 direction = mousePosition - suctionGunTr.transform.position;
+
+                    // 3. 방향 벡터에 대한 회전 계산
+                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+                    // 4. 플레이어의 회전을 조절
+                    suctionGunTr.rotation = targetRotation;
                 }
                 else
                 {
@@ -158,7 +170,7 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
                     Vector3 targetPos = col.transform.position;
                     Vector2 targetDir = (targetPos - suctionGunTr.position).normalized;
 
-                    var tempLookDir = Funcs.DegreeAngle2Dir(-suctionGunTr.eulerAngles.z);
+                    var tempLookDir = suctionGunTr.transform.right;
                     //lookDir랑 값다른데 이거로 적용됨 일단 나중에 ㄱ
                     float angleToTarget = Mathf.Acos(Vector2.Dot(targetDir, tempLookDir)) * Mathf.Rad2Deg;
 
@@ -170,7 +182,7 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
                         Suckable bullet = col.gameObject.GetComponent<Suckable>();
                         if (bullet)
                         {
-                            if (bullet.suckedOption == Suckable.SuckedOption.Sucked && bullet.curState == Suckable.BulletState.Fire)
+                            if (bullet.curState == Suckable.BulletState.Fire)
                             {
                                 bullet.Sucked(characterHandleWeapon.CurrentWeapon);
                             }

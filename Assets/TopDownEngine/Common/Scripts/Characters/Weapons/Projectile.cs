@@ -55,8 +55,14 @@ namespace MoreMountains.TopDownEngine
 		[Tooltip("should the projectile damage its owner?")]
 		public bool DamageOwner = false;
 
-		/// Returns the associated damage on touch zone
-		public DamageOnTouch TargetDamageOnTouch { get { return _damageOnTouch; } }
+        [Header("Distance Limit")]
+        public bool DistanceLimit = false;
+		public float DistanceLimitValue;
+        private Vector2 initialPosition;
+        private float traveledDistance;
+
+        /// Returns the associated damage on touch zone
+        public DamageOnTouch TargetDamageOnTouch { get { return _damageOnTouch; } }
 		public Weapon SourceWeapon { get { return _weapon; } }
 
 		protected Weapon _weapon;
@@ -135,7 +141,9 @@ namespace MoreMountains.TopDownEngine
 			{
 				_collider2D.enabled = true;
 			}
-		}
+
+            initialPosition = transform.position;
+        }
 
 		/// <summary>
 		/// On update(), we move the object based on the level's speed and the object's speed, and apply acceleration
@@ -146,8 +154,19 @@ namespace MoreMountains.TopDownEngine
 			if (_shouldMove)
 			{
 				Movement();
-			}
+				CalcDistance();
+            }
 		}
+
+		private void CalcDistance()
+		{
+            traveledDistance = Vector2.Distance(initialPosition, transform.position);
+			if(DistanceLimit) 
+			{ 
+				if(traveledDistance > DistanceLimitValue) this.gameObject.SetActive(false);
+			}
+        }
+
 
 		/// <summary>
 		/// Handles the projectile's movement, every frame
