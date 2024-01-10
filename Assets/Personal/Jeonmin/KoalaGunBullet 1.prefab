@@ -10221,17 +10221,6 @@ MonoBehaviour:
   ProjectileIsFacingRight: 1
   InitialInvulnerabilityDuration: 0
   DamageOwner: 0
-  suckedOption: 1
-  suckedStat:
-    suckWaitRandTime: 0
-    suckingRandTime: 0
-    suckingTimeRatio: 0
-    suckStartPos: {x: 0, y: 0}
-    suckedWeapon: {fileID: 0}
-  curState: 0
-  col: {fileID: 61374952899877022}
-  rb: {fileID: 50614525472420450}
-  srdr: {fileID: 212508439041957836}
   BounceRaycastLength: 1
   BounceLayers:
     serializedVersion: 2

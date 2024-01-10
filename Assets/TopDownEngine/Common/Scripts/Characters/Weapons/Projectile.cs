@@ -6,15 +6,15 @@ using TMPro;
 using static MoreMountains.TopDownEngine.Projectile;
 
 namespace MoreMountains.TopDownEngine
-{	
+{
 	/// <summary>
 	/// Projectile class to be used along with projectile weapons
 	/// </summary>
 	[AddComponentMenu("TopDown Engine/Weapons/Projectile")]
-	public class Projectile : MMPoolableObject  
+	public class Projectile : MMPoolableObject
 	{
-		public enum MovementVectors { Forward, Right, Up}
-		
+		public enum MovementVectors { Forward, Right, Up }
+
 		[Header("Movement")]
 		/// if true, the projectile will rotate at initialization towards its rotation
 		[Tooltip("if true, the projectile will rotate at initialization towards its rotation")]
@@ -41,16 +41,16 @@ namespace MoreMountains.TopDownEngine
 		public bool DirectionCanBeChangedBySpawner = true;
 		/// the flip factor to apply if and when the projectile is mirrored
 		[Tooltip("the flip factor to apply if and when the projectile is mirrored")]
-		public Vector3 FlipValue = new Vector3(-1,1,1);
+		public Vector3 FlipValue = new Vector3(-1, 1, 1);
 		/// set this to true if your projectile's model (or sprite) is facing right, false otherwise
 		[Tooltip("set this to true if your projectile's model (or sprite) is facing right, false otherwise")]
 		public bool ProjectileIsFacingRight = true;
 
 		[Header("Spawn")]
-		[MMInformation("Here you can define an initial delay (in seconds) during which this object won't take or cause damage. This delay starts when the object gets enabled. You can also define whether the projectiles should damage their owner (think rockets and the likes) or not",MoreMountains.Tools.MMInformationAttribute.InformationType.Info,false)]
+		[MMInformation("Here you can define an initial delay (in seconds) during which this object won't take or cause damage. This delay starts when the object gets enabled. You can also define whether the projectiles should damage their owner (think rockets and the likes) or not", MoreMountains.Tools.MMInformationAttribute.InformationType.Info, false)]
 		/// the initial delay during which the projectile can't be destroyed
 		[Tooltip("the initial delay during which the projectile can't be destroyed")]
-		public float InitialInvulnerabilityDuration=0f;
+		public float InitialInvulnerabilityDuration = 0f;
 		/// should the projectile damage its owner?
 		[Tooltip("should the projectile damage its owner?")]
 		public bool DamageOwner = false;
@@ -80,19 +80,19 @@ namespace MoreMountains.TopDownEngine
 		/// <summary>
 		/// On awake, we store the initial speed of the object 
 		/// </summary>
-		protected virtual void Awake ()
+		protected virtual void Awake()
 		{
 			_facingRightInitially = ProjectileIsFacingRight;
 			_initialSpeed = Speed;
-			_health = GetComponent<Health> ();
-			_collider = GetComponent<Collider> ();
+			_health = GetComponent<Health>();
+			_collider = GetComponent<Collider>();
 			_collider2D = GetComponent<Collider2D>();
-			_spriteRenderer = GetComponent<SpriteRenderer> ();
+			_spriteRenderer = GetComponent<SpriteRenderer>();
 			_damageOnTouch = GetComponent<DamageOnTouch>();
-			_rigidBody = GetComponent<Rigidbody> ();
-			_rigidBody2D = GetComponent<Rigidbody2D> ();
-			_initialInvulnerabilityDurationWFS = new WaitForSeconds (InitialInvulnerabilityDuration);
-			if (_spriteRenderer != null) {	_initialFlipX = _spriteRenderer.flipX ;		}
+			_rigidBody = GetComponent<Rigidbody>();
+			_rigidBody2D = GetComponent<Rigidbody2D>();
+			_initialInvulnerabilityDurationWFS = new WaitForSeconds(InitialInvulnerabilityDuration);
+			if (_spriteRenderer != null) { _initialFlipX = _spriteRenderer.flipX; }
 			_initialLocalScale = transform.localScale;
 		}
 
@@ -106,7 +106,7 @@ namespace MoreMountains.TopDownEngine
 			if (_weapon == null) { yield break; }
 
 			_damageOnTouch.ClearIgnoreList();
-            _damageOnTouch.IgnoreGameObject(_weapon.Owner.gameObject);
+			_damageOnTouch.IgnoreGameObject(_weapon.Owner.gameObject);
 
 			yield return _initialInvulnerabilityDurationWFS;
 			if (DamageOwner)
@@ -122,8 +122,8 @@ namespace MoreMountains.TopDownEngine
 		{
 			Speed = _initialSpeed;
 			ProjectileIsFacingRight = _facingRightInitially;
-			if (_spriteRenderer != null) {	_spriteRenderer.flipX = _initialFlipX;	}
-			transform.localScale = _initialLocalScale;	
+			if (_spriteRenderer != null) { _spriteRenderer.flipX = _initialFlipX; }
+			transform.localScale = _initialLocalScale;
 			_shouldMove = true;
 			_damageOnTouch?.InitializeFeedbacks();
 
@@ -140,9 +140,9 @@ namespace MoreMountains.TopDownEngine
 		/// <summary>
 		/// On update(), we move the object based on the level's speed and the object's speed, and apply acceleration
 		/// </summary>
-		protected virtual void FixedUpdate ()
+		protected virtual void FixedUpdate()
 		{
-			base.Update ();
+			base.Update();
 			if (_shouldMove)
 			{
 				Movement();
@@ -158,7 +158,7 @@ namespace MoreMountains.TopDownEngine
 			//transform.Translate(_movement,Space.World);
 			if (_rigidBody != null)
 			{
-				_rigidBody.MovePosition (this.transform.position + _movement);
+				_rigidBody.MovePosition(this.transform.position + _movement);
 			}
 			if (_rigidBody2D != null)
 			{
@@ -184,7 +184,7 @@ namespace MoreMountains.TopDownEngine
 			}
 			if (ProjectileIsFacingRight != spawnerIsFacingRight)
 			{
-				Flip ();
+				Flip();
 			}
 			if (FaceDirection)
 			{
@@ -221,13 +221,13 @@ namespace MoreMountains.TopDownEngine
 			if (_spriteRenderer != null)
 			{
 				_spriteRenderer.flipX = !_spriteRenderer.flipX;
-			}	
+			}
 			else
 			{
-				this.transform.localScale = Vector3.Scale(this.transform.localScale,FlipValue) ;
+				this.transform.localScale = Vector3.Scale(this.transform.localScale, FlipValue);
 			}
 		}
-        
+
 		/// <summary>
 		/// Flip the projectile
 		/// </summary>
@@ -264,7 +264,7 @@ namespace MoreMountains.TopDownEngine
 				_damageOnTouch.MaxDamageCaused = maxDamage;
 			}
 		}
-        
+
 		/// <summary>
 		/// Sets the projectile's owner.
 		/// </summary>
@@ -306,7 +306,7 @@ namespace MoreMountains.TopDownEngine
 			{
 				_collider2D.enabled = false;
 			}
-			
+
 			_shouldMove = false;
 		}
 
@@ -315,18 +315,18 @@ namespace MoreMountains.TopDownEngine
 		/// </summary>
 		protected virtual void OnDeath()
 		{
-			StopAt ();
+			StopAt();
 		}
 
 		/// <summary>
 		/// On enable, we trigger a short invulnerability
 		/// </summary>
-		protected override void OnEnable ()
+		protected override void OnEnable()
 		{
-			base.OnEnable ();
+			base.OnEnable();
 
 			Initialization();
-			if (InitialInvulnerabilityDuration>0)
+			if (InitialInvulnerabilityDuration > 0)
 			{
 				StartCoroutine(InitialInvulnerability());
 			}
@@ -342,134 +342,11 @@ namespace MoreMountains.TopDownEngine
 		/// </summary>
 		protected override void OnDisable()
 		{
-			base.OnDisable ();
+			base.OnDisable();
 			if (_health != null)
 			{
 				_health.OnDeath -= OnDeath;
-			}			
+			}
 		}
-
-        // sucked option 
-
-
-        public enum BulletState
-        {
-            Fire, //발사만 됐을 때
-            SuckWait, //Suction 시작되고 잠시 위치 멈췄을 때
-            Sucking, //그 후 항아리 입구쪽으로 딸려올 때
-            End
-        }
-
-        [Serializable]
-        public struct SplatterStat
-        {
-            public Vector2 bulletDir;
-            public int maxCount;
-            public int leftCount;
-            public TextMeshProUGUI hitCountTmp;
-        }
-
-        public enum SuckedOption
-        {
-            None,
-            Sucked
-        }
-        [Serializable]
-        public struct SuckedStat
-        {
-            public float suckWaitRandTime; //멈추는 시간 (랜덤줄꺼임)
-            public float suckingRandTime; //멈추고나서 빨려들어갈때 걸리는 시간. (랜덤 줄꺼임)
-            public float suckingTimeRatio;
-
-            public Vector2 suckStartPos;
-            public Weapon suckedWeapon;
-        }
-
-        [Header("Options")]
-        [Tooltip("흡수가 가능한가에 대한 옵션")]
-        public SuckedOption suckedOption;
-
-        [Tooltip("상태 변수값들")]
-        public SuckedStat suckedStat;
-
-        [Tooltip("현재 상태")]
-        public BulletState curState;
-
-
-        [Header("Default Components")]
-        public BoxCollider2D col;
-        public Rigidbody2D rb;
-        public SpriteRenderer srdr;
-
-
-        public void Sucked(Weapon _suckedWeapon)
-        {
-            srdr.color = Color.black;
-
-            curState = BulletState.SuckWait;
-
-            suckedStat.suckWaitRandTime = UnityEngine.Random.Range(0.1f, 0.25f);
-
-            rb.velocity = Vector3.zero;
-
-            col.enabled = false;
-
-            suckedStat.suckedWeapon = _suckedWeapon;
-
-            StartCoroutine(SuckWaitCor());
-        }
-
-        public IEnumerator SuckWaitCor()
-        {
-            yield return new WaitForSeconds(suckedStat.suckWaitRandTime);
-
-            suckedStat.suckingRandTime = UnityEngine.Random.Range(0.15f, 0.35f);
-            suckedStat.suckStartPos = transform.position;
-
-            curState = BulletState.Sucking;
-            suckedStat.suckingTimeRatio = 0f;
-        }
-
-        public void MoveUpdate()
-        {
-            switch (curState)
-            {
-                case BulletState.Fire:
-                    {
-                        //transform.position += transform.up * Time.deltaTime * defaultStat.moveSpd;
-                    }
-                    break;
-                case BulletState.SuckWait:
-                    {
-
-                    }
-                    break;
-                case BulletState.Sucking:
-                    {
-                        suckedStat.suckingTimeRatio += Time.deltaTime / suckedStat.suckingRandTime;
-
-                        transform.position = Vector2.Lerp(suckedStat.suckStartPos, suckedStat.suckedWeapon.transform.position, suckedStat.suckingTimeRatio);
-
-                        if (suckedStat.suckingTimeRatio >= 1f)
-                        {
-                            //jar마우스쪽에서 Sucking 상태인 bullet이 충돌되면 bulletCnt 증가 하기?
-
-                            Resetting();
-                            //리셋하기
-                            this.gameObject.SetActive(false);
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        public void Resetting()
-        {
-            col.enabled = true;
-            srdr.color = Color.white;
-            curState = BulletState.Fire;
-        }
-    }	
+	}
 }

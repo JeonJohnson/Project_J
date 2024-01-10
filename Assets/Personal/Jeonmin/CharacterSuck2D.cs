@@ -165,15 +165,14 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
                     //내적해주고 나온 라디안 각도를 역코사인걸어주고 오일러각도로 변환.
                     if (angleToTarget <= (suctionStat.suctionAngle))
                     {
+                        Debug.Log("오");
                         //여기서 총알들 한테 흡수 ㄱ
-                        Projectile projectile = col.gameObject.GetComponent<Projectile>();
-                        if (projectile)
+                        Suckable bullet = col.gameObject.GetComponent<Suckable>();
+                        if (bullet)
                         {
-                            Debug.Log("올");
-                            projectile.transform.SetParent(null);
-                            if (projectile.suckedOption == Projectile.SuckedOption.Sucked && projectile.curState == Projectile.BulletState.Fire)
+                            if (bullet.suckedOption == Suckable.SuckedOption.Sucked && bullet.curState == Suckable.BulletState.Fire)
                             {
-                                projectile.Sucked(characterHandleWeapon.CurrentWeapon);
+                                bullet.Sucked(characterHandleWeapon.CurrentWeapon);
                             }
                         }
                     }
