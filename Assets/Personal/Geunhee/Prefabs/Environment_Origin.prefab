@@ -290,7 +290,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -417,6 +417,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5347314762060457871}
   - component: {fileID: 6274388892056127528}
+  - component: {fileID: 2576598081358953616}
   m_Layer: 0
   m_Name: Environment_Origin
   m_TagString: Untagged
@@ -440,7 +441,7 @@ Transform:
   - {fileID: 3486949582629483435}
   - {fileID: 180721140965675514}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &6274388892056127528
 Grid:
@@ -454,6 +455,21 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!114 &2576598081358953616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836350802054613475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e72b9b6b66e7a0c43a84b66f2338ac74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundTilemap: {fileID: 1649058788221253895}
+  propTilemap: {fileID: 7123758648912372029}
+  wallTilemap: {fileID: 5017858741467220648}
 --- !u!1 &6040967544748439264
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,7 +607,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16

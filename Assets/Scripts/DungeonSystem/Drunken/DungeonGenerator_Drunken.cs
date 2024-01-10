@@ -41,6 +41,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     public Transform areaTr;
     public Camera cam;
     public GameObject tilemapOriginPrefab;
+    public GameObject PortalPrefab;
 
     [Space(10f)]
     //[Header("Boxes")]
@@ -55,6 +56,8 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
     [Space(10f)]
     [Header("Room Option")]
+
+    
     //public List<GameObject> GroundPrefabs;
     //public List<GameObject> WallPrefabs;
     
@@ -62,12 +65,15 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     public List<Tile> WallTiles;
     public List<Tile> CliffTiles;
 
+
+
     //[Range(1,10)]
     //public int roomCount;
     //[ReadOnly]
     //public int curCreateNum;
-    public GameObject rooms;
+    public List<Room_Drunken> rooms;
     
+
     [Space(7.5f)]
     [ReadOnly]
     public int groundTilesCount;
@@ -173,6 +179,9 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         //    WallPrefabs = new List<GameObject> { tile };
         //}
 
+        groundTilesCount = 0;
+        wallTilesCount = 0;
+
         gridLength.x = Mathf.RoundToInt(areaSize.x / tileSize);
         gridLength.y = Mathf.RoundToInt(areaSize.y / tileSize);
         tileGrid = new tileGridState[gridLength.x, gridLength.y];
@@ -204,9 +213,19 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
         //for (int i = 0; i < roomCount; ++i)
         //{
-            GameObject obj = Instantiate(tilemapOriginPrefab);
-            groundTilemap = obj.transform.Find("Ground").GetComponent<Tilemap>();
-            wallTilemap = obj.transform.Find("Wall").GetComponent<Tilemap>();
+
+        rooms ??= new List<Room_Drunken>();
+
+        
+        GameObject obj = Instantiate(tilemapOriginPrefab);
+        Room_Drunken roomScript = obj.GetComponent<Room_Drunken>();
+        rooms.Add(roomScript);
+
+        groundTilemap = roomScript.groundTilemap;
+        wallTilemap = roomScript.wallTilemap;
+
+        //groundTilemap = obj.transform.Find("Ground").GetComponent<Tilemap>();
+        //wallTilemap = obj.transform.Find("Wall").GetComponent<Tilemap>();
         //}
 
         //grounds = new List<GameObject>();
@@ -225,8 +244,9 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             CreateGround();
             CreateWall();
             CreateCliff();
+        CreatePortal();
         //}
-    
+
     }
 
     public void CreateGround()
@@ -385,9 +405,9 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     public void CreateWall()
     {
         
-		for (int x = 0; x < gridLength.x - 1; ++x)
+		for (int x = 0; x < gridLength.x; ++x)
 		{
-			for (int y = 0; y < gridLength.y - 1; ++y)
+			for (int y = 0; y < gridLength.y; ++y)
 			{
                     List<Vector2Int> createIndex = new List<Vector2Int>();
 
@@ -473,6 +493,25 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         }
     }
 
+    private void CreatePortal()
+    {
+        List<Vector2Int> groundIndex = new List<Vector2Int> ();
+        //Set Player Spawn Pos & next Room Portal 
+        for (int x = 0; x < gridLength.x; ++x)
+        {
+            for (int y = 0; y < gridLength.y; ++y)
+            {
+                if (tileGrid[x, y] == tileGridState.Ground)
+                {
+                    groundIndex.Add(new(x, y));
+                }
+            }
+        }
+
+        var index = groundIndex[Random.Range(0, groundIndex.Count)];
+
+        Instantiate(PortalPrefab,GetPos(index), Quaternion.identity, rooms[rooms.Count-1].transform);
+    }
 
     //  public Vector2Int GetDir(int num)
     //  {
@@ -594,9 +633,15 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         //    GameObject.Destroy(rooms[i]);
         //}
 
-        groundTilemap.ClearAllTiles();
-        wallTilemap.ClearAllTiles();
-        GameObject.Destroy(rooms);
+        
+
+        for (int i = 0; i < rooms.Count; ++i)
+        {
+            rooms[i].groundTilemap.ClearAllTiles();
+            rooms[i].wallTilemap.ClearAllTiles();
+            GameObject.Destroy(rooms[i].gameObject);
+        }
+        
 
         //foreach (var item in walls)
         //{
