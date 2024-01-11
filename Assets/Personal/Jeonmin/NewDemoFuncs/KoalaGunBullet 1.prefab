@@ -10220,6 +10220,8 @@ MonoBehaviour:
   ProjectileIsFacingRight: 1
   InitialInvulnerabilityDuration: 0
   DamageOwner: 0
+  DistanceLimit: 0
+  DistanceLimitValue: 0
   BounceRaycastLength: 1
   BounceLayers:
     serializedVersion: 2
@@ -10255,7 +10257,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94d9dd85fd0fb4d498e7faa96e628088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  suckedOption: 1
   suckedStat:
     suckWaitRandTime: 0
     suckingRandTime: 0

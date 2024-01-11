@@ -54,7 +54,7 @@ public class Suckable : MonoBehaviour
     private BoxCollider2D col;
     private Rigidbody2D rb;
     public SpriteRenderer srdr;
-    public BaseItem item;
+    public InventoryItem item;
     private Projectile projectile;
 
     private Color defColor;
@@ -69,14 +69,17 @@ public class Suckable : MonoBehaviour
     public void Sucked(MoreMountains.TopDownEngine.Weapon _suckedWeapon)
     {
         projectile = this.gameObject.GetComponent<Projectile>();
-        projectile.DistanceLimit = false;
-        projectile.enabled = false;
+        if(projectile != null)
+        {
+            projectile.DistanceLimit = false;
+            projectile.enabled = false;
+        }
+        if (rb != null) rb.velocity = Vector3.zero;
 
         srdr.color = srdr.color * 5f;
         curState = BulletState.SuckWait;
         suckedStat.suckWaitRandTime = UnityEngine.Random.Range(0.1f, 0.25f);
 
-        rb.velocity = Vector3.zero;
         col.enabled = false;
         suckedStat.suckedWeapon = _suckedWeapon;
 
@@ -102,47 +105,12 @@ public class Suckable : MonoBehaviour
         }
 
         LevelManager.Instance.Players[0].GetComponent<CharacterInventory>().MainInventory.AddItem(item, 1);
+        item.Equip("Player1");
 
         Resetting();
-        projectile.enabled = true;
+        if (projectile != null) projectile.enabled = true;
         //리셋하기
         this.gameObject.SetActive(false);
-    }
-
-    public void MoveUpdate()
-    {
-        switch (curState)
-        {
-            case BulletState.Fire:
-                {
-                    //transform.position += transform.up * Time.deltaTime * defaultStat.moveSpd;
-                }
-                break;
-            case BulletState.SuckWait:
-                {
-
-                }
-                break;
-            case BulletState.Sucking:
-                {
-                    suckedStat.suckingTimeRatio += Time.deltaTime / suckedStat.suckingRandTime;
-
-                    transform.position = Vector2.Lerp(suckedStat.suckStartPos, suckedStat.suckedWeapon.transform.position, suckedStat.suckingTimeRatio);
-
-                    if (suckedStat.suckingTimeRatio >= 1f)
-                    {
-                        //jar마우스쪽에서 Sucking 상태인 bullet이 충돌되면 bulletCnt 증가 하기?
-
-                        Resetting();
-                        projectile.enabled = true;
-                        //리셋하기
-                        this.gameObject.SetActive(false);
-                    }
-                }
-                break;
-            default:
-                break;
-        }
     }
 
     public void Resetting()

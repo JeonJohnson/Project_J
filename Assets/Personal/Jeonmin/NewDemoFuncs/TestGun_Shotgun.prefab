@@ -148,7 +148,7 @@ MonoBehaviour:
   AutoReload: 0
   NoInputReload: 0
   ReloadTime: 2
-  AmmoConsumedPerShot: 1
+  AmmoConsumedPerShot: 3
   AutoDestroyWhenEmpty: 0
   AutoDestroyWhenEmptyDelay: 1
   PreventReloadIfAmmoEmpty: 0
@@ -198,7 +198,7 @@ MonoBehaviour:
   ProjectilesPerShot: 3
   SpawnTransforms: []
   SpawnTransformsMode: 1
-  Spread: {x: 0, y: 0, z: 3}
+  Spread: {x: 0, y: 0, z: 30}
   RotateWeaponOnSpread: 0
   RandomSpread: 1
   SpawnPosition: {x: 0.63, y: 0.52000046, z: 0}
