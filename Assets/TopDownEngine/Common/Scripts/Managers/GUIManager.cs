@@ -339,5 +339,22 @@ namespace MoreMountains.TopDownEngine
 				}    
 			}
 		}
-	}
+
+        public virtual void UpdateSuckDisplays()
+        {
+            if (AmmoDisplays == null)
+            {
+                return;
+            }
+
+            foreach (AmmoDisplay ammoDisplay in AmmoDisplays)
+            {
+                //if (ammoDisplay == null) { return; }
+                //if ((ammoDisplay.PlayerID == playerID) && (ammoDisplayID == ammoDisplay.AmmoDisplayID))
+                //{
+                //    ammoDisplay.UpdateAmmoDisplays(magazineBased, totalAmmo, maxAmmo, ammoInMagazine, magazineSize, displayTotal);
+                //}
+            }
+        }
+    }
 }

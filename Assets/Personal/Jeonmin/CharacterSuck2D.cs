@@ -64,6 +64,15 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
         public override void ProcessAbility()
         {
             base.ProcessAbility();
+            UpdateSuckDisplay();
+        }
+
+        public void UpdateSuckDisplay()
+        {
+            if ((GUIManager.HasInstance) && (_character.CharacterType == Character.CharacterTypes.Player))
+            {
+                 //GUIManager.Instance.UpdateAmmoDisplays(CurrentWeapon.MagazineBased, 0, 0, CurrentWeapon.CurrentAmmoLoaded, CurrentWeapon.MagazineSize, _character.PlayerID, AmmoDisplayID, false);
+            }
         }
 
         /// <summary>
@@ -184,7 +193,7 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
                         {
                             if (bullet.curState == Suckable.BulletState.Fire)
                             {
-                                bullet.Sucked(characterHandleWeapon.CurrentWeapon);
+                                bullet.Sucked(suctionGunTr);
                             }
                         }
                     }

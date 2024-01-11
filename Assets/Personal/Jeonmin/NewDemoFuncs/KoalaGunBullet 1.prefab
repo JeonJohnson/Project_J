@@ -10262,7 +10262,7 @@ MonoBehaviour:
     suckingRandTime: 0
     suckingTimeRatio: 0
     suckStartPos: {x: 0, y: 0}
-    suckedWeapon: {fileID: 0}
+    suckedTr: {fileID: 0}
   curState: 0
   srdr: {fileID: 212508439041957836}
   item: {fileID: 11400000, guid: 4bbb20a3fab7bd7458b51d875e72e6e3, type: 2}

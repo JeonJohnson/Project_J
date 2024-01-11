@@ -39,7 +39,7 @@ public class Suckable : MonoBehaviour
         public float suckingTimeRatio;
 
         public Vector2 suckStartPos;
-        public MoreMountains.TopDownEngine.Weapon suckedWeapon;
+        public Transform suckedTr;
     }
 
     [Header("Options")]
@@ -56,6 +56,7 @@ public class Suckable : MonoBehaviour
     public SpriteRenderer srdr;
     public InventoryItem item;
     private Projectile projectile;
+    private bool isDistanceLimit;
 
     private Color defColor;
 
@@ -66,11 +67,13 @@ public class Suckable : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Sucked(MoreMountains.TopDownEngine.Weapon _suckedWeapon)
+    public void Sucked(Transform _suckedTr)
     {
         projectile = this.gameObject.GetComponent<Projectile>();
         if(projectile != null)
         {
+            if (projectile.DistanceLimit) isDistanceLimit = true;
+            else isDistanceLimit = false;
             projectile.DistanceLimit = false;
             projectile.enabled = false;
         }
@@ -81,7 +84,7 @@ public class Suckable : MonoBehaviour
         suckedStat.suckWaitRandTime = UnityEngine.Random.Range(0.1f, 0.25f);
 
         col.enabled = false;
-        suckedStat.suckedWeapon = _suckedWeapon;
+        suckedStat.suckedTr = _suckedTr;
 
         StartCoroutine(SuckWaitCor());
     }
@@ -99,7 +102,7 @@ public class Suckable : MonoBehaviour
         while (suckedStat.suckingTimeRatio <= 1f)
         {
             suckedStat.suckingTimeRatio += Time.deltaTime / suckedStat.suckingRandTime;
-            transform.position = Vector2.Lerp(suckedStat.suckStartPos, suckedStat.suckedWeapon.transform.position, suckedStat.suckingTimeRatio);
+            transform.position = Vector2.Lerp(suckedStat.suckStartPos, suckedStat.suckedTr.position, suckedStat.suckingTimeRatio);
             srdr.color = new Color(srdr.color.r, srdr.color.g, srdr.color.b, 1 - suckedStat.suckingTimeRatio * 2f);
             yield return null;
         }
@@ -115,6 +118,7 @@ public class Suckable : MonoBehaviour
 
     public void Resetting()
     {
+        if (projectile != null) projectile.DistanceLimit = isDistanceLimit;
         col.enabled = true;
         srdr.color = Color.white;
         curState = BulletState.Fire;
