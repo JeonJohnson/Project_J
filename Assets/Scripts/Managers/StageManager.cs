@@ -1,13 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
 using UnityEngine.SceneManagement;
 
 public class StageManager : Singleton<StageManager>
 {
 	public List<Room_Drunken> rooms;
+	public Room_Drunken curRoom;
+	[ReadOnly]
 	public int curRoomIndex;
 
 	//public Data<int> curMonsterCount; //정민아 이거랑 UI랑 연결하면 될거 같애
@@ -91,13 +95,28 @@ public class StageManager : Singleton<StageManager>
 		{
 			rooms[i].gameObject.SetActive(false);
 		}
+
+		curRoom = rooms[curRoomIndex];
 	}
 
 	public void NextRoom()
 	{
 		rooms[curRoomIndex].gameObject.SetActive(false);
-		++curRoomIndex;
-		rooms[curRoomIndex].gameObject.SetActive(true);
+
+		curRoomIndex = curRoomIndex + 1 >= rooms.Count ? 0 : curRoomIndex + 1 ;
+
+		curRoom = rooms[curRoomIndex];
+		curRoom.gameObject.SetActive(true);
+
+
+
+		IngameController.Instance.Player.transform.position = curRoom.centerPos;
+	}
+
+	private void Awake()
+	{
+		rooms = new List<Room_Drunken>();
+		DontDestroyOnLoad(gameObject);
 	}
 
 	private void Update()
@@ -108,5 +127,12 @@ public class StageManager : Singleton<StageManager>
 	public override void OnSceneChanged(Scene scene, LoadSceneMode mode)
 	{
 		base.OnSceneChanged(scene, mode);
+
+		if (scene.buildIndex == 3)
+		{
+			SetupRoom();
+		}
+
+
 	}
 }

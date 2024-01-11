@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor.Tilemaps;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 
@@ -56,8 +57,6 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
     [Space(10f)]
     [Header("Room Option")]
-
-    
     //public List<GameObject> GroundPrefabs;
     //public List<GameObject> WallPrefabs;
     
@@ -65,10 +64,8 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     public List<Tile> WallTiles;
     public List<Tile> CliffTiles;
 
-
-
-    //[Range(1,10)]
-    //public int roomCount;
+    [Range(1,10)]
+    public int createRoomCount;
     //[ReadOnly]
     //public int curCreateNum;
     public List<Room_Drunken> rooms;
@@ -95,12 +92,14 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     [Range(0.25f, 0.75f)]
     public float areaFillRatio;
 
-    [Tooltip("About wall is 1*1 of the grounds.")]
-    //Ground사이에 1*1있는 Wall(불량화소) 무시하고 ground로 덮어쓸 확률
-    [Range(0f, 1f)]
-    public float ignorePercent;
-    [Range(1000, 10000)]
+    //[Tooltip("About wall is 1*1 of the grounds.")]
+    ////Ground사이에 1*1있는 Wall(불량화소) 무시하고 ground로 덮어쓸 확률
+    //[Range(0f, 1f)]
+    //public float ignorePercent;
+    [Range(10000, 9999999)]
     public int maxTryCount;
+    [ReadOnly]
+    public int curTryCount;
 
     enum NewExplorerPos { center, prePos };
 
@@ -239,21 +238,28 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
     public void CreateRoom()
     {
-        //for (int i = 0; i < roomCount; ++i)
-        //{
-        //    curCreateNum = i;
-            CreateGround();
-            CreateWall();
-            CreateCliff();
+        Setup();
+        CreateGround();
+        CreateWall();
+        CreateCliff();
         CreatePortal();
-        //}
+    }
 
+    public void GotoGameScene()
+    {
+        for (int i = 0; i < rooms.Count; ++i)
+        {
+            DontDestroyOnLoad(rooms[i].gameObject);
+        }
+
+		StageManager.Instance.rooms.AddRange(rooms);
+        SceneManager.LoadScene(3);
     }
 
     public void CreateGround()
     {
-            int curTryCount = 0;
-            while (curTryCount < maxTryCount)
+            curTryCount = 0;
+            while (maxTryCount > curTryCount)
             {
                 if (MoveExplorer())
                 {
@@ -285,23 +291,23 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     //        }
     //    }
     //}
-    public IEnumerator GroundLoop()
-    {
-        int curTryCount = 0;
+    //public IEnumerator GroundLoop()
+    //{
+    //    int curTryCount = 0;
 
-        while (curTryCount < maxTryCount)
-        {
-            if (MoveExplorer())
-            {
-                ++curTryCount;
-                yield return new WaitForSeconds(loopWaitTime);
-            }
-            else
-            {
-                break;
-            }
-        }
-    }
+    //    while (curTryCount < maxTryCount)
+    //    {
+    //        if (MoveExplorer())
+    //        {
+    //            ++curTryCount;
+    //            yield return new WaitForSeconds(loopWaitTime);
+    //        }
+    //        else
+    //        {
+    //            break;
+    //        }
+    //    }
+    //}
 
     public bool MoveExplorer()
     { //Move Once
@@ -502,7 +508,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         {
             for (int y = 0; y < gridLength.y; ++y)
             {
-                if (tileGrid[x, y] == tileGridState.Ground)
+                if (tileGrid[x, y] == tileGridState.Ground && centerIndex != new Vector2Int(x,y))
                 {
                     groundIndex.Add(new(x, y));
                 }
@@ -642,30 +648,30 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             rooms[i].wallTilemap.ClearAllTiles();
             GameObject.Destroy(rooms[i].gameObject);
         }
-        
 
-        //foreach (var item in walls)
-        //{
-        //          if (Application.isPlaying)
-        //          { GameObject.Destroy(item); }
-        //          else { DestroyImmediate(item); }
-        //}
 
-        //      foreach (var item in grounds)
-        //      {
-        //          if (Application.isPlaying)
-        //          { GameObject.Destroy(item); }
-        //          else { DestroyImmediate(item); }
-        //      }
+		//foreach (var item in walls)
+		//{
+		//          if (Application.isPlaying)
+		//          { GameObject.Destroy(item); }
+		//          else { DestroyImmediate(item); }
+		//}
 
-        Setup();
+		//      foreach (var item in grounds)
+		//      {
+		//          if (Application.isPlaying)
+		//          { GameObject.Destroy(item); }
+		//          else { DestroyImmediate(item); }
+		//      }
+		rooms = new List<Room_Drunken>();
+		Setup();
     }
 
 
 
 	private void Awake()
 	{
-        Setup();
+        //Setup();
 	}
 	// Start is called before the first frame update
 	void Start()

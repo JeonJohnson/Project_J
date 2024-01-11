@@ -22,43 +22,32 @@ public class DungeonGenerator_Drunken_Editor : Editor
 		//1. 초기화 / 구역 나눠주기
 		//기본 바닥 만들어 주기
 
-		if (GUILayout.Button("Create Room"))
-		{
-			generator.CreateRoom();
-		}
-
-		//if (GUILayout.Button("Create Ground"))
-		//{
-		//	//if (Application.isPlaying)
-		//	//{
-
-		//	//}
-		//	//else
-		//	//{
-		//		generator.CreateGround();
-		//	//}
-		//}
-		////if (GUILayout.Button("Create Ground Immediately"))
-		////{
-		////	generator.CreateGround_Immediately();
-		////}
-		//GUILayout.Label("");
-		//if (GUILayout.Button("Test Wall"))
-		//{
-		//	for(int i  = 0; i < generator.roomCount; ++i)
-		//	{ 
-		//		generator.CreateWall();
-		//		generator.CreateCliff();
-		//	}
-		//}
 
 		GUILayout.Label("");
-		if (GUILayout.Button("Add Room"))
+		if (GUILayout.Button("Test!!!!"))
 		{
-			generator.Setup();
-			generator.CreateRoom();
-			//generator.Reset();
+			for (int i = 0; i < generator.createRoomCount; ++i)
+			{
+				generator.CreateRoom();
+			}
+			generator.GotoGameScene();
+
 		}
+
+
+			if (GUILayout.Button("Create One Room"))
+		{
+			generator.CreateRoom();
+		}
+
+
+		//GUILayout.Label("");
+		//if (GUILayout.Button("Add Room"))
+		//{
+		//	generator.Setup();
+		//	generator.CreateRoom();
+		//	//generator.Reset();
+		//}
 
 		GUILayout.Label("");
 		if (GUILayout.Button("reset"))

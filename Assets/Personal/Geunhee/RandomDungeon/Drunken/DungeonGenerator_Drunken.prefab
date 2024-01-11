@@ -209,6 +209,7 @@ MonoBehaviour:
   CliffTiles:
   - {fileID: 11400000, guid: deb5b06d4337eb540a67e7be77995f72, type: 2}
   - {fileID: 11400000, guid: 1361213ec9c6e88458639f50f7fba8b4, type: 2}
+  createRoomCount: 5
   rooms: []
   groundTilesCount: 0
   wallTilesCount: 0
@@ -219,7 +220,6 @@ MonoBehaviour:
   centerPos: {x: 15, y: 15}
   gridLength: {x: 30, y: 30}
   areaFillRatio: 0.45
-  ignorePercent: 0.5
   maxTryCount: 5000
   ExplorerSpawnOption: 0
   curExplorerCount: 4
