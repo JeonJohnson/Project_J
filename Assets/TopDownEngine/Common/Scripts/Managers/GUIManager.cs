@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using MoreMountains.Tools;
 using UnityEngine.EventSystems;
+using MoreMountains.TopDownEngine;
 
 namespace MoreMountains.TopDownEngine
 {
@@ -27,8 +28,10 @@ namespace MoreMountains.TopDownEngine
 		/// the panels and bars used to display current weapon ammo
 		[Tooltip("the panels and bars used to display current weapon ammo")]
 		public AmmoDisplay[] AmmoDisplays;
-		/// the pause screen game object
-		[Tooltip("the pause screen game object")]
+        [Tooltip("the panels and bars used to display current weapon ammo")]
+		public SuckDisplay[] SuckDisplays;
+        /// the pause screen game object
+        [Tooltip("the pause screen game object")]
 		public GameObject PauseScreen;
 		/// the death screen
 		[Tooltip("the death screen")]
@@ -340,20 +343,18 @@ namespace MoreMountains.TopDownEngine
 			}
 		}
 
-        public virtual void UpdateSuckDisplays()
+        public virtual void UpdateSuckDisplays(float value)
         {
-            if (AmmoDisplays == null)
+            if (SuckDisplays == null)
             {
                 return;
             }
 
-            foreach (AmmoDisplay ammoDisplay in AmmoDisplays)
+            foreach (SuckDisplay suckDisplay in SuckDisplays)
             {
-                //if (ammoDisplay == null) { return; }
-                //if ((ammoDisplay.PlayerID == playerID) && (ammoDisplayID == ammoDisplay.AmmoDisplayID))
-                //{
-                //    ammoDisplay.UpdateAmmoDisplays(magazineBased, totalAmmo, maxAmmo, ammoInMagazine, magazineSize, displayTotal);
-                //}
+				if (suckDisplay == null) { return; }
+				suckDisplay.UpdateSuckDisplays(value);
+
             }
         }
     }

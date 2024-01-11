@@ -59,10 +59,13 @@ public class Suckable : MonoBehaviour
     private bool isDistanceLimit;
 
     private Color defColor;
+    private Vector2 defScale;
 
     private void Awake()
     {
         defColor = srdr.color;
+        defScale = this.transform.localScale;
+
         col = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -104,6 +107,7 @@ public class Suckable : MonoBehaviour
             suckedStat.suckingTimeRatio += Time.deltaTime / suckedStat.suckingRandTime;
             transform.position = Vector2.Lerp(suckedStat.suckStartPos, suckedStat.suckedTr.position, suckedStat.suckingTimeRatio);
             srdr.color = new Color(srdr.color.r, srdr.color.g, srdr.color.b, 1 - suckedStat.suckingTimeRatio * 2f);
+            this.transform.localScale = new Vector2(1 - suckedStat.suckingTimeRatio, 1 - suckedStat.suckingTimeRatio);
             yield return null;
         }
 
@@ -120,6 +124,7 @@ public class Suckable : MonoBehaviour
     {
         if (projectile != null) projectile.DistanceLimit = isDistanceLimit;
         col.enabled = true;
+        this.transform.localScale = defScale;
         srdr.color = Color.white;
         curState = BulletState.Fire;
     }

@@ -71,7 +71,7 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
         {
             if ((GUIManager.HasInstance) && (_character.CharacterType == Character.CharacterTypes.Player))
             {
-                 //GUIManager.Instance.UpdateAmmoDisplays(CurrentWeapon.MagazineBased, 0, 0, CurrentWeapon.CurrentAmmoLoaded, CurrentWeapon.MagazineSize, _character.PlayerID, AmmoDisplayID, false);
+                 GUIManager.Instance.UpdateSuckDisplays(suctionStat.curSuctionRatio);
             }
         }
 
