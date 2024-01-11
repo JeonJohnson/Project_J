@@ -184,7 +184,7 @@ public class Tangtangi_Death : Action<Tangtangi>
         //wp_prop.transform.position = me.transform.position;
         //wp_prop.transform.localScale = me.transform.localScale;
         //wp_prop.GetComponent<Prop>().Play(1.5f);
-        StageManager.Instance?.OnMonsterDeath();
+        //StageManager.Instance?.OnMonsterDeath();
         me.gameObject.SetActive(false);
     }
 

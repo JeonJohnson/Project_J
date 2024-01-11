@@ -184,7 +184,7 @@ public class Bangtani_Death : Action<Bangtani>
         //wp_prop.transform.localScale = me.transform.localScale;
         //wp_prop.GetComponent<Prop>().Play(1.5f);
 
-        StageManager.Instance?.OnMonsterDeath();
+        //StageManager.Instance?.OnMonsterDeath();
         me.gameObject.SetActive(false);
     }
 

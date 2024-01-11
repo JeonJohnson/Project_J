@@ -36,6 +36,14 @@ public static class Funcs
 		return new Vector2(vec2.x, vec2.y);
 	}
 
+	
+	public static int PingPongInt(int t, int length)
+	{//t is 증감값
+		int repeatedValue = t % (length * 2);
+		return length - Math.Abs(repeatedValue - length);
+	}
+
+
 	#region C# default Val Type Casting
 	public static string GetEnumName<T>(int index) where T : struct, IConvertible
 	{//where 조건 struct, IConvertible => Enum으로 제한

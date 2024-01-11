@@ -50,8 +50,18 @@ public class IngameController : Singleton<IngameController>
         else { Debug.Log("플레이어 폴더에서 못찾음"); }
         return playerGo;
     }
+	private void Awake()
+	{
+		
+	}
 
-    private void Update()
+	private void Start()
+	{
+        FindPlayer();
+        player.transform.position = StageManager.Instance.curRoom.centerPos;
+	   //SpawnPlayer(StageManager.Instance.curRoom.centerPos);
+	}
+	private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {

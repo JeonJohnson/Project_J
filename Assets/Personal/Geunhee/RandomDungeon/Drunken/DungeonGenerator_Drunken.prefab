@@ -195,12 +195,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   areaTr: {fileID: 5101272046686805992}
   cam: {fileID: 0}
-  GroundBox: {fileID: 7099158115863430176}
-  WallBox: {fileID: 6071536295313143847}
-  GroundPrefabs:
-  - {fileID: 9021983486952683125, guid: e6afa9c14a459984492453265d292355, type: 3}
-  WallPrefabs:
-  - {fileID: 2475190633897162008, guid: 429d9745b7082124fb4d608cdc886536, type: 3}
+  tilemapOriginPrefab: {fileID: 1836350802054613475, guid: fbe4445dee38a194eba1034ba6ac50b3, type: 3}
+  PortalPrefab: {fileID: 8485527066876099192, guid: 21e92bdce29c0c745b9c6e7db7ba4aba, type: 3}
+  groundTilemap: {fileID: 0}
+  propTilemap: {fileID: 0}
+  wallTilemap: {fileID: 0}
+  GroundTiles:
+  - {fileID: 11400000, guid: 6bab6d3cc69c4c547a9b87d7435a2dce, type: 2}
+  - {fileID: 11400000, guid: fd087f095b5ee2b4a9cab3d856e9f353, type: 2}
+  WallTiles:
+  - {fileID: 11400000, guid: 8024db937a5309d42b0b7b9b3b8403d4, type: 2}
+  - {fileID: 11400000, guid: e56100dc3ba9df14f9df19debb9ddccb, type: 2}
+  CliffTiles:
+  - {fileID: 11400000, guid: deb5b06d4337eb540a67e7be77995f72, type: 2}
+  - {fileID: 11400000, guid: 1361213ec9c6e88458639f50f7fba8b4, type: 2}
+  createRoomCount: 5
+  rooms: []
+  groundTilesCount: 0
+  wallTilesCount: 0
   tileSize: 1
   areaSize: {x: 30, y: 30}
   pivotPos: {x: 0, y: 0}
@@ -208,7 +220,6 @@ MonoBehaviour:
   centerPos: {x: 15, y: 15}
   gridLength: {x: 30, y: 30}
   areaFillRatio: 0.45
-  ignorePercent: 0.5
   maxTryCount: 5000
   ExplorerSpawnOption: 0
   curExplorerCount: 4
@@ -222,7 +233,3 @@ MonoBehaviour:
   respawnCount: 2
   newDirPercent: 0.658
   loopWaitTime: 0.013
-  grounds: []
-  groundCount: 0
-  walls: []
-  wallCount: 0

@@ -345,7 +345,7 @@ public class Boss_Death : Action<Boss_Demo>
     public override void ActionEnter(Boss_Demo script)
     {
         base.ActionEnter(script);
-        StageManager.Instance?.OnMonsterDeath();
+        //StageManager.Instance?.OnMonsterDeath();
     }
 
     public override void ActionUpdate() { }
@@ -392,6 +392,6 @@ public class Boss_Hide : Action<Boss_Demo>
         runEffectGo.transform.position = me.transform.position;
         yield return new WaitForSeconds(0.2f);
         me.gameObject.SetActive(false);
-        StageManager.Instance?.OnMonsterDeath();
+        //StageManager.Instance?.OnMonsterDeath();
     }
 }
