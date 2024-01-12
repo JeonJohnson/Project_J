@@ -195,7 +195,7 @@ MonoBehaviour:
   Flipped: 0
   ProjectileSpawnOffset: {x: 0.63, y: 0, z: 0}
   DefaultProjectileDirection: {x: 0, y: 0, z: 0}
-  ProjectilesPerShot: 3
+  ProjectilesPerShot: 5
   SpawnTransforms: []
   SpawnTransformsMode: 1
   Spread: {x: 0, y: 0, z: 30}
