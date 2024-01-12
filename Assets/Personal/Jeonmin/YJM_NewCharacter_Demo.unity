@@ -2879,7 +2879,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitializationMode: 0
   Label: 
-  OnlyReloadOnceInThisSate: 0
+  OnlyReloadOnceInThisSate: 1
 --- !u!114 &445978880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2893,6 +2893,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Label: 
+--- !u!114 &445978881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445978856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a21818f4def5bf646bec3d25770336cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Label: 
+  AfterTimeMin: 4
+  AfterTimeMax: 4
 --- !u!4 &463724227 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4798570233257244, guid: 581ea2e7a3383fa4eac2d162354979b5,
@@ -9397,7 +9412,7 @@ PrefabInstance:
         type: 3}
       propertyPath: States.Array.data[3].Transitions.array.Array.data[0].Decision
       value: 
-      objectReference: {fileID: 445978880}
+      objectReference: {fileID: 445978881}
     - target: {fileID: 8812525945533774254, guid: 63f0430c87218c4438d2263bf1cf9402,
         type: 3}
       propertyPath: States.Array.data[4].Transitions.array.Array.data[0].Decision
@@ -9416,7 +9431,7 @@ PrefabInstance:
     - target: {fileID: 8812525945533774254, guid: 63f0430c87218c4438d2263bf1cf9402,
         type: 3}
       propertyPath: States.Array.data[3].Transitions.array.Array.data[0].TrueState
-      value: 
+      value: DecideAfterReload
       objectReference: {fileID: 0}
     - target: {fileID: 8812525945533774254, guid: 63f0430c87218c4438d2263bf1cf9402,
         type: 3}
@@ -9431,7 +9446,7 @@ PrefabInstance:
     - target: {fileID: 8812525945533774254, guid: 63f0430c87218c4438d2263bf1cf9402,
         type: 3}
       propertyPath: States.Array.data[3].Transitions.array.Array.data[0].FalseState
-      value: DecideAfterReload
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8812525945533774254, guid: 63f0430c87218c4438d2263bf1cf9402,
         type: 3}
@@ -9450,6 +9465,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 445978880}
+    - targetCorrespondingSourceObject: {fileID: 5236343843337204357, guid: 63f0430c87218c4438d2263bf1cf9402,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 445978881}
   m_SourcePrefab: {fileID: 100100000, guid: 63f0430c87218c4438d2263bf1cf9402, type: 3}
 --- !u!4 &1184405197 stripped
 Transform:

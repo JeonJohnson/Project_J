@@ -63,7 +63,6 @@ namespace MoreMountains.TopDownEngine
 		/// </summary>
 		public override void PerformAction()
 		{
-			Debug.Log("음");
 			MakeChangesToTheWeapon();
 			TestFaceTarget();
 			TestAimAtTarget();
@@ -176,7 +175,7 @@ namespace MoreMountains.TopDownEngine
 		{
 			if (_numberOfShoots < 1)
 			{
-				TargetHandleWeaponAbility.ShootStart();
+                TargetHandleWeaponAbility.ShootStart();
 				_numberOfShoots++;
 			}
 		}
