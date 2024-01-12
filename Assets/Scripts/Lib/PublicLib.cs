@@ -8,6 +8,8 @@ using UnityEngine;
 using Structs;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
+using static Unity.Burst.Intrinsics.Arm;
+using UnityEngine.XR;
 
 public static class Funcs
 {
@@ -486,6 +488,8 @@ public static class Defines
 		new Color(0f,0f,0.5f),
 		new Color(139f/255f, 0f, 1f)
 	};
+
+
 }
 
 namespace Structs

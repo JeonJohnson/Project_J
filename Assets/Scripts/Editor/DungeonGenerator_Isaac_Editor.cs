@@ -11,7 +11,7 @@ public class DungeonGenerator_Isaac_Editor : Editor
 	//bool isInit = false;
 	public override void OnInspectorGUI()
 	{
-		DungeonGenerator_Drunken generator = (DungeonGenerator_Drunken)target;
+		DungeonGenerator_Isaac_Editor generator = (DungeonGenerator_Isaac_Editor)target;
 		
 		DrawDefaultInspector();
 
@@ -26,18 +26,18 @@ public class DungeonGenerator_Isaac_Editor : Editor
 		GUILayout.Label("");
 		if (GUILayout.Button("Test!!!!"))
 		{
-			for (int i = 0; i < generator.createRoomCount; ++i)
-			{
-				generator.CreateRoom();
-			}
-			generator.GotoGameScene();
+			//for (int i = 0; i < generator.createRoomCount; ++i)
+			//{
+			//	generator.CreateRoom();
+			//}
+			//generator.GotoGameScene();
 
 		}
 
 
 			if (GUILayout.Button("Create One Room"))
 		{
-			generator.CreateRoom();
+			//generator.CreateRoom();
 		}
 
 
@@ -52,7 +52,7 @@ public class DungeonGenerator_Isaac_Editor : Editor
 		GUILayout.Label("");
 		if (GUILayout.Button("reset"))
 		{
-			generator.Reset();
+			//generator.Reset();
 		}
 
 

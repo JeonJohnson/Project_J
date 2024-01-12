@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+////How to USE////
+/*
+1. Set PlaneObject's Scale Size that u want grid count
+2. Update Grid()
+ */
+////How to USE////
+
+
 #if UNITY_EDITOR
 using UnityEditor;
 [CustomEditor(typeof(SpriteGrid))]
@@ -31,7 +39,7 @@ public class SpriteGrid : MonoBehaviour
     [Tooltip("ur not insert planeObj, this script set mother Object to planeObj.")]
     public GameObject PlaneObject;
 
-    public Vector2 defaultSize;
+    public Vector2 defaultTileSize;
 
 	[HideInInspector]
     public SpriteRenderer mySR;
@@ -42,8 +50,8 @@ public class SpriteGrid : MonoBehaviour
         Vector2 planeObjSize = PlaneObject.transform.localScale;
 		if (!mySR)
 		{ mySR = GetComponent<SpriteRenderer>(); }
-        transform.localScale = new Vector2(1 / planeObjSize.x * defaultSize.x, 1 / planeObjSize.y * defaultSize.y);
-        mySR.size = new Vector2 (planeObjSize.x / defaultSize.x, planeObjSize.y / defaultSize.y);
+        transform.localScale = new Vector2(1 / planeObjSize.x * defaultTileSize.x, 1 / planeObjSize.y * defaultTileSize.y);
+        mySR.size = new Vector2 (planeObjSize.x / defaultTileSize.x, planeObjSize.y / defaultTileSize.y);
     }
 
 	private void Awake()
