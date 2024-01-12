@@ -416,6 +416,7 @@ namespace MoreMountains.TopDownEngine
 		{
 			if (CurrentWeapon != null)
 			{
+				Debug.Log("Àç Àå Àü");
 				CurrentWeapon.InitiateReloadWeapon();
 			}
 		}

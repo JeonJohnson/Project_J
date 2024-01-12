@@ -5107,16 +5107,16 @@ MonoBehaviour:
   TriggerMode: 1
   DelayBeforeUse: 0
   DelayBeforeUseReleaseInterruption: 1
-  TimeBetweenUses: 4
+  TimeBetweenUses: 0.1
   TimeBetweenUsesReleaseInterruption: 1
-  UseBurstMode: 1
+  UseBurstMode: 0
   BurstLength: 15
   BurstTimeBetweenShots: 0.1
-  MagazineBased: 0
+  MagazineBased: 1
   MagazineSize: 15
   AutoReload: 0
   NoInputReload: 0
-  ReloadTime: 2
+  ReloadTime: 3
   AmmoConsumedPerShot: 1
   AutoDestroyWhenEmpty: 0
   AutoDestroyWhenEmptyDelay: 1

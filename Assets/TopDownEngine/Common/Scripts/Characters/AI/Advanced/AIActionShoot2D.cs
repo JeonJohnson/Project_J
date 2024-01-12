@@ -63,6 +63,7 @@ namespace MoreMountains.TopDownEngine
 		/// </summary>
 		public override void PerformAction()
 		{
+			Debug.Log("음");
 			MakeChangesToTheWeapon();
 			TestFaceTarget();
 			TestAimAtTarget();

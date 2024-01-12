@@ -37,7 +37,6 @@ namespace MoreMountains.TopDownEngine
 			{
 				return false;
 			}
-
 			return _characterHandleWeapon.CurrentWeapon.WeaponState.CurrentState == Weapon.WeaponStates.WeaponReloadNeeded;
 		}
 	}
