@@ -115,14 +115,17 @@ public class Suckable : MonoBehaviour
         item.Equip("Player1");
 
         Resetting();
-        if (projectile != null) projectile.enabled = true;
         //리셋하기
         this.gameObject.SetActive(false);
     }
 
     public void Resetting()
     {
-        if (projectile != null) projectile.DistanceLimit = isDistanceLimit;
+        if (projectile != null)
+        {
+            projectile.DistanceLimit = isDistanceLimit;
+            projectile.enabled = true;
+        }
         col.enabled = true;
         this.transform.localScale = defScale;
         srdr.color = Color.white;
