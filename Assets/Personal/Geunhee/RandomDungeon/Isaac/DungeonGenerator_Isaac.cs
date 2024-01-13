@@ -22,8 +22,8 @@ public enum RoomShape_Isaac
 public class DungeonGenerator_Isaac : MonoBehaviour
 {
 
-	public static List<Vector2Int>[] PivotByRoomShape =
-	{
+    public static List<Vector2Int>[] PivotByRoomShape =
+    {
 		//아이작 방 생성에서
 		//방을 랜덤 형태로 정할 때
 		//여러 형태 내에서 어떠한 Cell을 기준으로 방을 만들 것인가
@@ -46,10 +46,18 @@ public class DungeonGenerator_Isaac : MonoBehaviour
 		new List<Vector2Int> { Vector2Int.zero, Vector2Int.right, new (1,1)}, //역ㄴ
 		new List<Vector2Int> { Vector2Int.zero, Vector2Int.right, new(1,-1)},//ㄱ
 		new List<Vector2Int> { Vector2Int.zero, Vector2Int.up, new(1,1) }, //역ㄱ
-		new List<Vector2Int> { Vector2Int.zero, Vector2Int.right, Vector2Int.up, new(1,1) }, //네모네모
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.right, Vector2Int.up, new(1,1) } //네모네모
 	};
 
-    public static int[] maxDoorCount =
+	public static List<Vector2Int>[] randomDir = 
+	{
+		new List<Vector2Int>() {Vector2Int.right, Vector2Int.down, Vector2Int.left, Vector2Int.up},
+        new List<Vector2Int>() {Vector2Int.down, Vector2Int.left, Vector2Int.up, Vector2Int.right},
+        new List<Vector2Int>() {Vector2Int.left, Vector2Int.up, Vector2Int.right,Vector2Int.down},
+        new List<Vector2Int>() {Vector2Int.up, Vector2Int.right,Vector2Int.down,Vector2Int.left}
+    };
+
+public static int[] maxDoorCount =
     {
         4,  
         6,  6, 
@@ -76,6 +84,11 @@ public class DungeonGenerator_Isaac : MonoBehaviour
     private Vector2 roomHalfSize;
     public Room_Isaac[,] rooms;
 
+    //1. 랜덤 위치에 첫방 만들기
+    //2. 방문 랜덤 개수로 만들기
+    //3. 해당 방향으로 넘어가서 랜덤 형태의 방만들기
+        //3-1. 어디를 중점으로 둘지 판단하기
+        //3-2. 
     public void Setup()
     {
         roomHalfSize = new Vector2(defaultRoomSize.x * 0.5f, defaultRoomSize.y * 0.5f);
@@ -98,11 +111,38 @@ public class DungeonGenerator_Isaac : MonoBehaviour
         Vector2Int randIndex = new Vector2Int(Random.Range(0,areaSize.x), Random.Range(0,areaSize.y));
         
         Room_Isaac startRoom = new Room_Isaac(RoomShape_Isaac.One, randIndex);
+        
+        
 
         
 	}
 
+
+    private void SetRandomDoor(Room_Isaac room)
+    {
+        int doorCount = Random.Range(1, maxDoorCount[(int)room.shape] + 1);
+
+        
+        for (int i = 0; i < doorCount; ++i)
+        {
+            for (int k = 0; k < room.indexes.Length; ++k)
+            {
+                var randDir = randomDir[Random.Range(0, 5)];
+
+                for (int m = 0; m < 4; ++m)
+                { 
+                    randDir[m]   
+                }
+            }
+            
+        }
     
+    }
+
+    private void SetRandomShape(Room_Isaac room)
+    { 
+    
+    }
 
     //private Room_Isaac CreateRandomRoom(Vector2Int index)
     //{ 

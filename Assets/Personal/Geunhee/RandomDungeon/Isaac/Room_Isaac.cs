@@ -72,6 +72,9 @@ public class Room_Isaac
 
     public Vector2Int[] indexes;
 
-	public List<KeyValuePair<Vector2Int, Vector2Int>> doors;
+	//public List<KeyValuePair<Vector2Int, Vector2Int>> doors;
+	//KeyValuePair<인덱스, 방 방향>
+	public Dictionary<Vector2Int, List<Vector2Int>> doors;
+	//Dic<방 인덱스, List<방 방향>>
    
 }
