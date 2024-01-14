@@ -130,8 +130,8 @@ public static int[] maxDoorCount =
                 var randDir = randomDir[Random.Range(0, 5)];
 
                 for (int m = 0; m < 4; ++m)
-                { 
-                    randDir[m]   
+                {
+                    //randDir[m]
                 }
             }
             
