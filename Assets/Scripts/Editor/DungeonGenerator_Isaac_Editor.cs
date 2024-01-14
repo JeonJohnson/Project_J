@@ -11,7 +11,7 @@ public class DungeonGenerator_Isaac_Editor : Editor
 	//bool isInit = false;
 	public override void OnInspectorGUI()
 	{
-		DungeonGenerator_Isaac_Editor generator = (DungeonGenerator_Isaac_Editor)target;
+		DungeonGenerator_Isaac generator = (DungeonGenerator_Isaac)target;
 		
 		DrawDefaultInspector();
 

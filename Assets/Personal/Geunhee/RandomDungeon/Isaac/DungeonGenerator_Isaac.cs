@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 using AYellowpaper;
 using AYellowpaper.SerializedCollections;
 using UnityEngine.UIElements;
+using UnityEngine.Analytics;
+using System.Net.Http.Headers;
 
 public enum RoomShape_Isaac
 { 
@@ -49,12 +52,9 @@ public class DungeonGenerator_Isaac : MonoBehaviour
 		new List<Vector2Int> { Vector2Int.zero, Vector2Int.right, Vector2Int.up, new(1,1) } //네모네모
 	};
 
-	public static List<Vector2Int>[] randomDir = 
+	public static Vector2Int[] randomDir = 
 	{
-		new List<Vector2Int>() {Vector2Int.right, Vector2Int.down, Vector2Int.left, Vector2Int.up},
-        new List<Vector2Int>() {Vector2Int.down, Vector2Int.left, Vector2Int.up, Vector2Int.right},
-        new List<Vector2Int>() {Vector2Int.left, Vector2Int.up, Vector2Int.right,Vector2Int.down},
-        new List<Vector2Int>() {Vector2Int.up, Vector2Int.right,Vector2Int.down,Vector2Int.left}
+		Vector2Int.right, Vector2Int.down, Vector2Int.left, Vector2Int.up
     };
 
 public static int[] maxDoorCount =
@@ -73,16 +73,20 @@ public static int[] maxDoorCount =
     public Vector2 pivotPos;
     private Vector2 originPos;
     
-    public Vector2Int roomCountRange;
+    public Vector2Int roomMinMaxCount;
     [ReadOnly]
     public int curRoomCount;
 
-    public SerializedDictionary<RoomShape_Isaac, int> countPerRoomType;
+    //public SerializedDictionary<RoomShape_Isaac, int> countPerRoomType;
 
 
     public Vector2Int defaultRoomSize; //1*1짜리 방 사이즈
     private Vector2 roomHalfSize;
     public Room_Isaac[,] rooms;
+    public Room_Isaac GetRoom(Vector2Int index)
+    {
+        return rooms[index.x, index.y];
+    }
 
     //1. 랜덤 위치에 첫방 만들기
     //2. 방문 랜덤 개수로 만들기
@@ -111,35 +115,144 @@ public static int[] maxDoorCount =
         Vector2Int randIndex = new Vector2Int(Random.Range(0,areaSize.x), Random.Range(0,areaSize.y));
         
         Room_Isaac startRoom = new Room_Isaac(RoomShape_Isaac.One, randIndex);
-        
-        
 
-        
+		SetRandomDoor(startRoom);
+
+
+
 	}
 
+	/// <summary>
+	/// max is exclusive
+	/// </summary>
+	/// <param name="min"></param>
+	/// <param name="max">  </param>
+	/// <param name="arr"></param>
+	//private int GetDontOverlapRandom(int minInclude, int maxExclude, ref int[] arr)
+ //   {
+ //       int val = int.MinValue;
 
-    private void SetRandomDoor(Room_Isaac room)
+ //       while (true)
+ //       {
+ //           if (arr.Length >= maxExclude - minInclude)
+ //           {
+ //               break;
+ //           }
+
+ //           int rand = Random.Range(minInclude, maxExclude);
+
+ //           foreach (var item in arr)
+ //           {
+ //               if (item == rand)
+ //               {
+ //                   break;
+ //               }
+ //           }
+ //           val = rand;
+ //       }
+		
+	//	return val;
+	//}
+
+	private int GetDontOverlapRandom(int minInclude, int maxExclude, ref List<int> arr)
+	{
+		int val = int.MinValue;
+		if (arr.Count >= maxExclude - minInclude)
+		{
+			return val;
+		}
+
+	RETRY:
+		int rand = Random.Range(minInclude, maxExclude);
+
+		foreach (var item in arr)
+		{
+			if (item == rand)
+			{
+				goto RETRY;
+			}
+		}
+
+		val = rand;
+		arr.Add(val);
+		return val;
+	}
+
+	private void SetRandomDoor(Room_Isaac room)
     {
-        int doorCount = Random.Range(1, maxDoorCount[(int)room.shape] + 1);
 
-        
-        for (int i = 0; i < doorCount; ++i)
-        {
-            for (int k = 0; k < room.indexes.Length; ++k)
-            {
-                var randDir = randomDir[Random.Range(0, 5)];
+		//순서대로 처리하지말고
+		//그냥 모든 곳 순차적으로 돌아보면서
+		//문 설치가능한 곳들 모아뒀다가
+		//랜덤 개수만큼 가져가기 ㅋㅋ
+		//c'ex ㅋㅋ
+		//어차피 원하는 개수만큼 설치 하지 못해도
+		//더 설치 할 수 있는지 아닌지 확인하려면 다 돌아야함 ㅋㅋ
+		//무적권 다 돌아봐야한다는 단점이 있지만은
+		//개발 빠를듯 ㅋㅋ
 
-                for (int m = 0; m < 4; ++m)
-                {
-                    //randDir[m]
-                }
-            }
-            
-        }
-    
-    }
+		//for (int i = 0; i < room.indexes.Length; ++i)
+		//{ 
 
-    private void SetRandomShape(Room_Isaac room)
+
+
+		//}
+
+		//1. 해당 방 자체의 문 개수 정해주기
+		int maxRoomDoorCount = Random.Range(1, maxDoorCount[(int)room.shape] + 1);
+		int leftRoomDoorCount = maxRoomDoorCount;
+		//1. 탈출 조건 1) 원하는 문의 개수를 다 채운 경우
+
+		//2. 해당 방 내에서 테스트할 Cell 정해주기
+		List<int> cellIndexList = new List<int>();
+		int cellIndex;
+		cellIndex = GetDontOverlapRandom(0, room.indexes.Length, ref cellIndexList);
+		//2. 탈출 조건 2) 모든 Cell을 둘러본 경우
+
+		while (!(leftRoomDoorCount == 0 || cellIndex == int.MinValue)) //탈출 조건 1|2
+		{
+			//3. 현재 Cell에서 설치할 문 개수.
+			int cellDoorCount = Random.Range(0, leftRoomDoorCount + 1);
+			int curCellDoorCount = 0;
+			List<int> cellDoorDirList = new List<int>();
+			int cellDoorDir;
+			do
+			{ //3. 탈출 조건
+			  //3-a. 현재 Cell에서 원하는 개수만큼 설치하거나
+			  //3-b. 다 돌려 봤을때 더 설치 못하는 경우
+				cellDoorDir = GetDontOverlapRandom(0, randomDir.Length, ref cellDoorDirList);
+
+				if (cellDoorDir == int.MinValue)
+				{
+					//3-b. 다 돌려 본 경우
+					break;
+				}
+
+				var randDir = randomDir[cellDoorDir];
+				Vector2Int targetIndex = room.indexes[cellIndex] + randDir;
+
+				if ((targetIndex.x >= rooms.GetLength(0) || targetIndex.y >= rooms.GetLength(1))
+					|| (targetIndex.x < 0 || targetIndex.y < 0)
+					|| (GetRoom(targetIndex) == room))
+				{
+					continue;
+				}
+				else
+				{
+					room.doors[room.indexes[cellIndex]].Add(randDir);
+					++curCellDoorCount;
+				}
+			}
+			while (curCellDoorCount < cellDoorCount);//3-a.원하는 개수만큼 설치 한 경우
+			leftRoomDoorCount -= curCellDoorCount;
+		}
+		
+
+
+
+	}
+
+	private void SetRandomShape(Room_Isaac room)
     { 
     
     }
@@ -183,7 +296,8 @@ public static int[] maxDoorCount =
     // Start is called before the first frame update
     void Start()
     {
-        
+		Setup();
+		SetStartRoom();
     }
 
     // Update is called once per frame

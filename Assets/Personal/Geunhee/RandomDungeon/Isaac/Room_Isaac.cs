@@ -7,8 +7,12 @@ public class Room_Isaac
 {
     public Room_Isaac(RoomShape_Isaac _shape, Vector2Int _index) 
     {
+
+		doors = new Dictionary<Vector2Int, List<Vector2Int>>();
 		shape = _shape;
 		indexes = new Vector2Int[1] { _index };
+
+		doors.Add(_index, new List<Vector2Int>());
 		//shape = _shape;
 
 		//List<Vector2Int> pivotOffset = Defines.PivotByRoomShape[(int)shape];
@@ -28,7 +32,7 @@ public class Room_Isaac
 		//		{
 		//			indexes = new Vector2Int[2];
 		//			int rand = Random.Range(0, indexes.Length);
-					
+
 		//		}
 		//			break;
 		//	case RoomShape_Isaac.Two_Hor:
@@ -48,21 +52,27 @@ public class Room_Isaac
 		//		break;
 
 
-		//	case RoomShape_Isaac.End:
-		//			default:
+		//	case RoomShape_Isaac.End:fault:
 		//				break;
 		//			}
+		//			de
 	}
 
 	public Room_Isaac(RoomShape_Isaac _shape, Vector2Int[] _index)
 	{
+		doors = new Dictionary<Vector2Int, List<Vector2Int>>();
+		
 		shape = _shape;
 		indexes = new Vector2Int[_index.Length];
 		//c#에서 배열은 레퍼카피임
 		for (int i = 0; i < _index.Length; ++i)
 		{
 			indexes[i] = _index[i];
+			doors.Add(_index[i], new List<Vector2Int>());
 		}
+
+
+		
 	}
 
 

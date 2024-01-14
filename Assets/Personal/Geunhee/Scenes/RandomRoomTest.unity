@@ -336,13 +336,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df72c04442218334989d83ca39a295b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaSize: {x: 0, y: 0}
+  areaSize: {x: 10, y: 10}
   pivotPos: {x: 0, y: 0}
-  roomCountRange: {x: 0, y: 0}
+  roomMinMaxCount: {x: 0, y: 0}
   curRoomCount: 0
-  countPerRoomType:
-    _serializedList: []
-  defaultRoomSize: {x: 0, y: 0}
+  defaultRoomSize: {x: 15, y: 9}
 --- !u!1 &963941887
 GameObject:
   m_ObjectHideFlags: 0
