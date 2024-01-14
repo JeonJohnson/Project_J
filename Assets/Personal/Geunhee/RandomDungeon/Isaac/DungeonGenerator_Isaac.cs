@@ -8,6 +8,7 @@ using AYellowpaper.SerializedCollections;
 using UnityEngine.UIElements;
 using UnityEngine.Analytics;
 using System.Net.Http.Headers;
+using System.Linq.Expressions;
 
 public enum RoomShape_Isaac
 { 
@@ -22,10 +23,62 @@ public enum RoomShape_Isaac
     End
 }
 
+public static class RoomIndexes
+{
+	public static List<Vector2Int>[] one = { new List<Vector2Int> { Vector2Int.zero } };
+
+	public static List<Vector2Int>[] two_ver =
+	{
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.right },
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.left }
+	};
+	public static List<Vector2Int>[] two_hor =
+	{
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.up },
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.down }
+	};
+		
+
+	public static List<Vector2Int>[] Nieun =
+	{
+	new List<Vector2Int> { Vector2Int.zero, Vector2Int.right, Vector2Int.up },
+	new List<Vector2Int> { Vector2Int.zero, Vector2Int.left, new Vector2Int(-1, 1) },
+	new List<Vector2Int> { Vector2Int.zero, Vector2Int.down, new(1, -1) }
+	};
+	public static List<Vector2Int>[] Nieun_M =
+	{
+	new List<Vector2Int> { Vector2Int.zero, Vector2Int.right, new(1, 1) },
+	new List<Vector2Int> { Vector2Int.zero, Vector2Int.left, Vector2Int.up },
+	new List<Vector2Int> { Vector2Int.zero, Vector2Int.down, new(-1, -1) }
+	};
+
+	public static List<Vector2Int>[] Giyeok =
+	{ 
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.right, new(1, -1) },
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.left, Vector2Int.down },
+		new List<Vector2Int> { Vector2Int.zero, new(-1, 1), Vector2Int.up }
+	};
+	public static List<Vector2Int>[] Giyeok_M =
+	{ 
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.right, Vector2Int.down },
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.left, Vector2Int.down },
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.up, new(1, 1) }
+	};
+
+	public static List<Vector2Int>[] Four =
+	{
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.right, Vector2Int.down, new (1,-1) },
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.left, new(-1,-1), Vector2Int.down },
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.right, Vector2Int.up, new Vector2Int(1,1) },
+		new List<Vector2Int> { Vector2Int.zero, Vector2Int.left, new(-1,-1), Vector2Int.up }
+	}; 
+}
+
+
 public class DungeonGenerator_Isaac : MonoBehaviour
 {
 
-    public static List<Vector2Int>[] PivotByRoomShape =
+    public List<Vector2Int>[] PivotByRoomShape =
     {
 		//아이작 방 생성에서
 		//방을 랜덤 형태로 정할 때
@@ -52,7 +105,19 @@ public class DungeonGenerator_Isaac : MonoBehaviour
 		new List<Vector2Int> { Vector2Int.zero, Vector2Int.right, Vector2Int.up, new(1,1) } //네모네모
 	};
 
-	public static Vector2Int[] randomDir = 
+	public List<Vector2Int>[][] IndexesByRoomShape =
+	{
+		RoomIndexes.one,
+		RoomIndexes.two_ver,
+		RoomIndexes.two_hor,
+		RoomIndexes.Nieun,
+		RoomIndexes.Nieun_M,
+		RoomIndexes.Giyeok,
+		RoomIndexes.Giyeok_M,
+		RoomIndexes.Four
+	};
+
+	public Vector2Int[] randomDir = 
 	{
 		Vector2Int.right, Vector2Int.down, Vector2Int.left, Vector2Int.up
     };
@@ -115,13 +180,85 @@ public static int[] maxDoorCount =
         Vector2Int randIndex = new Vector2Int(Random.Range(0,areaSize.x), Random.Range(0,areaSize.y));
         
         Room_Isaac startRoom = new Room_Isaac(RoomShape_Isaac.One, randIndex);
-
+		rooms[randIndex.x, randIndex.y] = startRoom;
 		SetRandomDoor(startRoom);
 
-
-
+		CreateRoom(startRoom);
 	}
 
+	public void CreateRoom(Room_Isaac room)
+	{
+		foreach (var pair in room.doors)
+		{
+			foreach (var dir in pair.Value)
+			{
+
+				Vector2Int targetIndex = pair.Key + dir;
+
+				//1. 모양 랜덤으로 정하기
+				List<int> shapeRandomList = new List<int>();
+				int shapeRandom;
+				Room_Isaac newRoom;
+				//1. 탈출조건 1)특정 모양으로 만들 수 있을 때
+				//1. 탈출조건 2)모든 모양으로 만들 수 없을 때
+				while (true)
+				{
+					shapeRandom = GetDontOverlapRandom(0, (int)RoomShape_Isaac.End, ref shapeRandomList);
+
+					if (shapeRandom == int.MinValue)
+					{ break; }
+
+					//2. 여러 모양에서 기준을 어디에 두느냐에 따른 인덱스들
+					var indexSet = IndexesByRoomShape[shapeRandom];
+
+					List<int> indexSetRandomList = new List<int>();
+					int indexSetRandom;
+					//2. 다음 루프 조건 1) 해당 인덱스에 다른 방이 있는 경우,
+					//2. 다름 루프 조건 2) 인덱스를 벗어나는 경우
+					//2. 탈출 조건 1) 둘다 해당 안되서 설치가 가능한 경우
+					//2. 탈출 조건 2) 모든 경우에서 불가능한 경우 다음 모양으로 ㄱㄱ
+					while (true)
+					{
+					RETRY_INDEXSET:
+						indexSetRandom = GetDontOverlapRandom(0, indexSet.Length, ref indexSetRandomList);
+
+						if (indexSetRandom == int.MinValue)
+						{
+							break;
+						}
+
+						var indexes = indexSet[indexSetRandom];
+
+						for(int n = 0; n <indexes.Count; ++n)
+						{
+							indexes[n] += targetIndex;
+							if ((indexes[n].x >= rooms.GetLength(0) || indexes[n].y >= rooms.GetLength(1))
+								|| (indexes[n].x < 0 || indexes[n].y < 0)
+								|| (GetRoom(indexes[n]) != null))
+							{
+								goto RETRY_INDEXSET;
+							}
+						}
+
+						newRoom = new Room_Isaac((RoomShape_Isaac)shapeRandom, indexes.ToArray());
+						foreach (var roomIndex in newRoom.indexes)
+						{
+							rooms[roomIndex.x, roomIndex.y] = newRoom;
+						}
+						return;
+					}
+				}
+			}
+		}
+	
+	}
+
+	//private bool IsSuitableIndex(Vector2Int index)
+	//{
+		
+
+
+	//}
 	/// <summary>
 	/// max is exclusive
 	/// </summary>
@@ -129,28 +266,28 @@ public static int[] maxDoorCount =
 	/// <param name="max">  </param>
 	/// <param name="arr"></param>
 	//private int GetDontOverlapRandom(int minInclude, int maxExclude, ref int[] arr)
- //   {
- //       int val = int.MinValue;
+	//   {
+	//       int val = int.MinValue;
 
- //       while (true)
- //       {
- //           if (arr.Length >= maxExclude - minInclude)
- //           {
- //               break;
- //           }
+	//       while (true)
+	//       {
+	//           if (arr.Length >= maxExclude - minInclude)
+	//           {
+	//               break;
+	//           }
 
- //           int rand = Random.Range(minInclude, maxExclude);
+	//           int rand = Random.Range(minInclude, maxExclude);
 
- //           foreach (var item in arr)
- //           {
- //               if (item == rand)
- //               {
- //                   break;
- //               }
- //           }
- //           val = rand;
- //       }
-		
+	//           foreach (var item in arr)
+	//           {
+	//               if (item == rand)
+	//               {
+	//                   break;
+	//               }
+	//           }
+	//           val = rand;
+	//       }
+
 	//	return val;
 	//}
 
@@ -180,7 +317,6 @@ public static int[] maxDoorCount =
 
 	private void SetRandomDoor(Room_Isaac room)
     {
-
 		//순서대로 처리하지말고
 		//그냥 모든 곳 순차적으로 돌아보면서
 		//문 설치가능한 곳들 모아뒀다가
@@ -246,15 +382,11 @@ public static int[] maxDoorCount =
 			while (curCellDoorCount < cellDoorCount);//3-a.원하는 개수만큼 설치 한 경우
 			leftRoomDoorCount -= curCellDoorCount;
 		}
-		
-
-
-
 	}
 
 	private void SetRandomShape(Room_Isaac room)
     { 
-    
+		
     }
 
     //private Room_Isaac CreateRandomRoom(Vector2Int index)
