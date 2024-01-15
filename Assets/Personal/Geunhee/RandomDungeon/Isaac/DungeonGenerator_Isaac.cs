@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using UnityEngine.Analytics;
 using System.Net.Http.Headers;
 using System.Linq.Expressions;
+using Unity.VisualScripting;
 
 public enum RoomShape_Isaac
 { 
@@ -151,6 +152,9 @@ public static int[] maxDoorCount =
     public Vector2Int defaultRoomSize; //1*1짜리 방 사이즈
     private Vector2 roomHalfSize;
     public Room_Isaac[,] rooms;
+
+	public List<Room_Isaac> allRooms;
+
     public Room_Isaac GetRoom(Vector2Int index)
     {
         return rooms[index.x, index.y];
@@ -158,186 +162,6 @@ public static int[] maxDoorCount =
 
 
 	public List<Room_Isaac> recentRooms;
-
-
-	//1. 랜덤 위치에 첫방 만들기
-	//2. 방문 랜덤 개수로 만들기
-	//3. 해당 방향으로 넘어가서 랜덤 형태의 방만들기
-	//3-1. 어디를 중점으로 둘지 판단하기
-	//3-2. 
-	public void Setup()
-    {
-        roomHalfSize = new Vector2(defaultRoomSize.x * 0.5f, defaultRoomSize.y * 0.5f);
-
-        originPos = pivotPos + roomHalfSize;
-
-		recentRooms = new List<Room_Isaac>();
-
-        rooms = new Room_Isaac[areaSize.x, areaSize.y];
-        for (int y = 0; y < areaSize.y; ++y)
-        {
-            for (int x = 0; x < areaSize.x; ++x)
-            {
-                rooms[x, y] = null;
-            }
-        }
-
-    }
-
-    public void SetStartRoom()
-    { 
-        Vector2Int randIndex = new Vector2Int(Random.Range(0,areaSize.x), Random.Range(0,areaSize.y));
-        
-        Room_Isaac startRoom = new Room_Isaac(RoomShape_Isaac.One, randIndex);
-		rooms[randIndex.x, randIndex.y] = startRoom;
-		curRoomCount = 1;
-		CreateTestTile(randIndex, curRoomCount);
-		SetRandomDoor(startRoom);
-
-		recentRooms.Add(startRoom);
-	}
-
-	public void CreateAnotherRoom()
-	{
-		List<Room_Isaac> newRooms = new List<Room_Isaac>();
-		foreach (var item in recentRooms)
-		{
-			var newRoom = CreateRoom(item);
-			if (newRoom != null)
-			{
-				newRooms.Add(newRoom);
-				SetRandomDoor(newRoom);
-			}
-			
-		}
-
-		if (newRooms.Count != 0)
-		{
-			recentRooms.Clear();
-			recentRooms = newRooms;
-		}
-	}
-
-
-	private Room_Isaac CreateRoom(Room_Isaac room)
-	{
-		foreach (var pair in room.doors)
-		{
-			foreach (var dir in pair.Value)
-			{
-				Vector2Int targetIndex = pair.Key + dir;
-
-				//1. 모양 랜덤으로 정하기
-				List<int> shapeRandomList = new List<int>();
-				int shapeRandom;
-				Room_Isaac newRoom;
-				//1. 탈출조건 1)특정 모양으로 만들 수 있을 때
-				//1. 탈출조건 2)모든 모양으로 만들 수 없을 때
-				while (true)
-				{
-					shapeRandom = GetDontOverlapRandom(0, (int)RoomShape_Isaac.End, ref shapeRandomList);
-
-					if (shapeRandom == int.MinValue)
-					{ break; }
-
-					//2. 여러 모양에서 기준을 어디에 두느냐에 따른 인덱스들
-					var indexSet = IndexesByRoomShape[shapeRandom];
-
-					List<int> indexSetRandomList = new List<int>();
-					int indexSetRandom;
-					//2. 다음 루프 조건 1) 해당 인덱스에 다른 방이 있는 경우,
-					//2. 다름 루프 조건 2) 인덱스를 벗어나는 경우
-					//2. 탈출 조건 1) 둘다 해당 안되서 설치가 가능한 경우
-					//2. 탈출 조건 2) 모든 경우에서 불가능한 경우 다음 모양으로 ㄱㄱ
-					while (true)
-					{
-					RETRY_INDEXSET:
-						indexSetRandom = GetDontOverlapRandom(0, indexSet.Length, ref indexSetRandomList);
-
-						if (indexSetRandom == int.MinValue)
-						{
-							break;
-						}
-
-						var indexes = indexSet[indexSetRandom];
-
-						for(int n = 0; n <indexes.Count; ++n)
-						{
-							indexes[n] += targetIndex;
-							if ((indexes[n].x >= rooms.GetLength(0) || indexes[n].y >= rooms.GetLength(1))
-								|| (indexes[n].x < 0 || indexes[n].y < 0)
-								|| (GetRoom(indexes[n]) != null))
-							{
-								goto RETRY_INDEXSET;
-							}
-						}
-
-						newRoom = new Room_Isaac((RoomShape_Isaac)shapeRandom, indexes.ToArray());
-						++curRoomCount;
-
-						foreach (var roomIndex in newRoom.indexes)
-						{
-							rooms[roomIndex.x, roomIndex.y] = newRoom;
-							CreateTestTile(roomIndex, curRoomCount);
-						}
-						return newRoom;
-					}
-				}
-			}
-		}
-
-		return null;
-	}
-
-	private TestTile_Isaac CreateTestTile(Vector2Int index,int roomNum)
-	{
-		GameObject newObj = Instantiate(TestTilePrefab, GetPos(index), Quaternion.identity, transform);
-		TestTile_Isaac script = newObj.GetComponent<TestTile_Isaac>();
-
-		script.text.text = $"{roomNum}";
-
-		testTiles.Add(script);
-
-		return script;
-	}
-
-	//private bool IsSuitableIndex(Vector2Int index)
-	//{
-		
-
-
-	//}
-	/// <summary>
-	/// max is exclusive
-	/// </summary>
-	/// <param name="min"></param>
-	/// <param name="max">  </param>
-	/// <param name="arr"></param>
-	//private int GetDontOverlapRandom(int minInclude, int maxExclude, ref int[] arr)
-	//   {
-	//       int val = int.MinValue;
-
-	//       while (true)
-	//       {
-	//           if (arr.Length >= maxExclude - minInclude)
-	//           {
-	//               break;
-	//           }
-
-	//           int rand = Random.Range(minInclude, maxExclude);
-
-	//           foreach (var item in arr)
-	//           {
-	//               if (item == rand)
-	//               {
-	//                   break;
-	//               }
-	//           }
-	//           val = rand;
-	//       }
-
-	//	return val;
-	//}
 
 	private int GetDontOverlapRandom(int minInclude, int maxExclude, ref List<int> arr)
 	{
@@ -363,6 +187,153 @@ public static int[] maxDoorCount =
 		return val;
 	}
 
+
+
+	//1. 랜덤 위치에 첫방 만들기
+	//2. 방문 랜덤 개수로 만들기
+	//3. 해당 방향으로 넘어가서 랜덤 형태의 방만들기
+	//3-1. 어디를 중점으로 둘지 판단하기
+	//3-2. 
+	public void Setup()
+    {
+        roomHalfSize = new Vector2(defaultRoomSize.x * 0.5f, defaultRoomSize.y * 0.5f);
+
+        originPos = pivotPos + roomHalfSize;
+
+		recentRooms = new List<Room_Isaac>();
+
+		allRooms = new List<Room_Isaac>();
+		rooms = new Room_Isaac[areaSize.x, areaSize.y];
+        for (int y = 0; y < areaSize.y; ++y)
+        {
+            for (int x = 0; x < areaSize.x; ++x)
+            {
+                rooms[x, y] = null;
+            }
+        }
+
+    }
+
+    public void SetStartRoom()
+    { 
+        Vector2Int randIndex = new Vector2Int(Random.Range(0,areaSize.x), Random.Range(0,areaSize.y));
+		randIndex = new Vector2Int(areaSize.x / 2, areaSize.y / 2);
+
+        Room_Isaac startRoom = new Room_Isaac(RoomShape_Isaac.One, randIndex);
+		rooms[randIndex.x, randIndex.y] = startRoom;
+		curRoomCount = 1;
+		CreateTestTile(randIndex, curRoomCount);
+		SetRandomDoor(startRoom);
+
+		recentRooms.Add(startRoom);
+		allRooms.Add(startRoom);
+	}
+
+	public void CreateAnotherRoom()
+	{
+		List<Room_Isaac> newRooms = new List<Room_Isaac>();
+		foreach (var item in recentRooms)
+		{
+			newRooms = CreateRoom(item);
+
+			foreach (var room in newRooms)
+			{
+				SetRandomDoor(room);
+			}
+		}
+		
+		if (newRooms.Count != 0)
+		{
+			recentRooms.Clear();
+			recentRooms = newRooms;
+		}
+	}
+
+
+	private List<Room_Isaac> CreateRoom(Room_Isaac room)
+	{
+		List<Room_Isaac> newRoomList = new List<Room_Isaac>();
+
+		foreach (var pair in room.doors)
+		{
+			foreach (var dir in pair.Value)
+			{
+				Vector2Int targetIndex = pair.Key + dir;
+
+				//1. 모양 랜덤으로 정하기
+				List<int> shapeRandomList = new List<int>();
+				int shapeRandom;
+				Room_Isaac newRoom = null;
+				//1. 탈출조건 1)특정 모양으로 만들 수 있을 때
+				//1. 탈출조건 2)모든 모양으로 만들 수 없을 때
+				while (true)
+				{
+				RETRY_SET_SHAPE:
+					shapeRandom = GetDontOverlapRandom(0, (int)RoomShape_Isaac.End, ref shapeRandomList);
+
+					if (shapeRandom == int.MinValue)
+					{ break; }
+
+					//2. 여러 모양에서 기준을 어디에 두느냐에 따른 인덱스들
+					var indexSet = IndexesByRoomShape[shapeRandom];
+
+					List<int> indexSetRandomList = new List<int>();
+					int indexSetRandom;
+					//2. 다음 루프 조건 1) 해당 인덱스에 다른 방이 있는 경우,
+					//2. 다름 루프 조건 2) 인덱스를 벗어나는 경우
+					//2. 탈출 조건 1) 둘다 해당 안되서 설치한 경우
+					//2. 탈출 조건 2) 모든 경우에서 불가능한 경우 다음 모양으로 ㄱㄱ
+					while (true)
+					{
+					RETRY_INDEXSET:
+						indexSetRandom = GetDontOverlapRandom(0, indexSet.Length, ref indexSetRandomList);
+
+						if (indexSetRandom == int.MinValue)
+						{//모든 경우에서 설치가 불가능 한 경우.
+							break;
+						}
+
+						var indexes = indexSet[indexSetRandom].ToList();
+
+						for(int n = 0; n <indexes.Count; ++n)
+						{
+							indexes[n] += targetIndex;
+
+							if ((indexes[n].x >= rooms.GetLength(0) || indexes[n].y >= rooms.GetLength(1))
+								|| (indexes[n].x < 0 || indexes[n].y < 0)
+								|| (GetRoom(indexes[n]) != null))
+							{
+								goto RETRY_INDEXSET;
+							}
+						}
+
+						newRoom = new Room_Isaac((RoomShape_Isaac)shapeRandom, indexes.ToArray());
+						++curRoomCount;
+						newRoomList.Add(newRoom);
+						allRooms.Add(newRoom);
+						foreach (var roomIndex in newRoom.indexes)
+						{
+							rooms[roomIndex.x, roomIndex.y] = newRoom;
+							CreateTestTile(roomIndex, curRoomCount);
+						}
+						break; //방 설치를 완료한 경우 
+					}
+
+					if (newRoom != null)
+					{
+						break;
+					}
+				}
+			}
+		}
+
+		return newRoomList;
+	}
+
+
+	
+
+	
 	private void SetRandomDoor(Room_Isaac room)
     {
 		//순서대로 처리하지말고
@@ -397,6 +368,8 @@ public static int[] maxDoorCount =
 		{
 			//cellIndex = GetDontOverlapRandom(0, room.indexes.Length, ref cellIndexList);
 			//3. 현재 Cell에서 설치할 문 개수.
+			//int minDoorCount = room.shape == RoomShape_Isaac.One ? 1 : 0;
+
 			int cellDoorCount = Random.Range(0, leftRoomDoorCount + 1);
 			int curCellDoorCount = 0;
 			List<int> cellDoorDirList = new List<int>();
@@ -433,21 +406,20 @@ public static int[] maxDoorCount =
 		}
 	}
 
-	private void SetRandomShape(Room_Isaac room)
-    { 
-		
-    }
+	private TestTile_Isaac CreateTestTile(Vector2Int index, int roomNum)
+	{
+		GameObject newObj = Instantiate(TestTilePrefab, GetPos(index), Quaternion.identity, transform);
+		TestTile_Isaac script = newObj.GetComponent<TestTile_Isaac>();
 
-    //private Room_Isaac CreateRandomRoom(Vector2Int index)
-    //{ 
-    
-    //}
+		script.text.text = $"{roomNum}";
 
-    //private Vector2Int[] GetIndexes(RoomShape_Isaac shape, Vector2Int index)
-    //{ 
-    
-    //}
+		testTiles.Add(script);
 
+		return script;
+	}
+
+
+	
 
 	public Vector2 GetPos(Vector2Int index)
     {
@@ -473,8 +445,20 @@ public static int[] maxDoorCount =
     }
 
 
-    // Start is called before the first frame update
-    void Start()
+	public void Reset()
+	{
+		for (int i = 0; i < testTiles.Count; ++i)
+		{
+			Destroy(testTiles[i].gameObject);
+		}
+		testTiles.Clear();
+
+		allRooms.Clear();
+
+	}
+
+	// Start is called before the first frame update
+	void Start()
     {
 		Setup();
 		SetStartRoom();

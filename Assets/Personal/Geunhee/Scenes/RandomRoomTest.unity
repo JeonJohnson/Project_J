@@ -309,12 +309,20 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2274021206423177139, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2274021206423177139, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2274021206423177139, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2274021206423177139, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2274021206423177139, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
       propertyPath: m_LocalPosition.z
@@ -347,6 +355,22 @@ PrefabInstance:
     - target: {fileID: 2274021206423177139, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3258853981338508231, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
+      propertyPath: m_Size.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3258853981338508231, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
+      propertyPath: m_Size.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833086019415017416, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833086019415017416, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -404,7 +428,7 @@ MonoBehaviour:
   - {x: 0, y: -1}
   - {x: -1, y: 0}
   - {x: 0, y: 1}
-  areaSize: {x: 10, y: 10}
+  areaSize: {x: 20, y: 20}
   pivotPos: {x: 0, y: 0}
   roomMinMaxCount: {x: 0, y: 0}
   curRoomCount: 0
@@ -778,7 +802,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7.5
+  orthographic size: 12.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -802,7 +826,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496041544}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 5, z: -10}
+  m_LocalPosition: {x: 10, y: 10, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

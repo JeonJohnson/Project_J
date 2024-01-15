@@ -31,7 +31,6 @@ public class DungeonGenerator_Isaac_Editor : Editor
 			//	generator.CreateRoom();
 			//}
 			//generator.GotoGameScene();
-
 			generator.CreateAnotherRoom();
 
 		}
@@ -39,7 +38,8 @@ public class DungeonGenerator_Isaac_Editor : Editor
 
 			if (GUILayout.Button("Create One Room"))
 		{
-			//generator.CreateRoom();
+			generator.Setup();
+			generator.SetStartRoom();
 		}
 
 
@@ -54,7 +54,7 @@ public class DungeonGenerator_Isaac_Editor : Editor
 		GUILayout.Label("");
 		if (GUILayout.Button("reset"))
 		{
-			//generator.Reset();
+			generator.Reset();
 		}
 
 
