@@ -11,6 +11,7 @@ using UnityEngine.Tilemaps;
 using AYellowpaper;
 using AYellowpaper.SerializedCollections;
 using MoreMountains.Tools;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public enum tileGridState
 { 
@@ -101,6 +102,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	public int createRoomCount;
 	public Vector2Int areaSize;
 
+	[Space(7.5f)]
 	//해당 비율만큼 바닥 만들었으면 끝.
 	[Range(0.25f, 0.75f)]
 	public float areaFillRatio;
@@ -110,10 +112,14 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	[ReadOnly]
 	public int curTryCount;
 
-    [Range(0.1f, 0.75f)]
+	[Space(7.5f)]
+	[Range(0.1f, 0.75f)]
     public float wallTileOffset;
+	[Range(0.1f, 0.75f)]
+	public float shadowTileOffset;
 
-    [Space(7.5f)]
+
+	[Space(7.5f)]
 	[SerializeField]
     private NewExplorerPos ExplorerSpawnOption;
 
@@ -170,8 +176,12 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             cam.orthographicSize += 1;
         }
 		#endregion
-		
-        explorers = new List<Explorer>();
+
+
+
+
+
+		explorers = new List<Explorer>();
         for (int i = 0; i < startExplorerCount; i++)
         {
             explorers.Add(new Explorer(centerIndex));
@@ -190,18 +200,24 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             roomScript.tilemaps.TryGetValue(layer,out recentTilemaps[i]);
             recentTilesCount[i] = 0;
         }
+
+		var pos = recentTilemaps[(int)TilemapLayer.Wall].transform.position;
+		pos.y += wallTileOffset;
+		recentTilemaps[(int)TilemapLayer.Wall].transform.position = pos;
+
+        pos = recentTilemaps[(int)TilemapLayer.Shadow].transform.position;
+		pos.y -= shadowTileOffset;
+		recentTilemaps[(int)TilemapLayer.Shadow].transform.position = pos;
+
 	}
 
 
-    public void CreateRoom()
+	public void CreateRoom()
     {
         Setup();
         CreateGround();
         CreateWall();
-        //CreateCliff();
-        var pos = recentTilemaps[(int)TilemapLayer.Wall].transform.position;
-        pos.y += wallTileOffset;
-        recentTilemaps[(int)TilemapLayer.Wall].transform.position = pos;
+        CreateCliffShadow();
 		CreateTestPortal();
     }
 
@@ -346,7 +362,6 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 					Vector2 pos = GetPos(item);
 					CreateTile(pos, tileGridState.Wall);
                     SetTile(index, TilemapLayer.Cliff);
-					//SetTile(index, TilemapLayer.Shadow);
 				}
 			}
 		}
@@ -384,9 +399,13 @@ public class DungeonGenerator_Drunken : MonoBehaviour
  //   }
 
 
-    private void CreateShadow()
-    { 
-    
+    private void CreateCliffShadow()
+    {
+        var script = recentTilemaps[(int)TilemapLayer.Shadow].gameObject.GetComponent<MMTilemapShadow>();
+        if (script)
+        {
+            script.UpdateShadows();
+        }
     }
 
     private void CreateTestPortal()
@@ -510,11 +529,10 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         Vector2 pos = GetPos(index);
 		Vector3Int newPos = new((int)pos.x, (int)pos.y, 0);
 	
-		int layer = (int)TilemapLayer.Ground;
         TileBase tile = TileResource[tileLayer][0];
 
-		recentTilemaps[layer].SetTile(newPos, tile);
-		++recentTilesCount[layer];
+		recentTilemaps[(int)tileLayer].SetTile(newPos, tile);
+		++recentTilesCount[(int)tileLayer];
 	}
 
 
@@ -558,7 +576,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
 		rooms = new List<Room_Drunken>();
 
-		Setup();
+		//Setup();
     }
 
 
