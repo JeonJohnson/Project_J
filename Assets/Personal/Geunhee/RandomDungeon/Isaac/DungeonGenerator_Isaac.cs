@@ -78,6 +78,9 @@ public static class RoomIndexes
 public class DungeonGenerator_Isaac : MonoBehaviour
 {
 
+	public GameObject TestTilePrefab;
+	public List<TestTile_Isaac> testTiles = new List<TestTile_Isaac>();
+
     public List<Vector2Int>[] PivotByRoomShape =
     {
 		//아이작 방 생성에서
@@ -93,7 +96,7 @@ public class DungeonGenerator_Isaac : MonoBehaviour
 		//   Nieun_Mirror, //┘
 		//	Giyeok, // ┐
 		//	Giyeok_Mirror, //┌
-		//   Four, // 2*2
+		//   Four, // 2*2`
 
 		new List<Vector2Int>() { Vector2Int.zero}, //One
 		new List<Vector2Int> { Vector2Int.zero, Vector2Int.right }, // - 
@@ -124,10 +127,10 @@ public class DungeonGenerator_Isaac : MonoBehaviour
 
 public static int[] maxDoorCount =
     {
-        4,  
-        6,  6, 
-        8, 8, 8, 8,
-        8
+        4,  //0
+        6,  6,  //1,2
+        8, 8, 8, 8, //3,4,5,6
+        8 //7
     };
 
     
@@ -153,16 +156,22 @@ public static int[] maxDoorCount =
         return rooms[index.x, index.y];
     }
 
-    //1. 랜덤 위치에 첫방 만들기
-    //2. 방문 랜덤 개수로 만들기
-    //3. 해당 방향으로 넘어가서 랜덤 형태의 방만들기
-        //3-1. 어디를 중점으로 둘지 판단하기
-        //3-2. 
-    public void Setup()
+
+	public List<Room_Isaac> recentRooms;
+
+
+	//1. 랜덤 위치에 첫방 만들기
+	//2. 방문 랜덤 개수로 만들기
+	//3. 해당 방향으로 넘어가서 랜덤 형태의 방만들기
+	//3-1. 어디를 중점으로 둘지 판단하기
+	//3-2. 
+	public void Setup()
     {
         roomHalfSize = new Vector2(defaultRoomSize.x * 0.5f, defaultRoomSize.y * 0.5f);
 
         originPos = pivotPos + roomHalfSize;
+
+		recentRooms = new List<Room_Isaac>();
 
         rooms = new Room_Isaac[areaSize.x, areaSize.y];
         for (int y = 0; y < areaSize.y; ++y)
@@ -181,18 +190,41 @@ public static int[] maxDoorCount =
         
         Room_Isaac startRoom = new Room_Isaac(RoomShape_Isaac.One, randIndex);
 		rooms[randIndex.x, randIndex.y] = startRoom;
+		curRoomCount = 1;
+		CreateTestTile(randIndex, curRoomCount);
 		SetRandomDoor(startRoom);
 
-		CreateRoom(startRoom);
+		recentRooms.Add(startRoom);
 	}
 
-	public void CreateRoom(Room_Isaac room)
+	public void CreateAnotherRoom()
+	{
+		List<Room_Isaac> newRooms = new List<Room_Isaac>();
+		foreach (var item in recentRooms)
+		{
+			var newRoom = CreateRoom(item);
+			if (newRoom != null)
+			{
+				newRooms.Add(newRoom);
+				SetRandomDoor(newRoom);
+			}
+			
+		}
+
+		if (newRooms.Count != 0)
+		{
+			recentRooms.Clear();
+			recentRooms = newRooms;
+		}
+	}
+
+
+	private Room_Isaac CreateRoom(Room_Isaac room)
 	{
 		foreach (var pair in room.doors)
 		{
 			foreach (var dir in pair.Value)
 			{
-
 				Vector2Int targetIndex = pair.Key + dir;
 
 				//1. 모양 랜덤으로 정하기
@@ -241,16 +273,32 @@ public static int[] maxDoorCount =
 						}
 
 						newRoom = new Room_Isaac((RoomShape_Isaac)shapeRandom, indexes.ToArray());
+						++curRoomCount;
+
 						foreach (var roomIndex in newRoom.indexes)
 						{
 							rooms[roomIndex.x, roomIndex.y] = newRoom;
+							CreateTestTile(roomIndex, curRoomCount);
 						}
-						return;
+						return newRoom;
 					}
 				}
 			}
 		}
-	
+
+		return null;
+	}
+
+	private TestTile_Isaac CreateTestTile(Vector2Int index,int roomNum)
+	{
+		GameObject newObj = Instantiate(TestTilePrefab, GetPos(index), Quaternion.identity, transform);
+		TestTile_Isaac script = newObj.GetComponent<TestTile_Isaac>();
+
+		script.text.text = $"{roomNum}";
+
+		testTiles.Add(script);
+
+		return script;
 	}
 
 	//private bool IsSuitableIndex(Vector2Int index)
@@ -347,6 +395,7 @@ public static int[] maxDoorCount =
 
 		while (!(leftRoomDoorCount == 0 || cellIndex == int.MinValue)) //탈출 조건 1|2
 		{
+			//cellIndex = GetDontOverlapRandom(0, room.indexes.Length, ref cellIndexList);
 			//3. 현재 Cell에서 설치할 문 개수.
 			int cellDoorCount = Random.Range(0, leftRoomDoorCount + 1);
 			int curCellDoorCount = 0;
@@ -391,7 +440,6 @@ public static int[] maxDoorCount =
 
     //private Room_Isaac CreateRandomRoom(Vector2Int index)
     //{ 
-        
     
     //}
 

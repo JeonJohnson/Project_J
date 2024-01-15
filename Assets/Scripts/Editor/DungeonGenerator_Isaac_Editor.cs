@@ -32,6 +32,8 @@ public class DungeonGenerator_Isaac_Editor : Editor
 			//}
 			//generator.GotoGameScene();
 
+			generator.CreateAnotherRoom();
+
 		}
 
 
