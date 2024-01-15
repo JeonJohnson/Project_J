@@ -39,6 +39,7 @@ namespace MoreMountains.TopDownEngine
 			{
 				return;
 			}
+			Debug.Log("재 장전");
 			_characterHandleWeapon.Reload();
 			_reloadedOnce = true;
 		}

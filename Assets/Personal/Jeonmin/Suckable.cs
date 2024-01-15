@@ -1,13 +1,31 @@
 using MoreMountains.InventoryEngine;
+using MoreMountains.Tools;
 using MoreMountains.TopDownEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class Suckable : MonoBehaviour
 {
+    public struct SuckEvent
+    {
+        public int Order;
+        public SuckEvent(int order)
+        {
+            Order = order;
+        }
+
+        static SuckEvent e;
+        public static void Trigger(int order)
+        {
+            e.Order = order;
+            MMEventManager.TriggerEvent(e);
+        }
+    }
+
     // sucked option 
     public enum BulletState
     {
@@ -111,8 +129,22 @@ public class Suckable : MonoBehaviour
             yield return null;
         }
 
+        //projectile = this.gameObject.GetComponent<Projectile>();
+        //if (projectile != null)
+        //{
+        //    LevelManager.Instance.Players[0].GetComponent<CharacterInventory>().MainInventory.EquipItem(item, 1);
+        //}
+        //else
+        //{
+        //    LevelManager.Instance.Players[0].GetComponent<CharacterInventory>().MainInventory.AddItem(item, 1);
+        //    item.Equip("Player1");
+        //}
+
         LevelManager.Instance.Players[0].GetComponent<CharacterInventory>().MainInventory.AddItem(item, 1);
-        item.Equip("Player1");
+        LevelManager.Instance.Players[0].GetComponent<CharacterInventory>().MainInventory.EquipItem(item, 1);
+        UpdateAmmoDisplay();
+        //item.Equip("Player1");
+        SuckEvent.Trigger(1);
 
         Resetting();
         //리셋하기
@@ -130,5 +162,13 @@ public class Suckable : MonoBehaviour
         this.transform.localScale = defScale;
         srdr.color = Color.white;
         curState = BulletState.Fire;
+    }
+
+    public virtual void UpdateAmmoDisplay()
+    {
+        MoreMountains.TopDownEngine.Weapon CurrentWeapon = LevelManager.Instance.Players[0].GetComponent<CharacterHandleWeapon>().CurrentWeapon;
+        Debug.Log(CurrentWeapon.WeaponAmmo.CurrentAmmoAvailable + CurrentWeapon.CurrentAmmoLoaded);
+        MMInventoryEvent.Trigger(MMInventoryEventType.Pick, null, item.TargetInventoryName, item, 1, 0, LevelManager.Instance.Players[0].PlayerID);
+        //GUIManager.Instance.UpdateAmmoDisplays(false, CurrentWeapon.WeaponAmmo.CurrentAmmoAvailable + CurrentWeapon.CurrentAmmoLoaded, CurrentWeapon.CurrentAmmoLoaded, CurrentWeapon.WeaponAmmo.MaxAmmo, CurrentWeapon.MagazineSize, LevelManager.Instance.Players[0].PlayerID, LevelManager.Instance.Players[0].GetComponent<CharacterHandleWeapon>().AmmoDisplayID, false);
     }
 }	

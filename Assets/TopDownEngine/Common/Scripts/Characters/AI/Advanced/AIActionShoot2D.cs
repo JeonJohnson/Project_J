@@ -175,6 +175,7 @@ namespace MoreMountains.TopDownEngine
 		{
 			if (_numberOfShoots < 1)
 			{
+				Debug.Log("탕");
                 TargetHandleWeaponAbility.ShootStart();
 				_numberOfShoots++;
 			}
