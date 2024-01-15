@@ -6,6 +6,7 @@ using Enums;
 public class PlayerInventroy : MonoBehaviour
 {
     private Player player;
+    public Item_Weapon CurItemWeapon;
     public Item_Active activeItemSlot;
     public Item_Passive[] passiveItemSlot = new Item_Passive[6];
     public Item[] useableItemSlot = new Item[25];
