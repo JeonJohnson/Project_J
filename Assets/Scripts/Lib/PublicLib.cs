@@ -591,6 +591,7 @@ namespace Enums
 		Passive,
 		Active,
 		Useable,
+		Weapon,
 		End
 	}
 

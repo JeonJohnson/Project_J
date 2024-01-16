@@ -114,16 +114,16 @@ public class Ui_DetailStatus_View : MonoBehaviour
         string armorText = "";
         string moveSpeedText = "Move Speed : " + player.status.walkSpeed.ToString() + player.inventroy.invenBonusStatus.bonus_Player_Speed.ToString();
 
-        string expectDamageText = "DMG : " + ((player.curWeapon.defaltStatus.damage + player.inventroy.invenBonusStatus.bonus_Weapon_Damage + player.bonusStatus.bonus_Weapon_Damage) *
-            (player.curWeapon.defaltStatus.fireRate + player.bonusStatus.bonus_Weapon_FireRate + player.inventroy.invenBonusStatus.bonus_Weapon_FireRate) *
-            (player.curWeapon.defaltStatus.bulletNumPerFire + player.inventroy.invenBonusStatus.bonus_Weapon_BulletNumPerFire + player.bonusStatus.bonus_Weapon_BulletNumPerFire)).ToString();
+        string expectDamageText = "DMG : " + ((player.curWeapon.weaponData.damage) *
+            (player.curWeapon.weaponData.fireRate) *
+            (player.curWeapon.weaponData.bulletNumPerFire)).ToString();
 
         string consumeRangeText = "Consume Range : " + player.curWeapon.suctionStat.suctionRange.ToString();
         string consumeAngleText = "Consume Angle : " + player.curWeapon.suctionStat.suctionAngle.ToString();
-        string bulletTypeText = "Bullet Type : " + player.curWeapon.upgradeData.bulletType.ToString();
-        string bulletNumPerFireText = "Fire Rate : " + (player.curWeapon.defaltStatus.bulletNumPerFire + player.inventroy.invenBonusStatus.bonus_Weapon_BulletNumPerFire + player.bonusStatus.bonus_Weapon_BulletNumPerFire).ToString();
-        string bulletSpreadText = "Spread : " + player.curWeapon.defaltStatus.bulletSpread.ToString();
-        string dpsText = "DPS : " + player.curWeapon.defaltStatus.fireRate + player.bonusStatus.bonus_Weapon_FireRate+ player.inventroy.invenBonusStatus.bonus_Weapon_FireRate.ToString();
+        string bulletTypeText = "Bullet Type : " + player.curWeapon.weaponData.bulletType.ToString();
+        string bulletNumPerFireText = "Fire Rate : " + (player.curWeapon.weaponData.bulletNumPerFire).ToString();
+        string bulletSpreadText = "Spread : " + player.curWeapon.weaponData.spread.ToString();
+        string dpsText = "DPS : " + player.curWeapon.weaponData.fireRate.ToString();
 
         playerStatusText.text = hpText /*+ "\n" +armorText*/+"\n"+moveSpeedText+"\n"+expectDamageText+"\n"+consumeRangeText+"\n"+consumeAngleText+"\n"+bulletTypeText+"\n"+bulletNumPerFireText+"\n"+bulletSpreadText+"\n"+dpsText;
     }

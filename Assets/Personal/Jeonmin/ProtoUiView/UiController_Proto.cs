@@ -51,8 +51,8 @@ public class UiController_Proto : Singleton<UiController_Proto>
         if (player.curWeapon.suctionStat.curSuctionRatio != null)
             player.curWeapon.suctionStat.curSuctionRatio.onChange += playerHudView.UpdateWeaponConsume;
 
-        if (player.curWeapon.defaltStatus.bulletCount != null)
-            player.curWeapon.defaltStatus.bulletCount.onChange += playerHudView.UpdateBulletCount;
+        if (player.inventroy.bulletCount != null)
+            player.inventroy.bulletCount.onChange += playerHudView.UpdateBulletCount;
     }
 
     public void SubscribeActiveUiToItem()
