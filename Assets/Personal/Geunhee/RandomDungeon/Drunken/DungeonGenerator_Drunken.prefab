@@ -77,14 +77,14 @@ MonoBehaviour:
   originPos: {x: 0.5, y: 0.5}
   centerPos: {x: 15, y: 15}
   gridLength: {x: 30, y: 30}
-  createRoomCount: 5
+  createRoomCount: 3
   areaSize: {x: 30, y: 30}
-  areaFillRatio: 0.45
+  areaFillRatio: 0.6
   maxTryCount: 49561
   curTryCount: 83
   wallTileOffset: 0.4
   shadowTileOffset: 0.25
-  ExplorerSpawnOption: 0
+  ExplorerSpawnOption: 2
   startExplorerCount: 10
   ExplorerCountRange: {x: 1, y: 15}
   curExplorerCount: 15
