@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1575031155422879869}
   - component: {fileID: 5460953971496390725}
   - component: {fileID: 7157247293949954388}
+  - component: {fileID: 7638024397221340967}
   m_Layer: 11
   m_Name: Bullet_Player
   m_TagString: Untagged
@@ -185,6 +186,26 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &7638024397221340967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927224229131076647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d9dd85fd0fb4d498e7faa96e628088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  suckedStat:
+    suckWaitRandTime: 0
+    suckingRandTime: 0
+    suckingTimeRatio: 0
+    suckStartPos: {x: 0, y: 0}
+    suckedTr: {fileID: 0}
+  curState: 0
+  srdr: {fileID: 6808215688205360986}
 --- !u!1 &8963644971894233228
 GameObject:
   m_ObjectHideFlags: 0

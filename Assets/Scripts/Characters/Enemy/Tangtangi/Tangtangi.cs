@@ -33,7 +33,14 @@ public class Tangtangi : Enemy
     {
         Rigidbody2D.AddForce(dir);
         status.curHp -= dmg;
-        if (status.curHp <= 0) ActionTable.SetCurAction((int)BangtaniActions.Death);
+        if (status.curHp <= 0)
+        {
+            GameObject go = PoolingManager.Instance.LentalObj("Tangtangi_DeadBody");
+            go.transform.position = this.transform.position;
+            go.GetComponent<Rigidbody2D>()?.AddForce(dir * 50f);
+
+            ActionTable.SetCurAction((int)BangtaniActions.Death);
+        }
 
         HitInfo hitInfo = new HitInfo();
         return hitInfo;

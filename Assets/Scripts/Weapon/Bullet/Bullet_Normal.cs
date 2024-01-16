@@ -24,46 +24,6 @@ public class Bullet_Normal : Bullet
         SetLeftCount(_SplatterCount);
     }
 
-    public override void Sucked(Player _player)
-    {
-        srdr.color = srdr.color * 2f;
-
-        curState = BulletState.SuckWait;
-
-        suckedStat.player = _player;
-        suckedStat.suckWaitRandTime = Random.Range(0.1f, 0.25f);
-
-        rb.velocity = Vector3.zero;
-
-        col.enabled = false;
-
-        StartCoroutine(SuckWaitCor());
-    }
-
-    public IEnumerator SuckWaitCor()
-    {
-        yield return new WaitForSeconds(suckedStat.suckWaitRandTime);
-
-        suckedStat.suckingRandTime = Random.Range(0.15f, 0.35f);
-        suckedStat.suckStartPos = transform.position;
-
-        curState = BulletState.Sucking;
-        suckedStat.suckingTimeRatio = 0f;
-
-        while (suckedStat.suckingTimeRatio <= 1f)
-        {
-            suckedStat.suckingTimeRatio += Time.deltaTime / suckedStat.suckingRandTime;
-            transform.position = Vector2.Lerp(suckedStat.suckStartPos, suckedStat.player.curWeapon.firePos.position, suckedStat.suckingTimeRatio);
-            srdr.color = new Color(srdr.color.r, srdr.color.g, srdr.color.b, 1 - suckedStat.suckingTimeRatio * 2f);
-            this.transform.localScale = new Vector2(1 - suckedStat.suckingTimeRatio, 1 - suckedStat.suckingTimeRatio);
-            yield return null;
-        }
-
-        Resetting();
-        //리셋하기
-        Destroy(this.gameObject);
-    }
-
     public override void Resetting()
     {
         col.enabled = true;

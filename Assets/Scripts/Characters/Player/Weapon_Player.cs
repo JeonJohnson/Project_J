@@ -37,7 +37,11 @@ public class Weapon_Player : Weapon
 
     private void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
+            fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
+        }
     }
 
     public override void Init(CObj _owner)
@@ -45,9 +49,10 @@ public class Weapon_Player : Weapon
         base.Init(_owner);
         owner = (Player) _owner;
         suctionStat.curSuctionRatio = new Data<float>();
-        fovSprite.material.SetFloat("_FovAngle", suctionStat.suctionAngle);
+        fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
         fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
     }
+
 
     public override void Fire()
     {
@@ -240,15 +245,12 @@ public class Weapon_Player : Weapon
                 if (angleToTarget <= (suctionStat.suctionAngle))
                 {
                     //¿©±â¼­ ÃÑ¾Ëµé ÇÑÅ× Èí¼ö ¤¡
-                    Bullet bullet = col.gameObject.GetComponent<Bullet>();
-                    if (bullet)
+                    Suckable suckableObj = col.gameObject.GetComponent<Suckable>();
+                    if (suckableObj)
                     {
-                        bullet.transform.SetParent(null);
-                        if (bullet.suckedOption == SuckedOption.Sucked && bullet.curState == BulletState.Fire)
-                        {
-                            bullet.Sucked((Player)owner);
-                            owner.inventroy.bulletCount.Value++;
-                        }
+                        suckableObj.transform.SetParent(null);
+                        suckableObj.Sucked(this.transform);
+                        owner.inventroy.bulletCount.Value++;
                     }
                     else
                     {
