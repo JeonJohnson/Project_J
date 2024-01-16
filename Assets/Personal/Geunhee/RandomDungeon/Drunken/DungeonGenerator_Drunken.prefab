@@ -77,7 +77,7 @@ MonoBehaviour:
   originPos: {x: 0.5, y: 0.5}
   centerPos: {x: 15, y: 15}
   gridLength: {x: 30, y: 30}
-  createRoomCount: 2
+  createRoomCount: 5
   areaSize: {x: 30, y: 30}
   areaFillRatio: 0.45
   maxTryCount: 49561
