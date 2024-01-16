@@ -124,7 +124,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	[SerializeField]
     private NewExplorerPos ExplorerSpawnOption;
 
-	enum NewExplorerPos { center, prePos };
+	enum NewExplorerPos { center, prePos, Random};
 	[Space(7.5f)]
 	public int startExplorerCount;
     public Vector2Int ExplorerCountRange;
@@ -302,6 +302,19 @@ public class DungeonGenerator_Drunken : MonoBehaviour
                             break;
 						case NewExplorerPos.prePos:
                             respawnList.Add(new Explorer(explorers[i].index));
+                            break;
+                        case NewExplorerPos.Random:
+                            {
+                                int rand = Random.Range(0, 2);
+                                if (rand == 0)
+                                {
+                                    respawnList.Add(new Explorer(centerIndex));
+                                }
+                                else
+                                {
+									respawnList.Add(new Explorer(explorers[i].index));
+								}
+                            }
                             break;
 						default:
 							break;
