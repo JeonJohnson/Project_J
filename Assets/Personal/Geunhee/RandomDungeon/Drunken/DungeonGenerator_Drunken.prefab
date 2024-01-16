@@ -70,26 +70,26 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  recentTilesCount: 9c0100000000000000000000e8010000e8010000
+  recentTilesCount: 0000000000000000000000000000000000000000
   rooms: []
   tileSize: 1
   pivotPos: {x: 0, y: 0}
   originPos: {x: 0.5, y: 0.5}
   centerPos: {x: 15, y: 15}
   gridLength: {x: 30, y: 30}
-  createRoomCount: 6
+  createRoomCount: 5
   areaSize: {x: 30, y: 30}
-  areaFillRatio: 0.43
-  maxTryCount: 49561
-  curTryCount: 83
+  areaFillRatio: 0.4
+  maxTryCount: 10000
+  curTryCount: 1236
   wallTileOffset: 0.4
   shadowTileOffset: 0.25
-  ExplorerSpawnOption: 2
-  startExplorerCount: 10
+  ExplorerSpawnOption: 1
+  startExplorerCount: 8
   ExplorerCountRange: {x: 1, y: 2}
-  curExplorerCount: 15
-  destroyPercent: 0.57
-  destroyCountRange: {x: 6, y: 15}
-  respawnPercent: 0.2
-  respawnCountRange: {x: 1, y: 2}
-  newDirPercent: 0.4
+  curExplorerCount: 1
+  destroyPercent: 0.349
+  destroyCountRange: {x: 4, y: 6}
+  respawnPercent: 0.045
+  respawnCountRange: {x: 1, y: 4}
+  newDirPercent: 0.6
