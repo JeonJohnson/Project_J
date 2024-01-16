@@ -1281,10 +1281,6 @@ PrefabInstance:
       propertyPath: areaTr
       value: 
       objectReference: {fileID: 211479546}
-    - target: {fileID: 8877694132321078634, guid: 40e00cb133e976844935c22284288fb5, type: 3}
-      propertyPath: ExplorerSpawnOption
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
