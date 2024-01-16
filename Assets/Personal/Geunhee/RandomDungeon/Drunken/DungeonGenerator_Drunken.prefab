@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8877694132321078634
 MonoBehaviour:
@@ -70,25 +70,26 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  recentTilesCount: 84030000000000000000000000000000ed010000
+  recentTilesCount: 8401000000000000000000000002000000020000
   rooms: []
   tileSize: 1
   pivotPos: {x: 0, y: 0}
   originPos: {x: 0.5, y: 0.5}
   centerPos: {x: 15, y: 15}
   gridLength: {x: 30, y: 30}
-  createRoomCount: 5
+  createRoomCount: 6
   areaSize: {x: 30, y: 30}
-  areaFillRatio: 0.45
+  areaFillRatio: 0.43
   maxTryCount: 49561
-  curTryCount: 106
-  wallTileOffset: 0.5
-  ExplorerSpawnOption: 0
-  startExplorerCount: 10
-  ExplorerCountRange: {x: 1, y: 15}
-  curExplorerCount: 15
-  destroyPercent: 0
-  destroyCountRange: {x: 0, y: 0}
-  respawnPercent: 0.6
-  respawnCountRange: {x: 1, y: 4}
-  newDirPercent: 0.569
+  curTryCount: 1206
+  wallTileOffset: 0.4
+  shadowTileOffset: 0.25
+  ExplorerSpawnOption: 1
+  startExplorerCount: 15
+  ExplorerCountRange: {x: 1, y: 2}
+  curExplorerCount: 1
+  destroyPercent: 0.57
+  destroyCountRange: {x: 6, y: 15}
+  respawnPercent: 0.2
+  respawnCountRange: {x: 1, y: 2}
+  newDirPercent: 0.4
