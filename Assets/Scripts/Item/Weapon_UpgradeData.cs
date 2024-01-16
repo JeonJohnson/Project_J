@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 
 public enum BulletType
@@ -21,10 +22,24 @@ public enum FireTriggerType
 }
 
 [Serializable]
-public struct WeaponUpgradeData
+public struct WeaponData
 {
+    //weapon
+    public float fireRate;
+    public int bulletNumPerFire;
+    public int decreaseBulletNumPerFire;
+    public float spread;
+
+    //bullet
+    public float bulletSpeed;
+    public float bulletSize;
+    public int damage;
+    public float critical;
+
     public BulletType bulletType;
     public BulletEffect bulletEffect;
     public BulletSpreadType bulletSpreadType; 
     public FireTriggerType fireTriggerType;
+
+    public string bulletPrefabName;
 }

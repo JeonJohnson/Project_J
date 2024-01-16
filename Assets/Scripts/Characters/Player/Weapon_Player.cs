@@ -24,8 +24,7 @@ public class Weapon_Player : Weapon
     public SuctionStat suctionStat;
     public SpriteRenderer fovSprite;
 
-    public WeaponStatus defaltStatus;
-    public WeaponUpgradeData upgradeData;
+    public WeaponData weaponData;
 
 
 
@@ -48,38 +47,37 @@ public class Weapon_Player : Weapon
     {
         base.Init(_owner);
         owner = (Player) _owner;
-        defaltStatus.bulletCount = new Data<int>();
         suctionStat.curSuctionRatio = new Data<float>();
-        fireTimer = defaltStatus.fireRate;
+        fireTimer = weaponData.fireRate;
         fovSprite.material.SetFloat("_FovAngle", suctionStat.suctionAngle);
         fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
     }
 
     public override void Fire()
     {
-        if (defaltStatus.bulletCount.Value <= 0) return;
+        if (owner.inventroy.bulletCount.Value <= 0) return;
 
         // 발사방식 체크
-        if(!CheckFireType(upgradeData.fireTriggerType, KeyCode.Mouse0)) return;
+        if(!CheckFireType(weaponData.fireTriggerType, KeyCode.Mouse0)) return;
 
         // 각도 체크
-        float spreadAngle = defaltStatus.bulletSpread + owner.inventroy.invenBonusStatus.bonus_Weapon_Spread + owner.bonusStatus.bonus_Weapon_Spread;
-        spreadAngle = CheckSpreadAngle(upgradeData, spreadAngle);
+        float spreadAngle = weaponData.spread;
+        spreadAngle = CheckSpreadAngle(weaponData, spreadAngle);
 
         // 총알갯수 체크
-        int bulletNum = defaltStatus.bulletNumPerFire + owner.inventroy.invenBonusStatus.bonus_Weapon_BulletNumPerFire + owner.bonusStatus.bonus_Weapon_BulletNumPerFire;
+        int bulletNum = weaponData.bulletNumPerFire;
 
         // 총알속도 체크
-        float bulletSpeed = defaltStatus.bulletSpeed + owner.inventroy.invenBonusStatus.bonus_Weapon_Speed + owner.bonusStatus.bonus_Weapon_Speed;
+        float bulletSpeed = weaponData.bulletSpeed;
 
         // 총알 크기 체크
-        float bulletSize = defaltStatus.bulletSize + owner.inventroy.invenBonusStatus.bonus_Weapon_BulletSize + owner.bonusStatus.bonus_Weapon_BulletSize;
+        float bulletSize = weaponData.bulletSize;
 
         // 총알 데미지 체크
 
-        int dmg = Mathf.CeilToInt(defaltStatus.damage + owner.inventroy.invenBonusStatus.bonus_Weapon_Damage + owner.bonusStatus.bonus_Weapon_Damage);
+        int dmg = Mathf.CeilToInt(weaponData.damage);
 
-        float criticalValue = defaltStatus.critial + owner.inventroy.invenBonusStatus.bonus_Weapon_Critial + owner.bonusStatus.bonus_Weapon_Critial;
+        float criticalValue = weaponData.critical;
         criticalValue = Mathf.Clamp(criticalValue, 0, 100);
         int rndValue = Random.Range(0, 100);
         if (rndValue < criticalValue) dmg = dmg * 2;
@@ -88,18 +86,18 @@ public class Weapon_Player : Weapon
 
         for (int i = 0; i < bulletNum; i++)
         {
-            if (defaltStatus.bulletCount.Value <= 0) return;
-            GameObject bullet = CheckBulletType(upgradeData);
+            if (owner.inventroy.bulletCount.Value <= 0) return;
+            GameObject bullet = CheckBulletType(weaponData);
             bullet.transform.position = firePos.transform.position;
             float rnd = Random.Range(-spreadAngle * 0.5f, spreadAngle * 0.5f);
             Quaternion rndRot = Quaternion.Euler(0f, 0f, rnd);
             Vector2 rndDir = rndRot * firePos.up;
             rndDir.Normalize();
             bullet.GetComponent<Bullet>().Fire(rndDir, 5, bulletSpeed, bulletSize);
-            defaltStatus.bulletCount.Value--;
+            owner.inventroy.bulletCount.Value--;
         }
-        fireTimer = defaltStatus.fireRate * (1f - owner.inventroy.invenBonusStatus.bonus_Weapon_FireRate / 100f);
-        fireTimer = CheckFireTimer(upgradeData, fireTimer);
+        fireTimer = weaponData.fireRate;
+        fireTimer = CheckFireTimer(weaponData, fireTimer);
         #region OldCode
         //fireTimer -= Time.deltaTime;
         //fireTimer = Mathf.Clamp(fireTimer, 0, stat.fireRate);
@@ -124,37 +122,37 @@ public class Weapon_Player : Weapon
         {
             case FireTriggerType.Normal:
                 fireTimer -= Time.deltaTime;
-                fireTimer = Mathf.Clamp(fireTimer, 0, defaltStatus.fireRate);
+                fireTimer = Mathf.Clamp(fireTimer, 0, weaponData.fireRate);
                 if (Input.GetKeyDown(KeyCode.Mouse0) && fireTimer <= 0) return true; else return false;
             case FireTriggerType.Rapid:
                 fireTimer -= Time.deltaTime;
-                fireTimer = Mathf.Clamp(fireTimer, 0, defaltStatus.fireRate);
+                fireTimer = Mathf.Clamp(fireTimer, 0, weaponData.fireRate);
                 if (Input.GetKey(KeyCode.Mouse0) && fireTimer <= 0) return true; else return false;
             case FireTriggerType.Charge:
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
                     fireTimer -= Time.deltaTime;
-                    fireTimer = Mathf.Clamp(fireTimer, 0, defaltStatus.fireRate);
+                    fireTimer = Mathf.Clamp(fireTimer, 0, weaponData.fireRate);
                     if (fireTimer <= 0) return true;
                     else return false;
                 }
                 else 
                 { 
-                    fireTimer = defaltStatus.fireRate;
+                    fireTimer = weaponData.fireRate;
                     return false;
                 }
         }
         return false;
     }
 
-    private float CheckSpreadAngle(WeaponUpgradeData weaponUpgradeData, float curSpread)
+    private float CheckSpreadAngle(WeaponData weaponData, float curSpread)
     {
-        switch(weaponUpgradeData.bulletSpreadType)
+        switch(weaponData.bulletSpreadType)
         {
             case BulletSpreadType.Shotgun: curSpread *= 5f;
                 break;
         }
-        switch(weaponUpgradeData.fireTriggerType)
+        switch(weaponData.fireTriggerType)
         {
             case FireTriggerType.Rapid: curSpread *= 1.4f;
                 break;
@@ -162,15 +160,15 @@ public class Weapon_Player : Weapon
         return curSpread;
     }
 
-    private float CheckFireTimer(WeaponUpgradeData weaponUpgradeData, float curFireTimer)
+    private float CheckFireTimer(WeaponData weaponData, float curFireTimer)
     {
-        switch (weaponUpgradeData.bulletSpreadType)
+        switch (weaponData.bulletSpreadType)
         {
             case BulletSpreadType.Shotgun:
                 curFireTimer *= 5f;
                 break;
         }
-        switch (weaponUpgradeData.fireTriggerType)
+        switch (weaponData.fireTriggerType)
         {
             case FireTriggerType.Rapid:
                 curFireTimer *= 0.75f;
@@ -179,13 +177,13 @@ public class Weapon_Player : Weapon
         return curFireTimer;
     }
 
-    private GameObject CheckBulletType(WeaponUpgradeData weaponUpgradeData)
+    private GameObject CheckBulletType(WeaponData weaponData)
     {
         GameObject bullet = null;
-        switch (weaponUpgradeData.bulletType)
+        switch (weaponData.bulletType)
         {
             case BulletType.Normal:
-                bullet = Instantiate(testBulletPrefab);
+                bullet = PoolingManager.Instance.LentalObj(weaponData.bulletPrefabName);
                 break;
             case BulletType.Laser:
                 bullet = Instantiate(testLaserBulletPrefab);
@@ -248,7 +246,7 @@ public class Weapon_Player : Weapon
                         if (bullet.suckedOption == SuckedOption.Sucked && bullet.curState == BulletState.Fire)
                         {
                             bullet.Sucked((Player)owner);
-                            defaltStatus.bulletCount.Value++;
+                            owner.inventroy.bulletCount.Value++;
                         }
                     }
                     else

@@ -70,6 +70,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     public int[] recentTilesCount = new int[(int)TilemapLayer.End];
 	[ReadOnly]
 	public List<Room_Drunken> rooms;
+    private Room_Drunken curRoom;
 	[Space(7.5f)]
     [ReadOnly]
     public int tileSize = 1;
@@ -190,14 +191,14 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         rooms ??= new List<Room_Drunken>();
         
         GameObject obj = Instantiate(tilemapOriginPrefab);
-        Room_Drunken roomScript = obj.GetComponent<Room_Drunken>();
-        roomScript.centerPos = GetPos(centerIndex);
-        rooms.Add(roomScript);
+		curRoom = obj.GetComponent<Room_Drunken>();
+		curRoom.centerPos = GetPos(centerIndex);
+        rooms.Add(curRoom);
 
         for (int i = 0; i < recentTilemaps.Length; ++i)
         {
             TilemapLayer layer = (TilemapLayer)i;
-            roomScript.tilemaps.TryGetValue(layer,out recentTilemaps[i]);
+			curRoom.tilemaps.TryGetValue(layer,out recentTilemaps[i]);
             recentTilesCount[i] = 0;
         }
 
@@ -215,9 +216,13 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	public void CreateRoom()
     {
         Setup();
+
         CreateGround();
-        CreateWall();
+		CreateWallAndCliff();
         CreateCliffShadow();
+
+        curRoom.BakeNavMesh();
+
 		CreateTestPortal();
     }
 
@@ -247,7 +252,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 			}
 		}
 	}
-    public bool MoveExplorer()
+    private bool MoveExplorer()
     { //Move Once
 
         //1. Checking ground Count Ratio 
@@ -342,7 +347,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         return true;
     }
 
-	private void CreateWall()
+	private void CreateWallAndCliff()
 	{
 		for (int x = 0; x < gridLength.x; ++x)
 		{
@@ -366,37 +371,6 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 			}
 		}
 	}
-
-	//private void CreateCliff()
- //   {
- //       List<Vector2Int> createIndex = new List<Vector2Int>();
-
- //       for (int y = 1; y < gridLength.y - 1; ++y)
- //       {
- //           for (int x = 0; x < gridLength.x - 1; ++x)
- //           {
- //               if (tileGrid[x, y] == tileGridState.Wall)
- //               {
- //                   Vector2Int index = new Vector2Int(x, y);
-
-	//				if (tileGrid[x, y - 1] == tileGridState.Ground)
-	//				{
-	//					Vector2Int newIndex = index;
-	//					newIndex.y -= 1;
-	//					createIndex.Add(newIndex);
-	//				}
-
-	//			}
- //           }
- //       }
-
- //       foreach (var item in createIndex)
- //       {
- //           Vector2 pos = GetPos(item);
- //           wallTilemap.SetTile(new Vector3Int((int)pos.x, (int)pos.y, 0), CliffTiles[0]);
- //           wallTilesCount++;
- //       }
- //   }
 
 
     private void CreateCliffShadow()
@@ -505,15 +479,11 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 				case tileGridState.Ground:
 					{
                         layer = (int)TilemapLayer.Ground;
-						//groundTilemap.SetTile(new Vector3Int((int)pos.x,(int)pos.y,0), GroundTiles[0]);
-						//groundTilesCount++;
 					}
 					break;
 				case tileGridState.Wall:
 					{
 						layer = (int)TilemapLayer.Wall;
-						//wallTilemap.SetTile(new Vector3Int((int)pos.x, (int)pos.y, 0), WallTiles[0]);
-						//wallTilesCount++;
 					}
 					break;
 			}
@@ -536,7 +506,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	}
 
 
-
+    
 	public void Reset()
 	{
         for (int i = 0; i < rooms.Count; ++i)
@@ -560,6 +530,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             {
                 DestroyImmediate(rooms[i].gameObject);  
 			}
+
         }
 
         for(int i = 0; i < portals.Count; ++i)
@@ -574,9 +545,15 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             }
         }
 
-		rooms = new List<Room_Drunken>();
+        for (int i = 0; i < (int)TilemapLayer.End; ++i)
+        {
+            recentTilemaps[i] = null;
+            recentTilesCount[i] = 0;
+        }
 
-		//Setup();
+		rooms = new List<Room_Drunken>();
+        curRoom = null;
+
     }
 
 
