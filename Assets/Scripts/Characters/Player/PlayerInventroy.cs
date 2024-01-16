@@ -6,25 +6,43 @@ using Enums;
 public class PlayerInventroy : MonoBehaviour
 {
     private Player player;
-    public Item_Weapon CurItemWeapon;
+    public Item_Weapon curWeaponSlot;
+    public Item_Weapon[] weaponSlot;
     public Item_Active activeItemSlot;
     public Item_Passive[] passiveItemSlot = new Item_Passive[6];
     public Item[] useableItemSlot = new Item[25];
 
     public BonusStatus invenBonusStatus;
 
+    public Data<int> bulletCount;
+
     private float activeItem_CooldownTimer;
 
     private void Awake()
     {
         player = GetComponent<Player>();
+        bulletCount = new Data<int>();
     }
 
+    int curWpIndex = 0;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F) && activeItemSlot != null)
         {
               activeItemSlot.Use(player);
+        }
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (weaponSlot[curWpIndex + 1] != null)
+            {
+                curWpIndex++;
+            }
+            else
+            {
+                curWpIndex = 0;
+            }
+            curWeaponSlot = weaponSlot[curWpIndex];
+            //curWeaponSlot.Equip();
         }
     }
 
@@ -34,35 +52,27 @@ public class PlayerInventroy : MonoBehaviour
         {
             case Enums.Item_Type.Active:
                 {
-                    if (activeItemSlot != null) RemoveItemBonus(activeItemSlot.BonusStatus);
                     activeItemSlot = (Item_Active)itemData;
-                    AddItemBonus(itemData.BonusStatus);
                     UiController_Proto.Instance.playerHudView.UpdateActiveItem(itemData.item_sprite);
                 }
                 break;
             case Enums.Item_Type.Passive:
                 {
-                    if(Funcs.IsArrayFull(passiveItemSlot)) { Debug.Log("! Inventory is Full"); }
-                    else
-                    {
-                        Funcs.ArrayAdd(passiveItemSlot, itemData);
-                        AddItemBonus(itemData.BonusStatus);
-
-                        //ui 贸府
-                        UiController_Proto.Instance.playerHudView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
-                    }
 
                 }
                 break;
             case Enums.Item_Type.Useable:
                 {
-                    if (Funcs.IsArrayFull(useableItemSlot)) { Debug.Log("! Inventory is Full"); }
-                    else
-                    {
-                        Funcs.ArrayAdd(useableItemSlot, itemData);
-                        AddItemBonus(itemData.BonusStatus);
-                    }
 
+                }
+                break;
+            case Enums.Item_Type.Weapon:
+                {
+                    Funcs.ArrayAdd(passiveItemSlot, itemData);
+                    AddItemBonus(itemData.BonusStatus);
+
+                    //ui 贸府
+                    //UiController_Proto.Instance.playerHudView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
                 }
                 break;
         }
@@ -164,7 +174,7 @@ public class PlayerInventroy : MonoBehaviour
     }
     #endregion
 
-    private void AddWeaponUpgradeData(WeaponUpgradeData weaponUpgradeData, Weapon_Player weapon)
+    private void AddWeaponUpgradeData(WeaponData weaponUpgradeData, Weapon_Player weapon)
     {
 
     }

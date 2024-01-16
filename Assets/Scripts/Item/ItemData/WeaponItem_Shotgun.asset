@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41653b775c74688428c4926320d2fae0, type: 3}
+  m_Name: WeaponItem_Shotgun
+  m_EditorClassIdentifier: 
+  e_item_Type: 3
+  item_name: "\uC0F7-\uAC74"
+  item_description: "\uAC15\uD55C\uC0F7\uAC74\uC774\uB2E4"
+  item_explain: "\uC0F7-\uAC74\uC774\uB2E4"
+  item_sprite: {fileID: 476167388, guid: 72a569349aed4c74589922a41591303c, type: 3}
+  item_sprite_Big: {fileID: -391984529, guid: 72a569349aed4c74589922a41591303c, type: 3}
+  bonusStatus:
+    bonus_Player_Hp: 0
+    bonus_Player_Armor: 0
+    bonus_Player_Speed: 0
+    bonus_Weapon_Speed: 0
+    bonus_Weapon_Spread: 0
+    bonus_Weapon_Damage: 0
+    bonus_Weapon_FireRate: 0
+    bonus_Weapon_BulletNumPerFire: 0
+    bonus_Weapon_Critial: 0
+    bonus_Weapon_BulletSize: 0
+  weaponData:
+    fireRate: 1
+    bulletNumPerFire: 0
+    decreaseBulletNumPerFire: 0
+    spread: 0
+    bulletSpeed: 0
+    bulletSize: 0
+    damage: 3
+    critical: 0
+    bulletType: 0
+    bulletEffect: 1
+    bulletSpreadType: 2
+    fireTriggerType: 1
+    bulletPrefabName: 

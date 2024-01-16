@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Weapon Item", menuName = "Scriptable Object/Items/New Weapon Item")]
 public class Item_Weapon : Item
 {
-    public WeaponUpgradeData weaponUpgradeData;
+    public WeaponData weaponData;
 
     public override bool Equip(Player player)
     {
@@ -22,44 +22,44 @@ public class Item_Weapon : Item
 
     private void ApplyUpgradeData(Player player)
     {
-        if (weaponUpgradeData.bulletType != BulletType.Non)
+        if (weaponData.bulletType != BulletType.Non)
         {
-            if (weaponUpgradeData.bulletType != player.curWeapon.upgradeData.bulletType)
+            if (weaponData.bulletType != player.curWeapon.weaponData.bulletType)
             {
                 // 팝업창 표시 변경
             }
 
-            player.curWeapon.upgradeData.bulletType = weaponUpgradeData.bulletType;
+            player.curWeapon.weaponData.bulletType = weaponData.bulletType;
         }
 
-        if (weaponUpgradeData.bulletEffect != BulletEffect.Non)
+        if (weaponData.bulletEffect != BulletEffect.Non)
         {
-            if (weaponUpgradeData.bulletEffect != player.curWeapon.upgradeData.bulletEffect)
+            if (weaponData.bulletEffect != player.curWeapon.weaponData.bulletEffect)
             {
                 // 팝업창 표시 변경
             }
 
-            player.curWeapon.upgradeData.bulletEffect = weaponUpgradeData.bulletEffect;
+            player.curWeapon.weaponData.bulletEffect = weaponData.bulletEffect;
         }
 
-        if (weaponUpgradeData.bulletSpreadType != BulletSpreadType.Non)
+        if (weaponData.bulletSpreadType != BulletSpreadType.Non)
         {
-            if (weaponUpgradeData.bulletSpreadType != player.curWeapon.upgradeData.bulletSpreadType)
+            if (weaponData.bulletSpreadType != player.curWeapon.weaponData.bulletSpreadType)
             {
                 // 팝업창 표시 변경
             }
 
-            player.curWeapon.upgradeData.bulletSpreadType = weaponUpgradeData.bulletSpreadType;
+            player.curWeapon.weaponData.bulletSpreadType = weaponData.bulletSpreadType;
         }
 
-        if (weaponUpgradeData.fireTriggerType != FireTriggerType.Non)
+        if (weaponData.fireTriggerType != FireTriggerType.Non)
         {
-            if (weaponUpgradeData.fireTriggerType != player.curWeapon.upgradeData.fireTriggerType)
+            if (weaponData.fireTriggerType != player.curWeapon.weaponData.fireTriggerType)
             {
                 // 팝업창 표시 변경
             }
 
-            player.curWeapon.upgradeData.fireTriggerType = weaponUpgradeData.fireTriggerType;
+            player.curWeapon.weaponData.fireTriggerType = weaponData.fireTriggerType;
         }
     }
 }
