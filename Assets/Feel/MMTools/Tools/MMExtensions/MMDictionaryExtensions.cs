@@ -30,19 +30,5 @@ namespace MoreMountains.Tools
 			}
 			return key;
 		}
-
-		public static W ValueByKey<T, W>(this Dictionary<T, W> dictionary, T _key)
-		{
-			W value = default;
-			foreach (KeyValuePair<T, W> pair in dictionary)
-			{
-				if (pair.Key.Equals(_key))
-				{
-					value = pair.Value;
-					break;
-				}
-			}
-			return value;
-		}
 	}
 }
