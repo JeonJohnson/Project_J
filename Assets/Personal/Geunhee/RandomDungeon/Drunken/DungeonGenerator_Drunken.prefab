@@ -77,19 +77,19 @@ MonoBehaviour:
   originPos: {x: 0.5, y: 0.5}
   centerPos: {x: 15, y: 15}
   gridLength: {x: 30, y: 30}
-  createRoomCount: 5
+  createRoomCount: 6
   areaSize: {x: 30, y: 30}
-  areaFillRatio: 0.45
+  areaFillRatio: 0.43
   maxTryCount: 49561
   curTryCount: 83
   wallTileOffset: 0.4
   shadowTileOffset: 0.25
-  ExplorerSpawnOption: 0
+  ExplorerSpawnOption: 2
   startExplorerCount: 10
-  ExplorerCountRange: {x: 1, y: 15}
+  ExplorerCountRange: {x: 1, y: 2}
   curExplorerCount: 15
-  destroyPercent: 0
-  destroyCountRange: {x: 0, y: 0}
-  respawnPercent: 0.6
+  destroyPercent: 0.57
+  destroyCountRange: {x: 6, y: 10}
+  respawnPercent: 0.2
   respawnCountRange: {x: 1, y: 4}
-  newDirPercent: 0.569
+  newDirPercent: 0.4
