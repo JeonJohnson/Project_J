@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8877694132321078634
 MonoBehaviour:
@@ -70,7 +70,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  recentTilesCount: 84030000000000000000000000000000ed010000
+  recentTilesCount: 9c0100000000000000000000e8010000e8010000
   rooms: []
   tileSize: 1
   pivotPos: {x: 0, y: 0}
@@ -81,8 +81,9 @@ MonoBehaviour:
   areaSize: {x: 30, y: 30}
   areaFillRatio: 0.45
   maxTryCount: 49561
-  curTryCount: 106
-  wallTileOffset: 0.5
+  curTryCount: 83
+  wallTileOffset: 0.4
+  shadowTileOffset: 0.25
   ExplorerSpawnOption: 0
   startExplorerCount: 10
   ExplorerCountRange: {x: 1, y: 15}
