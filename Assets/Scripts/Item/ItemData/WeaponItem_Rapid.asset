@@ -34,7 +34,7 @@ MonoBehaviour:
     bulletNumPerFire: 1
     decreaseBulletNumPerFire: 1
     spread: 5
-    bulletSpeed: 220
+    bulletSpeed: 80
     bulletSize: 0.5
     damage: 1
     critical: 0

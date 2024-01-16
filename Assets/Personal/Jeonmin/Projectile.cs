@@ -122,6 +122,8 @@ public class Projectile : MonoBehaviour
             _collider2D.enabled = false;
             _collider2D.enabled = true;
         }
+
+        this.transform.up = Direction;
     }
 
     /// <summary>

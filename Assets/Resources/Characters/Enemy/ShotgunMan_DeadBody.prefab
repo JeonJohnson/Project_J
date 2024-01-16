@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8938522653810216638}
   - component: {fileID: 7020504052958076935}
   m_Layer: 14
-  m_Name: Tangtangi_DeadBody
+  m_Name: ShotgunMan_DeadBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

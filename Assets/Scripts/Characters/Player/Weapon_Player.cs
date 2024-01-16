@@ -96,7 +96,11 @@ public class Weapon_Player : Weapon
             Quaternion rndRot = Quaternion.Euler(0f, 0f, rnd);
             Vector2 rndDir = rndRot * firePos.up;
             rndDir.Normalize();
-            bullet.GetComponent<Bullet>().Fire(rndDir, 5, bulletSpeed, bulletSize);
+            //bullet.GetComponent<Bullet>().Fire(rndDir, 5, bulletSpeed, bulletSize);
+            bullet.GetComponent<Projectile>().Speed = bulletSpeed;
+            bullet.GetComponent<Projectile>().SetDirection(rndDir,transform.rotation * Quaternion.Euler(0, 0, -90), false);
+            //bullet.GetComponent<Projectile>().Direction = rndDir;
+           // bullet.transform.rotation = rndRot;
             owner.inventroy.bulletCount.Value--;
         }
         fireTimer = weaponData.fireRate;
