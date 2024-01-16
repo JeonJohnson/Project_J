@@ -29,6 +29,7 @@ public class UiView : MonoBehaviour
     [Header("WeaponStatus")]
     [SerializeField] Image consumeImage;
     [SerializeField] TextMeshProUGUI bulletCountText;
+    [SerializeField] Image weaponImage;
 
     [Header("ItemStatus")]
     [SerializeField] Image activeItemImage;
@@ -130,6 +131,11 @@ public class UiView : MonoBehaviour
     #endregion
 
     #region WeaponStatus
+    public void UpdateWeapon(Sprite sprite)
+    {
+        weaponImage.sprite = sprite;
+    }
+
     public void UpdateWeaponConsume(float value)
     {
         consumeImage.fillAmount = value;

@@ -24,9 +24,6 @@ public class Weapon_Player : Weapon
     public SuctionStat suctionStat;
     public SpriteRenderer fovSprite;
 
-    public WeaponData weaponData;
-
-
 
     private void Awake()
     {
@@ -48,7 +45,6 @@ public class Weapon_Player : Weapon
         base.Init(_owner);
         owner = (Player) _owner;
         suctionStat.curSuctionRatio = new Data<float>();
-        fireTimer = weaponData.fireRate;
         fovSprite.material.SetFloat("_FovAngle", suctionStat.suctionAngle);
         fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
     }
@@ -57,12 +53,14 @@ public class Weapon_Player : Weapon
     {
         if (owner.inventroy.bulletCount.Value <= 0) return;
 
+        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData;
+
         // 발사방식 체크
-        if(!CheckFireType(weaponData.fireTriggerType, KeyCode.Mouse0)) return;
+        if (!CheckFireType(weaponData.fireTriggerType, KeyCode.Mouse0)) return;
 
         // 각도 체크
         float spreadAngle = weaponData.spread;
-        spreadAngle = CheckSpreadAngle(weaponData, spreadAngle);
+        //spreadAngle = CheckSpreadAngle(weaponData, spreadAngle);
 
         // 총알갯수 체크
         int bulletNum = weaponData.bulletNumPerFire;
@@ -118,6 +116,8 @@ public class Weapon_Player : Weapon
 
     private bool CheckFireType(FireTriggerType triggerType, KeyCode keyCode)
     {
+        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData;
+
         switch (triggerType) 
         {
             case FireTriggerType.Normal:
@@ -184,6 +184,7 @@ public class Weapon_Player : Weapon
         {
             case BulletType.Normal:
                 bullet = PoolingManager.Instance.LentalObj(weaponData.bulletPrefabName);
+                Debug.Log(bullet.name);
                 break;
             case BulletType.Laser:
                 bullet = Instantiate(testLaserBulletPrefab);

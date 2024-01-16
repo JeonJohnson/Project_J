@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41653b775c74688428c4926320d2fae0, type: 3}
-  m_Name: WeaponItem_Shotgun
+  m_Name: WeaponItem_Rapid
   m_EditorClassIdentifier: 
   e_item_Type: 3
-  item_name: "\uC0F7-\uAC74"
-  item_description: "\uAC15\uD55C\uC0F7\uAC74\uC774\uB2E4"
-  item_explain: "\uC0F7-\uAC74\uC774\uB2E4"
-  item_sprite: {fileID: 476167388, guid: 72a569349aed4c74589922a41591303c, type: 3}
-  item_sprite_Big: {fileID: -391984529, guid: 72a569349aed4c74589922a41591303c, type: 3}
+  item_name: "\uB77C\uC774\uD50C"
+  item_description: "\uC5F0\uC0AC\uB418\uB294 \uB77C\uC774\uD50C\uC774\uB2E4"
+  item_explain: "\uC5F0\uC0AC\uB428"
+  item_sprite: {fileID: -1889483986, guid: 72a569349aed4c74589922a41591303c, type: 3}
+  item_sprite_Big: {fileID: 1264756900, guid: 72a569349aed4c74589922a41591303c, type: 3}
   bonusStatus:
     bonus_Player_Hp: 0
     bonus_Player_Armor: 0
@@ -31,15 +31,15 @@ MonoBehaviour:
     bonus_Weapon_BulletSize: 0
   weaponData:
     fireRate: 1
-    bulletNumPerFire: 3
-    decreaseBulletNumPerFire: 3
-    spread: 30
-    bulletSpeed: 150
-    bulletSize: 0.3
-    damage: 3
+    bulletNumPerFire: 1
+    decreaseBulletNumPerFire: 1
+    spread: 5
+    bulletSpeed: 220
+    bulletSize: 0.5
+    damage: 1
     critical: 0
     bulletType: 1
     bulletEffect: 1
-    bulletSpreadType: 2
-    fireTriggerType: 1
+    bulletSpreadType: 1
+    fireTriggerType: 2
     bulletPrefabName: Bullet_Player
