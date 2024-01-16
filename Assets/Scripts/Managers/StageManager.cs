@@ -128,7 +128,7 @@ public class StageManager : Singleton<StageManager>
 	{
 		base.OnSceneChanged(scene, mode);
 
-		if (scene.buildIndex == 3)
+		if (scene.buildIndex == (int)SceneName.Ingame)
 		{
 			SetupRoom();
 		}

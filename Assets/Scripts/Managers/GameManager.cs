@@ -1,13 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 이제 GameManager 특정 씬에 안만들어도 됨.
 /// 에디터에서 실행해도 GameManager 만들어 주는 씬 갔다 돌아가서 ㅋㅋ
 /// </summary>
+/// 
+
+public enum SceneName
+{ 
+    Intro = 1,
+    Title,
+    Ingame,
+    End
+}
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField]
@@ -21,11 +32,26 @@ public class GameManager : Singleton<GameManager>
         //좀 있다가 씬 로더 ㄱㄱ
     }
 
+    public void LoadScene(SceneName scene)
+    {
+        int sceneIndex = (int)scene;
+        //SceneManager.LoadScene(sceneIndex);
+        if (sceneLoader.isSceneLoading) { Debug.LogWarning("씬이 이미 불러와지는 중입니다"); return; };
+        sceneLoader.LoadScene(sceneIndex);
+        //좀 있다가 씬 로더 ㄱㄱ
+    }
+
     public void LoadNextScene()
     {
         int curIndex = SceneManager.GetActiveScene().buildIndex;
 
         LoadScene(curIndex + 1);
+    }
+
+    public void SubscribeSpecificLoad(UnityAction func, int curScene, int loadScene)
+    {
+        sceneLoader.OnLoadingEvents[curScene] += func;
+            
     }
 
     public void ExitApp()
