@@ -536,7 +536,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	}
 
 
-
+    
 	public void Reset()
 	{
         for (int i = 0; i < rooms.Count; ++i)
@@ -560,6 +560,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             {
                 DestroyImmediate(rooms[i].gameObject);  
 			}
+
         }
 
         for(int i = 0; i < portals.Count; ++i)
@@ -572,6 +573,12 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             {
                 DestroyImmediate(portals[i].gameObject);
             }
+        }
+
+        for (int i = 0; i < (int)TilemapLayer.End; ++i)
+        {
+            recentTilemaps[i] = null;
+            recentTilesCount[i] = 0;
         }
 
 		rooms = new List<Room_Drunken>();
