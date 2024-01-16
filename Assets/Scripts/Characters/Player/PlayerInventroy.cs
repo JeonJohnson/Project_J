@@ -212,11 +212,10 @@ public class PlayerInventroy : MonoBehaviour
         {
             if(Input.GetKey(KeyCode.E))
             {
-                Debug.Log("템 추가");
-                ItemPicker itemPicker = collision.gameObject.GetComponent<ItemPicker>();
-                //AddItem(itemPicker.itemData);
-                itemPicker.Equip(player);
-                collision.gameObject.SetActive(false);
+                //Debug.Log("템 추가");
+                //ItemPicker itemPicker = collision.gameObject.GetComponent<ItemPicker>();
+                //itemPicker.Equip(player);
+                //collision.gameObject.SetActive(false);
             }
         }
     }
