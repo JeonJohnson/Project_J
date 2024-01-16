@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System;
+using UnityEngine.Events;
+
 using TMPro;
 
 public class SceneLoader : MonoBehaviour
@@ -23,6 +26,10 @@ public class SceneLoader : MonoBehaviour
     int loadSceneNumber;
 
     [HideInInspector] public bool isSceneLoading = false;
+
+
+    public UnityAction[] OnLoadingEvents;
+    
 
     public void LoadScene(int sceneNumber)
     {
@@ -82,11 +89,19 @@ public class SceneLoader : MonoBehaviour
             ChangeLoadingText();
             loadingImage.fillAmount = op.progress;
             yield return null;
-            if (op.progress >= 0.9f)
+
+            if (op.progress >= 0.9f) 
             {
+                //여기서 0.9는 90%가 불러와졌다는 뜻이 아니라
+                //유니티 내부에서 씬 로드가 끝나면 0.9라는 수치를 띄워준다는거임.
+                //근데 보통 그냥 저 op.progress의 값을 로딩 %로 사용하기 때문에 그렇게 보이는거.
+
+                //OnLoadingEvents?.Invoke();
+
                 ChangeLoadingText();
                 timer += Time.unscaledDeltaTime;
                 loadingImage.fillAmount = 1;
+                
                 if (timer > 1f)
                 {
                     op.allowSceneActivation = true;
@@ -106,7 +121,7 @@ public class SceneLoader : MonoBehaviour
             canvasGroup.alpha = isFadeIn ? Mathf.Lerp(0f, 1f, timer) : Mathf.Lerp(1f, 0f, timer);
         }
 
-        if(! isFadeIn)
+        if(!isFadeIn)
         {
             gameObject.SetActive(false);
         }
@@ -115,6 +130,8 @@ public class SceneLoader : MonoBehaviour
     private void Awake()
     {
         canvasGroup.alpha = 0f;
+
+        OnLoadingEvents = new UnityAction[SceneManager.sceneCount];
     }
 
 }
