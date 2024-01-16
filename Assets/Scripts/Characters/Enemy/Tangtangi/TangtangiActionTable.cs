@@ -2,6 +2,8 @@ using Enums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
+using UnityEngine.AI;
 
 public class TangtangiActionTable : ActionTable<Tangtangi>
 {
@@ -25,6 +27,8 @@ public class TangtangiActionTable : ActionTable<Tangtangi>
 
         actions[(int)TangtangiActions.Idle] = new Tangtangi_Idle();
         actions[(int)TangtangiActions.Move] = new Tangtangi_Move();
+        actions[(int)TangtangiActions.Patrol] = new Tangtangi_Patrol();
+        actions[(int)TangtangiActions.MoveRandom] = new Tangtangi_MoveRandom();
         actions[(int)TangtangiActions.Attack] = new Tangtangi_Attack();
         actions[(int)TangtangiActions.Death] = new Tangtangi_Death();
     }
@@ -75,14 +79,22 @@ public class Tangtangi_Idle : Action<Tangtangi>
         me.status.fireTimer -= Time.deltaTime;
         if (me.DistToTarget > me.status.traceRange)
         {
-            me.ActionTable.SetCurAction((int)TangtangiActions.Move);
+            Debug.Log("패트롤");
+            me.ActionTable.SetCurAction((int)TangtangiActions.Patrol);
         }
         else
         {
-            if (me.status.fireTimer < 0f)
+            if (me.DistToTarget < me.status.attackRange)
             {
-                me.ActionTable.SetCurAction((int)TangtangiActions.Attack);
-                me.status.fireTimer = me.status.fireWaitTime;
+                if (me.status.fireTimer < 0f)
+                {
+                    me.ActionTable.SetCurAction((int)TangtangiActions.Attack);
+                    me.status.fireTimer = me.status.fireWaitTime;
+                }
+            }
+            else
+            {
+                me.ActionTable.SetCurAction((int)TangtangiActions.Move);
             }
         }
     }
@@ -94,9 +106,69 @@ public class Tangtangi_Idle : Action<Tangtangi>
     public override void ActionExit() { }
 }
 
+public class Tangtangi_Patrol : Action<Tangtangi>
+{
+    bool isMoving;
+    float idleTimer;
+    public override void ActionEnter(Tangtangi script)
+    {
+        base.ActionEnter(script);
+        isMoving = false;
+        idleTimer = 2f;
+    }
+
+    public override void ActionUpdate()
+    {
+        if (!isMoving)
+        {
+            idleTimer -= Time.deltaTime;
+            if(idleTimer < 0f)
+            {
+                idleTimer = 2f;
+                isMoving = true;
+                me.agent.SetDestination(GetRandomNavMeshPosition());
+                me.agent.isStopped = false;
+            }
+        }
+        else
+        {
+            if (me.agent.remainingDistance <= 0)
+            {
+                isMoving = false;
+                me.agent.isStopped = true;
+            }
+        }
+
+        if (me.DistToTarget < me.status.traceRange)
+        {
+            isMoving = false;
+            me.agent.isStopped = true;
+            me.ActionTable.SetCurAction((int)TangtangiActions.Move);
+        }
+    }
+
+    public override void ActionFixedUpdate() { }
+
+    public override void ActionLateUpdate() { }
+
+    public override void ActionExit() { }
+
+    Vector3 GetRandomNavMeshPosition()
+    {
+        // NavMesh 상에서 유효한 랜덤 위치를 찾아 반환
+        Vector3 randomDirection = Random.insideUnitSphere * 5f; // 반경 10 유효
+        randomDirection += me.transform.position;
+        NavMeshHit hit;
+        NavMesh.SamplePosition(randomDirection, out hit, 10f, NavMesh.AllAreas);
+
+        return hit.position;
+    }
+}
+
 
 public class Tangtangi_Move : Action<Tangtangi>
 {
+    bool isMoving;
     public override void ActionEnter(Tangtangi script)
     {
         base.ActionEnter(script);
@@ -128,6 +200,63 @@ public class Tangtangi_Move : Action<Tangtangi>
     }
 }
 
+public class Tangtangi_MoveRandom : Action<Tangtangi>
+{
+    bool isMoving;
+    public override void ActionEnter(Tangtangi script)
+    {
+        base.ActionEnter(script);
+        isMoving = false;
+        me.animator.SetBool("IsMove", true);
+    }
+    public override void ActionUpdate()
+    {
+        me.status.fireTimer -= Time.deltaTime;
+
+        if(!isMoving)
+        {
+            isMoving = true;
+            me.agent.SetDestination(GetRandomNavMeshPosition());
+            me.agent.isStopped = false;
+        }
+        else
+        {
+            if(me.agent.remainingDistance <= 0)
+            {
+                me.agent.SetDestination(GetRandomNavMeshPosition());
+            }
+        }
+
+        // 추적
+        if (me.status.fireTimer < 0)
+        {
+            me.agent.isStopped = true;
+            isMoving = false;
+            me.ActionTable.SetCurAction((int)TangtangiActions.Idle);
+        }
+    }
+
+    public override void ActionFixedUpdate() { }
+
+    public override void ActionLateUpdate() { }
+
+    public override void ActionExit()
+    {
+        me.animator.SetBool("IsMove", false);
+    }
+
+    Vector3 GetRandomNavMeshPosition()
+    {
+        // NavMesh 상에서 유효한 랜덤 위치를 찾아 반환
+        Vector3 randomDirection = Random.insideUnitSphere * 5f; // 반경 10 유효
+        randomDirection += me.transform.position;
+        NavMeshHit hit;
+        NavMesh.SamplePosition(randomDirection, out hit, 10f, NavMesh.AllAreas);
+
+        return hit.position;
+    }
+}
+
 public class Tangtangi_Attack : Action<Tangtangi>
 {
     float timer;
@@ -136,7 +265,6 @@ public class Tangtangi_Attack : Action<Tangtangi>
     public override void ActionEnter(Tangtangi script)
     {
         base.ActionEnter(script);
-        timer = me.status.fireWaitTime;
         curbulletCount = me.status.fireCountPerAttack;
     }
 
@@ -155,7 +283,7 @@ public class Tangtangi_Attack : Action<Tangtangi>
         }
         else
         {
-            me.ActionTable.SetCurAction((int)BangtaniActions.Idle);
+            me.ActionTable.SetCurAction((int)TangtangiActions.MoveRandom);
         }
     }
 

@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 2132831422015669510}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 12.49, y: 4.77, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5287095021432334765}
@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: b2ed246e4b572d9449f6157f04fcd117, type: 2}
+  removeTime: 10
   itemSpriteRenderer: {fileID: 5668887306738861607}
 --- !u!58 &209936949130117335
 CircleCollider2D:
@@ -182,6 +183,7 @@ MonoBehaviour:
     suckStartPos: {x: 0, y: 0}
     suckedTr: {fileID: 0}
   curState: 0
+  col: {fileID: 209936949130117335}
   srdr: {fileID: 5668887306738861607}
 --- !u!1 &8959285649525821927
 GameObject:
@@ -256,8 +258,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 416a034fde932c64e9b50412ac2dde66, type: 3}
-  m_Color: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}
+  m_Sprite: {fileID: 21300000, guid: f8a41014c6f8bff429517092f5cdc5a9, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -31,15 +31,15 @@ public class Tangtangi : Enemy
 
     public override HitInfo Hit(int dmg, Vector2 dir)
     {
-        Rigidbody2D.AddForce(dir);
+        Rigidbody2D.AddForce(dir * 300f);
         status.curHp -= dmg;
         if (status.curHp <= 0)
         {
             GameObject go = PoolingManager.Instance.LentalObj("Tangtangi_DeadBody");
             go.transform.position = this.transform.position;
-            go.GetComponent<Rigidbody2D>()?.AddForce(dir * 50f);
+            go.GetComponent<Rigidbody2D>()?.AddForce(-dir * 800f);
 
-            ActionTable.SetCurAction((int)BangtaniActions.Death);
+            ActionTable.SetCurAction((int)TangtangiActions.Death);
         }
 
         HitInfo hitInfo = new HitInfo();

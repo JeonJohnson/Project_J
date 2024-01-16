@@ -32,14 +32,13 @@ public class Enemy_DeadBody : MonoBehaviour
 
     private IEnumerator ReturnPoolingCenterCoro()
     {
-        suckable.col.enabled = false;
         yield return new WaitForSeconds(removeTime);
+        suckable.col.enabled = false;
         suckable.srdr.DOColor(Color.clear, 1f).OnComplete(() => { PoolingManager.Instance.ReturnObj(this.gameObject); });
     }
 
     private void OnEnable()
     {
-        GetComponent<Rigidbody2D>().AddForce(Vector2.left * 50);
         suckable = GetComponent<Suckable>();
         col = this.gameObject.GetComponent<Collider2D>();
         col.enabled = true;
