@@ -573,7 +573,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
 	private void Awake()
 	{
-        
+        rooms = new List<Room_Drunken>();
 	}
 	// Start is called before the first frame update
 	void Start()
