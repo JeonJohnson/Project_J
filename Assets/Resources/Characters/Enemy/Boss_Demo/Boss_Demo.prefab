@@ -166,7 +166,7 @@ Transform:
   - {fileID: 5961802587823755359}
   - {fileID: 105763930724140734}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6284294556645220602
 MonoBehaviour:
@@ -187,6 +187,7 @@ MonoBehaviour:
     maxHp: 30
     curHp: 30
     walkSpeed: 0.75
+    viewrange: 0
     traceRange: 8
     isInvincible: 0
     isDurable: 0
@@ -196,6 +197,8 @@ MonoBehaviour:
     fireCountPerAttack: 1
     bulletNumPerFire: 1
     bulletSize: 0.5
+    bulletSpeed: 0
+    bulletSplatterCount: 0
     attackRange: 6
     spread: 0
   spriteDir: {x: 0, y: 0, z: 0}
@@ -387,9 +390,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -2141129425
+  m_SortingLayer: 4
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9f5f935c670433041a781f72cd5068a1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1438,9 +1441,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -2141129425
+  m_SortingLayer: 4
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0f77fd5d35ee4e54eb56c9d006841049, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
