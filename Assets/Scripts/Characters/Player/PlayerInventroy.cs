@@ -221,9 +221,9 @@ public class PlayerInventroy : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
-        {
-            collision.gameObject.GetComponent<ItemPicker>().ShowInteractButton(false);
-        }
+        //if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
+        //{
+        //    collision.gameObject.GetComponent<ItemPicker>().ShowInteractButton(false);
+        //}
     }
 }
