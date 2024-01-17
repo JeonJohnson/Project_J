@@ -1353,6 +1353,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1014561847854433152, guid: 76610a6f39192294780d621ba9f8b5a4, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1839846107}
     - target: {fileID: 5516181194019672335, guid: 76610a6f39192294780d621ba9f8b5a4, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2622,6 +2626,17 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &1839846107 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2817711193527966600, guid: bb04795c159ab1b4bb5ee79f3519e698, type: 3}
+  m_PrefabInstance: {fileID: 53612059}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9859c54c11c006444ac0f7962eb170ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1900291133
 GameObject:
   m_ObjectHideFlags: 0
