@@ -200,10 +200,10 @@ public class PlayerInventroy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
-        {
-            collision.gameObject.GetComponent<ItemPicker>().ShowInteractButton(true);
-        }
+        //if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
+        //{
+        //    collision.gameObject.GetComponent<ItemPicker>().ShowInteractButton(true);
+        //}
     }
 
     private void OnTriggerStay2D(Collider2D collision)

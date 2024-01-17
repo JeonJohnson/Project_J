@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96933cbc24b57ac408abe50e12452a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: b2ed246e4b572d9449f6157f04fcd117, type: 2}
+  itemData: {fileID: 11400000, guid: 8090cd9c354c72344afb72e29a96567f, type: 2}
   removeTime: 10
   itemSpriteRenderer: {fileID: 5668887306738861607}
 --- !u!58 &209936949130117335

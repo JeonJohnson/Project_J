@@ -22,6 +22,7 @@ public class Bullet_Normal : Bullet
 
         rb.AddForce(dir * moveSpd, ForceMode2D.Force);
         SetLeftCount(_SplatterCount);
+        initialPosition = transform.position;
     }
 
     public override void Resetting()
@@ -50,8 +51,27 @@ public class Bullet_Normal : Bullet
         base.SetLeftCount(cnt);
     }
 
+    private float traveledDistance;
+    private Vector2 initialPosition;
+    private void CalcDistance()
+    {
+        traveledDistance = Vector2.Distance(initialPosition, transform.position);
+        if (defaultStat.isDistanceLimit)
+        {
+            if (traveledDistance > defaultStat.distanceLimit)
+            {
+                Resetting();
+                GameObject particle = PoolingManager.Instance.LentalObj("Effect_Smoke_04");
+                particle.transform.position = this.transform.position;
+                Destroy(this.gameObject);
+            }
+        }
+    }
+
+
     void Update()
     {
+        CalcDistance();
     }
 
 

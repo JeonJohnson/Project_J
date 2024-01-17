@@ -14,6 +14,9 @@ public struct BulletStat
     public float moveSpd;
     public float aliveTime;
     public LayerMask targetLayer;
+
+    public bool isDistanceLimit;
+    public float distanceLimit;
 }
 
 public enum BulletState
