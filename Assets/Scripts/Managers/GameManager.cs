@@ -48,10 +48,15 @@ public class GameManager : Singleton<GameManager>
         LoadScene(curIndex + 1);
     }
 
-    public void SubscribeSpecificLoad(UnityAction func, int curScene, int loadScene)
+    public void SubscribeLoadingEvent(UnityAction func, int curScene, int loadScene)
     {
         sceneLoader.OnLoadingEvents[curScene] += func;
             
+    }
+
+    public void CancleLoadingEvent(UnityAction func, int curScene, int loadScene)
+    {
+        sceneLoader.OnLoadingEvents[curScene] -= func;
     }
 
     public void ExitApp()

@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.Experimental.AI;
 using UnityEngine.SceneManagement;
 
+//다시 타이틀씬으로 넘어가면 룸들 없애주기
+
 public class StageManager : Singleton<StageManager>
 {
 	public List<Room_Drunken> rooms;
@@ -91,6 +93,8 @@ public class StageManager : Singleton<StageManager>
 
 	private void SetupRoom()
 	{
+		curRoomIndex = 0;
+
 		for (int i = 1; i < rooms.Count; ++i)
 		{
 			rooms[i].gameObject.SetActive(false);
@@ -113,6 +117,14 @@ public class StageManager : Singleton<StageManager>
 		IngameController.Instance.Player.transform.position = curRoom.centerPos;
 	}
 
+	public void DestoryRooms()
+	{
+		for (int i = 0; i < rooms.Count; ++i)
+		{
+			Destroy(rooms[i]);
+		}
+	}
+
 	private void Awake()
 	{
 		rooms = new List<Room_Drunken>();
@@ -132,7 +144,5 @@ public class StageManager : Singleton<StageManager>
 		{
 			SetupRoom();
 		}
-
-
 	}
 }

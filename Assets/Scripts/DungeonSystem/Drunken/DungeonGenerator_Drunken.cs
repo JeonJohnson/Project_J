@@ -596,7 +596,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {
-            GameManager.Instance?.SubscribeSpecificLoad(CreateMapIntoTitleScene, 2, 3);
+            GameManager.Instance?.SubscribeLoadingEvent(CreateMapIntoTitleScene, 2, 3);
         }
     }
 
@@ -605,6 +605,11 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     void Update()
     {
 
+	}
+
+	private void OnDestroy()
+	{
+		GameManager.Instance?.CancleLoadingEvent(CreateMapIntoTitleScene, 2, 3);
 	}
 }
 
