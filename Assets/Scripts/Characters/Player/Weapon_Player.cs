@@ -24,9 +24,6 @@ public class Weapon_Player : Weapon
     public SuctionStat suctionStat;
     public SpriteRenderer fovSprite;
 
-    public WeaponData weaponData;
-
-
 
     private void Awake()
     {
@@ -40,7 +37,11 @@ public class Weapon_Player : Weapon
 
     private void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
+            fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
+        }
     }
 
     public override void Init(CObj _owner)
@@ -48,21 +49,23 @@ public class Weapon_Player : Weapon
         base.Init(_owner);
         owner = (Player) _owner;
         suctionStat.curSuctionRatio = new Data<float>();
-        fireTimer = weaponData.fireRate;
-        fovSprite.material.SetFloat("_FovAngle", suctionStat.suctionAngle);
+        fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
         fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
     }
+
 
     public override void Fire()
     {
         if (owner.inventroy.bulletCount.Value <= 0) return;
 
+        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData;
+
         // 발사방식 체크
-        if(!CheckFireType(weaponData.fireTriggerType, KeyCode.Mouse0)) return;
+        if (!CheckFireType(weaponData.fireTriggerType, KeyCode.Mouse0)) return;
 
         // 각도 체크
         float spreadAngle = weaponData.spread;
-        spreadAngle = CheckSpreadAngle(weaponData, spreadAngle);
+        //spreadAngle = CheckSpreadAngle(weaponData, spreadAngle);
 
         // 총알갯수 체크
         int bulletNum = weaponData.bulletNumPerFire;
@@ -94,6 +97,8 @@ public class Weapon_Player : Weapon
             Vector2 rndDir = rndRot * firePos.up;
             rndDir.Normalize();
             bullet.GetComponent<Bullet>().Fire(rndDir, 5, bulletSpeed, bulletSize);
+            //bullet.GetComponent<Projectile>().Speed = bulletSpeed;
+            //bullet.GetComponent<Projectile>().SetDirection(rndDir,transform.rotation * Quaternion.Euler(0, 0, -90), false);
             owner.inventroy.bulletCount.Value--;
         }
         fireTimer = weaponData.fireRate;
@@ -118,6 +123,8 @@ public class Weapon_Player : Weapon
 
     private bool CheckFireType(FireTriggerType triggerType, KeyCode keyCode)
     {
+        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData;
+
         switch (triggerType) 
         {
             case FireTriggerType.Normal:
@@ -184,6 +191,7 @@ public class Weapon_Player : Weapon
         {
             case BulletType.Normal:
                 bullet = PoolingManager.Instance.LentalObj(weaponData.bulletPrefabName);
+                Debug.Log(bullet.name);
                 break;
             case BulletType.Laser:
                 bullet = Instantiate(testLaserBulletPrefab);
@@ -239,15 +247,12 @@ public class Weapon_Player : Weapon
                 if (angleToTarget <= (suctionStat.suctionAngle))
                 {
                     //여기서 총알들 한테 흡수 ㄱ
-                    Bullet bullet = col.gameObject.GetComponent<Bullet>();
-                    if (bullet)
+                    Suckable suckableObj = col.gameObject.GetComponent<Suckable>();
+                    if (suckableObj)
                     {
-                        bullet.transform.SetParent(null);
-                        if (bullet.suckedOption == SuckedOption.Sucked && bullet.curState == BulletState.Fire)
-                        {
-                            bullet.Sucked((Player)owner);
-                            owner.inventroy.bulletCount.Value++;
-                        }
+                        suckableObj.transform.SetParent(null);
+                        suckableObj.Sucked(this.transform);
+                        owner.inventroy.bulletCount.Value++;
                     }
                     else
                     {

@@ -12,6 +12,8 @@ public class Tangtangi : Enemy
     public Animator animator;
     public Weapon weapon;
 
+    public string deadBodyPrefab;
+
     protected override void Initialize()
     {
         status.curHp = status.maxHp;
@@ -31,9 +33,17 @@ public class Tangtangi : Enemy
 
     public override HitInfo Hit(int dmg, Vector2 dir)
     {
-        Rigidbody2D.AddForce(dir);
+        Rigidbody2D.AddForce(dir * 300f);
         status.curHp -= dmg;
-        if (status.curHp <= 0) ActionTable.SetCurAction((int)BangtaniActions.Death);
+        animator.SetTrigger("Damage");
+        if (status.curHp <= 0)
+        {
+            GameObject go = PoolingManager.Instance.LentalObj(deadBodyPrefab);
+            go.transform.position = this.transform.position;
+            go.GetComponent<Rigidbody2D>()?.AddForce(-dir * 800f);
+
+            ActionTable.SetCurAction((int)TangtangiActions.Death);
+        }
 
         HitInfo hitInfo = new HitInfo();
         return hitInfo;

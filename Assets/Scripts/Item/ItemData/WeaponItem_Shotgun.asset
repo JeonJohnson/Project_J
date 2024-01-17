@@ -30,16 +30,16 @@ MonoBehaviour:
     bonus_Weapon_Critial: 0
     bonus_Weapon_BulletSize: 0
   weaponData:
-    fireRate: 1
-    bulletNumPerFire: 0
-    decreaseBulletNumPerFire: 0
-    spread: 0
-    bulletSpeed: 0
-    bulletSize: 0
+    fireRate: 0.5
+    bulletNumPerFire: 3
+    decreaseBulletNumPerFire: 3
+    spread: 30
+    bulletSpeed: 250
+    bulletSize: 1
     damage: 3
     critical: 0
-    bulletType: 0
+    bulletType: 1
     bulletEffect: 1
     bulletSpreadType: 2
     fireTriggerType: 1
-    bulletPrefabName: 
+    bulletPrefabName: Bullet_Player_Shotgun

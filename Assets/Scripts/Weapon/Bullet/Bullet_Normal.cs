@@ -11,6 +11,9 @@ public class Bullet_Normal : Bullet
     public Color maxColor;
     public Color minColor;
 
+    private Color defColor;
+    private Vector3 defScale;
+
     public override void Fire(Vector2 dir, int _SplatterCount = 1, float moveSpd = 200f, float bulletSize = 1f, int dmg = 1)
     {
         defaultStat.dmg = dmg;
@@ -19,107 +22,56 @@ public class Bullet_Normal : Bullet
 
         rb.AddForce(dir * moveSpd, ForceMode2D.Force);
         SetLeftCount(_SplatterCount);
-    }
-
-    public override void Sucked(Player _player)
-    {
-        srdr.color = Color.black;
-
-        curState = BulletState.SuckWait;
-
-        suckedStat.player = _player;
-        suckedStat.suckWaitRandTime = Random.Range(0.1f, 0.25f);
-
-        rb.velocity = Vector3.zero;
-
-        col.enabled = false;
-
-        StartCoroutine(SuckWaitCor());
-    }
-
-    public IEnumerator SuckWaitCor()
-    {
-        yield return new WaitForSeconds(suckedStat.suckWaitRandTime);
-
-        suckedStat.suckingRandTime = Random.Range(0.15f, 0.35f);
-        suckedStat.suckStartPos = transform.position;
-
-        curState = BulletState.Sucking;
-        suckedStat.suckingTimeRatio = 0f;
-    }
-
-    public void MoveUpdate()
-    {
-        switch (curState)
-        {
-            case BulletState.Fire:
-                {
-                    //transform.position += transform.up * Time.deltaTime * defaultStat.moveSpd;
-                }
-                break;
-            case BulletState.SuckWait:
-                {
-
-                }
-                break;
-            case BulletState.Sucking:
-                {
-                    suckedStat.suckingTimeRatio += Time.deltaTime / suckedStat.suckingRandTime;
-
-                    transform.position = Vector2.Lerp(suckedStat.suckStartPos, suckedStat.player.curWeapon.firePos.position, suckedStat.suckingTimeRatio);
-
-                    if (suckedStat.suckingTimeRatio >= 1f)
-                    {
-                        //jar마우스쪽에서 Sucking 상태인 bullet이 충돌되면 bulletCnt 증가 하기?
-
-                        Resetting();
-                        //리셋하기
-                        Destroy(this.gameObject);
-                    }
-                }
-                break;
-            default:
-                break;
-        }
+        initialPosition = transform.position;
     }
 
     public override void Resetting()
     {
         col.enabled = true;
-        srdr.color = Color.white;
+        srdr.color = defColor;
         curState = BulletState.Fire;
         suckedStat.player = null;
 
         splatterStat.leftCount = splatterStat.maxCount;
-
+        this.transform.localScale = defScale;
     }
 
     private void Awake()
     {
         FindDefaultComps();
         light2D = GetComponent<Light2D>();
-        SetBulletColor();
+
         defaultStat.aliveTime = 30;
-
-    }
-
-    private void SetBulletColor()
-    {
-        int leftCount = Mathf.Clamp(splatterStat.leftCount, 0, 1);
-        Color lerpedColor = Color.Lerp(minColor, maxColor, leftCount);
-        light2D.color = lerpedColor;
-        srdr.material.SetColor("_BlendColor", lerpedColor);
+        defColor = srdr.color;
+        defScale = this.transform.localScale;
     }
 
     public override void SetLeftCount(int cnt)
     {
         base.SetLeftCount(cnt);
-        SetBulletColor();
     }
+
+    private float traveledDistance;
+    private Vector2 initialPosition;
+    private void CalcDistance()
+    {
+        traveledDistance = Vector2.Distance(initialPosition, transform.position);
+        if (defaultStat.isDistanceLimit)
+        {
+            if (traveledDistance > defaultStat.distanceLimit)
+            {
+                Resetting();
+                GameObject particle = PoolingManager.Instance.LentalObj("Effect_Smoke_04");
+                particle.transform.position = this.transform.position;
+                Destroy(this.gameObject);
+            }
+        }
+    }
+
 
     void Update()
     {
-        MoveUpdate();
+        CalcDistance();
     }
 
 

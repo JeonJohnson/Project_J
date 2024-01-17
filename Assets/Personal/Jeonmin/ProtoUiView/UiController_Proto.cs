@@ -67,6 +67,11 @@ public class UiController_Proto : Singleton<UiController_Proto>
         if (hp < player.status.maxHp) playerHudView.PlayHitFeedback();
     }
 
+    public void UpdateWeaponImage(Sprite sprite)
+    {
+        playerHudView.UpdateWeapon(sprite);
+    }
+
     public void UpdateActiveItemGauge(float value)
     {
         playerHudView.UpdateActiveItemGauge(value / player.inventroy.activeItemSlot.cooldownTime);

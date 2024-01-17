@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Structs;
 using Enums;
+using static UnityEditor.Timeline.Actions.MenuPriority;
 
 public class PlayerInventroy : MonoBehaviour
 {
     private Player player;
     public Item_Weapon curWeaponSlot;
-    public Item_Weapon[] weaponSlot;
+    public List<Item_Weapon> weaponSlot = new List<Item_Weapon>();
     public Item_Active activeItemSlot;
     public Item_Passive[] passiveItemSlot = new Item_Passive[6];
     public Item[] useableItemSlot = new Item[25];
@@ -33,16 +34,16 @@ public class PlayerInventroy : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (weaponSlot[curWpIndex + 1] != null)
-            {
-                curWpIndex++;
-            }
-            else
+            if (weaponSlot.Count <= curWpIndex + 1)
             {
                 curWpIndex = 0;
             }
+            else
+            {
+                curWpIndex++;
+            }
             curWeaponSlot = weaponSlot[curWpIndex];
-            //curWeaponSlot.Equip();
+            UiController_Proto.Instance.UpdateWeaponImage(weaponSlot[curWpIndex].item_sprite);
         }
     }
 
@@ -68,11 +69,29 @@ public class PlayerInventroy : MonoBehaviour
                 break;
             case Enums.Item_Type.Weapon:
                 {
-                    Funcs.ArrayAdd(passiveItemSlot, itemData);
-                    AddItemBonus(itemData.BonusStatus);
+                    if(!weaponSlot.Contains((Item_Weapon) itemData))
+                    {
+                        weaponSlot.Add((Item_Weapon)itemData);
+                        EquipItem(itemData);
+                    }
+                }
+                break;
+        }
+    }
 
-                    //ui 처리
-                    //UiController_Proto.Instance.playerHudView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
+    private void EquipItem(Item itemData)
+    {
+        switch (itemData.e_item_Type)
+        {
+            case Enums.Item_Type.Weapon:
+                {
+                    if (curWeaponSlot == ((Item_Weapon)itemData)) break;
+                    else
+                    {
+                        UiController_Proto.Instance.UpdateWeaponImage(itemData.item_sprite);
+                        curWeaponSlot = (Item_Weapon)itemData;
+                        curWpIndex = weaponSlot.IndexOf(curWeaponSlot);
+                    }
                 }
                 break;
         }
@@ -181,10 +200,10 @@ public class PlayerInventroy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
-        {
-            collision.gameObject.GetComponent<ItemPicker>().ShowInteractButton(true);
-        }
+        //if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
+        //{
+        //    collision.gameObject.GetComponent<ItemPicker>().ShowInteractButton(true);
+        //}
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -193,11 +212,10 @@ public class PlayerInventroy : MonoBehaviour
         {
             if(Input.GetKey(KeyCode.E))
             {
-                Debug.Log("템 추가");
-                ItemPicker itemPicker = collision.gameObject.GetComponent<ItemPicker>();
-                //AddItem(itemPicker.itemData);
-                itemPicker.Equip(player);
-                collision.gameObject.SetActive(false);
+                //Debug.Log("템 추가");
+                //ItemPicker itemPicker = collision.gameObject.GetComponent<ItemPicker>();
+                //itemPicker.Equip(player);
+                //collision.gameObject.SetActive(false);
             }
         }
     }

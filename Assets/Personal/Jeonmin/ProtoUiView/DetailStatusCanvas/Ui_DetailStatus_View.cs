@@ -114,16 +114,16 @@ public class Ui_DetailStatus_View : MonoBehaviour
         string armorText = "";
         string moveSpeedText = "Move Speed : " + player.status.walkSpeed.ToString() + player.inventroy.invenBonusStatus.bonus_Player_Speed.ToString();
 
-        string expectDamageText = "DMG : " + ((player.curWeapon.weaponData.damage) *
-            (player.curWeapon.weaponData.fireRate) *
-            (player.curWeapon.weaponData.bulletNumPerFire)).ToString();
+        string expectDamageText = "DMG : " + ((player.inventroy.curWeaponSlot.weaponData.damage) *
+            (player.inventroy.curWeaponSlot.weaponData.fireRate) *
+            (player.inventroy.curWeaponSlot.weaponData.bulletNumPerFire)).ToString();
 
         string consumeRangeText = "Consume Range : " + player.curWeapon.suctionStat.suctionRange.ToString();
         string consumeAngleText = "Consume Angle : " + player.curWeapon.suctionStat.suctionAngle.ToString();
-        string bulletTypeText = "Bullet Type : " + player.curWeapon.weaponData.bulletType.ToString();
-        string bulletNumPerFireText = "Fire Rate : " + (player.curWeapon.weaponData.bulletNumPerFire).ToString();
-        string bulletSpreadText = "Spread : " + player.curWeapon.weaponData.spread.ToString();
-        string dpsText = "DPS : " + player.curWeapon.weaponData.fireRate.ToString();
+        string bulletTypeText = "Bullet Type : " + player.inventroy.curWeaponSlot.weaponData.bulletType.ToString();
+        string bulletNumPerFireText = "Fire Rate : " + (player.inventroy.curWeaponSlot.weaponData.bulletNumPerFire).ToString();
+        string bulletSpreadText = "Spread : " + player.inventroy.curWeaponSlot.weaponData.spread.ToString();
+        string dpsText = "DPS : " + player.inventroy.curWeaponSlot.weaponData.fireRate.ToString();
 
         playerStatusText.text = hpText /*+ "\n" +armorText*/+"\n"+moveSpeedText+"\n"+expectDamageText+"\n"+consumeRangeText+"\n"+consumeAngleText+"\n"+bulletTypeText+"\n"+bulletNumPerFireText+"\n"+bulletSpreadText+"\n"+dpsText;
     }

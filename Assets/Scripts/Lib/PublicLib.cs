@@ -561,6 +561,7 @@ namespace Structs
         public float walkSpeed;
 
 		[Header("Range")]
+		public float viewrange;
 		public float traceRange;
         public bool isInvincible;
 		public bool isDurable;
@@ -616,6 +617,8 @@ namespace Enums
     {
         Idle,
         Move,
+		MoveRandom,
+		Patrol,
         Attack,
         Death,
         End

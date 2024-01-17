@@ -24,42 +24,42 @@ public class Item_Passive : Item
     {
         if(weaponData.bulletType != BulletType.Non)
         {
-            if(weaponData.bulletType != player.curWeapon.weaponData.bulletType)
+            if(weaponData.bulletType != player.inventroy.curWeaponSlot.weaponData.bulletType)
             {
                 // 팝업창 표시 변경
             }
 
-            player.curWeapon.weaponData.bulletType = weaponData.bulletType;
+            player.inventroy.curWeaponSlot.weaponData.bulletType = weaponData.bulletType;
         }
 
         if (weaponData.bulletEffect != BulletEffect.Non)
         {
-            if (weaponData.bulletEffect != player.curWeapon.weaponData.bulletEffect)
+            if (weaponData.bulletEffect != player.inventroy.curWeaponSlot.weaponData.bulletEffect)
             {
                 // 팝업창 표시 변경
             }
 
-            player.curWeapon.weaponData.bulletEffect = weaponData.bulletEffect;
+            player.inventroy.curWeaponSlot.weaponData.bulletEffect = weaponData.bulletEffect;
         }
 
         if (weaponData.bulletSpreadType != BulletSpreadType.Non)
         {
-            if (weaponData.bulletSpreadType != player.curWeapon.weaponData.bulletSpreadType)
+            if (weaponData.bulletSpreadType != player.inventroy.curWeaponSlot.weaponData.bulletSpreadType)
             {
                 // 팝업창 표시 변경
             }
 
-            player.curWeapon.weaponData.bulletSpreadType = weaponData.bulletSpreadType;
+            player.inventroy.curWeaponSlot.weaponData.bulletSpreadType = weaponData.bulletSpreadType;
         }
 
         if (weaponData.fireTriggerType != FireTriggerType.Non)
         {
-            if (weaponData.fireTriggerType != player.curWeapon.weaponData.fireTriggerType)
+            if (weaponData.fireTriggerType != player.inventroy.curWeaponSlot.weaponData.fireTriggerType)
             {
                 // 팝업창 표시 변경
             }
 
-            player.curWeapon.weaponData.fireTriggerType = weaponData.fireTriggerType;
+            player.inventroy.curWeaponSlot.weaponData.fireTriggerType = weaponData.fireTriggerType;
         }
     }
 }
