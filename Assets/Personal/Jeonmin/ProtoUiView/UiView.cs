@@ -12,7 +12,8 @@ public class UiView : MonoBehaviour
     [Header("HpStatus")]
     [SerializeField] Transform hpHolderTr;
     [SerializeField] Transform armorHolderTr;
-    private List<Image> hpImages;
+    [SerializeField] Image hpGaugeImg;
+	//private List<Image> hpImages;
     private List<Image> armorImages;
     [SerializeField] TextMeshProUGUI lifeCountText;
     [SerializeField] MMF_Player hitFeedback;
@@ -59,7 +60,7 @@ public class UiView : MonoBehaviour
 
     private void Init()
     {
-        hpImages = new List<Image>(hpHolderTr.GetComponentsInChildren<Image>());
+        //hpImages = new List<Image>(hpHolderTr.GetComponentsInChildren<Image>());
         armorImages = new List<Image>(armorHolderTr.GetComponentsInChildren<Image>());
         passiveItemImages = passiveItemHolder.GetComponentsInChildren<Image>();
 
@@ -76,33 +77,37 @@ public class UiView : MonoBehaviour
 
     public void UpdateHpImage(int _curHp, int _maxHp = 5)
     {
-        _curHp = Mathf.Clamp( _curHp, 0, hpImages.Count );
+         hpGaugeImg.fillAmount = Mathf.Clamp((float)_curHp / (float)_maxHp,0f,1f); 
+        
 
-        if( _maxHp != hpImages.Count)
-        {
-            while (hpImages.Count < _maxHp)
-            {
-                hpImages.Add(Instantiate(Resources.Load("hpPrefabPath"), hpHolderTr).GetComponent<Image>());
-            }
-            while (hpImages.Count > _maxHp)
-            {
-                Image targetImage = hpImages[hpImages.Count - 1];
-                hpImages.Remove(targetImage);
-                Destroy(targetImage);
-            }
-        }
 
-        for (int i = 0; i < hpImages.Count; i++)
-        {
-            if (i < _curHp)
-            {
-                hpImages[i].sprite = hpSpriteFiles[1];
-            }
-            else
-            {
-                hpImages[i].sprite = hpSpriteFiles[0];
-            }
-        }
+        //_curHp = Mathf.Clamp( _curHp, 0, hpImages.Count );
+
+        //if( _maxHp != hpImages.Count)
+        //{
+        //    while (hpImages.Count < _maxHp)
+        //    {
+        //        hpImages.Add(Instantiate(Resources.Load("hpPrefabPath"), hpHolderTr).GetComponent<Image>());
+        //    }
+        //    while (hpImages.Count > _maxHp)
+        //    {
+        //        Image targetImage = hpImages[hpImages.Count - 1];
+        //        hpImages.Remove(targetImage);
+        //        Destroy(targetImage);
+        //    }
+        //}
+
+        //for (int i = 0; i < hpImages.Count; i++)
+        //{
+        //    if (i < _curHp)
+        //    {
+        //        hpImages[i].sprite = hpSpriteFiles[1];
+        //    }
+        //    else
+        //    {
+        //        hpImages[i].sprite = hpSpriteFiles[0];
+        //    }
+        //}
     }
 
     public void UpdateShieldImage(int _curArmor)
