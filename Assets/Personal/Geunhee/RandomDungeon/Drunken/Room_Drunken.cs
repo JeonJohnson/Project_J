@@ -24,9 +24,12 @@ public class Room_Drunken : MonoBehaviour
 	
 	public tileGridState[,] tileStates;
 
+
+	public List<Vector3> enemyPos;
+
 	public void Awake()
 	{
-		
+		enemyPos = new	List<Vector3>();
 	}
 
 

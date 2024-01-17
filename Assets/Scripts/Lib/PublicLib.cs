@@ -44,6 +44,30 @@ public static class Funcs
 		return length - Math.Abs(repeatedValue - length);
 	}
 
+	public static int GetDontOverlapRandom(int minInclude, int maxExclude, ref List<int> arr)
+	{
+		int val = int.MinValue;
+		if (arr.Count >= maxExclude - minInclude)
+		{
+			return val;
+		}
+
+	RETRY:
+		int rand = UnityEngine.Random.Range(minInclude, maxExclude);
+
+		foreach (var item in arr)
+		{
+			if (item == rand)
+			{
+				goto RETRY;
+			}
+		}
+
+		val = rand;
+		arr.Add(val);
+		return val;
+	}
+
 
 	#region C# default Val Type Casting
 	public static string GetEnumName<T>(int index) where T : struct, IConvertible

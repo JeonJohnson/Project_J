@@ -17,6 +17,7 @@ using UnityEngine.SceneManagement;
 public class StageManager : Singleton<StageManager>
 {
 	public List<Room_Drunken> rooms;
+	public Room_Drunken bossRoom;
 	public Room_Drunken curRoom;
 	[ReadOnly]
 	public int curRoomIndex;
@@ -104,6 +105,8 @@ public class StageManager : Singleton<StageManager>
 		{
 			rooms[i].gameObject.SetActive(false);
 		}
+
+		rooms.Add(bossRoom);
 
 		curRoom = rooms[curRoomIndex];
 

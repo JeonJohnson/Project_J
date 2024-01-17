@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using static UnityEditor.Progress;
 
 //인게임 씬의 전반적인 세팅 관련
 
@@ -62,6 +64,12 @@ public class IngameController : Singleton<IngameController>
     {
         string enemyObjName = type == 0 ? "Enemy_Rifle" : "Enemy_Shotgun";
 
+        if (type == 2)
+        {
+            enemyObjName = "Boss_Demo";
+        }
+
+
         var obj = PoolingManager.Instance.LentalObj(enemyObjName, 1);
         var script = obj.GetComponent<Enemy>();
 
@@ -108,17 +116,41 @@ public class IngameController : Singleton<IngameController>
         }
     }
 
-    
+    private void EnemySpawn()
+    {
+        //추후에 아예 로딩할때 IngameController랑 StageMAnager랑 다 만들어서
+        //플레이어 만들고 뭐하고 하고 하면 될 듯.
 
-	private void Awake()
+        for (int i = 0; i < StageManager.Instance.rooms.Count - 1; ++i)
+        {
+            var list =
+            StageManager.Instance.rooms[i].enemyPos;
+
+            foreach (var item in list)
+            {
+                int enemyType = Random.Range(0, 2);
+                Enemy enemy = SpawnEnemy(enemyType, item);
+                
+                enemy.transform.SetParent(StageManager.Instance.rooms[i].transform);
+			}
+		}
+
+
+		Enemy Boss = SpawnEnemy(2, StageManager.Instance.bossRoom.centerPos);
+
+		Boss.transform.SetParent(StageManager.Instance.bossRoom.transform);
+
+	//SpawnEnemy.transform.SetParent(StageManager.Instance.bossRoom.transform);
+    }
+
+
+    private void Awake()
 	{
-		
+        
 	}
 
 	private void Start()
 	{
-        
-
 
 		FindPlayer();
         player.transform.position = StageManager.Instance.curRoom.centerPos;
@@ -126,6 +158,8 @@ public class IngameController : Singleton<IngameController>
         SetMinimapRenderCam();
 		//MainGame Scene에서 바로 시작하는 테스트를 위해서 
 		//맵 StageManager이나 맵 없으면 여기서 만들어주자구
+
+		EnemySpawn();
 
 	}
 	private void Update()
@@ -137,4 +171,11 @@ public class IngameController : Singleton<IngameController>
             UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
         }
     }
+
+	public override void OnSceneChanged(Scene scene, LoadSceneMode mode)
+	{
+		base.OnSceneChanged(scene, mode);
+	}
 }
+
+

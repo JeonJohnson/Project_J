@@ -112,10 +112,11 @@ public class SceneLoader : MonoBehaviour
 
                 //timer += Time.unscaledDeltaTime;
                 loadingImage.fillAmount = 1;
-                
-                //if (timer > 1f)
-                //{
-                    op.allowSceneActivation = true;
+
+				//if (timer > 1f)
+				//{
+				Debug.Log("SceneLoad End");
+				op.allowSceneActivation = true;
                     yield break;
                 //}
             }

@@ -103,6 +103,9 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	public int createRoomCount;
 	public Vector2Int areaSize;
 
+    public int enemyCount;
+
+
 	[Space(7.5f)]
 	//해당 비율만큼 바닥 만들었으면 끝.
 	[Range(0.25f, 0.75f)]
@@ -246,7 +249,8 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
         curRoom.BakeNavMesh();
 
-        CreateTestPortal();
+        CreateEnemySpawnPos();
+		//CreateTestPortal();
 
 
 		for (int x = 0; x < tileGrid.GetLength(0); ++x)
@@ -256,7 +260,10 @@ public class DungeonGenerator_Drunken : MonoBehaviour
                 curRoom.tileStates[x,y] = tileGrid[x,y];
 			}
         }
+
+        //CreateEnemySpawnPos();
 	}
+
 
     public void CreateGround()
     {
@@ -435,6 +442,34 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
         Instantiate(PortalPrefab,GetPos(index), Quaternion.identity, rooms[rooms.Count-1].transform);
     }
+
+    private void CreateEnemySpawnPos()
+    {
+        int curEnemyCount = 0;
+
+        List<Vector2Int> groundTileIndex = new List<Vector2Int>();
+
+        for (int y = 0; y < gridLength.y; ++y)
+        {
+            for (int x = 0; x < gridLength.x; ++x)
+            {
+                if (tileGrid[x, y] == tileGridState.Ground)
+                {
+                    groundTileIndex.Add(new(x, y));
+                }
+			}
+        }
+
+        List<int> nums = new List<int>();
+
+        while (curEnemyCount < enemyCount)
+        {
+            int curIndex = Funcs.GetDontOverlapRandom(0, groundTileIndex.Count, ref nums);
+            curRoom.enemyPos.Add(GetPos(groundTileIndex[curIndex]));
+            ++curEnemyCount;
+        }
+    }
+
 
 
     private Vector2Int GetRandomDir()
