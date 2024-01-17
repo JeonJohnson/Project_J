@@ -214,7 +214,9 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 		curRoom = obj.GetComponent<Room_Drunken>();
 		curRoom.centerPos = centerPos;
         curRoom.size = gridLength;
-        rooms.Add(curRoom);
+        curRoom.tileStates = new tileGridState[gridLength.x, gridLength.y];
+
+		rooms.Add(curRoom);
 
         for (int i = 0; i < recentTilemaps.Length; ++i)
         {
@@ -234,20 +236,27 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	}
 
 
-	public void CreateRoom()
+    public void CreateRoom()
     {
         Setup();
 
         CreateGround();
-		CreateWallAndCliff();
+        CreateWallAndCliff();
         CreateCliffShadow();
 
         curRoom.BakeNavMesh();
 
-		CreateTestPortal();
-    }
+        CreateTestPortal();
 
 
+		for (int x = 0; x < tileGrid.GetLength(0); ++x)
+        {
+            for (int y = 0; y < tileGrid.GetLength(1); ++y)
+            {
+                curRoom.tileStates[x,y] = tileGrid[x,y];
+			}
+        }
+	}
 
     public void CreateGround()
     {

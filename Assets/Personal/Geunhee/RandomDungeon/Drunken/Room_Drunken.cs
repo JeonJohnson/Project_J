@@ -21,6 +21,14 @@ public class Room_Drunken : MonoBehaviour
 	[SerializeField]
 	private NavMeshSurface navSurface;
 
+	
+	public tileGridState[,] tileStates;
+
+	public void Awake()
+	{
+		
+	}
+
 
 	public void BakeNavMesh()
 	{

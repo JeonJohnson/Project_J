@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //인게임 씬의 전반적인 세팅 관련
@@ -56,9 +57,29 @@ public class IngameController : Singleton<IngameController>
         return playerGo;
     }
 
+
+    public Enemy SpawnEnemy(int type, Vector3 pos)
+    {
+        string enemyObjName = type == 0 ? "Enemy_Rifle" : "Enemy_Shotgun";
+
+        var obj = PoolingManager.Instance.LentalObj(enemyObjName, 1);
+        var script = obj.GetComponent<Enemy>();
+
+        if (script)
+        {
+            script.agent.enabled = false;
+            obj.transform.position = pos;
+            script.agent.enabled = true;
+        }
+
+
+        return script;
+	}
+
+
     public void SetMinimapRenderCam()
     {
-        minimapRenderCam = GameObject.FindWithTag("MinimapRenderCam").GetComponent<Camera>();
+        minimapRenderCam ??= GameObject.FindWithTag("MinimapRenderCam").GetComponent<Camera>();
     }
 
     public void UpdateMinimapRenderCam(Vector2 pos, float size)
@@ -67,6 +88,28 @@ public class IngameController : Singleton<IngameController>
         minimapRenderCam.orthographicSize = size;
     }
 
+
+    private void CheckMap()
+    {
+        GameObject stageMgr = GameObject.Find("StageManager");
+        
+        if (stageMgr == null)
+        {
+            GameObject prefab = Resources.Load("Managers/StageManager") as GameObject;
+            stageMgr = Instantiate(prefab);
+
+            //나중에 만드는디
+            //DungeonGenerator에서 직접적으로 
+            //GameManager에 이벤트 연결하는게 아니라
+            
+            //제네레이터는 방 만들어고 가지고있는 기능만 수행하고
+            //Stage매니저는 이를 GameManager의 이벤트와 연결하고
+            //할 수 있도록 하기
+        }
+    }
+
+    
+
 	private void Awake()
 	{
 		
@@ -74,11 +117,15 @@ public class IngameController : Singleton<IngameController>
 
 	private void Start()
 	{
-        FindPlayer();
+        
+
+
+		FindPlayer();
         player.transform.position = StageManager.Instance.curRoom.centerPos;
-	   
-        //MainGame Scene에서 바로 시작하는 테스트를 위해서 
-        //맵 StageManager이나 맵 없으면 여기서 만들어주자구
+
+        SetMinimapRenderCam();
+		//MainGame Scene에서 바로 시작하는 테스트를 위해서 
+		//맵 StageManager이나 맵 없으면 여기서 만들어주자구
 
 	}
 	private void Update()
