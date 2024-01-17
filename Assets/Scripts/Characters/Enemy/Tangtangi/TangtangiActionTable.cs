@@ -95,7 +95,10 @@ public class Tangtangi_Idle : Action<Tangtangi>
             }
             else
             {
-                me.ActionTable.SetCurAction((int)TangtangiActions.Move);
+                if(me.isTracePlayer)
+                    me.ActionTable.SetCurAction((int)TangtangiActions.Move);
+                else
+                    me.ActionTable.SetCurAction((int)TangtangiActions.Patrol);
             }
         }
     }
@@ -138,6 +141,8 @@ public class Tangtangi_Patrol : Action<Tangtangi>
 
     public override void ActionUpdate()
     {
+        me.status.fireTimer -= Time.deltaTime;
+
         if (!isMoving)
         {
             idleTimer -= Time.deltaTime;
@@ -165,9 +170,21 @@ public class Tangtangi_Patrol : Action<Tangtangi>
 
         if (me.DistToTarget < me.status.traceRange)
         {
-            isMoving = false;
-            me.agent.isStopped = true;
-            me.ActionTable.SetCurAction((int)TangtangiActions.Move);
+            if (me.isTracePlayer)
+            {
+                isMoving = false;
+                me.agent.isStopped = true;
+                me.ActionTable.SetCurAction((int)TangtangiActions.Move);
+            }
+        }
+
+        if (me.DistToTarget < me.status.attackRange && CanShootPlayer())
+        {
+            if (me.status.fireTimer < 0f)
+            {
+                me.ActionTable.SetCurAction((int)TangtangiActions.Attack);
+                me.status.fireTimer = me.status.fireWaitTime;
+            }
         }
     }
 
@@ -188,6 +205,21 @@ public class Tangtangi_Patrol : Action<Tangtangi>
         NavMesh.SamplePosition(randomDirection, out hit, 10f, NavMesh.AllAreas);
 
         return hit.position;
+    }
+
+    bool CanShootPlayer()
+    {
+        // 적에서 플레이어 방향으로 레이를 쏘아 벽을 감지
+        RaycastHit2D hit = Physics2D.Raycast(me.weapon.firePos.position, me.target.transform.position - me.weapon.firePos.position, 999f);
+
+
+        // 벽을 감지했다면 플레이어가 벽 뒤에 있다고 판단
+        if (hit.collider)
+        {
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player")) return true;
+            else return false;
+        }
+        else return false;
     }
 }
 

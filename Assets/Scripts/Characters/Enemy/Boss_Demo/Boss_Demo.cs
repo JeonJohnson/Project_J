@@ -74,12 +74,12 @@ public class Boss_Demo : Enemy
         float angleToPlayer = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
         if (angleToPlayer > -90f && angleToPlayer < 90f)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-2, 2, 2);
             spriteDir = Vector3.right;
         }
         else
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(2, 2, 2);
             spriteDir = Vector3.left;
         }
     }

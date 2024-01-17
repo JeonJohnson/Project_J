@@ -13,6 +13,7 @@ public class Tangtangi : Enemy
     public Weapon weapon;
 
     public string deadBodyPrefab;
+    public bool isTracePlayer = false;
 
     protected override void Initialize()
     {

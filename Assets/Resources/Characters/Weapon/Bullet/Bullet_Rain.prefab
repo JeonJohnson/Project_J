@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5460953971496390725}
   - component: {fileID: 7157247293949954388}
   - component: {fileID: 1465522469559602599}
+  - component: {fileID: -5907174102435219060}
   m_Layer: 12
   m_Name: Bullet_Rain
   m_TagString: Untagged
@@ -169,6 +170,8 @@ MonoBehaviour:
     targetLayer:
       serializedVersion: 2
       m_Bits: 128
+    isDistanceLimit: 0
+    distanceLimit: 0
   splatterStat:
     bulletDir: {x: 0, y: 0}
     maxCount: 0
@@ -186,6 +189,27 @@ MonoBehaviour:
   srdr: {fileID: 6808215688205360986}
   bulletPrefab: {fileID: 927224229131076647, guid: 779d6c9b89072ad4eb4b76c4596d9d3f, type: 3}
   light2D: {fileID: 5460953971496390725}
+--- !u!114 &-5907174102435219060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927224229131076647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d9dd85fd0fb4d498e7faa96e628088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  suckedStat:
+    suckWaitRandTime: 0
+    suckingRandTime: 0
+    suckingTimeRatio: 0
+    suckStartPos: {x: 0, y: 0}
+    suckedTr: {fileID: 0}
+  curState: 0
+  col: {fileID: 7157247293949954388}
+  srdr: {fileID: 6808215688205360986}
 --- !u!1 &8963644971894233228
 GameObject:
   m_ObjectHideFlags: 0
