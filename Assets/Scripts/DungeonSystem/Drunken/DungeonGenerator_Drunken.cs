@@ -202,9 +202,6 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 		#endregion
 
 
-
-
-
 		explorers = new List<Explorer>();
         for (int i = 0; i < startExplorerCount; i++)
         {
@@ -215,8 +212,11 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         
         GameObject obj = Instantiate(tilemapOriginPrefab);
 		curRoom = obj.GetComponent<Room_Drunken>();
-		curRoom.centerPos = GetPos(centerIndex);
-        rooms.Add(curRoom);
+		curRoom.centerPos = centerPos;
+        curRoom.size = gridLength;
+        curRoom.tileStates = new tileGridState[gridLength.x, gridLength.y];
+
+		rooms.Add(curRoom);
 
         for (int i = 0; i < recentTilemaps.Length; ++i)
         {
@@ -236,20 +236,27 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	}
 
 
-	public void CreateRoom()
+    public void CreateRoom()
     {
         Setup();
 
         CreateGround();
-		CreateWallAndCliff();
+        CreateWallAndCliff();
         CreateCliffShadow();
 
         curRoom.BakeNavMesh();
 
-		CreateTestPortal();
-    }
+        CreateTestPortal();
 
 
+		for (int x = 0; x < tileGrid.GetLength(0); ++x)
+        {
+            for (int y = 0; y < tileGrid.GetLength(1); ++y)
+            {
+                curRoom.tileStates[x,y] = tileGrid[x,y];
+			}
+        }
+	}
 
     public void CreateGround()
     {

@@ -87,13 +87,16 @@ public class SceneLoader : MonoBehaviour
         op.allowSceneActivation = false; // 로딩 끝나자마자 자동으로 씬전환이 되지않게
 
         float timer = 0f;
+
+        float garaLoadingOffset = UnityEngine.Random.Range(0.7f, 1f);
+
         while(!op.isDone)
         {
             progressCricle.transform.Rotate(new Vector3(0,0f,-0.5f) * 360 * Time.deltaTime);
             ChangeLoadingText();
 
             //loadingImage.fillAmount = op.progress;
-            loadingImage.fillAmount = op.progress * 0.8f;
+            loadingImage.fillAmount = op.progress * garaLoadingOffset;
 
             yield return null;
 
