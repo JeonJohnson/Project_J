@@ -34,7 +34,7 @@ public class DungeonGenerator_Drunken_Editor : Editor
 			}
 
 			if (Application.isPlaying)
-			{ generator.GotoGameScene(); }
+			{ generator.GotoGameScene_ForTest(); }
 		}
 
 		

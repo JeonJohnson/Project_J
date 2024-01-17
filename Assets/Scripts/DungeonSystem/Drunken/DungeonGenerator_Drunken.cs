@@ -99,7 +99,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	#region Generation option
 	[Space(10f)]
     [Header("Generation Option")]
-	[Range(1, 10)]
+	[Range(1, 100)]
 	public int createRoomCount;
 	public Vector2Int areaSize;
 
@@ -124,7 +124,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	[SerializeField]
     private NewExplorerPos ExplorerSpawnOption;
 
-	enum NewExplorerPos { center, prePos };
+	enum NewExplorerPos { center, prePos, Random};
 	[Space(7.5f)]
 	public int startExplorerCount;
     public Vector2Int ExplorerCountRange;
@@ -144,10 +144,33 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     [Space(7.5f)]
     [Range(0f, 1f)]
     public float newDirPercent;
-	#endregion
+    #endregion
 
 
-	public void Setup()
+    public void GotoGameScene_ForTest()
+    {
+        for (int i = 0; i < rooms.Count; ++i)
+        {
+            DontDestroyOnLoad(rooms[i].gameObject);
+        }
+
+        StageManager.Instance.rooms.AddRange(rooms);
+        SceneManager.LoadScene(3);
+    }
+
+    public void CreateMapIntoTitleScene()
+    {
+        for (int i = 0; i < createRoomCount; ++i)
+        {
+            CreateRoom();
+            DontDestroyOnLoad(rooms[i].gameObject);
+        }
+
+        StageManager.Instance.rooms.AddRange(rooms);
+    }
+
+
+    public void Setup()
     {
 		#region AreaSetting
 		gridLength.x = Mathf.RoundToInt(areaSize.x / tileSize);
@@ -226,16 +249,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 		CreateTestPortal();
     }
 
-    public void GotoGameScene()
-    {
-        for (int i = 0; i < rooms.Count; ++i)
-        {
-            DontDestroyOnLoad(rooms[i].gameObject);
-        }
 
-		StageManager.Instance.rooms.AddRange(rooms);
-        SceneManager.LoadScene(3);
-    }
 
     public void CreateGround()
     {
@@ -302,6 +316,19 @@ public class DungeonGenerator_Drunken : MonoBehaviour
                             break;
 						case NewExplorerPos.prePos:
                             respawnList.Add(new Explorer(explorers[i].index));
+                            break;
+                        case NewExplorerPos.Random:
+                            {
+                                int rand = Random.Range(0, 2);
+                                if (rand == 0)
+                                {
+                                    respawnList.Add(new Explorer(centerIndex));
+                                }
+                                else
+                                {
+									respawnList.Add(new Explorer(explorers[i].index));
+								}
+                            }
                             break;
 						default:
 							break;
@@ -560,12 +587,17 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
 	private void Awake()
 	{
-        
+        rooms = new List<Room_Drunken>();
+
 	}
 	// Start is called before the first frame update
 	void Start()
     {
-        
+
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            GameManager.Instance?.SubscribeSpecificLoad(CreateMapIntoTitleScene, 2, 3);
+        }
     }
 
     // Update is called once per frame
