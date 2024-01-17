@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Structs;
 using Unity.VisualScripting;
+using Enums;
 
 public class Weapon_Player : Weapon
 {
@@ -24,6 +25,9 @@ public class Weapon_Player : Weapon
     public SuctionStat suctionStat;
     public SpriteRenderer fovSprite;
 
+    public AttackMode curAttackMode;
+
+    public Holdable holdableItem;
 
     private void Awake()
     {
@@ -42,6 +46,8 @@ public class Weapon_Player : Weapon
             fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
             fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
         }
+
+        CheckAttackMode();
     }
 
     public override void Init(CObj _owner)
@@ -53,15 +59,44 @@ public class Weapon_Player : Weapon
         fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
     }
 
+    public void CheckAttackMode()
+    {
+        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData;
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            curAttackMode = AttackMode.Suck;
+        }
+        else if (CheckFireType(weaponData.fireTriggerType, KeyCode.Mouse0))
+        {
+            curAttackMode = AttackMode.Fire;
+        }
+        else
+        {
+            curAttackMode = AttackMode.Idle;
+        }
+    }
+
+    public void CheckFire()
+    {
+        if(curAttackMode == AttackMode.Fire)
+        {
+            Fire();
+        }
+    }
 
     public override void Fire()
     {
+        if (holdableItem == null) return;
+        else 
+        {
+            holdableItem.Fire(firePos.up, 800);
+            owner.attackController.isSuckPossible = true;
+            holdableItem = null;
+        }
+
         if (owner.inventroy.bulletCount.Value <= 0) return;
 
         WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData;
-
-        // 발사방식 체크
-        if (!CheckFireType(weaponData.fireTriggerType, KeyCode.Mouse0)) return;
 
         // 각도 체크
         float spreadAngle = weaponData.spread;
@@ -202,100 +237,85 @@ public class Weapon_Player : Weapon
 
     private float suckingItemTime = 3f;
     private float suckingItemTimer;
-   [SerializeField] private ItemPicker curItemPicker;
+    [SerializeField] private ItemPicker curItemPicker;
     [SerializeField] private List<ItemPicker> itemPickerList = new List<ItemPicker>();
 
-    public void Suction()
+    private float rechargeTimer;
+    public void CheckSuck()
     {
-        if (Input.GetKey(KeyCode.Mouse1))
+        if (curAttackMode == AttackMode.Suck)
         {
-            if (suctionStat.curSuctionRatio.Value <= 0f)
-            {
-                //Recharging();
-                fovSprite.color = this.suctionStat.fovIdleColor;
-                suckingItemTimer = 0f;
-                return;
-            }
-
-            float amount = (1f / suctionStat.maxSuctionTime) * Time.deltaTime;
-
-            if (suctionStat.curSuctionRatio.Value < amount)
-            {
-                //Recharging();
-                fovSprite.color = suctionStat.fovIdleColor;
-                return;
-            }
-
-            itemPickerList.Clear();
-
-            suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value - amount, 0f, 1f);
-
-            fovSprite.color = suctionStat.fovSuctionColor;
-
-            var cols = Physics2D.OverlapCircleAll(this.transform.position, suctionStat.suctionRange, suctionStat.targetLayer);
-
-            foreach (var col in cols)
-            {
-                Vector3 targetPos = col.transform.position;
-                Vector2 targetDir = (targetPos - this.transform.position).normalized;
-
-                var tempLookDir = Funcs.DegreeAngle2Dir(-this.transform.eulerAngles.z);
-                //lookDir랑 값다른데 이거로 적용됨 일단 나중에 ㄱ
-                float angleToTarget = Mathf.Acos(Vector2.Dot(targetDir, tempLookDir)) * Mathf.Rad2Deg;
-
-                //내적해주고 나온 라디안 각도를 역코사인걸어주고 오일러각도로 변환.
-                if (angleToTarget <= (suctionStat.suctionAngle))
-                {
-                    //여기서 총알들 한테 흡수 ㄱ
-                    Suckable suckableObj = col.gameObject.GetComponent<Suckable>();
-                    if (suckableObj)
-                    {
-                        suckableObj.transform.SetParent(null);
-                        suckableObj.Sucked(this.transform);
-                        owner.inventroy.bulletCount.Value++;
-                    }
-                    else
-                    {
-                        ItemPicker itemPicker = col.gameObject.GetComponent<ItemPicker>();
-                        if (itemPicker)
-                        {
-                            itemPickerList.Add(itemPicker);
-                            //itemPicker.Sucking(owner);
-                        }
-                    }
-                }
-            }
-
-            if (itemPickerList.Count > 0)
-            {
-                if(curItemPicker == null)
-                {
-                    curItemPicker = itemPickerList[0];
-                }
-                else if (!itemPickerList.Contains(curItemPicker))
-                {
-                    curItemPicker = itemPickerList[0];
-                }
-            }
-            else
-            {
-                curItemPicker = null;
-            }
-
-            if (curItemPicker != null)
-            {
-                //if(!curItemPicker.Sucking(owner)) curItemPicker = null;
-            }
+            rechargeTimer = 0.2f;
+            Sucktion();
         }
         else
         {
+            rechargeTimer -= Time.deltaTime;
+            rechargeTimer = Mathf.Clamp(rechargeTimer, 0f, 5f);
+            if(rechargeTimer <= 0f) Recharge();
+        }
+    }
+
+    public void Sucktion()
+    {
+        if (suctionStat.curSuctionRatio.Value <= 0f)
+        {
             fovSprite.color = this.suctionStat.fovIdleColor;
-            Recharge();
+            suckingItemTimer = 0f;
+            return;
+        }
+
+        float amount = (1f / suctionStat.maxSuctionTime) * Time.deltaTime;
+
+        if (suctionStat.curSuctionRatio.Value < amount)
+        {
+            fovSprite.color = suctionStat.fovIdleColor;
+            return;
+        }
+
+        itemPickerList.Clear();
+
+        suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value - amount, 0f, 1f);
+
+        fovSprite.color = suctionStat.fovSuctionColor;
+
+        var cols = Physics2D.OverlapCircleAll(this.transform.position, suctionStat.suctionRange, suctionStat.targetLayer);
+
+        foreach (var col in cols)
+        {
+            Vector3 targetPos = col.transform.position;
+            Vector2 targetDir = (targetPos - this.transform.position).normalized;
+
+            var tempLookDir = Funcs.DegreeAngle2Dir(-this.transform.eulerAngles.z);
+            //lookDir랑 값다른데 이거로 적용됨 일단 나중에 ㄱ
+            float angleToTarget = Mathf.Acos(Vector2.Dot(targetDir, tempLookDir)) * Mathf.Rad2Deg;
+
+            //내적해주고 나온 라디안 각도를 역코사인걸어주고 오일러각도로 변환.
+            if (angleToTarget <= (suctionStat.suctionAngle))
+            {
+                //여기서 총알들 한테 흡수 ㄱ
+                Suckable suckableObj = col.gameObject.GetComponent<Suckable>();
+                if (suckableObj)
+                {
+                    suckableObj.transform.SetParent(null);
+                    suckableObj.Sucked(this.transform);
+                    owner.inventroy.bulletCount.Value++;
+                }
+
+                Holdable holdableObj = col.gameObject.GetComponent<Holdable>();
+                if(holdableObj)
+                {
+                    holdableItem = holdableObj;
+                    holdableObj.Hold(firePos);
+                    owner.attackController.isSuckPossible = false;
+                }
+            }
         }
     }
 
     public void Recharge()
     {
+        fovSprite.color = this.suctionStat.fovIdleColor;
         suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value + (1 / suctionStat.rechargeTime * Time.deltaTime), 0f, 1f);
     }
 }

@@ -8,10 +8,12 @@ public class PlayerAttackController : MonoBehaviour
     private Player player;
     public Weapon_Player weapon;
     public bool isFirePossible;
-
+    public bool isSuckPossible;
 
     private bool isFiring = false;
     private bool isGuarding = false;
+
+    private AttackMode attackMode;
 
     private void Awake()
     {
@@ -19,17 +21,15 @@ public class PlayerAttackController : MonoBehaviour
         weapon = player.curWeapon;
         weapon.Init(player);
         isFirePossible = true;
+        isSuckPossible = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         Aim();
-        if (isFirePossible)
-        {
-            weapon.Fire();
-            weapon.Suction();
-        }
+        if(isFirePossible) weapon.CheckFire();
+        if(isSuckPossible) weapon.CheckSuck();
     }
 
     private void Aim()

@@ -16938,6 +16938,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hud_Canvas_YJMEdit
       objectReference: {fileID: 0}
+    - target: {fileID: 3056214918531641497, guid: 42354c5232646b44bb84f38f29b91d10, type: 3}
+      propertyPath: m_Type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056214918531641497, guid: 42354c5232646b44bb84f38f29b91d10, type: 3}
+      propertyPath: m_FillMethod
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4619130709731714716, guid: 42354c5232646b44bb84f38f29b91d10, type: 3}
       propertyPath: m_Pivot.x
       value: 0

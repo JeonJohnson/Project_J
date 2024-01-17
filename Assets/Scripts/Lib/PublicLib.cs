@@ -701,6 +701,13 @@ namespace Enums
 	{
 		Boss_Demo
 	}
+
+    public enum AttackMode
+    {
+		Idle,
+        Fire,
+        Suck
+    }
 }
 
 namespace JeonJohnson

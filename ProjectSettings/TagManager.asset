@@ -3,8 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - MinimapRenderCam
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -15,7 +14,7 @@ TagManager:
   - 
   - Player
   - Enemy
-  - Environment
+  - Ground
   - Wall
   - Bullet_Player
   - Bullet_Enemy
@@ -42,6 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Environment
+  - name: Background
     uniqueID: 2948485707
+    locked: 0
+  - name: Ground
+    uniqueID: 3551733741
+    locked: 0
+  - name: Foreground
+    uniqueID: 1724746713
+    locked: 0
+  - name: Characters
+    uniqueID: 2153837871
+    locked: 0
+  - name: Above
+    uniqueID: 199811729
     locked: 0
