@@ -303,8 +303,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 6345419971129403020}
     m_Modifications:
     - target: {fileID: 6986038894563235042, guid: 878297e065865744e9136cbccd3edb5f, type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986038894563235042, guid: 878297e065865744e9136cbccd3edb5f, type: 3}
       propertyPath: m_SortingOrder
-      value: 3
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986038894563235042, guid: 878297e065865744e9136cbccd3edb5f, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 199811729
       objectReference: {fileID: 0}
     - target: {fileID: 6986567470537017346, guid: 878297e065865744e9136cbccd3edb5f, type: 3}
       propertyPath: NoiseModule.frequency

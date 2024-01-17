@@ -86,12 +86,12 @@ public class Weapon_Player : Weapon
 
     public override void Fire()
     {
-        if (holdableItem == null) return;
-        else 
-        {
+        if (holdableItem != null)
+        { 
             holdableItem.Fire(firePos.up, 800);
             owner.attackController.isSuckPossible = true;
             holdableItem = null;
+            return;
         }
 
         if (owner.inventroy.bulletCount.Value <= 0) return;

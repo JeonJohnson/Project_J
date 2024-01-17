@@ -175,6 +175,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2815599079312045762, guid: bb04795c159ab1b4bb5ee79f3519e698, type: 3}
+      propertyPath: orthographic size
+      value: 5.9375
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815599079312045762, guid: bb04795c159ab1b4bb5ee79f3519e698, type: 3}
+      propertyPath: m_NormalizedViewPortRect.x
+      value: 0.0265625
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815599079312045762, guid: bb04795c159ab1b4bb5ee79f3519e698, type: 3}
+      propertyPath: m_NormalizedViewPortRect.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815599079312045762, guid: bb04795c159ab1b4bb5ee79f3519e698, type: 3}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 0.9473685
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815599079312045762, guid: bb04795c159ab1b4bb5ee79f3519e698, type: 3}
+      propertyPath: m_NormalizedViewPortRect.height
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2885988267654085666, guid: bb04795c159ab1b4bb5ee79f3519e698, type: 3}
       propertyPath: m_Name
       value: Player
@@ -644,7 +664,7 @@ MonoBehaviour:
   m_Intensity: 0.35
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 000000004b52beafed27b3d3d98bcd662ff5608091e2e80b
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
