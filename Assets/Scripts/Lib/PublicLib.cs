@@ -574,6 +574,9 @@ namespace Structs
         public int bulletNumPerFire;
 		public float bulletSize;
 
+		public float bulletSpeed;
+		public int bulletSplatterCount;
+
         public float attackRange;
 		public float spread;
     }

@@ -496,7 +496,7 @@ MonoBehaviour:
     fireWaitTime: 2
     fireRate: 0.15
     fireCountPerAttack: 1
-    bulletNumPerFire: 3
+    bulletNumPerFire: 5
     bulletSize: 0.5
     attackRange: 6
     spread: 30

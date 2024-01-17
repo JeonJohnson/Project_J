@@ -11,6 +11,7 @@ public class CrissHair : MonoBehaviour
     private void Awake()
     {
         crosshair = GetComponent<RectTransform>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
     void Update()
     {

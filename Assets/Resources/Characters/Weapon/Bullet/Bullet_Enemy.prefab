@@ -58,9 +58,11 @@ MonoBehaviour:
     targetLayer:
       serializedVersion: 2
       m_Bits: 128
+    isDistanceLimit: 0
+    distanceLimit: 0
   splatterStat:
     bulletDir: {x: 0, y: 0}
-    maxCount: 5
+    maxCount: 0
     leftCount: 0
     hitCountTmp: {fileID: 0}
   suckedStat:

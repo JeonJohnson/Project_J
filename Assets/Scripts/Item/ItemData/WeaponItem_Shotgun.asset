@@ -32,10 +32,10 @@ MonoBehaviour:
   weaponData:
     fireRate: 0.5
     bulletNumPerFire: 3
-    decreaseBulletNumPerFire: 3
+    decreaseBulletNumPerFire: 5
     spread: 30
-    bulletSpeed: 250
-    bulletSize: 1
+    bulletSpeed: 350
+    bulletSize: 0.5
     damage: 3
     critical: 0
     bulletType: 1

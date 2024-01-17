@@ -54,8 +54,7 @@ public class Weapon_Tangtangi : Weapon
         rndDir.Normalize();
 
         GameObject go = Instantiate(testBulletPrefab, firePos.transform.position, Quaternion.identity);
-        go.GetComponent<Bullet>().defaultStat.moveSpd = 200;
-        go.GetComponent<Bullet>().Fire(rndDir);
+        go.GetComponent<Bullet>().Fire(rndDir, owner.status.bulletSplatterCount, owner.status.bulletSpeed, owner.status.bulletSize, 1);
 
         Vector3 weaponRecoilDir;
         weaponRecoilDir = this.transform.up;
