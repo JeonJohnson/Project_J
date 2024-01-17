@@ -999,7 +999,9 @@ MonoBehaviour:
     fireRate: 0.15
     fireCountPerAttack: 15
     bulletNumPerFire: 1
-    bulletSize: 0.5
+    bulletSize: 1
+    bulletSpeed: 200
+    bulletSplatterCount: 0
     attackRange: 8
     spread: 5
   spriteDir: {x: 0, y: 0, z: 0}

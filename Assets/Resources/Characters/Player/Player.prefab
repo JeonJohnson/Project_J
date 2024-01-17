@@ -1145,7 +1145,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2146207562901371063}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.00000023841858, y: 0.00000011920929, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1438,7 +1438,7 @@ Transform:
   - {fileID: 6902458997841827575}
   - {fileID: 3428203881079392948}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1291308421587941723
 Rigidbody2D:
@@ -1526,9 +1526,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimController: {fileID: 4146948779911047888}
   afterImageController: {fileID: 2612319974592789577}
-  attackController: {fileID: 0}
-  camController: {fileID: 0}
-  inventroy: {fileID: 0}
+  attackController: {fileID: 3567347464483554949}
+  camController: {fileID: 2082261709450191169}
+  inventroy: {fileID: 5850034015701124816}
   status:
     maxHp: 5
     maxArmor: 0
@@ -1585,8 +1585,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimPos: {x: 0, y: 0}
-  cinemachineConfiner: {fileID: 0}
-  camCtrl: {fileID: 0}
+  cinemachineConfiner: {fileID: 4394857865043659865}
+  camCtrl: {fileID: 2082261709450191169}
 --- !u!114 &3567347464483554949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1613,6 +1613,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8473c8f41bc83149a4c693a19e1c412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curWeaponSlot: {fileID: 11400000, guid: c65113cd2619965478193417cf49a2d0, type: 2}
+  weaponSlot:
+  - {fileID: 11400000, guid: c65113cd2619965478193417cf49a2d0, type: 2}
   activeItemSlot: {fileID: 0}
   passiveItemSlot:
   - {fileID: 0}
@@ -1857,7 +1860,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5629391485053269991}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.00000023841858, y: 0.00000011920929, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2228,26 +2231,12 @@ MonoBehaviour:
     fovSuctionColor: {r: 0, g: 1, b: 0.075618744, a: 0.11764706}
     maxSuctionTime: 3
     rechargeTime: 5
-    suctionAngle: 30
-    suctionRange: 1.5
+    suctionAngle: 90
+    suctionRange: 1
     targetLayer:
       serializedVersion: 2
       m_Bits: 22528
   fovSprite: {fileID: 4440503345777234681}
-  defaltStatus:
-    bulletSpeed: 300
-    bulletSpread: 5
-    bulletSize: 0.5
-    bulletNumPerFire: 1
-    bulletSplatterCount: 3
-    damage: 1
-    fireRate: 0.25
-    critial: 0
-  upgradeData:
-    bulletType: 1
-    bulletEffect: 1
-    bulletSpreadType: 1
-    fireTriggerType: 1
   curItemPicker: {fileID: 0}
   itemPickerList: []
 --- !u!1 &7995296284026931229
