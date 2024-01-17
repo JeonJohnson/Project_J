@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,7 +38,7 @@ public class IngameController : Singleton<IngameController>
                 player = playerGo.GetComponent<Player>();
                 player.InitializePlayer();
             }
-            else { Debug.Log("¾À¿¡¼­ ÇÃ·¹ÀÌ¾î¸¦ Ã£À»¼ö ¾ø½À´Ï´Ù"); } // player = PoolingManager.Instance.
+            else { Debug.Log("ì”¬ì—ì„œ í”Œë ˆì´ì–´ë¥¼ ì°¾ì„ìˆ˜ ì—†ìŠµë‹ˆë‹¤"); } // player = PoolingManager.Instance.
         }
     }
 
@@ -47,7 +47,7 @@ public class IngameController : Singleton<IngameController>
         GameObject playerGo = null ;
         GameObject obj = Resources.Load<GameObject>("Characters/Player/Player");
         if (obj != null) { playerGo = Instantiate(obj, position, Quaternion.identity); }
-        else { Debug.Log("ÇÃ·¹ÀÌ¾î Æú´õ¿¡¼­ ¸øÃ£À½"); }
+        else { Debug.Log("í”Œë ˆì´ì–´ í´ë”ì—ì„œ ëª»ì°¾ìŒ"); }
         return playerGo;
     }
 	private void Awake()
@@ -59,7 +59,10 @@ public class IngameController : Singleton<IngameController>
 	{
         FindPlayer();
         player.transform.position = StageManager.Instance.curRoom.centerPos;
-	   //SpawnPlayer(StageManager.Instance.curRoom.centerPos);
+	   
+        //MainGame Sceneì—ì„œ ë°”ë¡œ ì‹œì‘í•˜ëŠ” í…ŒìŠ¤íŠ¸ë¥¼ ìœ„í•´ì„œ 
+        //ë§µ StageManagerì´ë‚˜ ë§µ ì—†ìœ¼ë©´ ì—¬ê¸°ì„œ ë§Œë“¤ì–´ì£¼ìêµ¬
+
 	}
 	private void Update()
     {

@@ -1179,9 +1179,9 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.0265625
+    x: 0.02625
     y: 0
-    width: 0.9473685
+    width: 0.9473684
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -1438,7 +1438,7 @@ Transform:
   - {fileID: 6902458997841827575}
   - {fileID: 3428203881079392948}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1291308421587941723
 Rigidbody2D:
