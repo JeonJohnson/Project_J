@@ -202,9 +202,6 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 		#endregion
 
 
-
-
-
 		explorers = new List<Explorer>();
         for (int i = 0; i < startExplorerCount; i++)
         {
@@ -215,7 +212,8 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         
         GameObject obj = Instantiate(tilemapOriginPrefab);
 		curRoom = obj.GetComponent<Room_Drunken>();
-		curRoom.centerPos = GetPos(centerIndex);
+		curRoom.centerPos = centerPos;
+        curRoom.size = gridLength;
         rooms.Add(curRoom);
 
         for (int i = 0; i < recentTilemaps.Length; ++i)

@@ -156,9 +156,9 @@ public class Player : CObj
         {
             SetInvincible(99999);
         }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            StopCoroutine(invincibleCor);
-        }
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    StopCoroutine(invincibleCor);
+        //}
     }
 }

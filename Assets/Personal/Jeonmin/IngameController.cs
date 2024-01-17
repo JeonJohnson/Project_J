@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//인게임 씬의 전반적인 세팅 관련
+
 public class IngameController : Singleton<IngameController>
 {
+    [SerializeField]
+    private Camera minimapRenderCam;
+
     private Player player;
     public Player Player 
     { 
@@ -50,6 +55,18 @@ public class IngameController : Singleton<IngameController>
         else { Debug.Log("플레이어 폴더에서 못찾음"); }
         return playerGo;
     }
+
+    public void SetMinimapRenderCam()
+    {
+        minimapRenderCam = GameObject.FindWithTag("MinimapRenderCam").GetComponent<Camera>();
+    }
+
+    public void UpdateMinimapRenderCam(Vector2 pos, float size)
+    {
+        minimapRenderCam.transform.position = new Vector3(pos.x, pos.y, -10f);
+        minimapRenderCam.orthographicSize = size;
+    }
+
 	private void Awake()
 	{
 		

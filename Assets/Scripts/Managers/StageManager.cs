@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
+
 using UnityEngine;
 using UnityEngine.Experimental.AI;
 using UnityEngine.SceneManagement;
+
+//맵(룸)생성, 흐름 관리, 제거 등
+//레벨적인 부분 관리
 
 //다시 타이틀씬으로 넘어가면 룸들 없애주기
 
@@ -101,6 +106,8 @@ public class StageManager : Singleton<StageManager>
 		}
 
 		curRoom = rooms[curRoomIndex];
+
+		IngameController.Instance.UpdateMinimapRenderCam(curRoom.centerPos, curRoom.size.y / 2f);
 	}
 
 	public void NextRoom()
@@ -112,9 +119,8 @@ public class StageManager : Singleton<StageManager>
 		curRoom = rooms[curRoomIndex];
 		curRoom.gameObject.SetActive(true);
 
-
-
 		IngameController.Instance.Player.transform.position = curRoom.centerPos;
+		IngameController.Instance.UpdateMinimapRenderCam(curRoom.centerPos, curRoom.size.y / 2f);
 	}
 
 	public void DestoryRooms()
