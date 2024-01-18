@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WeaponItem_Normal
   m_EditorClassIdentifier: 
   e_item_Type: 3
-  item_name: Pisotl
+  item_name: Pistol
   item_description: "\uB2E8\uBC1C\uCD1D"
   item_explain: "\uAE30\uBCF8\uC801\uC778 \uCD1D\uC774\uB2E4"
   item_sprite: {fileID: -1032464466, guid: 72a569349aed4c74589922a41591303c, type: 3}

@@ -31,7 +31,7 @@ MonoBehaviour:
     bonus_Weapon_BulletSize: 0
   weaponData:
     fireRate: 0.5
-    bulletNumPerFire: 3
+    bulletNumPerFire: 5
     decreaseBulletNumPerFire: 5
     spread: 30
     bulletSpeed: 350
