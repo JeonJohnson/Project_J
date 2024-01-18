@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Progress;
+
 
 //인게임 씬의
 //전반적인 세팅
@@ -146,6 +146,9 @@ public class IngameController : Singleton<IngameController>
 		if (IngameController.Instance.gameStatus == IngameController.GameStatus.Playing)
 		{
             gameStatus = win ? GameStatus.Win : GameStatus.Lose;
+
+            string soundName = win ? "Win" : "Loose";
+            SoundManager.Instance.PlayBgm(soundName);
 
             player.GetComponent<BoxCollider2D>().enabled = false;
 

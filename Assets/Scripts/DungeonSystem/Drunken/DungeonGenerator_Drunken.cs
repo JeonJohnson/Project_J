@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using UnityEditor.Tilemaps;
+//using UnityEditor.Tilemaps;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,7 +13,7 @@ using UnityEngine.Tilemaps;
 using AYellowpaper;
 using AYellowpaper.SerializedCollections;
 using MoreMountains.Tools;
-using static UnityEditor.Experimental.GraphView.GraphView;
+//using static UnityEditor.Experimental.GraphView.GraphView;
 using Unity.IO.LowLevel.Unsafe;
 
 public enum tileGridState

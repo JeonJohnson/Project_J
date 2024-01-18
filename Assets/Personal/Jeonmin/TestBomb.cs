@@ -10,7 +10,6 @@ public class TestBomb : MonoBehaviour
 
     void Explode(Vector3 bombPosition)
     {
-        Debug.Log("펑");
         // 폭발 반경에 있는 타일 제거
         Tilemap tilemap = FindTilemapAtPosition(bombPosition, "Wall");
         if (tilemap != null)
@@ -31,7 +30,7 @@ public class TestBomb : MonoBehaviour
             }
         }
 
-        //Destroy(this.gameObject);
+        Destroy(this.gameObject);
     }
 
     Tilemap FindTilemapAtPosition(Vector3 position, string targetObjectName)

@@ -51,6 +51,8 @@ public class Boss_Demo : Enemy
             // 나중에 OnHit 이벤트 만들어서 구독해서 쓰게 바꾸기
             if (status.curHp <= status.maxHp * (30f / 100f)) { ActionTable.SetCurAction((int)BossDemoActions.Hide); Rigidbody2D.AddForce(dir * 50, ForceMode2D.Impulse); }
             UiController_Proto.Instance.playerHudView?.UpdateBossHpBar((float)status.curHp / (float)status.maxHp);
+
+            SoundManager.Instance.PlayTempSound("Boss_Demo_Hit", transform.position);
         }
         else
         {

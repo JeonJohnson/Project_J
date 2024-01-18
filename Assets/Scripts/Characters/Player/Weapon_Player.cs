@@ -1,9 +1,10 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Structs;
 using Unity.VisualScripting;
 using Enums;
+using UnityEngine.UI;
 
 public class Weapon_Player : Weapon
 {
@@ -29,6 +30,8 @@ public class Weapon_Player : Weapon
 
     public Holdable holdableItem;
 
+    public SpriteRenderer weaponSpriteRenderer;
+
     private void Awake()
     {
 
@@ -45,6 +48,20 @@ public class Weapon_Player : Weapon
         {
             fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
             fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
+        }
+        if(owner.aimController != null)
+        {
+            if(owner.aimController.GetAimAngle(Vector3.up) < 90f)
+            {
+                ChangeImageSortOrder(weaponSpriteRenderer,"Characters", 0);
+                ChangeImageSortOrder(fovSprite, "Characters", 0);
+            }
+            else
+            {
+                ChangeImageSortOrder(weaponSpriteRenderer,"Characters", 2);
+                ChangeImageSortOrder(fovSprite, "Characters", 2);
+            }
+
         }
 
         CheckAttackMode();
@@ -81,7 +98,7 @@ public class Weapon_Player : Weapon
     {
         if(curAttackMode == AttackMode.Fire)
         {
-            Fire();
+			Fire();
         }
     }
 
@@ -99,20 +116,20 @@ public class Weapon_Player : Weapon
 
         WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData;
 
-        // °¢µµ Ã¼Å©
+        // ê°ë„ ì²´í¬
         float spreadAngle = weaponData.spread;
         //spreadAngle = CheckSpreadAngle(weaponData, spreadAngle);
 
-        // ÃÑ¾Ë°¹¼ö Ã¼Å©
+        // ì´ì•Œê°¯ìˆ˜ ì²´í¬
         int bulletNum = weaponData.bulletNumPerFire;
 
-        // ÃÑ¾Ë¼Óµµ Ã¼Å©
+        // ì´ì•Œì†ë„ ì²´í¬
         float bulletSpeed = weaponData.bulletSpeed;
 
-        // ÃÑ¾Ë Å©±â Ã¼Å©
+        // ì´ì•Œ í¬ê¸° ì²´í¬
         float bulletSize = weaponData.bulletSize;
 
-        // ÃÑ¾Ë µ¥¹ÌÁö Ã¼Å©
+        // ì´ì•Œ ë°ë¯¸ì§€ ì²´í¬
 
         int dmg = Mathf.CeilToInt(weaponData.damage);
 
@@ -121,7 +138,11 @@ public class Weapon_Player : Weapon
         int rndValue = Random.Range(0, 100);
         if (rndValue < criticalValue) dmg = dmg * 2;
 
-        // ÃÑ¾ËÁ¾·ù Ã¼Å© & ¹ß»ç
+        // ì´ì•Œì¢…ë¥˜ ì²´í¬ & ë°œì‚¬
+
+        string weaponName = $"Player_{owner.inventroy.curWeaponSlot.item_name}_Fire";
+        SoundManager.Instance.PlaySound(weaponName, Camera.main.gameObject, 0.625f, 0.8f,1f);
+
 
         for (int i = 0; i < bulletNum; i++)
         {
@@ -147,7 +168,7 @@ public class Weapon_Player : Weapon
         //{
         //    if (fireTimer <= 0)
         //    {
-        //        //ÅÁ
+        //        //íƒ•
         //        GameObject bullet = Instantiate(testBulletPrefab);
         //        bullet.transform.position = firePos.position;
         //        bullet.GetComponent<Bullet>().Fire(firePos.up, 5);
@@ -247,7 +268,8 @@ public class Weapon_Player : Weapon
         if (curAttackMode == AttackMode.Suck)
         {
             rechargeTimer = 0.2f;
-            Sucktion();
+			
+			Sucktion();
         }
         else
         {
@@ -274,7 +296,7 @@ public class Weapon_Player : Weapon
             return;
         }
 
-        itemPickerList.Clear();
+		itemPickerList.Clear();
 
         suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value - amount, 0f, 1f);
 
@@ -288,19 +310,19 @@ public class Weapon_Player : Weapon
             Vector2 targetDir = (targetPos - this.transform.position).normalized;
 
             var tempLookDir = Funcs.DegreeAngle2Dir(-this.transform.eulerAngles.z);
-            //lookDir¶û °ª´Ù¸¥µ¥ ÀÌ°Å·Î Àû¿ëµÊ ÀÏ´Ü ³ªÁß¿¡ ¤¡
+            //lookDirë‘ ê°’ë‹¤ë¥¸ë° ì´ê±°ë¡œ ì ìš©ë¨ ì¼ë‹¨ ë‚˜ì¤‘ì— ã„±
             float angleToTarget = Mathf.Acos(Vector2.Dot(targetDir, tempLookDir)) * Mathf.Rad2Deg;
 
-            //³»ÀûÇØÁÖ°í ³ª¿Â ¶óµğ¾È °¢µµ¸¦ ¿ªÄÚ»çÀÎ°É¾îÁÖ°í ¿ÀÀÏ·¯°¢µµ·Î º¯È¯.
+            //ë‚´ì í•´ì£¼ê³  ë‚˜ì˜¨ ë¼ë””ì•ˆ ê°ë„ë¥¼ ì—­ì½”ì‚¬ì¸ê±¸ì–´ì£¼ê³  ì˜¤ì¼ëŸ¬ê°ë„ë¡œ ë³€í™˜.
             if (angleToTarget <= (suctionStat.suctionAngle))
             {
-                //¿©±â¼­ ÃÑ¾Ëµé ÇÑÅ× Èí¼ö ¤¡
+                //ì—¬ê¸°ì„œ ì´ì•Œë“¤ í•œí…Œ í¡ìˆ˜ ã„±
                 Suckable suckableObj = col.gameObject.GetComponent<Suckable>();
                 if (suckableObj)
                 {
                     suckableObj.transform.SetParent(null);
                     suckableObj.Sucked(this.transform);
-                    owner.inventroy.bulletCount.Value++;
+					owner.inventroy.bulletCount.Value++;
                 }
 
                 Holdable holdableObj = col.gameObject.GetComponent<Holdable>();
@@ -318,5 +340,16 @@ public class Weapon_Player : Weapon
     {
         fovSprite.color = this.suctionStat.fovIdleColor;
         suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value + (1 / suctionStat.rechargeTime * Time.deltaTime), 0f, 1f);
+    }
+
+    public void ChangeImageSortOrder(SpriteRenderer sr, string layerName, int order)
+    {
+        sr.sortingLayerName = layerName;
+        sr.sortingOrder = order;
+    }
+
+    private void PlayWeaponRecoilEffect()
+    {
+        //weaponSpriteRenderer.do
     }
 }

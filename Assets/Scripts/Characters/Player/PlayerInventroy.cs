@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Structs;
 using Enums;
-using static UnityEditor.Timeline.Actions.MenuPriority;
+
+//using static UnityEditor.Timeline.Actions.MenuPriority;
 
 public class PlayerInventroy : MonoBehaviour
 {
@@ -42,8 +43,10 @@ public class PlayerInventroy : MonoBehaviour
             {
                 curWpIndex++;
             }
+
             curWeaponSlot = weaponSlot[curWpIndex];
             UiController_Proto.Instance.UpdateWeaponImage(weaponSlot[curWpIndex].item_sprite);
+            SoundManager.Instance.PlaySound("Player_WeaponSwap",gameObject);
         }
     }
 
