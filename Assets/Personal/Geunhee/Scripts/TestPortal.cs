@@ -7,14 +7,24 @@ using UnityEngine;
 public class TestPortal : MonoBehaviour
 {
 	public List<Sprite> sprites;
+	public List<Color> colors;
 
+	public UnityEngine.Rendering.Universal.Light2D light;
 	public SpriteRenderer sr;
 
 	private void RandomSprite()
 	{
+
+		int randNum = Random.Range(0, sprites.Count);
 		if (sr != null)
 		{
-			sr.sprite = sprites[Random.Range(0, sprites.Count)];
+			sr.sprite = sprites[randNum];
+			
+		}
+
+		if (light != null)
+		{
+			light.color = colors[randNum];
 		}
 	}
 
