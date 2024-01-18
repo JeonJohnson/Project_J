@@ -57,7 +57,7 @@ public class Player : CObj
     {
         if (!status.isInvincible)
         { 
-            status.curHp.Value -= dmg;
+            status.curHp.Value -= 1;
             SetInvincible(status.invincibleTimeWhenHit);
         }
         //PlayerRigidbody2D.AddForce(dir * 500f);
