@@ -122,7 +122,7 @@ public class GameManager : Singleton<GameManager>
         CreateManagerBoxes();
 		SetDestructible(false);
 
-        
+        Application.targetFrameRate = 60;
 
 	}
 	void Start()
