@@ -184,8 +184,8 @@ MonoBehaviour:
   target: {fileID: 0}
   agent: {fileID: 615778935701906611}
   status:
-    maxHp: 30
-    curHp: 30
+    maxHp: 200
+    curHp: 200
     walkSpeed: 0.75
     viewrange: 0
     traceRange: 8

@@ -98,10 +98,6 @@ public class Weapon_Player : Weapon
     {
         if(curAttackMode == AttackMode.Fire)
         {
-            string weaponName = $"Player_{owner.inventroy.curWeaponSlot.item_name}_Fire";
-
-            SoundManager.Instance.PlaySound(weaponName, gameObject);
-
 			Fire();
         }
     }
@@ -143,6 +139,10 @@ public class Weapon_Player : Weapon
         if (rndValue < criticalValue) dmg = dmg * 2;
 
         // 총알종류 체크 & 발사
+
+        string weaponName = $"Player_{owner.inventroy.curWeaponSlot.item_name}_Fire";
+        SoundManager.Instance.PlaySound(weaponName, Camera.main.gameObject, 0.625f, 0.8f,1f);
+
 
         for (int i = 0; i < bulletNum; i++)
         {
@@ -296,8 +296,6 @@ public class Weapon_Player : Weapon
             return;
         }
 
-		SoundManager.Instance.PlaySound("Player_Sucking", gameObject);
-
 		itemPickerList.Clear();
 
         suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value - amount, 0f, 1f);
@@ -324,7 +322,6 @@ public class Weapon_Player : Weapon
                 {
                     suckableObj.transform.SetParent(null);
                     suckableObj.Sucked(this.transform);
-					SoundManager.Instance.PlaySound("Player_Sucked", gameObject);
 					owner.inventroy.bulletCount.Value++;
                 }
 
