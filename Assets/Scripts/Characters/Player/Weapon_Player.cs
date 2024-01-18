@@ -342,4 +342,9 @@ public class Weapon_Player : Weapon
         sr.sortingLayerName = layerName;
         sr.sortingOrder = order;
     }
+
+    private void PlayWeaponRecoilEffect()
+    {
+        //weaponSpriteRenderer.do
+    }
 }

@@ -74,6 +74,7 @@ public class Suckable : MonoBehaviour
 
     public void Sucked(Transform _suckedTr)
     {
+        SoundManager.Instance.PlayTempSound("Player_Sucked", this.transform.position, 1f, 0.8f, 1f);
         projectile = this.gameObject.GetComponent<Projectile>();
         if (projectile != null)
         {

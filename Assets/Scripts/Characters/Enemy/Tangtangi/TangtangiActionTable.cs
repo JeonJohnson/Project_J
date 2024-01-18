@@ -12,6 +12,11 @@ public class TangtangiActionTable : ActionTable<Tangtangi>
     [SerializeField]
     private TangtangiActions curAction_e;
 
+    public TangtangiActions CurAction_e
+    {
+        get { return preAction_e; }
+    }
+
     private Vector3 dir;
 
     public Vector3 Dir { get { return dir; } set { dir = value; } }
@@ -334,12 +339,18 @@ public class Tangtangi_Attack : Action<Tangtangi>
 {
     float timer;
     int curbulletCount;
+    BulletSpreadType bulletSpreadType;
 
     public override void ActionEnter(Tangtangi script)
     {
         base.ActionEnter(script);
         curbulletCount = me.status.fireCountPerAttack;
+        
         me.animator.SetBool("Idle", true);
+
+
+        if (me.status.bulletNumPerFire > 1) bulletSpreadType = BulletSpreadType.Normal;
+        else bulletSpreadType = BulletSpreadType.Shotgun;
     }
 
     public override void ActionUpdate()
@@ -354,6 +365,8 @@ public class Tangtangi_Attack : Action<Tangtangi>
                 {
                     me.attackFeedback?.PlayFeedbacks();
                     me.weapon.Fire();
+                    if (bulletSpreadType == BulletSpreadType.Normal) SoundManager.Instance.PlayTempSound("Tangtangi_Rifle_Fire", me.transform.position, 1f, 0.75f, 1f);
+                    else SoundManager.Instance.PlayTempSound("Tangtangi_Shotgun_Fire", me.transform.position, 1f, 0.75f, 1f);
                 }
                 curbulletCount--;
                 timer = me.status.fireRate;

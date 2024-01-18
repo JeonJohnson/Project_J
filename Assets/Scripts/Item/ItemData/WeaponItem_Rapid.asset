@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WeaponItem_Rapid
   m_EditorClassIdentifier: 
   e_item_Type: 3
-  item_name: "\uB77C\uC774\uD50C"
+  item_name: Rifle
   item_description: "\uC5F0\uC0AC\uB418\uB294 \uB77C\uC774\uD50C\uC774\uB2E4"
   item_explain: "\uC5F0\uC0AC\uB428"
   item_sprite: {fileID: -1889483986, guid: 72a569349aed4c74589922a41591303c, type: 3}
