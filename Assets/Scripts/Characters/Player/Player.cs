@@ -152,9 +152,15 @@ public class Player : CObj
 
     private void Update()
     {
+
         if(Input.GetKeyDown(KeyCode.O))
         {
             SetInvincible(99999);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            inventroy.bulletCount.Value = 999;
         }
         //if (Input.GetKeyDown(KeyCode.P))
         //{

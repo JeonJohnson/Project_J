@@ -14,6 +14,7 @@ public class TestPortal : MonoBehaviour
 			//여기서 StageManager한테 다음 방넘어가달라고하기
 			Debug.Log("다음방");
 			StageManager.Instance.NextRoom();
+			this.gameObject.SetActive(false);
 		}
 	}
 

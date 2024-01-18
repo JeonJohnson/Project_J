@@ -16,11 +16,17 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : Singleton<StageManager>
 {
+	public GameObject portal;
+
+	public int portalRange;
+
 	public List<Room_Drunken> rooms;
 	public Room_Drunken bossRoom;
 	public Room_Drunken curRoom;
 	[ReadOnly]
 	public int curRoomIndex;
+
+	public int[] enemyCount;
 
 	//public Data<int> curMonsterCount; //정민아 이거랑 UI랑 연결하면 될거 같애
 	//public void OnMonsterDeath()
@@ -69,7 +75,7 @@ public class StageManager : Singleton<StageManager>
 	//   }
 
 	//private void Awake()
-	//{
+	//{S
 
 	//}
 
@@ -105,12 +111,19 @@ public class StageManager : Singleton<StageManager>
 		{
 			rooms[i].gameObject.SetActive(false);
 		}
-
 		rooms.Add(bossRoom);
+		
+		enemyCount = new int[rooms.Count];
+		for (int i = 0; i < rooms.Count; ++i)
+		{
+			enemyCount[i] = rooms[i].enemyPos.Count;
+		}
 
 		curRoom = rooms[curRoomIndex];
-
 		IngameController.Instance.UpdateMinimapRenderCam(curRoom.centerPos, curRoom.size.y / 2f);
+
+		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
+
 	}
 
 	public void NextRoom()
@@ -134,15 +147,91 @@ public class StageManager : Singleton<StageManager>
 		}
 	}
 
+	public void OnEnemyDeath()
+	{
+		--enemyCount[curRoomIndex];
+		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
+
+		if (--enemyCount[curRoomIndex] <= 0)
+		{
+			OnClearStage();
+		}
+
+	
+	}
+
+	public IEnumerator CreatePortalCor()
+	{
+		yield return new WaitForSecondsRealtime(1f);
+
+		portal.SetActive(true);
+
+		Vector3 playerPos = IngameController.Instance.Player.transform.position;
+		Vector2Int playerIndex = curRoom.GetIndex(playerPos);
+
+		List<Vector2Int> canIndexes = new	List<Vector2Int>();
+
+		Vector2Int begin = new(playerIndex.x - portalRange, playerIndex.y - portalRange);
+		Vector2Int end = new(playerIndex.x + portalRange, playerIndex.y + portalRange);
+		
+		for(int y = begin.y; y <= end.y; ++y)
+		{ 
+			for(int x =  begin.x; x <= end.x; ++x) 
+			{
+				if (x< 0 | y < 0 | x >= curRoom.tileStates.GetLength(0)| y >= curRoom.tileStates.GetLength(1))
+				{
+					continue;
+				}
+
+				if (playerIndex == new Vector2Int(x, y))
+				{
+					continue;
+				}
+
+
+				if (curRoom.tileStates[x,y] == tileGridState.Ground) 
+				{
+					canIndexes.Add(new(x, y));
+				}
+			}
+		}
+
+		int rand = UnityEngine.Random.Range(0, canIndexes.Count);
+
+		portal.transform.position = curRoom.GetPos(canIndexes[rand]);
+	}
+
+
+	public void OnClearStage()
+	{
+		//플레이어 주위에 포탈 생성
+
+		StartCoroutine(CreatePortalCor());
+
+
+	}
+
+
 	private void Awake()
 	{
 		rooms = new List<Room_Drunken>();
+		
 		DontDestroyOnLoad(gameObject);
+	}
+
+	private void Start()
+	{
+		
 	}
 
 	private void Update()
 	{
-			
+		
+	}
+
+	public void Release()
+	{
+		DestoryRooms();
 	}
 
 	public override void OnSceneChanged(Scene scene, LoadSceneMode mode)

@@ -123,24 +123,19 @@ public class IngameController : Singleton<IngameController>
 
         for (int i = 0; i < StageManager.Instance.rooms.Count - 1; ++i)
         {
-            var list =
-            StageManager.Instance.rooms[i].enemyPos;
+            var curRoom = StageManager.Instance.rooms[i];
+			var enemyPosList = StageManager.Instance.rooms[i].enemyPos;
 
-            foreach (var item in list)
+            foreach (var enemyPos in enemyPosList)
             {
                 int enemyType = Random.Range(0, 2);
-                Enemy enemy = SpawnEnemy(enemyType, item);
-                
+                Enemy enemy = SpawnEnemy(enemyType, enemyPos);
                 enemy.transform.SetParent(StageManager.Instance.rooms[i].transform);
 			}
 		}
 
-
 		Enemy Boss = SpawnEnemy(2, StageManager.Instance.bossRoom.centerPos);
-
 		Boss.transform.SetParent(StageManager.Instance.bossRoom.transform);
-
-	//SpawnEnemy.transform.SetParent(StageManager.Instance.bossRoom.transform);
     }
 
 
