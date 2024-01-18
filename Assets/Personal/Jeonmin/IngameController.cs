@@ -5,7 +5,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEditor.Progress;
 
-//인게임 씬의 전반적인 세팅 관련
+//인게임 씬의
+//전반적인 세팅
+//승리, 패배 등 조건
+
 
 public class IngameController : Singleton<IngameController>
 {
@@ -138,8 +141,28 @@ public class IngameController : Singleton<IngameController>
 		Boss.transform.SetParent(StageManager.Instance.bossRoom.transform);
     }
 
+	public void GameOver(bool win)
+	{
+		if (IngameController.Instance.gameStatus == IngameController.GameStatus.Playing)
+		{
+            gameStatus = win ? GameStatus.Win : GameStatus.Lose;
 
-    private void Awake()
+            player.GetComponent<BoxCollider2D>().enabled = false;
+
+			UiController_Proto.Instance.ShowResultWindow(true, win);
+		}
+	}
+
+    public void GotoTitleScene()
+    {
+        StageManager.Instance.Release();
+        Destroy(StageManager.Instance.gameObject);
+
+        GameManager.Instance.LoadScene((int)SceneName.Title);
+    }
+
+
+	private void Awake()
 	{
         
 	}

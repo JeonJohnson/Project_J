@@ -196,15 +196,18 @@ public class UiView : MonoBehaviour
         resultText.text = "";
         if (isWin)
         {
-            resultText.DOText("THANK YOU FOR PLAYING", 0.5f, true, ScrambleMode.Uppercase).SetDelay(1f);
+            resultText.DOText("WIN...?", 0.5f, true, ScrambleMode.Uppercase).SetDelay(1f);
         }
         else
         {
-            resultText.DOText("GAME OVER", 0.5f, true, ScrambleMode.Uppercase).SetDelay(1f);
+            resultText.DOText("YOU DIED", 0.5f, true, ScrambleMode.Uppercase).SetDelay(1f);
         }
         resultButton.onClick.RemoveAllListeners();
-        resultButton.onClick.AddListener(() => GameManager.Instance.LoadScene(2));
-        resultButton.transform.DOScale(new Vector3(1f, 1f, 1f), 0.5f).SetDelay(3f);
+
+		//resultButton.onClick.AddListener(() => GameManager.Instance.LoadScene(2));
+		resultButton.onClick.AddListener(() => IngameController.Instance.GotoTitleScene());
+
+		resultButton.transform.DOScale(new Vector3(1f, 1f, 1f), 0.5f).SetDelay(3f);
     }
 
     public void UpdateCrossHairAnchorPos(Vector3 screenPos, bool isActivate = true)

@@ -18,7 +18,13 @@ public class TitleProducer : MonoBehaviour
     public Button settingBtn;
     public Button exitBtn;
 
-    
+
+	private void Awake()
+	{
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+
+	}
 
 	void Start()
     {

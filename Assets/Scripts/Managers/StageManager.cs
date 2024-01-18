@@ -9,7 +9,8 @@ using UnityEngine;
 using UnityEngine.Experimental.AI;
 using UnityEngine.SceneManagement;
 
-//맵(룸)생성, 흐름 관리, 제거 등
+//맵(룸)생성,유지보수
+//룸들 끼리의 흐름 관리
 //레벨적인 부분 관리
 
 //다시 타이틀씬으로 넘어가면 룸들 없애주기
@@ -39,8 +40,9 @@ public class StageManager : Singleton<StageManager>
 
 	//		if (rooms[curRoomIndex] == rooms[rooms.Count - 1])
 	//		{ //이건 보스방 클리어 조건
-	//               if (IngameController.Instance.gameStatus == IngameController.GameStatus.Playing) UiController_Proto.Instance.ShowResultWindow(true, true);
-	//           }
+	//               if (IngameController.Instance.gameStatus == IngameController.GameStatus.Playing)
+	//               {UiController_Proto.Instance.ShowResultWindow(true, true);}
+	//      }
 	//		else
 	//		{ //일반방 클리어 조건
 	//			rooms[curRoomIndex].ExitDoor(true);
@@ -135,7 +137,9 @@ public class StageManager : Singleton<StageManager>
 		curRoom = rooms[curRoomIndex];
 		curRoom.gameObject.SetActive(true);
 
-		IngameController.Instance.Player.transform.position = curRoom.centerPos;
+		Vector3 playerPos = curRoomIndex != rooms.Count - 1 ? curRoom.centerPos : new(3.5f, 7.5f, 0f);
+
+		IngameController.Instance.Player.transform.position = playerPos;
 		IngameController.Instance.UpdateMinimapRenderCam(curRoom.centerPos, curRoom.size.y / 2f);
 	}
 
@@ -205,11 +209,10 @@ public class StageManager : Singleton<StageManager>
 	public void OnClearStage()
 	{
 		//플레이어 주위에 포탈 생성
-
 		StartCoroutine(CreatePortalCor());
-
-
 	}
+
+	
 
 
 	private void Awake()
@@ -232,6 +235,7 @@ public class StageManager : Singleton<StageManager>
 	public void Release()
 	{
 		DestoryRooms();
+		
 	}
 
 	public override void OnSceneChanged(Scene scene, LoadSceneMode mode)
