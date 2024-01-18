@@ -41,6 +41,7 @@ public class PlayerAimController: MonoBehaviour
         player.animator.SetFloat("Vertical", aimDir.y);
 
         UiController_Proto.Instance?.playerHudView.UpdateCrossHairAnchorPos(MousePosition);
+
         //if(aimState == State.Aiming)
         //{
         //    float dot = Vector3.Dot(player.transform.right, aimDir);
@@ -53,5 +54,11 @@ public class PlayerAimController: MonoBehaviour
         //        player.spriteHolder.localScale = new Vector3(-1f, 1f);
         //    }
         //}
+    }
+
+    public float GetAimAngle(Vector3 pointVec)
+    {
+        float angle = Vector3.Angle(Vector3.up, aimDir);
+        return angle;
     }
 }

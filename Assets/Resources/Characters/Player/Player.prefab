@@ -2240,6 +2240,7 @@ MonoBehaviour:
   fovSprite: {fileID: 4440503345777234681}
   curAttackMode: 0
   holdableItem: {fileID: 0}
+  weaponSpriteRenderer: {fileID: 3630342855882474610}
   curItemPicker: {fileID: 0}
   itemPickerList: []
 --- !u!1 &7995296284026931229

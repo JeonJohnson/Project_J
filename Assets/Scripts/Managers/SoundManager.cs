@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AYellowpaper.SerializedCollections;
 
 public class SoundManager : Singleton<SoundManager>
 {
-    public Dictionary<string, AudioClip> audioClips;
-    string audioFolderPath = "AudioClips";
+    [SerializedDictionary("Name", "Audio Source")]
+    public SerializedDictionary<string, AudioClip> audioClips;
 
     [SerializeField] Transform tempAusBox;
     
@@ -181,17 +182,17 @@ public class SoundManager : Singleton<SoundManager>
     }
 
 
-    void SearchAllAudClips()
-    {
-        AudioClip[] clips = Resources.LoadAll<AudioClip>(audioFolderPath);
+    //void SearchAllAudClips()
+    //{
+    //    AudioClip[] clips = Resources.LoadAll<AudioClip>(audioFolderPath);
 
-        audioClips = new Dictionary<string, AudioClip>();
-        foreach (AudioClip clip in clips)
-        {
-            string clipName = clip.name;
-            audioClips.Add(clipName, clip);
-        }
-    }
+    //    audioClips = new Dictionary<string, AudioClip>();
+    //    foreach (AudioClip clip in clips)
+    //    {
+    //        string clipName = clip.name;
+    //        audioClips.Add(clipName, clip);
+    //    }
+    //}
 
     void CreateTempAudioSource(int count)
     {
@@ -270,7 +271,7 @@ public class SoundManager : Singleton<SoundManager>
 
     public void Awake()
 	{
-        SearchAllAudClips();
+        //SearchAllAudClips();
         CreateTempAudioSource(50);
         CreateBgmAudioSource();
     }

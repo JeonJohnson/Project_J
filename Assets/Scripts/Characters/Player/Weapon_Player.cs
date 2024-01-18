@@ -4,6 +4,7 @@ using UnityEngine;
 using Structs;
 using Unity.VisualScripting;
 using Enums;
+using UnityEngine.UI;
 
 public class Weapon_Player : Weapon
 {
@@ -29,6 +30,8 @@ public class Weapon_Player : Weapon
 
     public Holdable holdableItem;
 
+    public SpriteRenderer weaponSpriteRenderer;
+
     private void Awake()
     {
 
@@ -45,6 +48,20 @@ public class Weapon_Player : Weapon
         {
             fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
             fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
+        }
+        if(owner.aimController != null)
+        {
+            if(owner.aimController.GetAimAngle(Vector3.up) < 90f)
+            {
+                ChangeImageSortOrder(weaponSpriteRenderer,"Characters", 0);
+                ChangeImageSortOrder(fovSprite, "Characters", 0);
+            }
+            else
+            {
+                ChangeImageSortOrder(weaponSpriteRenderer,"Characters", 2);
+                ChangeImageSortOrder(fovSprite, "Characters", 2);
+            }
+
         }
 
         CheckAttackMode();
@@ -318,5 +335,11 @@ public class Weapon_Player : Weapon
     {
         fovSprite.color = this.suctionStat.fovIdleColor;
         suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value + (1 / suctionStat.rechargeTime * Time.deltaTime), 0f, 1f);
+    }
+
+    public void ChangeImageSortOrder(SpriteRenderer sr, string layerName, int order)
+    {
+        sr.sortingLayerName = layerName;
+        sr.sortingOrder = order;
     }
 }

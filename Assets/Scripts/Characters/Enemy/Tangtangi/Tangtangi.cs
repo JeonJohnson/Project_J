@@ -41,11 +41,8 @@ public class Tangtangi : Enemy
         Rigidbody2D.AddForce(dir * 300f);
         status.curHp -= dmg;
         animator.SetTrigger("Damage");
-<<<<<<< Updated upstream
 
-=======
         hitFeedback?.PlayFeedbacks();
->>>>>>> Stashed changes
         if (status.curHp <= 0)
         {
             GameObject go = PoolingManager.Instance.LentalObj(deadBodyPrefab);

@@ -453,7 +453,7 @@ MonoBehaviour:
   TargetRenderer: {fileID: 7388499644497699951}
   ShaderPropertyName: _Emission
   OffValue: 1
-  OnValue: 2
+  OnValue: 2.4
   LerpValue: 1
   Curve:
     serializedVersion: 2
@@ -489,7 +489,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   UseMaterialPropertyBlocks: 0
-  Blinking: 1
+  Blinking: 0
   ForceStateOnExit: 0
   StateOnExit: 0
   TimescaleMode: 0
