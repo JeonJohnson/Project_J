@@ -55,6 +55,7 @@ public class Weapon_Player : Weapon
         base.Init(_owner);
         owner = (Player) _owner;
         suctionStat.curSuctionRatio = new Data<float>();
+        suctionStat.curSuctionRatio.Value = 1f;
         fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
         fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
     }
@@ -131,7 +132,7 @@ public class Weapon_Player : Weapon
             Quaternion rndRot = Quaternion.Euler(0f, 0f, rnd);
             Vector2 rndDir = rndRot * firePos.up;
             rndDir.Normalize();
-            bullet.GetComponent<Bullet>().Fire(rndDir, 5, bulletSpeed, bulletSize);
+            bullet.GetComponent<Bullet>().Fire(rndDir, 5, bulletSpeed, bulletSize, dmg);
             //bullet.GetComponent<Projectile>().Speed = bulletSpeed;
             //bullet.GetComponent<Projectile>().SetDirection(rndDir,transform.rotation * Quaternion.Euler(0, 0, -90), false);
             owner.inventroy.bulletCount.Value--;

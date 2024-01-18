@@ -352,6 +352,7 @@ public class Tangtangi_Attack : Action<Tangtangi>
             {
                 for(int i = 0; i < me.status.bulletNumPerFire; i++)
                 {
+                    me.attackFeedback?.PlayFeedbacks();
                     me.weapon.Fire();
                 }
                 curbulletCount--;

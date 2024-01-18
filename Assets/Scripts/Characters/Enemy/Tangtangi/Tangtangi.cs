@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using MoreMountains.Feedbacks;
 
 public class Tangtangi : Enemy
 {
@@ -14,6 +15,9 @@ public class Tangtangi : Enemy
 
     public string deadBodyPrefab;
     public bool isTracePlayer = false;
+
+    public MMF_Player attackFeedback;
+    public MMF_Player hitFeedback;
 
     protected override void Initialize()
     {
@@ -37,7 +41,11 @@ public class Tangtangi : Enemy
         Rigidbody2D.AddForce(dir * 300f);
         status.curHp -= dmg;
         animator.SetTrigger("Damage");
+<<<<<<< Updated upstream
 
+=======
+        hitFeedback?.PlayFeedbacks();
+>>>>>>> Stashed changes
         if (status.curHp <= 0)
         {
             GameObject go = PoolingManager.Instance.LentalObj(deadBodyPrefab);
