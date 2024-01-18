@@ -147,7 +147,7 @@ public class IngameController : Singleton<IngameController>
 		{
             gameStatus = win ? GameStatus.Win : GameStatus.Lose;
 
-            string soundName = win ? "Win" : "Loose";
+            string soundName = win ? "Win" : "Lose";
             SoundManager.Instance.PlayBgm(soundName);
 
             player.GetComponent<BoxCollider2D>().enabled = false;
@@ -159,7 +159,7 @@ public class IngameController : Singleton<IngameController>
     public void GotoTitleScene()
     {
         StageManager.Instance.Release();
-        Destroy(StageManager.Instance.gameObject);
+        DestroyImmediate(StageManager.Instance.gameObject);
 
         GameManager.Instance.LoadScene((int)SceneName.Title);
     }

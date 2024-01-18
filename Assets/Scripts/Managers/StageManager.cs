@@ -147,8 +147,8 @@ public class StageManager : Singleton<StageManager>
 	{
 		for (int i = 0; i < rooms.Count; ++i)
 		{
-			Destroy(rooms[i]);
-		}
+			DestroyImmediate(rooms[i].gameObject);
+        }
 	}
 
 	public void OnEnemyDeath()

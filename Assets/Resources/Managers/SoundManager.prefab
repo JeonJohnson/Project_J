@@ -254,7 +254,7 @@ MonoBehaviour:
     - Key: Win
       Value: {fileID: 8300000, guid: 58cf9a1bfb05e614abb875d6d84cb51e, type: 3}
     - Key: Lose
-      Value: {fileID: 0}
+      Value: {fileID: 8300000, guid: a09a85f688c20394db227478d09e24c1, type: 3}
   tempAusBox: {fileID: 4844629464143027007}
   BgmOffset: 1
   SeOffset: 1
