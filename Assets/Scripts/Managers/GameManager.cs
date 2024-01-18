@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
-
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -94,24 +94,22 @@ public class GameManager : Singleton<GameManager>
 
     public void InitializeScene(int sceneIndex)
     {
-        switch (sceneIndex)
+        switch ((SceneName)sceneIndex)
         {
-            case 1:
-                { }
+            case SceneName.Intro:
                 break;
-
-            case 2:
-                { }
+            case SceneName.Title:
+                {
+                    SoundManager.Instance.PlayBgm("BGM_Title");
+                }
                 break;
-
-			case 3:
-				{ }
+            case SceneName.Ingame:
+                {
+					SoundManager.Instance.PlayBgm("BGM_Ingame_0");
+				}
                 break;
-
-            case 4:
-                { }
+            case SceneName.End:
                 break;
-
             default:
                 break;
         }
@@ -142,6 +140,8 @@ public class GameManager : Singleton<GameManager>
 	public override void OnSceneChanged(Scene scene, LoadSceneMode mode)
 	{
         InitializeScene(scene.buildIndex);
-	}
+
+        
+    }
 
 }

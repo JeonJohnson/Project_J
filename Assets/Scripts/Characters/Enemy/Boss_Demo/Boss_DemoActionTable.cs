@@ -196,7 +196,7 @@ public class Boss_Attack0 : Action<Boss_Demo>
             // 각도에 해당하는 방향 벡터 계산
             Vector2 direction = new Vector2(Mathf.Cos(angleRadians), Mathf.Sin(angleRadians));
 
-            SoundManager.Instance.PlayTempSound("Shooting Gun  30", me.transform.position, 0.5f, 0.75f, 1f);
+            SoundManager.Instance.PlayTempSound("Boss_Demo_Fire", me.transform.position, 0.5f, 0.75f, 1f);
             me.weapon.Fire(direction, me.status.spread, 150f, 1f);
             curbulletCount++;
         }
@@ -215,6 +215,8 @@ public class Boss_Attack1 : Action<Boss_Demo>
     {
         base.ActionEnter(script);
         me.StartCoroutine(ShootCoro());
+
+        //SoundManager.Instance.PlaySound("Boss_Demo_Fire", me.gameObject);
     }
 
     public override void ActionUpdate()
@@ -228,7 +230,7 @@ public class Boss_Attack1 : Action<Boss_Demo>
     IEnumerator ShootCoro()
     {
         me.animator.SetTrigger("Attack1");
-        SoundManager.Instance.PlayTempSound("Shooting Gun  31", me.transform.position, 0.75f, 0.75f, 1f);
+        SoundManager.Instance.PlayTempSound("Boss_Demo_Fire", me.transform.position, 0.75f, 0.75f, 1f);
         for (int i = 0; i < 8; i++)
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * i;
@@ -238,7 +240,7 @@ public class Boss_Attack1 : Action<Boss_Demo>
         yield return new WaitForSeconds(0.8f);
 
         me.animator.SetTrigger("Attack0");
-        SoundManager.Instance.PlayTempSound("Shooting Gun  31", me.transform.position, 0.75f, 0.75f, 1f);
+        SoundManager.Instance.PlayTempSound("Boss_Demo_Fire", me.transform.position, 0.75f, 0.75f, 1f);
         for (int i = 0; i < 8; i++)
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * (float)i + 22.5f;
@@ -248,7 +250,7 @@ public class Boss_Attack1 : Action<Boss_Demo>
         yield return new WaitForSeconds(0.8f);
 
         me.animator.SetTrigger("Attack1");
-        SoundManager.Instance.PlayTempSound("Shooting Gun  31", me.transform.position, 0.75f, 0.75f, 1f);
+        SoundManager.Instance.PlayTempSound("Boss_Demo_Fire", me.transform.position, 0.75f, 0.75f, 1f);
         for (int i = 0; i < 8; i++)
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * i;
@@ -256,20 +258,20 @@ public class Boss_Attack1 : Action<Boss_Demo>
             me.weapon.Fire(direction, 0, 150f, 1f);
         }
         yield return new WaitForSeconds(1.2f);
-
-        SoundManager.Instance.PlayTempSound("Shooting Gun  31", me.transform.position, 0.75f, 0.75f, 1f);
+            
+        SoundManager.Instance.PlayTempSound("Boss_Demo_Fire", me.transform.position, 0.75f, 0.75f, 1f);
         me.animator.SetTrigger("Attack0");
         Vector2 dir = me.target.transform.position - me.weapon.firePos.transform.position;
         me.weapon.FireCrossBullet(dir);
         yield return new WaitForSeconds(0.8f);
 
-        SoundManager.Instance.PlayTempSound("Shooting Gun  31", me.transform.position, 0.75f, 0.75f, 1f);
+        SoundManager.Instance.PlayTempSound("Boss_Demo_Fire", me.transform.position, 0.75f, 0.75f, 1f);
         me.animator.SetTrigger("Attack1");
         dir = me.target.transform.position - me.weapon.firePos.transform.position;
         me.weapon.FireCrossBullet(dir);
         yield return new WaitForSeconds(0.8f);
 
-        SoundManager.Instance.PlayTempSound("Shooting Gun  31", me.transform.position, 0.75f, 0.75f, 1f);
+        SoundManager.Instance.PlayTempSound("Boss_Demo_Fire", me.transform.position, 0.75f, 0.75f, 1f);
         me.animator.SetTrigger("Attack0");
         dir = me.target.transform.position - me.weapon.firePos.transform.position;
         me.weapon.FireCrossBullet(dir);
@@ -290,7 +292,9 @@ public class Boss_Attack2 : Action<Boss_Demo>
         particle.transform.position = me.transform.position + new Vector3(0f, 1.5f, 0f);
         me.animator.SetTrigger("Attack0");
         me.StartCoroutine(AttackCoro());
-    }
+
+		SoundManager.Instance.PlayTempSound("Boss_Demo_Fire", me.transform.position, 0.75f, 0.75f, 1f);
+	}
 
     public override void ActionUpdate(){ }
 
@@ -345,8 +349,10 @@ public class Boss_Death : Action<Boss_Demo>
     public override void ActionEnter(Boss_Demo script)
     {
         base.ActionEnter(script);
-        //StageManager.Instance?.OnMonsterDeath();
-    }
+		//StageManager.Instance?.OnMonsterDeath();
+
+		SoundManager.Instance.PlayTempSound("Boss_Demo_Death", me.transform.position);
+	}
 
     public override void ActionUpdate() { }
 

@@ -59,6 +59,7 @@ public class Player : CObj
         { 
             status.curHp.Value -= 1;
             SetInvincible(status.invincibleTimeWhenHit);
+            SoundManager.Instance.PlaySound("Player_Hit",gameObject);
         }
         //PlayerRigidbody2D.AddForce(dir * 500f);
 
@@ -74,7 +75,8 @@ public class Player : CObj
 
     private void Dead()
     {
-        status.isDead = true;
+		SoundManager.Instance.PlaySound("Player_Death", gameObject);
+		status.isDead = true;
         this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         PlayerRigidbody2D.simulated = false;
         spriteHolder.gameObject.SetActive(false);

@@ -182,6 +182,8 @@ public class SoundManager : Singleton<SoundManager>
     }
 
 
+
+
     //void SearchAllAudClips()
     //{
     //    AudioClip[] clips = Resources.LoadAll<AudioClip>(audioFolderPath);

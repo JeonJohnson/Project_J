@@ -205,10 +205,17 @@ public class UiView : MonoBehaviour
         resultButton.onClick.RemoveAllListeners();
 
 		//resultButton.onClick.AddListener(() => GameManager.Instance.LoadScene(2));
-		resultButton.onClick.AddListener(() => IngameController.Instance.GotoTitleScene());
+		resultButton.onClick.AddListener(OnclickResultButton);
 
 		resultButton.transform.DOScale(new Vector3(1f, 1f, 1f), 0.5f).SetDelay(3f);
     }
+
+    private void OnclickResultButton()
+    {
+		SoundManager.Instance.PlaySound("UI_ClickButton", Camera.main.gameObject);
+		IngameController.Instance.GotoTitleScene();
+
+	}
 
     public void UpdateCrossHairAnchorPos(Vector3 screenPos, bool isActivate = true)
     {
