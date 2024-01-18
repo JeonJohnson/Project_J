@@ -169,6 +169,10 @@ MonoBehaviour:
   sprites:
   - {fileID: 1122143743, guid: 7e7abd45cdc70324d866dca5af38bb25, type: 3}
   - {fileID: -216374871, guid: 7e7abd45cdc70324d866dca5af38bb25, type: 3}
+  colors:
+  - {r: 1, g: 0.30980393, b: 0, a: 1}
+  - {r: 0, g: 0.52156866, b: 0.99607843, a: 1}
+  light: {fileID: 3942350261208527837}
   sr: {fileID: 7942578513235712997}
 --- !u!1 &8062164354566709977
 GameObject:
