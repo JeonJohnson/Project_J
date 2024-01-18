@@ -179,14 +179,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4562158677799321120, guid: bb04795c159ab1b4bb5ee79f3519e698, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8643077273882356287, guid: bb04795c159ab1b4bb5ee79f3519e698, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -709,6 +701,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 815746637472161104, guid: 76610a6f39192294780d621ba9f8b5a4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1014561847854433152, guid: 76610a6f39192294780d621ba9f8b5a4, type: 3}
       propertyPath: player
       value: 
@@ -1051,6 +1047,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccabad5130832d84b99d1af3e1cd6c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioClips:
+    _serializedList: []
   tempAusBox: {fileID: 712396958}
   BgmOffset: 1
   SeOffset: 1
