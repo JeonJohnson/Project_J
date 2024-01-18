@@ -6,12 +6,15 @@ using UnityEditor.Tilemaps;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
+
 
 using AYellowpaper;
 using AYellowpaper.SerializedCollections;
 using MoreMountains.Tools;
 using static UnityEditor.Experimental.GraphView.GraphView;
+using Unity.IO.LowLevel.Unsafe;
 
 public enum tileGridState
 { 
@@ -170,7 +173,8 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         }
 
         StageManager.Instance.rooms.AddRange(rooms);
-    }
+		GameManager.Instance?.CancleLoadingEvent(CreateMapIntoTitleScene, 2, 3);
+	}
 
 
     public void Setup()
@@ -649,9 +653,12 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
 	}
 
-	private void OnDestroy()
+    
+	private void OnDisable()
 	{
-		GameManager.Instance?.CancleLoadingEvent(CreateMapIntoTitleScene, 2, 3);
+		
 	}
+
+
 }
 

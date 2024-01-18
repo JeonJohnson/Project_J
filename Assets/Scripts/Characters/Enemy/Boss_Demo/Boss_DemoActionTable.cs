@@ -392,6 +392,7 @@ public class Boss_Hide : Action<Boss_Demo>
         runEffectGo.transform.position = me.transform.position;
         yield return new WaitForSeconds(0.2f);
         me.gameObject.SetActive(false);
-        //StageManager.Instance?.OnMonsterDeath();
+        
+        IngameController.Instance?.GameOver(true);
     }
 }
