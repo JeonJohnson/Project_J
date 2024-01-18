@@ -14,7 +14,7 @@ public class TangtangiActionTable : ActionTable<Tangtangi>
 
     public TangtangiActions CurAction_e
     {
-        get { return preAction_e; }
+        get { return curAction_e; }
     }
 
     private Vector3 dir;
@@ -403,8 +403,8 @@ public class Tangtangi_Death : Action<Tangtangi>
         //wp_prop.transform.position = me.transform.position;
         //wp_prop.transform.localScale = me.transform.localScale;
         //wp_prop.GetComponent<Prop>().Play(1.5f);
-        StageManager.Instance?.OnEnemyDeath();
-        me.gameObject.SetActive(false);
+        //StageManager.Instance?.OnEnemyDeath();
+        //me.gameObject.SetActive(false);
     }
 
     public override void ActionUpdate() { }

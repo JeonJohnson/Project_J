@@ -156,7 +156,7 @@ public class StageManager : Singleton<StageManager>
 		--enemyCount[curRoomIndex];
 		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
 
-		if (--enemyCount[curRoomIndex] <= 0)
+		if (enemyCount[curRoomIndex] <= 0)
 		{
 			OnClearStage();
 		}

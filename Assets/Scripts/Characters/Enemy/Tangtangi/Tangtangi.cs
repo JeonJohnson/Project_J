@@ -46,13 +46,16 @@ public class Tangtangi : Enemy
         hitFeedback?.PlayFeedbacks();
         if (status.curHp <= 0 && ActionTable.CurAction_e != TangtangiActions.Death)
         {
+            Debug.Log("ตุมþ");
             GameObject go = PoolingManager.Instance.LentalObj(deadBodyPrefab);
             go.transform.position = this.transform.position;
             go.GetComponent<Rigidbody2D>()?.AddForce(-dir * 800f);
 
             SoundManager.Instance.PlayTempSound("Tangtangi_Death", this.transform.position);
             ActionTable.SetCurAction((int)TangtangiActions.Death);
-		}
+            StageManager.Instance?.OnEnemyDeath();
+            this.gameObject.SetActive(false);
+        }
 
         HitInfo hitInfo = new HitInfo();
         return hitInfo;
