@@ -29,6 +29,10 @@ public class StageManager : Singleton<StageManager>
 
 	public int[] enemyCount;
 
+	public List<GameObject> bullets;
+	public List<Enemy_DeadBody> deadbody;
+
+
 	//public Data<int> curMonsterCount; //정민아 이거랑 UI랑 연결하면 될거 같애
 	//public void OnMonsterDeath()
 	//{//정민아 몬스터 죽을 때 마다 호출해줘
@@ -116,9 +120,11 @@ public class StageManager : Singleton<StageManager>
 		rooms.Add(bossRoom);
 		
 		enemyCount = new int[rooms.Count];
+		//cleanObjs = new List<GameObject>[rooms.Count];
 		for (int i = 0; i < rooms.Count; ++i)
 		{
 			enemyCount[i] = rooms[i].enemyPos.Count;
+			//cleanObjs[i] = new List<GameObject>();
 		}
 
 		curRoom = rooms[curRoomIndex];
@@ -130,6 +136,8 @@ public class StageManager : Singleton<StageManager>
 
 	public void NextRoom()
 	{
+		CleanObjects();
+
 		rooms[curRoomIndex].gameObject.SetActive(false);
 
 		curRoomIndex = curRoomIndex + 1 >= rooms.Count ? 0 : curRoomIndex + 1 ;
@@ -140,8 +148,36 @@ public class StageManager : Singleton<StageManager>
 		Vector3 playerPos = curRoomIndex != rooms.Count - 1 ? curRoom.centerPos : new(3.5f, 7.5f, 0f);
 
 		IngameController.Instance.Player.transform.position = playerPos;
+		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
 		IngameController.Instance.UpdateMinimapRenderCam(curRoom.centerPos, curRoom.size.y / 2f);
 	}
+
+	public void AddBullet(GameObject obj)
+	{
+		bullets.Add(obj);
+	}
+
+	public void AddDeadBody(Enemy_DeadBody script)
+	{
+		deadbody.Add(script);
+	}
+
+	public void CleanObjects()
+	{
+		for (int i = 0; i < bullets.Count; ++i)
+		{
+			Destroy(bullets[i]);
+		}
+
+		foreach (var item in deadbody)
+		{
+			item.Return();
+		}
+
+		bullets.Clear();
+		deadbody.Clear();
+	}
+
 
 	public void DestoryRooms()
 	{
@@ -220,6 +256,10 @@ public class StageManager : Singleton<StageManager>
 		rooms = new List<Room_Drunken>();
 		
 		DontDestroyOnLoad(gameObject);
+
+
+		bullets = new List<GameObject>();
+		deadbody = new List<Enemy_DeadBody>();
 	}
 
 	private void Start()

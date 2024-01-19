@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -24,26 +24,39 @@ public class Enemy_DeadBody : MonoBehaviour
     {
         if (!itemData)
         {
-            Debug.Log("¾ÆÀÌÅÛµ¥ÀÌÅÍ ¾øÀ½");
+            Debug.Log("ì•„ì´í…œë°ì´í„° ì—†ìŒ");
             return;
         }
+
         IngameController.Instance.Player.inventroy.AddItem(itemData);
     }
 
     private IEnumerator ReturnPoolingCenterCoro()
     {
         yield return new WaitForSeconds(removeTime);
-        suckable.col.enabled = false;
-        suckable.srdr.DOColor(Color.clear, 1f).OnComplete(() => { PoolingManager.Instance.ReturnObj(this.gameObject); });
-    }
 
-    private void OnEnable()
+		//ê·¼í¬ìž„ì‹œì¶”ê°€
+		this.gameObject.SetActive(false);
+		//ê·¼í¬ìž„ì‹œì¶”ê°€
+
+		//suckable.col.enabled = false;
+		//suckable.srdr.DOColor(Color.clear, 1f).OnComplete(() => { PoolingManager.Instance.ReturnObj(this.gameObject); });
+	}
+
+	public void Return()
+	{
+		suckable.srdr.color = Color.white;
+		PoolingManager.Instance.ReturnObj(this.gameObject);
+	}
+
+	private void OnEnable()
     {
         suckable = GetComponent<Suckable>();
         col = this.gameObject.GetComponent<Collider2D>();
         col.enabled = true;
         suckable.OnSucked = null;
         suckable.OnSucked += () => OnSuckedEvent();
+
         StartCoroutine(ReturnPoolingCenterCoro());
     }
 }

@@ -1,4 +1,4 @@
-using Enums;
+﻿using Enums;
 using Structs;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,12 +46,18 @@ public class Tangtangi : Enemy
         hitFeedback?.PlayFeedbacks();
         if (status.curHp <= 0 && ActionTable.CurAction_e != TangtangiActions.Death)
         {
-            Debug.Log("����");
+            Debug.Log("뒈짓");
             GameObject go = PoolingManager.Instance.LentalObj(deadBodyPrefab);
             go.transform.position = this.transform.position;
             go.GetComponent<Rigidbody2D>()?.AddForce(-dir * 800f);
 
-            SoundManager.Instance.PlayTempSound("Tangtangi_Death", this.transform.position);
+			
+			//근희임시추가
+			StageManager.Instance.AddDeadBody(go.GetComponent<Enemy_DeadBody>());
+			//근희임시추가
+
+
+			SoundManager.Instance.PlayTempSound("Tangtangi_Death", this.transform.position);
             ActionTable.SetCurAction((int)TangtangiActions.Death);
             StageManager.Instance?.OnEnemyDeath();
             this.gameObject.SetActive(false);

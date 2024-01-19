@@ -1,4 +1,4 @@
-using Structs;
+﻿using Structs;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
@@ -63,7 +63,11 @@ public class Bullet_Normal : Bullet
                 Resetting();
                 GameObject particle = PoolingManager.Instance.LentalObj("Effect_Smoke_04");
                 particle.transform.position = this.transform.position;
-                Destroy(this.gameObject);
+
+				//근희임시추가
+				this.gameObject.SetActive(false);
+				//근희임시추가
+				//Destroy(this.gameObject);
             }
         }
     }
@@ -77,7 +81,7 @@ public class Bullet_Normal : Bullet
 
     public virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        //Splatter �ɼ� �϶��� ȣ��ɵ�
+        //Splatter 옵션 일때만 호출될듯
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             SetLeftCount(splatterStat.leftCount - 1);
@@ -86,14 +90,18 @@ public class Bullet_Normal : Bullet
             {
                 GenerateSmoke();
                 Resetting();
-                Destroy(this.gameObject);
+
+				//근희임시추가
+				this.gameObject.SetActive(false);
+				//근희임시추가
+				//Destroy(this.gameObject);
             }
 
             Vector2 normal = collision.GetContact(0).point;
             Vector2 normalDir = new Vector2(transform.position.x, transform.position.y) - normal;
 
 
-            // ƨ�� ���� ����
+            // 튕김 방향 설정
             splatterStat.bulletDir = normalDir;
         }
         else if (((1 << collision.gameObject.layer) & defaultStat.targetLayer) != 0)
@@ -115,8 +123,12 @@ public class Bullet_Normal : Bullet
                     {
                         GenerateSmoke();
                         Resetting();
-                        Destroy(this.gameObject);
-                    }
+
+						//근희임시추가
+						this.gameObject.SetActive(false);
+						//근희임시추가
+						//Destroy(this.gameObject);
+					}
                     else
                     {
                         GameObject particle = PoolingManager.Instance.LentalObj("Effect_Smoke_04");
@@ -128,18 +140,26 @@ public class Bullet_Normal : Bullet
                     GameObject particle = PoolingManager.Instance.LentalObj("Effect_Hit_" + Random.Range(0, 3).ToString());
                     particle.transform.position = this.transform.position + -(Vector3)normalDir * 1.5f;
                     Resetting();
-                    Destroy(this.gameObject);
-                }
-            }
+
+					//근희임시추가
+					this.gameObject.SetActive(false);
+					//근희임시추가
+					//Destroy(this.gameObject);
+				}
+			}
         }
 
         if (splatterStat.leftCount < 0)
         {
             Resetting();
-            Debug.Log("�� ���ڴٵ� �ı�");
-            Destroy(this.gameObject);
-        }
-    }
+            Debug.Log("앍 숫자다됨 파괴");
+
+			//근희임시추가
+			this.gameObject.SetActive(false);
+			//근희임시추가
+			//Destroy(this.gameObject);
+		}
+	}
 
     private void GenerateSmoke()
     {

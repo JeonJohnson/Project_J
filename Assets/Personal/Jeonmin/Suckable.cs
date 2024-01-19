@@ -1,4 +1,4 @@
-using MoreMountains.Tools;
+ï»¿using MoreMountains.Tools;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,9 +12,9 @@ public class Suckable : MonoBehaviour
     // sucked option 
     public enum BulletState
     {
-        Fire, //¹ß»ç¸¸ µÆÀ» ¶§
-        SuckWait, //Suction ½ÃÀÛµÇ°í Àá½Ã À§Ä¡ ¸ØÃèÀ» ¶§
-        Sucking, //±× ÈÄ Ç×¾Æ¸® ÀÔ±¸ÂÊÀ¸·Î µş·Á¿Ã ¶§
+        Fire, //ë°œì‚¬ë§Œ ëì„ ë•Œ
+        SuckWait, //Suction ì‹œì‘ë˜ê³  ì ì‹œ ìœ„ì¹˜ ë©ˆì·„ì„ ë•Œ
+        Sucking, //ê·¸ í›„ í•­ì•„ë¦¬ ì…êµ¬ìª½ìœ¼ë¡œ ë”¸ë ¤ì˜¬ ë•Œ
         End
     }
 
@@ -35,8 +35,8 @@ public class Suckable : MonoBehaviour
     [Serializable]
     public struct SuckedStat
     {
-        public float suckWaitRandTime; //¸ØÃß´Â ½Ã°£ (·£´ıÁÙ²¨ÀÓ)
-        public float suckingRandTime; //¸ØÃß°í³ª¼­ »¡·Áµé¾î°¥¶§ °É¸®´Â ½Ã°£. (·£´ı ÁÙ²¨ÀÓ)
+        public float suckWaitRandTime; //ë©ˆì¶”ëŠ” ì‹œê°„ (ëœë¤ì¤„êº¼ì„)
+        public float suckingRandTime; //ë©ˆì¶”ê³ ë‚˜ì„œ ë¹¨ë ¤ë“¤ì–´ê°ˆë•Œ ê±¸ë¦¬ëŠ” ì‹œê°„. (ëœë¤ ì¤„êº¼ì„)
         public float suckingTimeRatio;
 
         public Vector2 suckStartPos;
@@ -45,10 +45,10 @@ public class Suckable : MonoBehaviour
 
     [Header("Options")]
 
-    [Tooltip("»óÅÂ º¯¼ö°ªµé")]
+    [Tooltip("ìƒíƒœ ë³€ìˆ˜ê°’ë“¤")]
     public SuckedStat suckedStat;
 
-    [Tooltip("ÇöÀç »óÅÂ")]
+    [Tooltip("í˜„ì¬ ìƒíƒœ")]
     public BulletState curState;
 
     [Header("Default Components")]
@@ -116,13 +116,17 @@ public class Suckable : MonoBehaviour
 
         OnSucked?.Invoke();
 
-        //¸®¼ÂÇÏ±â
+        //ë¦¬ì…‹í•˜ê¸°
         Resetting();
 
         Bullet bullet = GetComponent<Bullet>();
         if (bullet) bullet.Resetting();
         if(GetComponent<Bullet>()) { }
-        Destroy(this.gameObject);
+
+		//ê·¼í¬ì„ì‹œì¶”ê°€
+		this.gameObject.SetActive(false);
+		//ê·¼í¬ì„ì‹œì¶”ê°€
+		//Destroy(this.gameObject);
     }
 
     public void Resetting()

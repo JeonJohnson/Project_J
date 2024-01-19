@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -54,7 +54,12 @@ public class Weapon_Tangtangi : Weapon
         rndDir.Normalize();
 
         GameObject go = Instantiate(testBulletPrefab, firePos.transform.position, Quaternion.identity);
-        go.GetComponent<Bullet>().Fire(rndDir, owner.status.bulletSplatterCount, owner.status.bulletSpeed, owner.status.bulletSize, 1);
+
+		//근희임시추가
+		StageManager.Instance.AddBullet(go);
+		//근희임시추가
+
+		go.GetComponent<Bullet>().Fire(rndDir, owner.status.bulletSplatterCount, owner.status.bulletSpeed, owner.status.bulletSize, 1);
 
         Vector3 weaponRecoilDir;
         weaponRecoilDir = this.transform.up;

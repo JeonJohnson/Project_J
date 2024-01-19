@@ -248,7 +248,12 @@ public class Weapon_Player : Weapon
         {
             case BulletType.Normal:
                 bullet = PoolingManager.Instance.LentalObj(weaponData.bulletPrefabName);
-                Debug.Log(bullet.name);
+
+                //근희임시추가
+                StageManager.Instance.AddBullet(bullet);
+				//근희임시추가
+
+				Debug.Log(bullet.name);
                 break;
             case BulletType.Laser:
                 bullet = Instantiate(testLaserBulletPrefab);
