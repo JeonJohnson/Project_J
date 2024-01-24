@@ -8,9 +8,13 @@ using UnityEngine.SceneManagement;
 /// 
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class Singleton_Old<T> : MonoBehaviour where T : MonoBehaviour
 {
+	//제네뤽 클래스
+	//C++의 템플릿 클래스 비슷한거임
 	private static T instance = null;
+	//public bool isDontDestory;
+	//스스로 Awake에서 SetDestructible 호출해서 설정해주셈
 
 	public static T Instance
 	{
@@ -65,28 +69,23 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 		return instance;
 	}
 
-	//public static void CreateManagerBoxes()
-	//{
-	//	DontDestroyOnLoad(Funcs.CheckGameObjectExist("ManagerBox"));
-	//	Funcs.CheckGameObjectExist("ManagerBox_Destory");
-	//}
+	public static void CreateManagerBoxes()
+	{
+		DontDestroyOnLoad(Funcs.CheckGameObjectExist("ManagerBox"));
+		Funcs.CheckGameObjectExist("ManagerBox_Destory");
+	}
 
-	///// <summary>
-	///// Plz Must Call this Method at Awake instead of 'DontDestroyOnLoad'
-	///// </summary>
-	///// <param name="isDestroy"></param>
-	//public void SetDestructible(bool isDestroy)
-	//{
-	//	string boxName = string.Empty;
-	//	boxName = isDestroy ? Defines.destoryMgrBoxName : Defines.dontDestoryMgrBoxName;
-	//	gameObject.transform.SetParent(Funcs.CheckGameObjectExist(boxName).transform);
-	//}
+	/// <summary>
+	/// Plz Must Call this Method at Awake instead of 'DontDestroyOnLoad'
+	/// </summary>
+	/// <param name="isDestroy"></param>
+	public void SetDestructible(bool isDestroy)
+	{
+		string boxName = string.Empty;
+		boxName = isDestroy ? Defines.destoryMgrBoxName : Defines.dontDestoryMgrBoxName;
+		gameObject.transform.SetParent(Funcs.CheckGameObjectExist(boxName).transform);
+	}
 
-
-	//public virtual void Awake()
-	//{
-		
-	//}
 
 
 
