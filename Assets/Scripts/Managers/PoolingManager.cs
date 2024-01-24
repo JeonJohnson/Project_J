@@ -6,6 +6,12 @@ using UnityEngine;
 using AYellowpaper.SerializedCollections;
 using Enums;
 
+public interface IPoolable
+{
+    void PoolableInit();
+    void PoolableReset();
+}
+
 public class PoolingManager: Singleton<PoolingManager>
 {
 	[SerializedDictionary("Prefabs", "Pool Count")]
@@ -112,18 +118,35 @@ public class PoolingManager: Singleton<PoolingManager>
 	//public T	LentalObj<T>(string obj) 
 
 	public GameObject LentalObj(string objName, int count = 1)
-	{
+	{ 
 		//디스이즈 람다식
 		var tempPair = poolingObjDic.FirstOrDefault(t => t.Key == objName);
-		if (tempPair.Value.Count < count)
+
+        if (tempPair.Value.Count < count)
 		{
 			FillObject(objName, count * 2);
-			return LentalObj(objName, count);
+
+			GameObject obj = LentalObj(objName, count);
+
+            IPoolable[] poolables = obj.GetComponents<IPoolable>();
+            foreach (var poolable in poolables)
+            {
+                poolable.PoolableInit();
+            }
+
+            return obj;
 		}
 		else 
 		{
 			GameObject tempObj = tempPair.Value.Dequeue();
-			tempObj.SetActive(true);
+
+            IPoolable[] poolables = tempObj.GetComponents<IPoolable>();
+            foreach (var poolable in poolables)
+            {
+                poolable.PoolableInit();
+            }
+
+            tempObj.SetActive(true);
 			tempObj.transform.SetParent(null);
 			return tempObj;
 		}
@@ -153,16 +176,21 @@ public class PoolingManager: Singleton<PoolingManager>
 			{
 				obj.transform.SetParent(objBoxes[i].transform);
 				obj.SetActive(false);
-				tempPair.Value.Enqueue(obj);
+
+                IPoolable[] poolables = obj.GetComponents<IPoolable>();
+                foreach (var poolable in poolables)
+                {
+                    poolable.PoolableReset();
+                }
+
+                tempPair.Value.Enqueue(obj);
 			}
 		}
 	}
 
 	void Awake()
 	{
-        //CreateBoxes();
 		FillAllObjects();
-
     }
 
 

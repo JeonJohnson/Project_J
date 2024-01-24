@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.TextCore.Text;
 
-public class Suckable : MonoBehaviour
+public class Suckable : MonoBehaviour, IPoolable
 {
     // sucked option 
     public enum BulletState
@@ -97,7 +97,7 @@ public class Suckable : MonoBehaviour
 
     public IEnumerator SuckWaitCor()
     {
-        yield return new WaitForSeconds(suckedStat.suckWaitRandTime);
+        yield return new WaitForSeconds(suckedStat.suckWaitRandTime); 
 
         suckedStat.suckingRandTime = UnityEngine.Random.Range(0.15f, 0.35f);
         suckedStat.suckStartPos = transform.position;
@@ -116,20 +116,15 @@ public class Suckable : MonoBehaviour
 
         OnSucked?.Invoke();
 
-        //리셋하기
-        Resetting();
-
-        Bullet bullet = GetComponent<Bullet>();
-        if (bullet) bullet.Resetting();
-        if(GetComponent<Bullet>()) { }
-
-		//근희임시추가
-		this.gameObject.SetActive(false);
-		//근희임시추가
-		//Destroy(this.gameObject);
+        PoolingManager.Instance.ReturnObj(this.gameObject);
     }
 
-    public void Resetting()
+    public void PoolableInit()
+    {
+
+    }
+
+    public void PoolableReset()
     {
         if (projectile != null)
         {

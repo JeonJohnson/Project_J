@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using DG.Tweening;
 
-public class Enemy_DeadBody : MonoBehaviour
+public class Enemy_DeadBody : MonoBehaviour, IPoolable
 {
     public Item itemData;
     public float removeTime = 10f;
@@ -35,22 +35,18 @@ public class Enemy_DeadBody : MonoBehaviour
     {
         yield return new WaitForSeconds(removeTime);
 
-		//근희임시추가
-		this.gameObject.SetActive(false);
-		//근희임시추가
-
-		//suckable.col.enabled = false;
-		//suckable.srdr.DOColor(Color.clear, 1f).OnComplete(() => { PoolingManager.Instance.ReturnObj(this.gameObject); });
+		suckable.col.enabled = false;
+		suckable.srdr.DOColor(Color.clear, 1f).OnComplete(() => { PoolingManager.Instance.ReturnObj(this.gameObject); });
 	}
 
 	public void Return()
 	{
-		suckable.srdr.color = Color.white;
 		PoolingManager.Instance.ReturnObj(this.gameObject);
 	}
 
-	private void OnEnable()
+    public void PoolableInit()
     {
+        suckable.col.enabled = true;
         suckable = GetComponent<Suckable>();
         col = this.gameObject.GetComponent<Collider2D>();
         col.enabled = true;
@@ -58,5 +54,10 @@ public class Enemy_DeadBody : MonoBehaviour
         suckable.OnSucked += () => OnSuckedEvent();
 
         StartCoroutine(ReturnPoolingCenterCoro());
+    }
+
+    public void PoolableReset()
+    {
+        suckable.srdr.color = Color.white;
     }
 }

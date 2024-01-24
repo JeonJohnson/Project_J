@@ -5,8 +5,10 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class Bullet_Normal : Bullet
+public class Bullet_Normal : Bullet, IPoolable
 {
+
+
     private Light2D light2D;
     public Color maxColor;
     public Color minColor;
@@ -23,17 +25,6 @@ public class Bullet_Normal : Bullet
         rb.AddForce(dir * moveSpd, ForceMode2D.Force);
         SetLeftCount(_SplatterCount);
         initialPosition = transform.position;
-    }
-
-    public override void Resetting()
-    {
-        col.enabled = true;
-        srdr.color = defColor;
-        curState = BulletState.Fire;
-        suckedStat.player = null;
-
-        splatterStat.leftCount = splatterStat.maxCount;
-        this.transform.localScale = defScale;
     }
 
     private void Awake()
@@ -60,14 +51,11 @@ public class Bullet_Normal : Bullet
         {
             if (traveledDistance > defaultStat.distanceLimit)
             {
-                Resetting();
                 GameObject particle = PoolingManager.Instance.LentalObj("Effect_Smoke_04");
                 particle.transform.position = this.transform.position;
 
-				//근희임시추가
-				this.gameObject.SetActive(false);
-				//근희임시추가
-				//Destroy(this.gameObject);
+                PoolingManager.Instance.ReturnObj(this.gameObject);
+                //Destroy(this.gameObject);
             }
         }
     }
@@ -89,12 +77,9 @@ public class Bullet_Normal : Bullet
             if (splatterStat.leftCount < 0)
             {
                 GenerateSmoke();
-                Resetting();
 
-				//근희임시추가
-				this.gameObject.SetActive(false);
-				//근희임시추가
-				//Destroy(this.gameObject);
+                PoolingManager.Instance.ReturnObj(this.gameObject);
+                //Destroy(this.gameObject);
             }
 
             Vector2 normal = collision.GetContact(0).point;
@@ -122,13 +107,9 @@ public class Bullet_Normal : Bullet
                     if (splatterStat.leftCount < 0)
                     {
                         GenerateSmoke();
-                        Resetting();
-
-						//근희임시추가
-						this.gameObject.SetActive(false);
-						//근희임시추가
-						//Destroy(this.gameObject);
-					}
+                        PoolingManager.Instance.ReturnObj(this.gameObject);
+                        //Destroy(this.gameObject);
+                    }
                     else
                     {
                         GameObject particle = PoolingManager.Instance.LentalObj("Effect_Smoke_04");
@@ -139,31 +120,36 @@ public class Bullet_Normal : Bullet
                 {
                     GameObject particle = PoolingManager.Instance.LentalObj("Effect_Hit_" + Random.Range(0, 3).ToString());
                     particle.transform.position = this.transform.position + -(Vector3)normalDir * 1.5f;
-                    Resetting();
-
-					//근희임시추가
-					this.gameObject.SetActive(false);
-					//근희임시추가
-					//Destroy(this.gameObject);
-				}
+                    PoolingManager.Instance.ReturnObj(this.gameObject);
+                }
 			}
         }
 
         if (splatterStat.leftCount < 0)
         {
-            Resetting();
-            Debug.Log("앍 숫자다됨 파괴");
-
-			//근희임시추가
-			this.gameObject.SetActive(false);
-			//근희임시추가
-			//Destroy(this.gameObject);
-		}
+            PoolingManager.Instance.ReturnObj(this.gameObject);
+        }
 	}
 
     private void GenerateSmoke()
     {
         GameObject smoke = PoolingManager.Instance.LentalObj("Effect_Smoke_01");
         smoke.transform.position = this.transform.position;
+    }
+
+    public void PoolableInit()
+    {
+       
+    }
+
+    public void PoolableReset()
+    {
+        col.enabled = true;
+        srdr.color = defColor;
+        curState = BulletState.Fire;
+        suckedStat.player = null;
+
+        splatterStat.leftCount = splatterStat.maxCount;
+        this.transform.localScale = defScale;
     }
 }

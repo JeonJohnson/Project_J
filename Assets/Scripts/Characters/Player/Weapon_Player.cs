@@ -79,7 +79,7 @@ public class Weapon_Player : Weapon
 
     public void CheckAttackMode()
     {
-        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData;
+        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData; 
         if (Input.GetKey(KeyCode.Mouse1))
         {
             curAttackMode = AttackMode.Suck;

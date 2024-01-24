@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class Enemy : CObj
+public abstract class Enemy : CObj, IPoolable
 {
     public float distToTarget;
     public Player target;
@@ -25,6 +25,16 @@ public abstract class Enemy : CObj
     {
         HitInfo hitInfo = new HitInfo();
         return hitInfo;
+    }
+
+    public void PoolableInit()
+    {
+        Initialize();
+    }
+
+    public void PoolableReset()
+    {
+
     }
 
     public float DistToTarget
