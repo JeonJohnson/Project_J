@@ -118,9 +118,11 @@ public class GameManager : Singleton<GameManager>
 
 	private void Awake()
 	{
+        Initailize(false);
+
 		Debug.Log("GameManager Awake");
-        CreateManagerBoxes();
-		SetDestructible(false);
+        //CreateManagerBoxes();
+		//SetDestructible(false);
 
         Application.targetFrameRate = 60;
 
