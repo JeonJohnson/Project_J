@@ -31,9 +31,9 @@ public class Tangtangi : Enemy
         status.fireTimer = status.fireWaitTime;
     }
 
-    public override void Awake()
+    public override void Start()
     {
-        base.Awake();
+        base.Start();
     }
 
     public override HitInfo Hit(int dmg, Vector2 dir)
@@ -53,7 +53,7 @@ public class Tangtangi : Enemy
 
 			
 			//근희임시추가
-			StageManager.Instance.AddDeadBody(go.GetComponent<Enemy_DeadBody>());
+			StageManager.Instance?.AddDeadBody(go.GetComponent<Enemy_DeadBody>());
 			//근희임시추가
 
 

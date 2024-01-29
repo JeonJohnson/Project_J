@@ -37,7 +37,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 		}
 	}
 
-	public void Initailize(bool destory)
+    public void Initailize(bool destory)
 	{
 		if (instance == null)
 		{
@@ -54,73 +54,77 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 		}
 	}
 
-	//public static T InstantiateManager(/*bool isDontDestroy*/)
-	//{
-	//	//1. 하이어라키 창에 있는지 확인.
-	//	//2. 없으면 ManagerPrefabs 폴더안에 같은이름 프리팹 있는지 확인.
-	//	//3. 없으면 새로 만듬.
+    //public static T InstantiateManager(/*bool isDontDestroy*/)
+    //{
+    //	//1. 하이어라키 창에 있는지 확인.
+    //	//2. 없으면 ManagerPrefabs 폴더안에 같은이름 프리팹 있는지 확인.
+    //	//3. 없으면 새로 만듬.
 
-	//	if (instance == null)
-	//	{
-	//		string managerName = typeof(T).Name;
-	//		GameObject managerObj = null;
-	//		T tempInstance = FindObjectOfType<T>();
+    //	if (instance == null)
+    //	{
+    //		string managerName = typeof(T).Name;
+    //		GameObject managerObj = null;
+    //		T tempInstance = FindObjectOfType<T>();
 
-	//		if (tempInstance)
-	//		{ //이미 하이어라키창에 오브젝트가 올라가져 있을 경우
+    //		if (tempInstance)
+    //		{ //이미 하이어라키창에 오브젝트가 올라가져 있을 경우
 
-	//			managerObj = tempInstance.gameObject;
-	//		}
-	//		else
-	//		{ //없는 경우 (새로 게임오브젝트 만들어야함)
-	//		  //1. 프리팹 찾아보기
-	//			GameObject prefab = Resources.Load(Defines.managerPrfabFolderPath + typeof(T).Name) as GameObject;
+    //			managerObj = tempInstance.gameObject;
+    //		}
+    //		else
+    //		{ //없는 경우 (새로 게임오브젝트 만들어야함)
+    //		  //1. 프리팹 찾아보기
+    //			GameObject prefab = Resources.Load(Defines.managerPrfabFolderPath + typeof(T).Name) as GameObject;
 
-	//			if (prefab)
-	//			{
-	//				managerObj = Instantiate(prefab); //여기서 Awake 한번 더 호출함.
-	//				managerObj.name = managerObj.name.Replace("(Clone)", string.Empty);
-	//				tempInstance = managerObj.GetComponent<T>();
-	//			}
-	//			else
-	//			{
-	//				managerObj = new GameObject(managerName);
-	//				tempInstance = managerObj.AddComponent<T>();//여기서 Awake 한번 더 호출함.
-	//			}
-	//		}
+    //			if (prefab)
+    //			{
+    //				managerObj = Instantiate(prefab); //여기서 Awake 한번 더 호출함.
+    //				managerObj.name = managerObj.name.Replace("(Clone)", string.Empty);
+    //				tempInstance = managerObj.GetComponent<T>();
+    //			}
+    //			else
+    //			{
+    //				managerObj = new GameObject(managerName);
+    //				tempInstance = managerObj.AddComponent<T>();//여기서 Awake 한번 더 호출함.
+    //			}
+    //		}
 
-	//		instance = tempInstance;
-	//	}
+    //		instance = tempInstance;
+    //	}
 
-	//	return instance;
-	//}
+    //	return instance;
+    //}
 
-	//public static void CreateManagerBoxes()
-	//{
-	//	DontDestroyOnLoad(Funcs.CheckGameObjectExist("ManagerBox"));
-	//	Funcs.CheckGameObjectExist("ManagerBox_Destory");
-	//}
+    //public static void CreateManagerBoxes()
+    //{
+    //	DontDestroyOnLoad(Funcs.CheckGameObjectExist("ManagerBox"));
+    //	Funcs.CheckGameObjectExist("ManagerBox_Destory");
+    //}
 
-	///// <summary>
-	///// Plz Must Call this Method at Awake instead of 'DontDestroyOnLoad'
-	///// </summary>
-	///// <param name="isDestroy"></param>
-	//public void SetDestructible(bool isDestroy)
-	//{
-	//	string boxName = string.Empty;
-	//	boxName = isDestroy ? Defines.destoryMgrBoxName : Defines.dontDestoryMgrBoxName;
-	//	gameObject.transform.SetParent(Funcs.CheckGameObjectExist(boxName).transform);
-	//}
-
-
-	//public virtual void Awake()
-	//{
-
-	//}
+    ///// <summary>
+    ///// Plz Must Call this Method at Awake instead of 'DontDestroyOnLoad'
+    ///// </summary>
+    ///// <param name="isDestroy"></param>
+    //public void SetDestructible(bool isDestroy)
+    //{
+    //	string boxName = string.Empty;
+    //	boxName = isDestroy ? Defines.destoryMgrBoxName : Defines.dontDestoryMgrBoxName;
+    //	gameObject.transform.SetParent(Funcs.CheckGameObjectExist(boxName).transform);
+    //}
 
 
+    //public virtual void Awake()
+    //{
 
-	public virtual void OnEnable()
+    //}
+
+    private void Awake()
+    {
+        Debug.Log("매니저 이닛" + this.gameObject.name);
+        Initailize(false);
+    }
+
+    public virtual void OnEnable()
 	{
 		SceneManager.sceneLoaded += OnSceneChanged;
 

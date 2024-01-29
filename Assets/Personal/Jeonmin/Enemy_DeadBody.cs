@@ -46,18 +46,20 @@ public class Enemy_DeadBody : MonoBehaviour, IPoolable
 
     public void PoolableInit()
     {
-        suckable.col.enabled = true;
         suckable = GetComponent<Suckable>();
         col = this.gameObject.GetComponent<Collider2D>();
         col.enabled = true;
         suckable.OnSucked = null;
         suckable.OnSucked += () => OnSuckedEvent();
-
-        StartCoroutine(ReturnPoolingCenterCoro());
     }
 
     public void PoolableReset()
     {
         suckable.srdr.color = Color.white;
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutine(ReturnPoolingCenterCoro());
     }
 }

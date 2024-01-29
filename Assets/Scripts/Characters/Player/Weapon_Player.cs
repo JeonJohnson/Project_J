@@ -250,7 +250,7 @@ public class Weapon_Player : Weapon
                 bullet = PoolingManager.Instance.LentalObj(weaponData.bulletPrefabName);
 
                 //근희임시추가
-                StageManager.Instance.AddBullet(bullet);
+                StageManager.Instance?.AddBullet(bullet);
 				//근희임시추가
 
 				Debug.Log(bullet.name);

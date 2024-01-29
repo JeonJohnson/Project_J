@@ -12,7 +12,7 @@ public abstract class Enemy : CObj, IPoolable
     public EnemyStatus status;
     [HideInInspector] public Vector3 spriteDir;
 
-    public virtual void Awake()
+    public virtual void Start()
     {
         Initialize();
         if (target == null) target = IngameController.Instance.Player;

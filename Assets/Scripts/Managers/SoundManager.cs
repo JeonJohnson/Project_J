@@ -273,6 +273,7 @@ public class SoundManager : Singleton<SoundManager>
 
     public void Awake()
 	{
+        Initailize(false);
         DontDestroyOnLoad(this);
         //SearchAllAudClips();
         CreateTempAudioSource(50);
