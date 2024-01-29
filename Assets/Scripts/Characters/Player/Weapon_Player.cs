@@ -11,6 +11,10 @@ public class Weapon_Player : Weapon
     [System.Serializable]
     public struct SuctionStat
     {
+        public int TestintValue;
+
+        public SpriteRenderer fovSprite;
+
         public Color fovIdleColor;
         public Color fovSuctionColor;
         public Data<float> curSuctionRatio;
@@ -24,46 +28,34 @@ public class Weapon_Player : Weapon
 
     private Player owner;
     public SuctionStat suctionStat;
-    public SpriteRenderer fovSprite;
-
     public AttackMode curAttackMode;
-
     public Holdable holdableItem;
 
-    public SpriteRenderer weaponSpriteRenderer;
+    public int remainBullet;
+    public Item_Weapon defaultWeaponItem;
 
-    private void Awake()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.R))
         {
-            fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
-            fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
+            suctionStat.fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
+            suctionStat.fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
         }
         if(owner.aimController != null)
         {
             if(owner.aimController.GetAimAngle(Vector3.up) < 90f)
             {
-                ChangeImageSortOrder(weaponSpriteRenderer,"Characters", 0);
-                ChangeImageSortOrder(fovSprite, "Characters", 0);
+                ChangeImageSortOrder(weaponSprite, "Characters", 0);
+                ChangeImageSortOrder(suctionStat.fovSprite, "Characters", 0);
             }
             else
             {
-                ChangeImageSortOrder(weaponSpriteRenderer,"Characters", 2);
-                ChangeImageSortOrder(fovSprite, "Characters", 2);
+                ChangeImageSortOrder(weaponSprite, "Characters", 2);
+                ChangeImageSortOrder(suctionStat.fovSprite, "Characters", 2);
             }
 
         }
-
         CheckAttackMode();
     }
 
@@ -71,10 +63,14 @@ public class Weapon_Player : Weapon
     {
         base.Init(_owner);
         owner = (Player) _owner;
+        Debug.Log(suctionStat.TestintValue);
         suctionStat.curSuctionRatio = new Data<float>();
         suctionStat.curSuctionRatio.Value = 1f;
-        fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
-        fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
+        Debug.Log(suctionStat.fovSprite.name);
+        suctionStat.fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
+        suctionStat.fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
+
+        weaponSprite.sprite = owner.inventroy.curWeaponSlot?.weaponSprite;
     }
 
     public void CheckAttackMode()
@@ -154,28 +150,10 @@ public class Weapon_Player : Weapon
             Vector2 rndDir = rndRot * firePos.up;
             rndDir.Normalize();
             bullet.GetComponent<Bullet>().Fire(rndDir, 5, bulletSpeed, bulletSize, dmg);
-            //bullet.GetComponent<Projectile>().Speed = bulletSpeed;
-            //bullet.GetComponent<Projectile>().SetDirection(rndDir,transform.rotation * Quaternion.Euler(0, 0, -90), false);
             owner.inventroy.bulletCount.Value--;
         }
         fireTimer = weaponData.fireRate;
         fireTimer = CheckFireTimer(weaponData, fireTimer);
-        #region OldCode
-        //fireTimer -= Time.deltaTime;
-        //fireTimer = Mathf.Clamp(fireTimer, 0, stat.fireRate);
-
-        //if (Input.GetKey(KeyCode.Mouse0))
-        //{
-        //    if (fireTimer <= 0)
-        //    {
-        //        //탕
-        //        GameObject bullet = Instantiate(testBulletPrefab);
-        //        bullet.transform.position = firePos.position;
-        //        bullet.GetComponent<Bullet>().Fire(firePos.up, 5);
-        //        fireTimer = stat.fireRate;
-        //    }
-        //}
-        #endregion
     }
 
     private bool CheckFireType(FireTriggerType triggerType, KeyCode keyCode)
@@ -207,21 +185,6 @@ public class Weapon_Player : Weapon
                 }
         }
         return false;
-    }
-
-    private float CheckSpreadAngle(WeaponData weaponData, float curSpread)
-    {
-        switch(weaponData.bulletSpreadType)
-        {
-            case BulletSpreadType.Shotgun: curSpread *= 5f;
-                break;
-        }
-        switch(weaponData.fireTriggerType)
-        {
-            case FireTriggerType.Rapid: curSpread *= 1.4f;
-                break;
-        }
-        return curSpread;
     }
 
     private float CheckFireTimer(WeaponData weaponData, float curFireTimer)
@@ -288,7 +251,7 @@ public class Weapon_Player : Weapon
     {
         if (suctionStat.curSuctionRatio.Value <= 0f)
         {
-            fovSprite.color = this.suctionStat.fovIdleColor;
+            suctionStat.fovSprite.color = this.suctionStat.fovIdleColor;
             suckingItemTimer = 0f;
             return;
         }
@@ -297,7 +260,7 @@ public class Weapon_Player : Weapon
 
         if (suctionStat.curSuctionRatio.Value < amount)
         {
-            fovSprite.color = suctionStat.fovIdleColor;
+            suctionStat.fovSprite.color = suctionStat.fovIdleColor;
             return;
         }
 
@@ -305,7 +268,7 @@ public class Weapon_Player : Weapon
 
         suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value - amount, 0f, 1f);
 
-        fovSprite.color = suctionStat.fovSuctionColor;
+        suctionStat.fovSprite.color = suctionStat.fovSuctionColor;
 
         var cols = Physics2D.OverlapCircleAll(this.transform.position, suctionStat.suctionRange, suctionStat.targetLayer);
 
@@ -343,7 +306,7 @@ public class Weapon_Player : Weapon
 
     public void Recharge()
     {
-        fovSprite.color = this.suctionStat.fovIdleColor;
+        suctionStat.fovSprite.color = this.suctionStat.fovIdleColor;
         suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value + (1 / suctionStat.rechargeTime * Time.deltaTime), 0f, 1f);
     }
 
@@ -351,10 +314,5 @@ public class Weapon_Player : Weapon
     {
         sr.sortingLayerName = layerName;
         sr.sortingOrder = order;
-    }
-
-    private void PlayWeaponRecoilEffect()
-    {
-        //weaponSpriteRenderer.do
     }
 }
