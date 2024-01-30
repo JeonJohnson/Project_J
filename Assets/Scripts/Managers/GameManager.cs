@@ -12,6 +12,21 @@ using UnityEngine.SceneManagement;
 /// </summary>
 /// 
 
+public struct GameOption
+{
+    //static 으로 만들어주기 
+    public float bgmVolume;
+    public float effectVolume;
+
+    public float mouseSensitivity;
+
+    //키 바인딩
+
+    //해상도
+    
+    //따로 데이터 때서 로컬 파일로 저장해둔 뒤에 게임 시작할대 불러오기
+}
+
 public enum SceneName
 { 
     Intro = 1,
@@ -21,12 +36,14 @@ public enum SceneName
 }
 public class GameManager : Singleton<GameManager>
 {
+   //public static GameOption option = new GameOption();
+
     [SerializeField]
     private SceneLoader sceneLoader;
 
     public void LoadScene(int sceneIndex)
     {
-        //SceneManager.LoadScene(sceneIndex);
+        
         if (sceneLoader.isSceneLoading) { Debug.LogWarning("씬이 이미 불러와지는 중입니다"); return; };
         sceneLoader.LoadScene(sceneIndex);
         //좀 있다가 씬 로더 ㄱㄱ
@@ -35,7 +52,6 @@ public class GameManager : Singleton<GameManager>
     public void LoadScene(SceneName scene)
     {
         int sceneIndex = (int)scene;
-        //SceneManager.LoadScene(sceneIndex);
         if (sceneLoader.isSceneLoading) { Debug.LogWarning("씬이 이미 불러와지는 중입니다"); return; };
         sceneLoader.LoadScene(sceneIndex);
         //좀 있다가 씬 로더 ㄱㄱ
@@ -119,10 +135,7 @@ public class GameManager : Singleton<GameManager>
 	private void Awake()
 	{
         Initailize(false);
-
 		Debug.Log("GameManager Awake");
-        //CreateManagerBoxes();
-		//SetDestructible(false);
 
         Application.targetFrameRate = 60;
 

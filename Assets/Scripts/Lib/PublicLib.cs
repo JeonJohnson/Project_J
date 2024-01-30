@@ -68,6 +68,34 @@ public static class Funcs
 		return val;
 	}
 
+	public static T CopyComponent<T>(T origin, GameObject dest) where T : Component
+	{
+		System.Type type = origin.GetType();
+		Component copy = dest.AddComponent(type);
+		System.Reflection.FieldInfo[] fields = type.GetFields();
+		foreach (System.Reflection.FieldInfo field in fields)
+		{
+			field.SetValue(copy, field.GetValue(origin));
+		}
+		return copy as T;
+	}
+
+	//public static T CopyComponent<T>(T origin) where T : Component
+	//{
+	//	System.Type type = origin.GetType();
+		
+	//	GameObject newObj = new GameObject();
+	//	Component copy = newObj.AddComponent(type);
+
+	//	System.Reflection.FieldInfo[] fields = type.GetFields();
+	//	foreach (System.Reflection.FieldInfo field in fields)
+	//	{
+	//		field.SetValue(copy, field.GetValue(origin));
+	//	}
+
+		
+	//	return copy as T;
+	//}
 
 	#region C# default Val Type Casting
 	public static string GetEnumName<T>(int index) where T : struct, IConvertible
