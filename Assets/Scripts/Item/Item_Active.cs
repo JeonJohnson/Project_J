@@ -19,7 +19,6 @@ public class Item_Active : Item
         cooldownTimer.Value = 0f;
         isPlaying = false;
         InitUseAction();
-        player.inventroy.AddItem(this);
         return base.Equip(player);
     }
 

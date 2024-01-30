@@ -1,12 +1,13 @@
-using System;
+using Enums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "New Passive Item", menuName = "Scriptable Object/Items/New Passive Item")]
-public class Item_Passive : Item
+public class Item_Rune : Item
 {
-    public WeaponData weaponData;
+    public UnityAction RuneAction;
+    public RuneEffect RuneEffect;
 
     public override bool Equip(Player player)
     {

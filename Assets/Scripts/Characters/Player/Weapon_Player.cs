@@ -32,7 +32,6 @@ public class Weapon_Player : Weapon
     public Holdable holdableItem;
 
     public int remainBullet;
-    public Item_Weapon defaultWeaponItem;
 
 
     private void Update()
@@ -70,12 +69,12 @@ public class Weapon_Player : Weapon
         suctionStat.fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
         suctionStat.fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
 
-        weaponSprite.sprite = owner.inventroy.curWeaponSlot?.weaponSprite;
+        weaponSprite.sprite = owner.inventroy.curWeaponItem?.weaponSprite;
     }
 
     public void CheckAttackMode()
     {
-        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData; 
+        WeaponData weaponData = owner.inventroy.curWeaponItem.weaponData; 
         if (Input.GetKey(KeyCode.Mouse1))
         {
             curAttackMode = AttackMode.Suck;
@@ -110,7 +109,7 @@ public class Weapon_Player : Weapon
 
         if (owner.inventroy.bulletCount.Value <= 0) return;
 
-        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData;
+        WeaponData weaponData = owner.inventroy.curWeaponItem.weaponData;
 
         // 각도 체크
         float spreadAngle = weaponData.spread;
@@ -136,7 +135,7 @@ public class Weapon_Player : Weapon
 
         // 총알종류 체크 & 발사
 
-        string weaponName = $"Player_{owner.inventroy.curWeaponSlot.item_name}_Fire";
+        string weaponName = $"Player_{owner.inventroy.curWeaponItem.item_name}_Fire";
         SoundManager.Instance.PlaySound(weaponName, Camera.main.gameObject, 0.625f, 0.8f,1f);
 
 
@@ -158,7 +157,7 @@ public class Weapon_Player : Weapon
 
     private bool CheckFireType(FireTriggerType triggerType, KeyCode keyCode)
     {
-        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData;
+        WeaponData weaponData = owner.inventroy.curWeaponItem.weaponData;
 
         switch (triggerType) 
         {

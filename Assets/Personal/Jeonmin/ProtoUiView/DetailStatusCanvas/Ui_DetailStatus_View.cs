@@ -47,7 +47,7 @@ public class Ui_DetailStatus_View : MonoBehaviour
         UpdateItemBoardInfo(ItemBoard_itemSlots[0]);
         UpdateItemInfoBoardHolder(ItemBoard_itemSlots[0].holdingItem);
 
-        ItemBoard_itemSlots[0].UpdateSlot(inventroy.activeItemSlot);
+        //ItemBoard_itemSlots[0].UpdateSlot(inventroy.activeItemSlot);
         ItemBoard_itemSlots[0].button.onClick.RemoveAllListeners();
         ItemBoard_itemSlots[0].button.onClick.AddListener(() => UpdateItemBoardInfo(ItemBoard_itemSlots[0]));
         ItemBoard_itemSlots[0].button.onClick.AddListener(() => UpdateItemInfoBoardHolder(ItemBoard_itemSlots[0].holdingItem));
@@ -56,7 +56,7 @@ public class Ui_DetailStatus_View : MonoBehaviour
         for(int i = 1; i < ItemBoard_itemSlots.Length; i++)
         {
             int temp = i; // 클로저 문제때문에 하드코딩 https://mentum.tistory.com/343
-            ItemBoard_itemSlots[passiveItemSlotIndex].UpdateSlot(inventroy.passiveItemSlot[i-1]);
+            //ItemBoard_itemSlots[passiveItemSlotIndex].UpdateSlot(inventroy.passiveItemSlot[i-1]);
 
             ItemBoard_itemSlots[passiveItemSlotIndex].button.onClick.RemoveAllListeners();
             ItemBoard_itemSlots[passiveItemSlotIndex].button.onClick.AddListener(() => UpdateItemBoardInfo(ItemBoard_itemSlots[temp]));
@@ -110,22 +110,22 @@ public class Ui_DetailStatus_View : MonoBehaviour
 
     public void UpdatePlayerStatusHolder(Player player)
     {
-        string hpText = "HP : " + player.status.curHp.Value.ToString() + "/" + player.status.maxHp;
-        string armorText = "";
-        string moveSpeedText = "Move Speed : " + player.status.walkSpeed.ToString() + player.inventroy.invenBonusStatus.bonus_Player_Speed.ToString();
+        //string hpText = "HP : " + player.status.curHp.Value.ToString() + "/" + player.status.maxHp;
+        //string armorText = "";
+        //string moveSpeedText = "Move Speed : " + player.status.walkSpeed.ToString() + player.inventroy.invenBonusStatus.bonus_Player_Speed.ToString();
 
-        string expectDamageText = "DMG : " + ((player.inventroy.curWeaponSlot.weaponData.damage) *
-            (player.inventroy.curWeaponSlot.weaponData.fireRate) *
-            (player.inventroy.curWeaponSlot.weaponData.bulletNumPerFire)).ToString();
+        //string expectDamageText = "DMG : " + ((player.inventroy.curWeaponSlot.weaponData.damage) *
+        //    (player.inventroy.curWeaponSlot.weaponData.fireRate) *
+        //    (player.inventroy.curWeaponSlot.weaponData.bulletNumPerFire)).ToString();
 
-        string consumeRangeText = "Consume Range : " + player.curWeapon.suctionStat.suctionRange.ToString();
-        string consumeAngleText = "Consume Angle : " + player.curWeapon.suctionStat.suctionAngle.ToString();
-        string bulletTypeText = "Bullet Type : " + player.inventroy.curWeaponSlot.weaponData.bulletType.ToString();
-        string bulletNumPerFireText = "Fire Rate : " + (player.inventroy.curWeaponSlot.weaponData.bulletNumPerFire).ToString();
-        string bulletSpreadText = "Spread : " + player.inventroy.curWeaponSlot.weaponData.spread.ToString();
-        string dpsText = "DPS : " + player.inventroy.curWeaponSlot.weaponData.fireRate.ToString();
+        //string consumeRangeText = "Consume Range : " + player.curWeapon.suctionStat.suctionRange.ToString();
+        //string consumeAngleText = "Consume Angle : " + player.curWeapon.suctionStat.suctionAngle.ToString();
+        //string bulletTypeText = "Bullet Type : " + player.inventroy.curWeaponSlot.weaponData.bulletType.ToString();
+        //string bulletNumPerFireText = "Fire Rate : " + (player.inventroy.curWeaponSlot.weaponData.bulletNumPerFire).ToString();
+        //string bulletSpreadText = "Spread : " + player.inventroy.curWeaponSlot.weaponData.spread.ToString();
+        //string dpsText = "DPS : " + player.inventroy.curWeaponSlot.weaponData.fireRate.ToString();
 
-        playerStatusText.text = hpText /*+ "\n" +armorText*/+"\n"+moveSpeedText+"\n"+expectDamageText+"\n"+consumeRangeText+"\n"+consumeAngleText+"\n"+bulletTypeText+"\n"+bulletNumPerFireText+"\n"+bulletSpreadText+"\n"+dpsText;
+        //playerStatusText.text = hpText /*+ "\n" +armorText*/+"\n"+moveSpeedText+"\n"+expectDamageText+"\n"+consumeRangeText+"\n"+consumeAngleText+"\n"+bulletTypeText+"\n"+bulletNumPerFireText+"\n"+bulletSpreadText+"\n"+dpsText;
     }
 
     public void ShowMenu(MenuList menu)

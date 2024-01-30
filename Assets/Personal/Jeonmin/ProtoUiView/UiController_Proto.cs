@@ -10,6 +10,7 @@ public class UiController_Proto : Singleton<UiController_Proto>
 {
     public Ui_DetailStatus_View playerDetailStatusView;
     public UiView playerHudView;
+    public UI_RuneView runeView;
 
     public Player player;
 
@@ -33,20 +34,15 @@ public class UiController_Proto : Singleton<UiController_Proto>
         player = IngameController.Instance.Player;
         SubscribeUiToPlayer();
         InjectMenuButtonEvent();
-        
 
         // 초기설정
         UpdateHpImage(player.status.curHp.Value);
-        playerHudView.UpdatePassiveItem(null, player.inventroy.passiveItemSlot);
     }
 
     private void SubscribeUiToPlayer()
     {
         if (player.status.curHp != null)
            player.status.curHp.onChange += UpdateHpImage;
-
-        if (player.inventroy.activeItemSlot != null)
-            player.inventroy.activeItemSlot.cooldownTimer.onChange += UpdateActiveItemGauge;
 
         if (player.curWeapon.suctionStat.curSuctionRatio != null)
             player.curWeapon.suctionStat.curSuctionRatio.onChange += playerHudView.UpdateWeaponConsume;
@@ -57,8 +53,8 @@ public class UiController_Proto : Singleton<UiController_Proto>
 
     public void SubscribeActiveUiToItem()
     {
-        if (player.inventroy.activeItemSlot != null)
-            player.inventroy.activeItemSlot.cooldownTimer.onChange += UpdateActiveItemGauge;
+        //if (player.inventroy.activeItemSlot != null)
+        //    player.inventroy.activeItemSlot.cooldownTimer.onChange += UpdateActiveItemGauge;
     }
 
     private void UpdateHpImage(int hp)
@@ -74,8 +70,8 @@ public class UiController_Proto : Singleton<UiController_Proto>
 
     public void UpdateActiveItemGauge(float value)
     {
-        playerHudView.UpdateActiveItemGauge(value / player.inventroy.activeItemSlot.cooldownTime);
-        Debug.Log(value / player.inventroy.activeItemSlot.cooldownTime);
+        //playerHudView.UpdateActiveItemGauge(value / player.inventroy.activeItemSlot.cooldownTime);
+        //Debug.Log(value / player.inventroy.activeItemSlot.cooldownTime);
     }
 
     public void ShowDetailStatusWindow(bool isTrue)
@@ -114,7 +110,7 @@ public class UiController_Proto : Singleton<UiController_Proto>
             case MenuList.Inventory:
                 {
                     playerDetailStatusView.UpdateItemBoardHolder(player.inventroy);
-                    playerDetailStatusView.UpdateItemInfoBoardHolder(player.inventroy.activeItemSlot);
+                    //playerDetailStatusView.UpdateItemInfoBoardHolder(player.inventroy.activeItemSlot);
                 }
                 break;
             case MenuList.CombineList:

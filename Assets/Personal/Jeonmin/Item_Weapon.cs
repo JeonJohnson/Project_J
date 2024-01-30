@@ -12,7 +12,6 @@ public class Item_Weapon : Item
 
     public override bool Equip(Player player)
     {
-        player.inventroy.AddItem(this);
         return base.Equip(player);
     }
 

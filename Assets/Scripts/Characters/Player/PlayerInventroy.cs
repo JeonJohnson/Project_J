@@ -8,225 +8,66 @@ using Enums;
 public class PlayerInventroy : MonoBehaviour
 {
     private Player player;
-    public Item_Weapon curWeaponSlot;
-    public List<Item_Weapon> weaponSlot = new List<Item_Weapon>();
-    public Item_Active activeItemSlot;
-    public Item_Passive[] passiveItemSlot = new Item_Passive[6];
-    public Item[] useableItemSlot = new Item[25];
+    public Item_Weapon curWeaponItem;
+    public Item_Weapon defWeaponItem;
 
-    public BonusStatus invenBonusStatus;
+    public Item curThrowItem;
+
+    public Item_Rune[] equipedRuneList = new Item_Rune[6];
+    public Item_Rune[] runeList = new Item_Rune[20];
 
     public Data<int> bulletCount;
+    public Data<int> ejectRemainBulletCount;
 
-    private float activeItem_CooldownTimer;
+    public BonusStatus runeBonusStatus;
 
     private void Awake()
     {
         player = GetComponent<Player>();
         bulletCount = new Data<int>();
+        ejectRemainBulletCount = new Data<int>();
     }
 
-    int curWpIndex = 0;
-    private void Update()
+    public void EquipWeapon(Item_Weapon item_Weapon)
     {
-        if (Input.GetKeyDown(KeyCode.F) && activeItemSlot != null)
+        curWeaponItem = item_Weapon;
+        //player.curWeapon. ∫Ò¡÷æÛ æ˜µ•¿Ã∆Æ
+
+        UiController_Proto.Instance?.UpdateWeaponImage(curWeaponItem.item_sprite);
+        SoundManager.Instance.PlaySound("Player_WeaponSwap", gameObject);
+    }
+
+    public void AddRune(Item_Rune rune)
+    {
+        if (Funcs.IsArrayFull(runeList))
         {
-              activeItemSlot.Use(player);
+            Debug.Log("¿Œ∫• ≤À¬¸. ∏Æ≈œΩ√≈¥");
+            return; 
         }
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (weaponSlot.Count <= curWpIndex + 1)
-            {
-                curWpIndex = 0;
-            }
-            else
-            {
-                curWpIndex++;
-            }
 
-            curWeaponSlot = weaponSlot[curWpIndex];
-            UiController_Proto.Instance.UpdateWeaponImage(weaponSlot[curWpIndex].item_sprite);
-            SoundManager.Instance.PlaySound("Player_WeaponSwap",gameObject);
-        }
+        Funcs.ArrayAdd(runeList, rune);
+        //∑È ΩΩ∑‘ UI æ˜µ´
     }
 
-    public void AddItem(Item itemData)
+    public void RemoveRune(Item_Rune rune)
     {
-        switch (itemData.e_item_Type)
-        {
-            case Enums.Item_Type.Active:
-                {
-                    activeItemSlot = (Item_Active)itemData;
-                    UiController_Proto.Instance.playerHudView.UpdateActiveItem(itemData.item_sprite);
-                }
-                break;
-            case Enums.Item_Type.Passive:
-                {
-
-                }
-                break;
-            case Enums.Item_Type.Useable:
-                {
-
-                }
-                break;
-            case Enums.Item_Type.Weapon:
-                {
-                    if(!weaponSlot.Contains((Item_Weapon) itemData))
-                    {
-                        weaponSlot.Add((Item_Weapon)itemData);
-                        EquipItem(itemData);
-                    }
-                }
-                break;
-        }
+        Funcs.ArrayRemove(runeList, rune);
+        Funcs.ArrayRemove(equipedRuneList, rune);
+        //∑È ΩΩ∑‘ UI æ˜µ´
     }
 
-    private void EquipItem(Item itemData)
+    public void EquipRune(Item_Rune rune, int slot) 
     {
-        switch (itemData.e_item_Type)
-        {
-            case Enums.Item_Type.Weapon:
-                {
-                    if (curWeaponSlot == ((Item_Weapon)itemData)) break;
-                    else
-                    {
-                        UiController_Proto.Instance.UpdateWeaponImage(itemData.item_sprite);
-                        curWeaponSlot = (Item_Weapon)itemData;
-                        curWpIndex = weaponSlot.IndexOf(curWeaponSlot);
-                    }
-                }
-                break;
-        }
+        if (equipedRuneList[slot]) runeBonusStatus -= equipedRuneList[slot].BonusStatus;
+        runeBonusStatus += rune.BonusStatus;
+
+        Funcs.ArrayReplace(equipedRuneList, rune, slot);
     }
 
-    private void RemoveItem(Item itemData)
+    public void UnEquipRune(Item_Rune rune) 
     {
-        RemoveItemBonus(itemData.BonusStatus);
-
-        switch (itemData.e_item_Type)
-        {
-            case Enums.Item_Type.Active:
-                {
-                    activeItemSlot = null;
-                }
-                break;
-            case Enums.Item_Type.Passive:
-                {
-                    Funcs.ArrayRemove(passiveItemSlot, itemData);
-                }
-                break;
-            case Enums.Item_Type.Useable:
-                {
-                    Funcs.ArrayRemove(useableItemSlot, itemData);
-                }
-                break;
-        }
-    }
-
-    public void ReplaceItem(Item itemData, int index)
-    {
-        switch (itemData.e_item_Type)
-        {
-            case Enums.Item_Type.Active:
-                {
-                    if (activeItemSlot != null) RemoveItemBonus(activeItemSlot.BonusStatus);
-
-                    activeItemSlot = (Item_Active)itemData;
-                    AddItemBonus(itemData.BonusStatus);
-                    UiController_Proto.Instance.playerHudView.UpdateActiveItem(itemData.item_sprite);
-                }
-                break;
-            case Enums.Item_Type.Passive:
-                {
-                    if (Funcs.IsArrayFull(passiveItemSlot)) { Debug.Log("! Inventory is Full"); }
-                    else
-                    {
-                        if (passiveItemSlot[index] != null) RemoveItemBonus(passiveItemSlot[index].BonusStatus);
-                        Funcs.ArrayReplace(passiveItemSlot, itemData, index);
-                        AddItemBonus(itemData.BonusStatus);
-                        UiController_Proto.Instance.playerHudView.UpdatePassiveItem(itemData.item_sprite, passiveItemSlot);
-                    }
-
-                }
-                break;
-            case Enums.Item_Type.Useable:
-                {
-                    if (Funcs.IsArrayFull(useableItemSlot)) { Debug.Log("! Inventory is Full"); }
-                    else
-                    {
-                        if (useableItemSlot[index] != null) RemoveItemBonus(useableItemSlot[index].BonusStatus);
-                        Funcs.ArrayReplace(useableItemSlot, itemData, index);
-                        AddItemBonus(itemData.BonusStatus);
-                    }
-
-                }
-                break;
-        }
-    }
-
-
-    #region itemBonusCalcFuncs
-    private void AddItemBonus(BonusStatus itemBonus)
-    {
-        this.invenBonusStatus.bonus_Player_Hp += itemBonus.bonus_Player_Hp;
-        this.invenBonusStatus.bonus_Player_Armor += itemBonus.bonus_Player_Armor;
-        this.invenBonusStatus.bonus_Player_Speed += itemBonus.bonus_Player_Speed;
-        this.invenBonusStatus.bonus_Weapon_Speed += itemBonus.bonus_Weapon_Speed;
-        this.invenBonusStatus.bonus_Weapon_Spread += itemBonus.bonus_Weapon_Spread;
-        this.invenBonusStatus.bonus_Weapon_Damage += itemBonus.bonus_Weapon_Damage;
-        this.invenBonusStatus.bonus_Weapon_FireRate += itemBonus.bonus_Weapon_FireRate;
-        this.invenBonusStatus.bonus_Weapon_BulletNumPerFire += itemBonus.bonus_Weapon_BulletNumPerFire;
-        this.invenBonusStatus.bonus_Weapon_Critial += itemBonus.bonus_Weapon_Critial;
-        this.invenBonusStatus.bonus_Weapon_BulletSize += itemBonus.bonus_Weapon_BulletSize;
-    }
-
-    private void RemoveItemBonus(BonusStatus itemBonus)
-    {
-        this.invenBonusStatus.bonus_Player_Hp -= itemBonus.bonus_Player_Hp;
-        this.invenBonusStatus.bonus_Player_Armor -= itemBonus.bonus_Player_Armor;
-        this.invenBonusStatus.bonus_Player_Speed -= itemBonus.bonus_Player_Speed;
-        this.invenBonusStatus.bonus_Weapon_Speed -= itemBonus.bonus_Weapon_Speed;
-        this.invenBonusStatus.bonus_Weapon_Spread -= itemBonus.bonus_Weapon_Spread;
-        this.invenBonusStatus.bonus_Weapon_Damage -= itemBonus.bonus_Weapon_Damage;
-        this.invenBonusStatus.bonus_Weapon_FireRate -= itemBonus.bonus_Weapon_FireRate;
-        this.invenBonusStatus.bonus_Weapon_BulletNumPerFire -= itemBonus.bonus_Weapon_BulletNumPerFire;
-        this.invenBonusStatus.bonus_Weapon_Critial -= itemBonus.bonus_Weapon_Critial;
-        this.invenBonusStatus.bonus_Weapon_BulletSize -= itemBonus.bonus_Weapon_BulletSize;
-    }
-    #endregion
-
-    private void AddWeaponUpgradeData(WeaponData weaponUpgradeData, Weapon_Player weapon)
-    {
-
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
-        //{
-        //    collision.gameObject.GetComponent<ItemPicker>().ShowInteractButton(true);
-        //}
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
-        {
-            if(Input.GetKey(KeyCode.E))
-            {
-                //Debug.Log("≈€ √ﬂ∞°");
-                //ItemPicker itemPicker = collision.gameObject.GetComponent<ItemPicker>();
-                //itemPicker.Equip(player);
-                //collision.gameObject.SetActive(false);
-            }
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        //if (collision.gameObject.layer == LayerMask.NameToLayer("Item"))
-        //{
-        //    collision.gameObject.GetComponent<ItemPicker>().ShowInteractButton(false);
-        //}
+        Funcs.ArrayRemove(equipedRuneList, rune);
+        Funcs.ArrayAdd(runeList, rune);
+        runeBonusStatus -= rune.BonusStatus;
     }
 }

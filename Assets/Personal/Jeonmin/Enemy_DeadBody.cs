@@ -28,7 +28,6 @@ public class Enemy_DeadBody : MonoBehaviour, IPoolable
             return;
         }
 
-        IngameController.Instance.Player.inventroy.AddItem(itemData);
     }
 
     private IEnumerator ReturnPoolingCenterCoro()

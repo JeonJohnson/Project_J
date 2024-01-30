@@ -562,18 +562,60 @@ namespace Structs
     public struct BonusStatus
     {
         [Header("Player")]
-        public int bonus_Player_Hp;
-        public int bonus_Player_Armor;
-        public float bonus_Player_Speed;
+        public int player_Hp;
+        public int player_Armor;
+        public float player_Speed;
 
         [Header("Weapon")]
-        public float bonus_Weapon_Speed; // 합연산
-        public float bonus_Weapon_Spread; // 곱연산
-        public float bonus_Weapon_Damage; // 곱연산
-        public float bonus_Weapon_FireRate; // 곱연산
-        public int bonus_Weapon_BulletNumPerFire;  // 합연산
-        public float bonus_Weapon_Critial; // 합연산
-		public float bonus_Weapon_BulletSize;
+        public float weapon_Speed;
+        public float weapon_Spread;
+        public float weapon_Damage;
+        public float weapon_FireRate; 
+        public int weapon_BulletNumPerFire; 
+        public float weapon_Critial; 
+		public float weapon_BulletSize;
+
+        #region 연산자 오버로딩
+        // + 연산자 오버로딩
+        public static BonusStatus operator +(BonusStatus a, BonusStatus b)
+        {
+            BonusStatus result = new BonusStatus();
+
+            result.player_Hp = a.player_Hp + b.player_Hp;
+            result.player_Armor = a.player_Armor + b.player_Armor;
+            result.player_Speed = a.player_Speed + b.player_Speed;
+
+            result.weapon_Speed = a.weapon_Speed + b.weapon_Speed;
+            result.weapon_Spread = a.weapon_Spread + b.weapon_Spread;
+            result.weapon_Damage = a.weapon_Damage + b.weapon_Damage;
+            result.weapon_FireRate = a.weapon_FireRate + b.weapon_FireRate;
+            result.weapon_BulletNumPerFire = a.weapon_BulletNumPerFire + b.weapon_BulletNumPerFire;
+            result.weapon_Critial = a.weapon_Critial + b.weapon_Critial;
+            result.weapon_BulletSize = a.weapon_BulletSize + b.weapon_BulletSize;
+
+            return result;
+        }
+
+        // - 연산자 오버로딩
+        public static BonusStatus operator -(BonusStatus a, BonusStatus b)
+        {
+            BonusStatus result = new BonusStatus();
+
+            result.player_Hp = a.player_Hp - b.player_Hp;
+            result.player_Armor = a.player_Armor - b.player_Armor;
+            result.player_Speed = a.player_Speed - b.player_Speed;
+
+            result.weapon_Speed = a.weapon_Speed - b.weapon_Speed;
+            result.weapon_Spread = a.weapon_Spread - b.weapon_Spread;
+            result.weapon_Damage = a.weapon_Damage - b.weapon_Damage;
+            result.weapon_FireRate = a.weapon_FireRate - b.weapon_FireRate;
+            result.weapon_BulletNumPerFire = a.weapon_BulletNumPerFire - b.weapon_BulletNumPerFire;
+            result.weapon_Critial = a.weapon_Critial - b.weapon_Critial;
+            result.weapon_BulletSize = a.weapon_BulletSize - b.weapon_BulletSize;
+
+            return result;
+        }
+        #endregion
     }
 
     [System.Serializable]
@@ -616,9 +658,7 @@ namespace Enums
 {
 	public enum Item_Type
 	{
-		Passive,
-		Active,
-		Useable,
+	    Run,
 		Weapon,
 		End
 	}
@@ -707,6 +747,13 @@ namespace Enums
 		Idle,
         Fire,
         Suck
+    }
+
+    public enum RuneEffect
+    {
+        OnEnemyDeath,
+        OnWeaponFire,
+        Etc
     }
 }
 
