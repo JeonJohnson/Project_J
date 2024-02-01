@@ -116,12 +116,12 @@ public class GameManager : Singleton<GameManager>
                 break;
             case SceneName.Title:
                 {
-                    //SoundManager.Instance.PlayBgm("BGM_Title");
+                    SoundManager.Instance.PlayBGM("BGM_Title");
                 }
                 break;
             case SceneName.Ingame:
                 {
-					//SoundManager.Instance.PlayBgm("BGM_Ingame_0");
+					SoundManager.Instance.PlayBGM("BGM_Ingame_0");
 				}
                 break;
             case SceneName.End:

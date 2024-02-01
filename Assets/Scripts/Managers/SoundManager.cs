@@ -85,7 +85,7 @@ public class SoundManager : Singleton<SoundManager>
 
 
 	#region About BGM
-	public void PlayBGM(string clipName, float volume)
+	public void PlayBGM(string clipName, float volume = 1f)
 	{
 		AudioSource aus = bgmAus.aus;
 		aus.clip = GetAuidoClip(clipName);
