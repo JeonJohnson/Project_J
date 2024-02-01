@@ -71,19 +71,21 @@ public static class Funcs
 
 	public static T CopyComponent<T>(T origin, GameObject dest) where T : Component
 	{
-		//리플렉션에서 SetValue / GetValue할때 필요한 copy에서 하는게 아니라
-		//origin쪽의 각 필드나 프로퍼티 등에서 하냐면
+		//리플렉션에서 SetValue / GetValue할때
+		//필요한 copy 오브젝트의 원본에서 하는게 아니라
+		//origin 오브젝트 안의 각 필드나 프로퍼티 등에서 하냐면
 
-		//obj.GetType()을 호출하면 obj의 형식을 나타내는 MyClass 타입이 반환될 것이고,
-		//MyClass 타입은 obj가 실제로 가지고 있는 값과는 연결고리가 없음.
-		//즉, GetType()을 통해 설계도를 가져오는 셈이다.
+		//origin.GetType()을 호출하면 obj의 형식을 나타내는 MyClass 타입이 반환될 것이고,
+		//origin 타입은 obj가 실제로 가지고 있는 값과는 연결고리가 없음.
+		//즉, GetType()을 통해 설계도를 가져오는 거.
 
 		//가져온 Type(= 설계도)에서 GetField()나 GetProperty로 우리가 원하는 필드(= 위치)를 찾고,
 		//필드에서 값을 읽어오기 위해
-		//인스턴스(= 설계도를 기반으로 생성된 실물, 여기서는 obj)를 매개변수로 전달하면
+		//인스턴스(= 설계도를 기반으로 생성된 실물, 여기서는 origin)를 매개변수로 전달하면
 		//설계도 상의 위치는 실물에서도 존재해야 하기 때문에
 		//설계도 상 위치와 동일한 실물 상 위치로부터 값을 읽어온다고 생각하면 이해하기 쉽다.
 
+		//해당 설명 출처 : https://cs-solution.tistory.com/23
 
 
 
