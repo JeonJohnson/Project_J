@@ -2,15 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
-using UnityEngine.Rendering;
+using Unity.VisualScripting;
+using MoreMountains.Feedbacks;
+using System.Xml.Linq;
+using UnityEngine.UIElements;
+using UnityEngine.Audio;
+
 
 //브금 Bgm
 //효과음 Effect : UI등 위치와 상관없이 들려야 하는)
 //임시음 3DSound : 위치에 따라서 사운드 차이가 나야하는)
 
-public struct AudioPair
+//Play / PlayOneShot 차이
+// Play는 해당 AUS에 붙어있는거라서 Stop 등등이 먹히지만
+//PlayOneShot은 Stop등등도 안먹히고 
+public struct AudioQueuePair
 {
-	public AudioPair(Transform _box, Queue<AudioSource> _queue)
+	public AudioQueuePair(Transform _box, Queue<AudioSource> _queue)
 	{
 		box = _box;
 		aus = _queue;
@@ -22,10 +30,22 @@ public struct AudioPair
 
 public struct AudioPair
 {
-	public AudioPair(Transform _box)
+	public AudioPair(Transform _box, bool is3d, bool loop)
 	{
 		box = _box;
 		aus = _box.GetComponent<AudioSource>();
+		if (aus == null)
+		{
+			aus = _box.AddComponent<AudioSource>();
+		}
+		aus.spatialize = is3d;
+		aus.loop = loop;
+	}
+
+	public AudioPair(Transform _box, AudioSource _aus)
+	{
+		box = _box;
+		aus = _aus;
 	}
 
 	public Transform box;
@@ -34,6 +54,13 @@ public struct AudioPair
 
 public class SoundManager : Singleton<SoundManager>
 {
+
+	//추후 게임 옵션에 있는 값 쓸 예졍
+	public float BgmOffset = 1.0f;
+	public float EffectOffset = 1.0f;
+	//추후 게임 옵션에 있는 값 쓸 예졍
+
+	[Space(10f)]
 	[SerializedDictionary("Name", "Audio Source")]
 	public SerializedDictionary<string, AudioClip> audioClips;
 
@@ -41,13 +68,13 @@ public class SoundManager : Singleton<SoundManager>
 
 	//[SerializeField] Transform tempAusBox;
 
-	public float BgmOffset = 1.0f;
-	public float EffectOffset = 1.0f;
-
+	
 	AudioPair bgmAus;
-	AudioPair effectAusQueue; //None3D sound
-	AudioPair dimensionAusQueue; //3D sound
-
+	AudioPair effectAus; //None3D sound
+	AudioQueuePair tempAusQueue; //3D sound
+								 //웬만하면 해당 오브젝트에 AudioSource 달아주기
+								 //없으면 경고 띄워주삼 ㅋㅋ
+								 //앵간하면 이제 우리가 세팅을 제대로 하기
 
 	//float volumeValue = 1f;
 
@@ -60,265 +87,194 @@ public class SoundManager : Singleton<SoundManager>
 	#region About BGM
 	public void PlayBGM(string clipName, float volume)
 	{
-		AudioSource aus = bgmAus.aus.Peek();
+		AudioSource aus = bgmAus.aus;
 		aus.clip = GetAuidoClip(clipName);
 		aus.volume = BgmOffset * volume;
 		aus.Play();
 	}
-
 	public void StopBGM()
 	{
-		AudioSource aus = bgmAus.aus.Peek();
+		AudioSource aus = bgmAus.aus;
 		aus.Stop();
 	}
-
 	public void PauseBGM()
 	{
-		AudioSource aus = bgmAus.aus.Peek();
+		AudioSource aus = bgmAus.aus;
 		aus.Pause();
 	}
-
 	public void ResumeBGM()
 	{
-		AudioSource aus = bgmAus.aus.Peek();
+		AudioSource aus = bgmAus.aus;
 		aus.Play();
 	}
 	#endregion
 
+
+	#region About Effect Sound
 	public void PlaySound(string clipName)
 	{
-		PlayEffectSound(clipName, 1f, 1f);
+		AudioClip clip = GetAuidoClip(clipName);
+		PlayEffectSound(clip, 1f, 1f);
 	}
 
 	public void PlaySound(string clipName, float volume, float pitch)
 	{
-		PlayEffectSound(clipName, volume, pitch);
+		AudioClip clip = GetAuidoClip(clipName);
+		PlayEffectSound(clip, volume, pitch);
 	}
 
-	public void PlaySound(string clipName,float volume, float minPitch, float maxPitch)
+	public void PlaySound(string clipName, float volume, float minPitch, float maxPitch)
 	{
 		float pitch = Random.Range(minPitch, maxPitch);
-		PlayEffectSound(clipName, 1f, pitch);
+		AudioClip clip = GetAuidoClip(clipName);
+		PlayEffectSound(clip, 1f, pitch);
 	}
-
 	private void PlayEffectSound(AudioClip clip, float volume, float pitch)
-		AudioSource aus = effectAusQueue.aus.Dequeue();
-		aus.gameObject.SetActive(true);
+	{
+		if (clip == null)
+		{
+			return;
+		}
+
+		AudioSource aus = effectAus.aus;
+		//aus.gameObject.SetActive(true);
 
 		aus.clip = clip;
 		aus.volume = volume;
 		aus.pitch = pitch;
 
-		aus.Play();
+		aus.PlayOneShot(clip);
 	}
+	#endregion
 
-
-
-
-
-	public void PlaySound(string clipName, GameObject obj)
+	#region PlaySound_Gameobject
+	public void PlaySound(string clipName, GameObject obj, bool oneShot)
 	{
 		AudioSource aus = obj.GetComponent<AudioSource>();
 
-		if (aus)
+		if (!aus)
 		{
+			aus = Funcs.CopyComponent(dimensionSoundSetting, obj);
+		}
 
+		AudioClip clip = GetAuidoClip(clipName);
+
+		Play3DSound(clip, aus, 1f, 1f, oneShot);
+	}
+
+	public void PlaySound(string clipName, GameObject obj, float volume, float pitch, bool oneShot)
+	{
+		AudioSource aus = obj.GetComponent<AudioSource>();
+
+		if (!aus)
+		{
+			aus = Funcs.CopyComponent(dimensionSoundSetting, obj);
+		}
+
+		AudioClip clip = GetAuidoClip(clipName);
+
+		Play3DSound(clip, aus, volume, pitch, oneShot);
+	}
+
+	public void PlaySound(string clipName, GameObject obj, float volume, float minPitch, float maxPitch, bool oneShot)
+	{
+		AudioSource aus = obj.GetComponent<AudioSource>();
+
+		if (!aus)
+		{
+			aus = Funcs.CopyComponent(dimensionSoundSetting, obj);
+		}
+
+		AudioClip clip = GetAuidoClip(clipName);
+		float pitch = Random.Range(minPitch, maxPitch);
+		Play3DSound(clip, aus, volume, pitch, oneShot);
+	}
+	#endregion
+
+	#region PlaySound_AudioSource
+	public void PlaySound(string clipName, AudioSource aus, bool oneShot)
+	{
+
+		AudioClip clip = GetAuidoClip(clipName);
+
+		Play3DSound(clip, aus, 1f, 1f, oneShot);
+	}
+
+	public void PlaySound(string clipName, AudioSource aus, float volume, float pitch, bool oneShot)
+	{
+		AudioClip clip = GetAuidoClip(clipName);
+
+		Play3DSound(clip, aus, volume, pitch, oneShot);
+	}
+
+	public void PlaySound(string clipName, AudioSource aus, float volume, float minPitch, float maxPitch, bool oneShot)
+	{
+		AudioClip clip = GetAuidoClip(clipName);
+		float pitch = Random.Range(minPitch, maxPitch);
+		Play3DSound(clip, aus, volume, pitch, oneShot);
+	}
+	#endregion
+
+	#region Play_Position
+	public void PlaySound(string clipName, Vector3 pos)
+	{
+		AudioClip clip = GetAuidoClip(clipName);
+		PlayTempSound(clip, pos, 1f, 1f);
+	}
+
+	public void PlaySound(string clipName, Vector3 pos, float volume, float pitch)
+	{
+		AudioClip clip = GetAuidoClip(clipName);
+		PlayTempSound(clip, pos, volume, pitch);
+	}
+
+	public void PlaySound(string clipName, Vector3 pos, float volume, float minPitch, float maxPitch)
+	{
+		AudioClip clip = GetAuidoClip(clipName);
+		float pitch = Random.Range(minPitch, maxPitch);
+		PlayTempSound(clip, pos, volume, pitch);
+	}
+	#endregion
+
+	private void Play3DSound(AudioClip clip, AudioSource aus, float volume, float pitch, bool oneShot)
+	{
+		if (clip == null | aus == null)
+		{ return; }
+
+		aus.volume = volume * EffectOffset;
+		aus.pitch = pitch;
+
+		if (oneShot)
+		{
+			aus.PlayOneShot(clip);
 		}
 		else
-		{ 
-			
-		
+		{
+			aus.clip = clip;
+			aus.Play();
 		}
-
 	}
 
-	public void PlaySound(string clipName, GameObject obj, float volume, float pitch)
+	private void PlayTempSound(AudioClip clip, Vector3 pos, float volume, float pitch)
 	{
+		AudioSource aus = tempAusQueue.aus.Dequeue();
 
+		aus.clip = clip;
+		aus.volume = volume * EffectOffset;
+		aus.pitch = pitch;
+		aus.gameObject.transform.position = pos;
+		
+		//AudioSource.PlayClipAtPoint(clip, transform.position, volume, dimensionSoundSetting.spatialBlend, dimensionSoundSetting.priority, mixerGroup);
+		//를 쓰니 옵션값을 못바꿈. 볼륨까지 밖에,,,
+
+		aus.Play();
+
+		tempAusQueue.aus.Enqueue(aus);
 	}
-
-	public void PlaySound(string clipName, GameObject obj, float volume, float minPitch, float maxPitch)
-	{
-
-	}
-
-	private void Play3DSound(string clipName, AudioSource aus, float volume, float pitch)
-	{ 
-			
-	}
-
-	private void Play3DTempSound(string clipName, Vector3 pos, float volume, float pitch)
-	{
-
-	}
-
-
 	public void StopAllSound()
 	{ 
-	
+		
 	}
-
-
-	//   public void PauseAllSound()
-	//   {
-	//       AudioSource[] allAS = FindObjectsOfType<AudioSource>();
-
-	//       foreach (AudioSource audio in allAS)
-	//       {
-	//           audio.Pause();
-	//       }
-	//   }
-
-	//   public void ResumeAllSound()
-	//   {
-	//       AudioSource[] allAS = FindObjectsOfType<AudioSource>();
-
-	//       foreach (AudioSource audio in allAS)
-	//       {
-	//           audio.Play();
-	//       }
-	//   }
-
-
-	//   public void PlayBgm(string clipName, float volume = 1f)
-	//   { //이건 한무반복
-	//       if (!bgmAus)
-	//       {
-	//           CreateBgmAudioSource();
-	//       }
-	//       bgmAus.clip = GetAuidoClip(clipName);
-	//       bgmAus.volume = BgmOffset * volume;
-	//       bgmAus.Play();
-	//   }
-
-	//   public void PlayBgmFade(string clipName)
-	//   {
-	//       if (!bgmAus)
-	//       {
-	//           CreateBgmAudioSource();
-	//       }
-	//       bgmAus.clip = GetAuidoClip(clipName);
-	//       StartCoroutine(FadeIn(bgmAus, 5f));
-	//   }
-
-	//   public void StopBgm()
-	//   {
-	//       if (bgmAus)
-	//       {
-	//           bgmAus.Stop();
-	//       }
-
-	//   }
-
-	//   public void StopAllSE()
-	//   {
-	//       AudioSource[] allAS = FindObjectsOfType<AudioSource>();
-
-	//       foreach (AudioSource audio in allAS)
-	//       {
-	//           if (audio == bgmAus)
-	//           {
-	//               continue;
-	//           }
-	//           audio.Stop();
-	//       }
-	//   }
-	//   public void StopAllSound()
-	//   {
-	//       AudioSource[] allAS = FindObjectsOfType<AudioSource>();
-
-	//       foreach (AudioSource audio in allAS)
-	//       {
-	//           audio.Stop();
-	//       }
-	//   }
-
-	//   public void PauseAllSound()
-	//   {
-	//       AudioSource[] allAS = FindObjectsOfType<AudioSource>();
-
-	//       foreach (AudioSource audio in allAS)
-	//       {
-	//           audio.Pause();
-	//       }
-	//   }
-
-	//   public void ResumeAllSound()
-	//   {
-	//       AudioSource[] allAS = FindObjectsOfType<AudioSource>();
-
-	//       foreach (AudioSource audio in allAS)
-	//       {
-	//           audio.Play();
-	//       }
-	//   }
-
-
-	//public void PlayTempSound(string clipName, Vector3 pos, float volume = 1f, float minPitch = 1f, float maxPitch = 1f)
-	//   {
-	//       //특정 위치에 잠시 틀어지거나 안움직일때 씀.
-	//       AudioClip clip = GetAuidoClip(clipName);
-
-	//	if (clip != null)
-	//	{
-	//		AudioSource temp = tempAusQueue.Dequeue();
-
-	//		if (!temp.isPlaying)
-	//		{
-	//               temp.gameObject.SetActive(true);
-	//               temp.pitch = Random.Range(minPitch, maxPitch);
-	//               temp.volume = volume * SeOffset;
-	//			temp.transform.position = pos;
-	//			temp.PlayOneShot(clip);
-	//			tempAusQueue.Enqueue(temp);
-	//		}
-	//		else
-	//		{
-	//               tempAusQueue.Enqueue(temp);
-
-	//               GameObject newObj = new GameObject();
-	//               newObj.name = "tempAus_" + tempAusQueue.Count.ToString();
-	//               newObj.transform.parent = tempAusBox.transform;
-	//               AudioSource newAus = newObj.AddComponent<AudioSource>();
-	//               newAus.spatialBlend = 1f;
-
-	//               newObj.AddComponent<TempAudioSource>();
-
-	//               newAus.volume = volume * SeOffset;
-	//               newAus.transform.position = pos;
-	//               newAus.pitch = Random.Range(minPitch, maxPitch);
-	//               newAus.PlayOneShot(clip);
-	//               tempAusQueue.Enqueue(newAus);
-	//           }
-	//	}
-	//   }
-
-	//   public void PlaySound(string clipName, GameObject obj, float volume= 1f, float minPitch = 1f, float maxPitch = 1f)
-	//   {
-	//       //움직이는 오브젝트들에 사용. (소리가 따라 움직여야 할때)
-	//       //그 오브젝트 안에 AuidoSource 컴포넌트 찾아보고 없으면 PlayTempSound로 돌릴꺼임 
-	//       AudioClip clip = GetAuidoClip(clipName);
-
-	//       if (clip)
-	//       {
-	//           AudioSource aus = obj.transform.root.GetComponent<AudioSource>();
-
-	//           if (aus)
-	//           {
-	//               aus.volume = volume * SeOffset;
-	//               aus.pitch = Random.Range(minPitch, maxPitch);
-	//               aus.PlayOneShot(clip);
-	//           }
-	//           else
-	//           { PlayTempSound(clipName, obj.transform.position, volume); }
-	//       }
-
-	//   }
-
-
-
-
-
 
 	public void Awake()
 	{
@@ -326,14 +282,12 @@ public class SoundManager : Singleton<SoundManager>
 
 
 		SetupAudioSources();
-
-		//CreateTempAudioSource(50);
-		//CreateBgmAudioSource();
 	}
 
 	void Start()
     {
-        
+		
+		
     }
 
     void Update()
@@ -345,36 +299,27 @@ public class SoundManager : Singleton<SoundManager>
     private void SetupAudioSources()
     {
 		//bgmAus = CreateAudPair("Bgm", 1, false);
-		CreateBgmAS();
-		effectAusQueue = CreateAudPair("Effect", 25, false);
-		dimensionAusQueue = CreateAudPair("3DSound", 150, true);
+		bgmAus = CreateAudPair("BGM",true);
+		effectAus = CreateAudPair("Effect");
+		tempAusQueue = CreateAudQueuePair("3DSound", 150, true);
 	}
 
 
-	private void CreateBgmAS()
+	private AudioPair CreateAudPair(string boxName, bool loop = false, bool spatialize = false)
 	{
-		string bgmAusName = "BgmAus";
-
-		Transform box = gameObject.transform.Find(bgmAusName);
+		Transform box = gameObject.transform.Find(boxName);
 
 		if (box == null)
 		{
-			GameObject newObj = new GameObject(bgmAusName);
+			GameObject newObj = new GameObject(boxName);
 			newObj.transform.SetParent(transform);
 			box = newObj.transform;
 		}
 
-		AudioSource aus = box.gameObject.AddComponent<AudioSource>();
-		aus.spatialBlend = 0f;//3d sound 안하기 위해서
-		aus.loop = true;
-
-		var queue = new Queue<AudioSource>();
-		queue.Enqueue(aus);
-
-		bgmAus = new AudioPair(box, queue);
+		return new AudioPair(box, spatialize,loop);
 	}
 
-	private AudioPair CreateAudPair(string boxName, int count, bool dimensionSound)
+	private AudioQueuePair CreateAudQueuePair(string boxName, int count, bool dimensionSound)
 	{
 		Transform box = gameObject.transform.Find(boxName);
 
@@ -392,14 +337,14 @@ public class SoundManager : Singleton<SoundManager>
 		{
 			GameObject newObj = new GameObject(boxName + $"_{i}");
 			newObj.transform.parent = box;
-			newObj.SetActive(false);
+			//newObj.SetActive(false);
 
 			AudioSource aus;
 
 			if (!dimensionSound)
 			{
 				aus = newObj.AddComponent<AudioSource>();
-				aus.spatialBlend = 0f;//3d sound 안하기 위해서
+				aus.spatialize = dimensionSound; //3d sound 안하기 위해서
 				aus.loop = false;
 			}
 			else
@@ -410,17 +355,54 @@ public class SoundManager : Singleton<SoundManager>
 			queue.Enqueue(aus);
 		}
 
-		return new AudioPair(box, queue);
+		return new AudioQueuePair(box, queue);
 
+	}
+
+	private void AddAus(ref AudioQueuePair pair, int count, bool dimensionSound)
+	{
+		string boxName = pair.box.gameObject.name;
+		var originQueue = pair.aus;
+		var newQueue = new Queue<AudioSource>();
+
+		for (int i = 0; i < count; ++i)
+		{
+			GameObject newObj = new GameObject(boxName + $"_{originQueue.Count + i}");
+			newObj.transform.parent = pair.box;
+
+			AudioSource aus;
+
+			if (!dimensionSound)
+			{
+				aus = newObj.AddComponent<AudioSource>();
+				aus.spatialize = dimensionSound; //3d sound 안하기 위해서
+				aus.loop = false;
+			}
+			else
+			{
+				aus = Funcs.CopyComponent<AudioSource>(dimensionSoundSetting, newObj);
+			}
+
+			newQueue.Enqueue(aus);
+		}
+
+		int originQueueCount = originQueue.Count;
+		for (int k = 0; k < originQueueCount; ++k)
+		{
+			newQueue.Enqueue(originQueue.Dequeue());
+		}
+
+		pair.aus = newQueue;
 	}
 
 
 	AudioClip GetAuidoClip(string clipName)
 	{
 		AudioClip audioClip = null;
+
 		if (!audioClips.TryGetValue(clipName, out audioClip))
 		{
-			Debug.LogError($"{clipName} is empty");
+			Debug.LogError($"'{clipName}' AuidoClip has not exist");
 		}
 		return audioClip;
 	}

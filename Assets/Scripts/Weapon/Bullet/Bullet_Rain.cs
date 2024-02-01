@@ -43,7 +43,7 @@ public class Bullet_Rain : Bullet
 
     private void Explosion()
     {
-        SoundManager.Instance.PlayTempSound("Boss_Demo_Atk_Explosion", this.transform.position, 1f, 0.8f, 1f);
+        //SoundManager.Instance.PlayTempSound("Boss_Demo_Atk_Explosion", this.transform.position, 1f, 0.8f, 1f);
 
         for (int i = 0; i < 8; i++)
         {

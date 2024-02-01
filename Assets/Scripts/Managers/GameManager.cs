@@ -116,12 +116,12 @@ public class GameManager : Singleton<GameManager>
                 break;
             case SceneName.Title:
                 {
-                    SoundManager.Instance.PlayBgm("BGM_Title");
+                    //SoundManager.Instance.PlayBgm("BGM_Title");
                 }
                 break;
             case SceneName.Ingame:
                 {
-					SoundManager.Instance.PlayBgm("BGM_Ingame_0");
+					//SoundManager.Instance.PlayBgm("BGM_Ingame_0");
 				}
                 break;
             case SceneName.End:
@@ -135,14 +135,14 @@ public class GameManager : Singleton<GameManager>
 	private void Awake()
 	{
         Initailize(false);
-		Debug.Log("GameManager Awake");
+		//Debug.Log("GameManager Awake");
 
         Application.targetFrameRate = 60;
 
 	}
 	void Start()
     {
-        Debug.Log("GameManager Start");
+        //Debug.Log("GameManager Start");
 
 		AppInitCheck();
 	}

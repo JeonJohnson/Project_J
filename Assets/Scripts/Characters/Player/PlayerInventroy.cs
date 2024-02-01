@@ -46,7 +46,7 @@ public class PlayerInventroy : MonoBehaviour
 
             curWeaponSlot = weaponSlot[curWpIndex];
             UiController_Proto.Instance.UpdateWeaponImage(weaponSlot[curWpIndex].item_sprite);
-            SoundManager.Instance.PlaySound("Player_WeaponSwap",gameObject);
+            //SoundManager.Instance.PlaySound("Player_WeaponSwap",gameObject);
         }
     }
 

@@ -10,6 +10,7 @@ using UnityEngine.UIElements;
 using Unity.VisualScripting;
 using static Unity.Burst.Intrinsics.Arm;
 using UnityEngine.XR;
+using System.Reflection;
 
 public static class Funcs
 {
@@ -70,13 +71,53 @@ public static class Funcs
 
 	public static T CopyComponent<T>(T origin, GameObject dest) where T : Component
 	{
+		//리플렉션에서 SetValue / GetValue할때 필요한 copy에서 하는게 아니라
+		//origin쪽의 각 필드나 프로퍼티 등에서 하냐면
+
+		//obj.GetType()을 호출하면 obj의 형식을 나타내는 MyClass 타입이 반환될 것이고,
+		//MyClass 타입은 obj가 실제로 가지고 있는 값과는 연결고리가 없음.
+		//즉, GetType()을 통해 설계도를 가져오는 셈이다.
+
+		//가져온 Type(= 설계도)에서 GetField()나 GetProperty로 우리가 원하는 필드(= 위치)를 찾고,
+		//필드에서 값을 읽어오기 위해
+		//인스턴스(= 설계도를 기반으로 생성된 실물, 여기서는 obj)를 매개변수로 전달하면
+		//설계도 상의 위치는 실물에서도 존재해야 하기 때문에
+		//설계도 상 위치와 동일한 실물 상 위치로부터 값을 읽어온다고 생각하면 이해하기 쉽다.
+
+
+
+
 		System.Type type = origin.GetType();
-		Component copy = dest.AddComponent(type);
+		//Component copy = dest.AddComponent(type);
+		T copy = dest.AddComponent<T>();
+
 		System.Reflection.FieldInfo[] fields = type.GetFields();
 		foreach (System.Reflection.FieldInfo field in fields)
 		{
 			field.SetValue(copy, field.GetValue(origin));
 		}
+
+
+		var properties = type.GetProperties();
+		//int i = 0;
+		//foreach (var property in properties)
+		//{
+
+		//	property.SetValue(copy, i);
+		//	++i;
+		//}
+
+		for (int i = 0; i < properties.Length; ++i)
+		{
+			if (properties[i].CanWrite && properties[i].CanRead) //GetSet모두 지원하는 프로퍼티만 
+			{
+				if (!properties[i].IsDefined(typeof(ObsoleteAttribute), true)) //더 이상 지원안한다 하는 그런 프로퍼티들은 넘어가주기
+				{ 
+					properties[i].SetValue(copy, properties[i].GetValue(origin)); 
+				}
+			}
+		}
+
 		return copy as T;
 	}
 

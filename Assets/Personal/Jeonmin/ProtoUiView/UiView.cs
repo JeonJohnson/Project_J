@@ -212,7 +212,7 @@ public class UiView : MonoBehaviour
 
     private void OnclickResultButton()
     {
-		SoundManager.Instance.PlaySound("UI_ClickButton", Camera.main.gameObject);
+		//SoundManager.Instance.PlaySound("UI_ClickButton", Camera.main.gameObject);
 		IngameController.Instance.GotoTitleScene();
 
 	}

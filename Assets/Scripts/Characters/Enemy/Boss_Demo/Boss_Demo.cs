@@ -52,7 +52,7 @@ public class Boss_Demo : Enemy
             if (status.curHp <= status.maxHp * (30f / 100f)) { ActionTable.SetCurAction((int)BossDemoActions.Hide); Rigidbody2D.AddForce(dir * 50, ForceMode2D.Impulse); }
             UiController_Proto.Instance.playerHudView?.UpdateBossHpBar((float)status.curHp / (float)status.maxHp);
 
-            SoundManager.Instance.PlayTempSound("Boss_Demo_Hit", transform.position);
+            //SoundManager.Instance.PlayTempSound("Boss_Demo_Hit", transform.position);
         }
         else
         {

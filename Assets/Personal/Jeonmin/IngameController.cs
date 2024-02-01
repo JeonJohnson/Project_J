@@ -148,7 +148,7 @@ public class IngameController : Singleton<IngameController>
             gameStatus = win ? GameStatus.Win : GameStatus.Lose;
 
             string soundName = win ? "Win" : "Lose";
-            SoundManager.Instance.PlayBgm(soundName);
+            //SoundManager.Instance.PlayBgm(soundName);
 
             player.GetComponent<BoxCollider2D>().enabled = false;
 

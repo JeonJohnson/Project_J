@@ -41,7 +41,7 @@ public class Tangtangi : Enemy
         Rigidbody2D.AddForce(dir * 300f);
         status.curHp -= dmg;
         animator.SetTrigger("Damage");
-        SoundManager.Instance.PlayTempSound("Tangtangi_Hit", this.transform.position, 1f, 0.8f,1f);
+        //SoundManager.Instance.PlayTempSound("Tangtangi_Hit", this.transform.position, 1f, 0.8f,1f);
 
         hitFeedback?.PlayFeedbacks();
         if (status.curHp <= 0 && ActionTable.CurAction_e != TangtangiActions.Death)
@@ -57,7 +57,7 @@ public class Tangtangi : Enemy
 			//근희임시추가
 
 
-			SoundManager.Instance.PlayTempSound("Tangtangi_Death", this.transform.position);
+			//SoundManager.Instance.PlayTempSound("Tangtangi_Death", this.transform.position);
             ActionTable.SetCurAction((int)TangtangiActions.Death);
             StageManager.Instance?.OnEnemyDeath();
             this.gameObject.SetActive(false);

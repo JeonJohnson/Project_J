@@ -365,8 +365,8 @@ public class Tangtangi_Attack : Action<Tangtangi>
                 {
                     me.attackFeedback?.PlayFeedbacks();
                     me.weapon.Fire();
-                    if (bulletSpreadType == BulletSpreadType.Normal) SoundManager.Instance.PlayTempSound("Tangtangi_Rifle_Fire", me.transform.position, 1f, 0.75f, 1f);
-                    else SoundManager.Instance.PlayTempSound("Tangtangi_Shotgun_Fire", me.transform.position, 1f, 0.75f, 1f);
+                    //if (bulletSpreadType == BulletSpreadType.Normal) SoundManager.Instance.PlayTempSound("Tangtangi_Rifle_Fire", me.transform.position, 1f, 0.75f, 1f);
+                    //else SoundManager.Instance.PlayTempSound("Tangtangi_Shotgun_Fire", me.transform.position, 1f, 0.75f, 1f);
                 }
                 curbulletCount--;
                 timer = me.status.fireRate;

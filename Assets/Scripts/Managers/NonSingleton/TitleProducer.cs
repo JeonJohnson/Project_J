@@ -21,14 +21,14 @@ public class TitleProducer : MonoBehaviour
 
     public void GotoIngame()
     {
-        SoundManager.Instance.PlaySound("UI_ClickButton",Camera.main.gameObject);
+        //SoundManager.Instance.PlaySound("UI_ClickButton",Camera.main.gameObject);
 
         GameManager.Instance.LoadNextScene();
 	}
 
     public void ExitGame()
 	{
-		SoundManager.Instance.PlaySound("UI_ClickButton", Camera.main.gameObject);
+		//SoundManager.Instance.PlaySound("UI_ClickButton", Camera.main.gameObject);
         GameManager.Instance.ExitApp();
 	}
 

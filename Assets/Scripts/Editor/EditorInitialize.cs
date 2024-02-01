@@ -26,6 +26,12 @@ public static class EditorAppInitializer
 			Debug.Log($"빌드 세팅에 올라가 있지 않은 씬입니다. 그냥 바로 시작함~");
 			scenePath = SceneManager.GetActiveScene().path;
 		}
+		else if (curSceneIndex == 0)
+		{
+			Debug.Log("초기화 씬부터 시작했습니다. 바로 시작함~");
+			Defines.editorStartScene = 1;
+			return;
+		}
 		else
 		{
 			Debug.Log($"{Defines.editorStartScene}번째 씬으로 시작 하였으나 초기화를 위해 0번째 씬으로 이동합니다.");
@@ -35,6 +41,5 @@ public static class EditorAppInitializer
 		
 		var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
 		EditorSceneManager.playModeStartScene = sceneAsset;
-
 	}
 }
