@@ -10,6 +10,7 @@ using UnityEngine.Analytics;
 using System.Net.Http.Headers;
 using System.Linq.Expressions;
 using Unity.VisualScripting;
+using UnityEngine.Tilemaps;
 
 public enum RoomShape_Isaac
 { 
@@ -81,8 +82,10 @@ public class DungeonGenerator_Isaac : MonoBehaviour
 
 
 
-	public GameObject TestTilePrefab;
-	public List<TestTile_Isaac> testTiles = new List<TestTile_Isaac>();
+	//public GameObject TestTilePrefab;
+	//public List<TestTile_Isaac> testTiles = new List<TestTile_Isaac>();
+
+	public GameObject roomPrefab;
 
     private List<Vector2Int>[] PivotByRoomShape =
     {
@@ -161,7 +164,9 @@ public class DungeonGenerator_Isaac : MonoBehaviour
 
 	public SerializedDictionary<RoomShape_Isaac, int> roomRandomPercent;
 
-    public Room_Isaac GetRoom(Vector2Int index)
+	
+
+	public Room_Isaac GetRoom(Vector2Int index)
     {
         return rooms[index.x, index.y];
     }
@@ -225,12 +230,16 @@ public class DungeonGenerator_Isaac : MonoBehaviour
         Vector2Int randIndex = new Vector2Int(Random.Range(0,areaSize.x), Random.Range(0,areaSize.y));
 		randIndex = new Vector2Int(areaSize.x / 2, areaSize.y / 2);
 
-        Room_Isaac startRoom = new Room_Isaac(RoomShape_Isaac.One, randIndex);
+		Room_Isaac startRoom = null;
+		//startRoom = new Room_Isaac(RoomShape_Isaac.One, randIndex);
+		startRoom = Instantiate(roomPrefab).GetComponent<Room_Isaac>();
+		startRoom.Initialize(RoomShape_Isaac.One, randIndex);
 		rooms[randIndex.x, randIndex.y] = startRoom;
 		curRoomCount = 1;
-		
-		CreateTestTile(randIndex, curRoomCount,Color.white);
+
+		//CreateTestTile(randIndex, curRoomCount,Color.white);
 		SetRandomDoor(startRoom);
+		startRoom.UpdateTiles();
 
 		recentRooms.Add(startRoom);
 		allRooms.Add(startRoom);
@@ -316,7 +325,7 @@ public class DungeonGenerator_Isaac : MonoBehaviour
 							}
 						}
 
-						newRoom = new Room_Isaac((RoomShape_Isaac)shapeRandom, indexes.ToArray());
+						//newRoom = new Room_Isaac((RoomShape_Isaac)shapeRandom, indexes.ToArray());
 						++curRoomCount;
 						newRoomList.Add(newRoom);
 						allRooms.Add(newRoom);
@@ -324,7 +333,7 @@ public class DungeonGenerator_Isaac : MonoBehaviour
 						foreach (var roomIndex in newRoom.indexes)
 						{
 							rooms[roomIndex.x, roomIndex.y] = newRoom;
-							CreateTestTile(roomIndex, curRoomCount,randColor);
+							//CreateTestTile(roomIndex, curRoomCount,randColor);
 						}
 						break; //방 설치를 완료한 경우 
 					}
@@ -420,19 +429,19 @@ public class DungeonGenerator_Isaac : MonoBehaviour
 		}
 	}
 
-	private TestTile_Isaac CreateTestTile(Vector2Int index, int roomNum, Color color)
-	{
-		GameObject newObj = Instantiate(TestTilePrefab, GetPos(index), Quaternion.identity, transform);
-		TestTile_Isaac script = newObj.GetComponent<TestTile_Isaac>();
+	//private TestTile_Isaac CreateTestTile(Vector2Int index, int roomNum, Color color)
+	//{
+	//	GameObject newObj = Instantiate(TestTilePrefab, GetPos(index), Quaternion.identity, transform);
+	//	TestTile_Isaac script = newObj.GetComponent<TestTile_Isaac>();
 		
-		script.sr.color = color;
-		script.text.text = $"{roomNum}";
+	//	script.sr.color = color;
+	//	script.text.text = $"{roomNum}";
 		
 
-		testTiles.Add(script);
+	//	testTiles.Add(script);
 
-		return script;
-	}
+	//	return script;
+	//}
 
 
 	
@@ -463,18 +472,18 @@ public class DungeonGenerator_Isaac : MonoBehaviour
 
 	public void Reset()
 	{
-		for (int i = 0; i < testTiles.Count; ++i)
-		{
-			if (Application.isPlaying)
-			{
-				Destroy(testTiles[i].gameObject);
-			}
-			else
-			{
-				DestroyImmediate(testTiles[i].gameObject);
-			}
-		}
-		testTiles.Clear();
+		//for (int i = 0; i < testTiles.Count; ++i)
+		//{
+		//	if (Application.isPlaying)
+		//	{
+		//		Destroy(testTiles[i].gameObject);
+		//	}
+		//	else
+		//	{
+		//		DestroyImmediate(testTiles[i].gameObject);
+		//	}
+		//}
+		//testTiles.Clear();
 
 		allRooms.Clear();
 

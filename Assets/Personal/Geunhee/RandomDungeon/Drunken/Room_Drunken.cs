@@ -15,7 +15,7 @@ public class Room_Drunken : MonoBehaviour
 {
 	public Vector3 centerPos;//not CenterIndex's position
 	public Vector2Int size;
-
+	[SerializedDictionary("TileLayer","Timemap")]
 	public SerializedDictionary<TilemapLayer, Tilemap> tilemaps;
 
 	[SerializeField]

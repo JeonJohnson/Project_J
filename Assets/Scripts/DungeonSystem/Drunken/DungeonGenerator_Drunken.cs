@@ -548,7 +548,6 @@ public class DungeonGenerator_Drunken : MonoBehaviour
             Vector3Int newPos = new ((int)pos.x, (int)pos.y, 0);
 			switch (state)
 			{
-                
 				case tileGridState.Ground:
 					{
                         layer = (int)TilemapLayer.Ground;
