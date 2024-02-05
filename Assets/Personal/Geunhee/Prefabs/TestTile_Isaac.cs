@@ -8,6 +8,9 @@ using TMPro;
 public class TestTile_Isaac : MonoBehaviour
 {
     public TextMeshProUGUI text;
+    public SpriteRenderer sr;
+
+
 
 	private void Awake()
 	{

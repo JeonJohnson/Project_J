@@ -223,7 +223,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &250188504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,9 +236,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a627dba7e9a10a44aa8c94d5974c14a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  portal: {fileID: 0}
+  portalRange: 0
   rooms: []
+  bossRoom: {fileID: 0}
   curRoom: {fileID: 0}
   curRoomIndex: 0
+  enemyCount: 
+  bullets: []
+  deadbody: []
 --- !u!4 &250188505
 Transform:
   m_ObjectHideFlags: 0
@@ -481,7 +487,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &909292554
 Transform:
   m_ObjectHideFlags: 0
@@ -511,16 +517,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TestTilePrefab: {fileID: 8718482437753332986, guid: d3e9eeda6048d264fae579e5a7e0c0c9, type: 3}
   testTiles: []
-  randomDir:
-  - {x: 1, y: 0}
-  - {x: 0, y: -1}
-  - {x: -1, y: 0}
-  - {x: 0, y: 1}
   areaSize: {x: 20, y: 20}
   pivotPos: {x: 0, y: 0}
   roomMinMaxCount: {x: 0, y: 0}
-  curRoomCount: 0
+  curRoomCount: 11
   defaultRoomSize: {x: 1, y: 1}
+  roomRandomPercent:
+    _serializedList:
+    - Key: 0
+      Value: 95
+    - Key: 1
+      Value: 0
+    - Key: 2
+      Value: 0
+    - Key: 3
+      Value: 0
+    - Key: 4
+      Value: 0
+    - Key: 5
+      Value: 0
+    - Key: 6
+      Value: 0
+    - Key: 7
+      Value: 0
 --- !u!1 &963941887
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,7 +1075,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1583995034
 Transform:
   m_ObjectHideFlags: 0
@@ -1272,6 +1291,10 @@ PrefabInstance:
     - target: {fileID: 5013518713079533619, guid: 40e00cb133e976844935c22284288fb5, type: 3}
       propertyPath: m_Name
       value: DungeonGenerator_Drunken
+      objectReference: {fileID: 0}
+    - target: {fileID: 5013518713079533619, guid: 40e00cb133e976844935c22284288fb5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8877694132321078634, guid: 40e00cb133e976844935c22284288fb5, type: 3}
       propertyPath: cam

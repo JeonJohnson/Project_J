@@ -270,7 +270,7 @@ Transform:
   m_Children:
   - {fileID: 5278070446962426585}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6429949010591190810
 SpriteRenderer:
@@ -337,3 +337,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 4494429547737136711}
+  sr: {fileID: 6429949010591190810}
