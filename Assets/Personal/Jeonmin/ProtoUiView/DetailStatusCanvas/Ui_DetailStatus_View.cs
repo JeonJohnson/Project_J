@@ -79,7 +79,7 @@ public class Ui_DetailStatus_View : MonoBehaviour
 
     public void UpdateItemInfoBoardHolder(Item item)
     {
-        ItemInfoHolder_itemSlots[0].UpdateSlot(item);
+        //ItemInfoHolder_itemSlots[0].UpdateSlot(item);
 
         string item_NameText;
         string item_ExplainText;

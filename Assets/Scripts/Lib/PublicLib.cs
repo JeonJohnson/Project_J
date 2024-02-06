@@ -482,6 +482,14 @@ public static class Funcs
             Debug.LogError("Invalid slot index");
         }
     }
+
+    public static void ArraySwap<T>(T[] array1, int index1, T[] array2, int index2)
+    {
+        // 임시 변수를 사용하여 값 교환
+        T temp = array1[index1];
+        array1[index1] = array2[index2];
+        array2[index2] = temp;
+    }
     #endregion
 }
 
@@ -658,7 +666,7 @@ namespace Enums
 {
 	public enum Item_Type
 	{
-	    Run,
+	    Rune,
 		Weapon,
 		End
 	}
@@ -755,6 +763,12 @@ namespace Enums
         OnWeaponFire,
         Etc
     }
+
+	public enum SlotType
+	{
+		Slot,
+		EqupedSlot
+	}
 }
 
 namespace JeonJohnson

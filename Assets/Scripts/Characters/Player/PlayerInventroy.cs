@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Structs;
 using Enums;
+using System.Linq;
+using static Unity.Collections.Unicode;
 
 //using static UnityEditor.Timeline.Actions.MenuPriority;
 
@@ -26,12 +28,25 @@ public class PlayerInventroy : MonoBehaviour
         player = GetComponent<Player>();
         bulletCount = new Data<int>();
         ejectRemainBulletCount = new Data<int>();
+
+        if (curWeaponItem == null) curWeaponItem = defWeaponItem;
     }
 
     public void EquipWeapon(Item_Weapon item_Weapon)
     {
         curWeaponItem = item_Weapon;
-        //player.curWeapon. 비주얼 업데이트
+        player.curWeapon.weaponSprite.sprite = curWeaponItem.weaponSprite;
+        ejectRemainBulletCount.Value = curWeaponItem.weaponData.magSize;
+
+        UiController_Proto.Instance?.UpdateWeaponImage(curWeaponItem.item_sprite);
+        SoundManager.Instance.PlaySound("Player_WeaponSwap", gameObject);
+    }
+
+    public void UnEquipWeapon()
+    {
+        if (curWeaponItem == defWeaponItem) return;
+        curWeaponItem = defWeaponItem;
+        player.curWeapon.weaponSprite.sprite = curWeaponItem.weaponSprite;
 
         UiController_Proto.Instance?.UpdateWeaponImage(curWeaponItem.item_sprite);
         SoundManager.Instance.PlaySound("Player_WeaponSwap", gameObject);
@@ -58,9 +73,12 @@ public class PlayerInventroy : MonoBehaviour
 
     public void EquipRune(Item_Rune rune, int slot) 
     {
-        if (equipedRuneList[slot]) runeBonusStatus -= equipedRuneList[slot].BonusStatus;
-        runeBonusStatus += rune.BonusStatus;
+        if (equipedRuneList[slot])
+        {
+            int i = System.Array.IndexOf(runeList, rune);
+            Funcs.ArrayReplace(runeList, equipedRuneList[slot], i);
 
+        }
         Funcs.ArrayReplace(equipedRuneList, rune, slot);
     }
 
@@ -69,5 +87,26 @@ public class PlayerInventroy : MonoBehaviour
         Funcs.ArrayRemove(equipedRuneList, rune);
         Funcs.ArrayAdd(runeList, rune);
         runeBonusStatus -= rune.BonusStatus;
+    }
+
+    public void ReplaceRune(SlotType slotType0, int slotIndex0, SlotType slotType1 ,int slotIndex1)
+    {
+        
+    }
+
+    public void EquipItem(Item item)
+    {
+  
+    }
+
+    public void CalcRuneBonus()
+    {
+        BonusStatus calcedBonusStatus = new BonusStatus();
+
+        foreach (Item_Rune rune in equipedRuneList)
+        {
+            calcedBonusStatus += rune.BonusStatus;
+        }
+        runeBonusStatus = calcedBonusStatus;
     }
 }

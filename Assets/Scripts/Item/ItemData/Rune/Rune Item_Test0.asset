@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cabf6c4e7cc00343a3b55f2b5cb6b04, type: 3}
+  m_Name: Rune Item_Test0
+  m_EditorClassIdentifier: 
+  e_item_Type: 0
+  item_name: Test0 RUNE
+  item_description: "\uD14C\uC2A4\uD2B8\uC6A9 \uB8EC0 desc"
+  item_explain: "\uD14C\uC2A4\uD2B8\uC6A9 \uB8EC0 explain"
+  item_sprite: {fileID: 391085870, guid: 47b1268e38825384eac4f9e0fa5c201a, type: 3}
+  item_sprite_Big: {fileID: 391085870, guid: 47b1268e38825384eac4f9e0fa5c201a, type: 3}
+  bonusStatus:
+    player_Hp: 0
+    player_Armor: 0
+    player_Speed: 0
+    weapon_Speed: 0
+    weapon_Spread: 0
+    weapon_Damage: 0
+    weapon_FireRate: 0
+    weapon_BulletNumPerFire: 0
+    weapon_Critial: 0
+    weapon_BulletSize: 2
+  RuneEffect: 0

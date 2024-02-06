@@ -13,8 +13,6 @@ public class Weapon_Player : Weapon
     {
         public int TestintValue;
 
-        public SpriteRenderer fovSprite;
-
         public Color fovIdleColor;
         public Color fovSuctionColor;
         public Data<float> curSuctionRatio;
@@ -25,6 +23,8 @@ public class Weapon_Player : Weapon
 
         public LayerMask targetLayer;
     }
+
+    public SpriteRenderer fovSprite;
 
     private Player owner;
     public SuctionStat suctionStat;
@@ -38,20 +38,20 @@ public class Weapon_Player : Weapon
     {
         if(Input.GetKeyDown(KeyCode.R))
         {
-            suctionStat.fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
-            suctionStat.fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
+            fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
+            fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
         }
         if(owner.aimController != null)
         {
             if(owner.aimController.GetAimAngle(Vector3.up) < 90f)
             {
                 ChangeImageSortOrder(weaponSprite, "Characters", 0);
-                ChangeImageSortOrder(suctionStat.fovSprite, "Characters", 0);
+                ChangeImageSortOrder(fovSprite, "Characters", 0);
             }
             else
             {
                 ChangeImageSortOrder(weaponSprite, "Characters", 2);
-                ChangeImageSortOrder(suctionStat.fovSprite, "Characters", 2);
+                ChangeImageSortOrder(fovSprite, "Characters", 2);
             }
 
         }
@@ -65,9 +65,9 @@ public class Weapon_Player : Weapon
         Debug.Log(suctionStat.TestintValue);
         suctionStat.curSuctionRatio = new Data<float>();
         suctionStat.curSuctionRatio.Value = 1f;
-        Debug.Log(suctionStat.fovSprite.name);
-        suctionStat.fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
-        suctionStat.fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
+        Debug.Log(fovSprite.name);
+        fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
+        fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
 
         weaponSprite.sprite = owner.inventroy.curWeaponItem?.weaponSprite;
     }
@@ -150,7 +150,10 @@ public class Weapon_Player : Weapon
             rndDir.Normalize();
             bullet.GetComponent<Bullet>().Fire(rndDir, 5, bulletSpeed, bulletSize, dmg);
             owner.inventroy.bulletCount.Value--;
+            owner.inventroy.ejectRemainBulletCount.Value--;
         }
+        if (owner.inventroy.ejectRemainBulletCount.Value <= 0) owner.inventroy.UnEquipWeapon();
+
         fireTimer = weaponData.fireRate;
         fireTimer = CheckFireTimer(weaponData, fireTimer);
     }
@@ -250,7 +253,7 @@ public class Weapon_Player : Weapon
     {
         if (suctionStat.curSuctionRatio.Value <= 0f)
         {
-            suctionStat.fovSprite.color = this.suctionStat.fovIdleColor;
+            fovSprite.color = this.suctionStat.fovIdleColor;
             suckingItemTimer = 0f;
             return;
         }
@@ -259,7 +262,7 @@ public class Weapon_Player : Weapon
 
         if (suctionStat.curSuctionRatio.Value < amount)
         {
-            suctionStat.fovSprite.color = suctionStat.fovIdleColor;
+            fovSprite.color = suctionStat.fovIdleColor;
             return;
         }
 
@@ -267,7 +270,7 @@ public class Weapon_Player : Weapon
 
         suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value - amount, 0f, 1f);
 
-        suctionStat.fovSprite.color = suctionStat.fovSuctionColor;
+        fovSprite.color = suctionStat.fovSuctionColor;
 
         var cols = Physics2D.OverlapCircleAll(this.transform.position, suctionStat.suctionRange, suctionStat.targetLayer);
 
@@ -305,7 +308,7 @@ public class Weapon_Player : Weapon
 
     public void Recharge()
     {
-        suctionStat.fovSprite.color = this.suctionStat.fovIdleColor;
+        fovSprite.color = this.suctionStat.fovIdleColor;
         suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value + (1 / suctionStat.rechargeTime * Time.deltaTime), 0f, 1f);
     }
 

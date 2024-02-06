@@ -35,6 +35,7 @@ public struct WeaponData
     public float bulletSize;
     public int damage;
     public float critical;
+    public int magSize;
 
     public BulletType bulletType;
     public BulletEffect bulletEffect;
