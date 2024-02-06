@@ -30,6 +30,7 @@ public class IngameController : Singleton<IngameController>
     }
 
     private bool isWindowActivated = false;
+    private bool isRuneWindowActivated = false;
     public enum GameStatus
     {
         Playing,
@@ -184,6 +185,13 @@ public class IngameController : Singleton<IngameController>
             isWindowActivated = !isWindowActivated;
             player.LockPlayer(isWindowActivated);
             UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            isRuneWindowActivated = !isRuneWindowActivated;
+            player.LockPlayer(isRuneWindowActivated);
+            Cursor.visible = isRuneWindowActivated;
+            UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
         }
     }
 

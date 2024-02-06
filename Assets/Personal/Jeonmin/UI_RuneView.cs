@@ -34,14 +34,42 @@ public class UI_RuneView : MonoBehaviour
     public GameObject droppableSlotPrefab;
     public GameObject draggableSlotPrefab;
 
-    public void UpdateSlotInfo()
-    {
-
-    }
+    private bool isInitzed = false;
 
     public void UpdateSlots()
     {
+        if(isInitzed)
+        {
+            for (int i = 0; i < draggableSlots.Count; i++)
+            {
+                Destroy(draggableSlots[i]);
+                draggableSlots.Clear();
+            }
 
+            for (int i = 0; i < IngameController.Instance.Player.inventroy.runeList.Length; i++)
+            {
+                if (IngameController.Instance.Player.inventroy.runeList[i] != null)
+                {
+                    GameObject draggableSlot = Instantiate(draggableSlotPrefab, slots[i].transform);
+                    draggableSlot.GetComponent<DraggableSlot>().UpdateView(IngameController.Instance.Player.inventroy.runeList[i]);
+                    draggableSlots.Add(draggableSlot);
+                }
+            }
+            for (int i = 0; i < IngameController.Instance.Player.inventroy.equipedRuneList.Length; i++)
+            {
+                if (IngameController.Instance.Player.inventroy.equipedRuneList[i] != null)
+                {
+                    GameObject draggableSlot = Instantiate(draggableSlotPrefab, equipSlots[i].transform);
+                    draggableSlot.GetComponent<DraggableSlot>().UpdateView(IngameController.Instance.Player.inventroy.equipedRuneList[i]);
+                    draggableSlots.Add(draggableSlot);
+                }
+            }
+        }
+        else
+        {
+            isInitzed = true;
+            Init();
+        }
     }
 
     private void Update()
@@ -52,7 +80,7 @@ public class UI_RuneView : MonoBehaviour
         }
     }
 
-    private void Init()
+    public void Init()
     {
         for(int i = 0; i < IngameController.Instance.Player.inventroy.runeList.Length; i++)
         {

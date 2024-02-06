@@ -16,7 +16,8 @@ public class DraggableSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private void Awake()
     {
-        canvas = FindObjectOfType<Canvas>().transform;
+        canvas = UiController_Proto.Instance.runeView.gameObject.transform;
+        Debug.Log(canvas.gameObject.name);
         rect = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         image = GetComponent<Image>();

@@ -89,9 +89,10 @@ public class PlayerInventroy : MonoBehaviour
         runeBonusStatus -= rune.BonusStatus;
     }
 
-    public void ReplaceRune(SlotType slotType0, int slotIndex0, SlotType slotType1 ,int slotIndex1)
+    public void ReplaceRune<T>(T[] array1, int index1, T[] array2, int index2)
     {
-        
+        Funcs.ArraySwap(array1, index1, array2, index2);
+        CalcRuneBonus();
     }
 
     public void EquipItem(Item item)
@@ -105,8 +106,9 @@ public class PlayerInventroy : MonoBehaviour
 
         foreach (Item_Rune rune in equipedRuneList)
         {
-            calcedBonusStatus += rune.BonusStatus;
+            if(rune != null) calcedBonusStatus += rune.BonusStatus;
         }
         runeBonusStatus = calcedBonusStatus;
+        Debug.Log(runeBonusStatus.weapon_BulletSize);
     }
 }

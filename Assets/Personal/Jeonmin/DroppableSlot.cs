@@ -53,22 +53,22 @@ public class DroppableSlot : MonoBehaviour, IPointerEnterHandler, IDropHandler, 
                 {
                     if(previousSlot.slotType == SlotType.Slot)
                     {
-                        Funcs.ArraySwap(inventory.runeList, slotIndex, inventory.runeList, previousSlot.slotIndex);
+                        inventory.ReplaceRune(inventory.runeList, slotIndex, inventory.runeList, previousSlot.slotIndex);
                     }
                     else if(previousSlot.slotType == SlotType.EqupedSlot)
                     {
-                        Funcs.ArraySwap(inventory.runeList, slotIndex, inventory.equipedRuneList, previousSlot.slotIndex);
+                        inventory.ReplaceRune(inventory.runeList, slotIndex, inventory.equipedRuneList, previousSlot.slotIndex);
                     }
                 }
                 else if(slotType == SlotType.EqupedSlot)
                 {
                     if (previousSlot.slotType == SlotType.Slot)
                     {
-                        Funcs.ArraySwap(inventory.equipedRuneList, slotIndex, inventory.runeList, previousSlot.slotIndex);
+                        inventory.ReplaceRune(inventory.equipedRuneList, slotIndex, inventory.runeList, previousSlot.slotIndex);
                     }
                     else if (previousSlot.slotType == SlotType.EqupedSlot)
                     {
-                        Funcs.ArraySwap(inventory.equipedRuneList, slotIndex, inventory.equipedRuneList, previousSlot.slotIndex);
+                        inventory.ReplaceRune(inventory.equipedRuneList, slotIndex, inventory.equipedRuneList, previousSlot.slotIndex);
                     }
                 }
             }

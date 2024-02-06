@@ -141,4 +141,10 @@ public class UiController_Proto : Singleton<UiController_Proto>
             playerHudView.resultCanvasGroup.DOFade(1f, 0.5f);
         }
     }
+
+    public void ShowRuneWindow(bool value)
+    {
+        runeView.gameObject.SetActive(value);
+        if(value == true) runeView.UpdateSlots();
+    }
 }

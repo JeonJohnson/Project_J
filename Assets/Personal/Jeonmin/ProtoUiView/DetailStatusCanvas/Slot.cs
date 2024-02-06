@@ -98,7 +98,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
         {
             if (holdingItem != null)
             {
-                UI_RuneView.instance.UpdateSlotInfo();
+                UI_RuneView.instance.UpdateSlots();
             }
         }
     }
