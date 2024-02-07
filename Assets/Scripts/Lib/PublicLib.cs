@@ -1,15 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
-using Structs;
-using UnityEngine.UIElements;
-using Unity.VisualScripting;
-using static Unity.Burst.Intrinsics.Arm;
-using UnityEngine.XR;
 
 public static class Funcs
 {

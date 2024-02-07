@@ -27,7 +27,8 @@ public class StageManager : Singleton<StageManager>
 	[ReadOnly]
 	public int curRoomIndex;
 
-	public int[] enemyCount;
+	public Data<int>[] enemyCount;
+	public Data<int> killCount; // 단순 기록용 0207JM
 
 	public List<GameObject> bullets;
 	public List<Enemy_DeadBody> deadbody;
@@ -119,18 +120,18 @@ public class StageManager : Singleton<StageManager>
 		}
 		rooms.Add(bossRoom);
 		
-		enemyCount = new int[rooms.Count];
+		enemyCount = new Data<int>[rooms.Count];
 		//cleanObjs = new List<GameObject>[rooms.Count];
 		for (int i = 0; i < rooms.Count; ++i)
 		{
-			enemyCount[i] = rooms[i].enemyPos.Count;
+			enemyCount[i].Value = rooms[i].enemyPos.Count;
 			//cleanObjs[i] = new List<GameObject>();
 		}
 
 		curRoom = rooms[curRoomIndex];
 		IngameController.Instance.UpdateMinimapRenderCam(curRoom.centerPos, curRoom.size.y / 2f);
 
-		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
+		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex].Value);
 
 	}
 
@@ -148,7 +149,7 @@ public class StageManager : Singleton<StageManager>
 		Vector3 playerPos = curRoomIndex != rooms.Count - 1 ? curRoom.centerPos : new(3.5f, 7.5f, 0f);
 
 		IngameController.Instance.Player.transform.position = playerPos;
-		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
+		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex].Value);
 		IngameController.Instance.UpdateMinimapRenderCam(curRoom.centerPos, curRoom.size.y / 2f);
 	}
 
@@ -189,15 +190,14 @@ public class StageManager : Singleton<StageManager>
 
 	public void OnEnemyDeath()
 	{
-		--enemyCount[curRoomIndex];
-		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
+		--enemyCount[curRoomIndex].Value;
+		killCount.Value++;
+		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex].Value);
 
-		if (enemyCount[curRoomIndex] <= 0)
+		if (enemyCount[curRoomIndex].Value <= 0)
 		{
 			OnClearStage();
 		}
-
-	
 	}
 
 	public IEnumerator CreatePortalCor()
@@ -260,7 +260,10 @@ public class StageManager : Singleton<StageManager>
 
 		bullets = new List<GameObject>();
 		deadbody = new List<Enemy_DeadBody>();
-	}
+
+		killCount = new Data<int>();
+
+    }
 
 	private void Start()
 	{

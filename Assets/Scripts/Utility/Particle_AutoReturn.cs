@@ -10,7 +10,6 @@ public class Particle_AutoReturn : MonoBehaviour
 	{
 		StartCoroutine("CheckIfAlive");
         if(GetComponent<ParticleSystem>()) GetComponent<ParticleSystem>().Play();
-
     }
 	
 	IEnumerator CheckIfAlive ()
@@ -30,7 +29,7 @@ public class Particle_AutoReturn : MonoBehaviour
 				}
 				else
 					GetComponent<ParticleSystem>().Stop();
-                //SubManager<PoolingManager>.Get().ReturnObj(this.gameObject);
+                    //SubManager<PoolingManager>.Get().ReturnObj(this.gameObject);
 				break;
 			}
 		}

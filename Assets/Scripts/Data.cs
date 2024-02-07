@@ -18,3 +18,8 @@ public class Data<T>
     }
     public System.Action<T> onChange;
 }
+
+public class DeathData
+{
+    
+}
