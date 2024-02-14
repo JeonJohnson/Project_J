@@ -68,8 +68,6 @@ public class Weapon_Player : Weapon
         Debug.Log(fovSprite.name);
         fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
         fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
-
-        weaponSprite.sprite = owner.inventroy.curWeaponItem?.weaponSprite;
     }
 
     public void CheckAttackMode()
@@ -218,7 +216,6 @@ public class Weapon_Player : Weapon
                 StageManager.Instance?.AddBullet(bullet);
 				//근희임시추가
 
-				Debug.Log(bullet.name);
                 break;
             case BulletType.Laser:
                 bullet = Instantiate(testLaserBulletPrefab);

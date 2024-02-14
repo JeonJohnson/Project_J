@@ -19,6 +19,8 @@ public class Player : CObj
 
     public PlayerInventroy inventroy;
 
+    public PlayerRuneEffectHandler runeEffectHandler;
+
     public Rigidbody2D PlayerRigidbody2D { get; private set; }
     public Animator animator { get; private set; }
 
@@ -49,9 +51,11 @@ public class Player : CObj
         animator = spriteHolder.GetComponent<Animator>();
         attackController = GetComponent<PlayerAttackController>();
         inventroy = GetComponent<PlayerInventroy>();
+        runeEffectHandler = GetComponent<PlayerRuneEffectHandler>();
 
         status.curHp = new Data<int>();
         status.curHp.Value = status.maxHp;
+        Debug.Log("이닛 플레이어");
     }
 
     public override HitInfo Hit(int dmg, Vector2 dir)

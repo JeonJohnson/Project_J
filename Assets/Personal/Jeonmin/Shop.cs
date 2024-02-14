@@ -13,7 +13,7 @@ public class Shop : MonoBehaviour
         for (int i = 0; i < numberOfItems; i++)
         {
             selectedItems[i] = GetRandomItem();
-            Debug.Log("상점에 추가된 아이템: " + selectedItems[i].item_name);
+            Debug.Log("상점에 아이템 추가: " + selectedItems[i].item_name);
         }
 
         shopItems.AddRange(selectedItems);

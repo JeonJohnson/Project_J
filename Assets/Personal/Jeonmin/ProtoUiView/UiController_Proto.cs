@@ -11,6 +11,7 @@ public class UiController_Proto : Singleton<UiController_Proto>
     public Ui_DetailStatus_View playerDetailStatusView;
     public UiView playerHudView;
     public UI_RuneView runeView;
+    public UI_ShopView shopView;
 
     public Player player;
 

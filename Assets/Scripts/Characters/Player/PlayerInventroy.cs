@@ -30,6 +30,7 @@ public class PlayerInventroy : MonoBehaviour
         ejectRemainBulletCount = new Data<int>();
 
         if (curWeaponItem == null) curWeaponItem = defWeaponItem;
+        EquipWeapon(curWeaponItem);
     }
 
     public void EquipWeapon(Item_Weapon item_Weapon)
@@ -77,9 +78,9 @@ public class PlayerInventroy : MonoBehaviour
         {
             int i = System.Array.IndexOf(runeList, rune);
             Funcs.ArrayReplace(runeList, equipedRuneList[slot], i);
-
         }
         Funcs.ArrayReplace(equipedRuneList, rune, slot);
+        rune.Equip(player);
     }
 
     public void UnEquipRune(Item_Rune rune) 
@@ -87,9 +88,10 @@ public class PlayerInventroy : MonoBehaviour
         Funcs.ArrayRemove(equipedRuneList, rune);
         Funcs.ArrayAdd(runeList, rune);
         runeBonusStatus -= rune.BonusStatus;
+        rune.UnEquip(player);
     }
 
-    public void ReplaceRune<T>(T[] array1, int index1, T[] array2, int index2)
+    public void ReplaceRune<T>(T[] array1, int index1, T[] array2, int index2) where T : Item_Rune
     {
         Funcs.ArraySwap(array1, index1, array2, index2);
         CalcRuneBonus();

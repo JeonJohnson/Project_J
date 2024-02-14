@@ -27,8 +27,9 @@ public class StageManager : Singleton<StageManager>
 	[ReadOnly]
 	public int curRoomIndex;
 
-	public Data<int>[] enemyCount;
+	public int[] enemyCount;
 	public Data<int> killCount; // 단순 기록용 0207JM
+	public Data<Enemy> enemyDeathData;
 
 	public List<GameObject> bullets;
 	public List<Enemy_DeadBody> deadbody;
@@ -120,18 +121,18 @@ public class StageManager : Singleton<StageManager>
 		}
 		rooms.Add(bossRoom);
 		
-		enemyCount = new Data<int>[rooms.Count];
+		enemyCount = new int[rooms.Count];
 		//cleanObjs = new List<GameObject>[rooms.Count];
 		for (int i = 0; i < rooms.Count; ++i)
 		{
-			enemyCount[i].Value = rooms[i].enemyPos.Count;
+			enemyCount[i] = rooms[i].enemyPos.Count;
 			//cleanObjs[i] = new List<GameObject>();
 		}
 
 		curRoom = rooms[curRoomIndex];
 		IngameController.Instance.UpdateMinimapRenderCam(curRoom.centerPos, curRoom.size.y / 2f);
 
-		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex].Value);
+		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
 
 	}
 
@@ -149,7 +150,7 @@ public class StageManager : Singleton<StageManager>
 		Vector3 playerPos = curRoomIndex != rooms.Count - 1 ? curRoom.centerPos : new(3.5f, 7.5f, 0f);
 
 		IngameController.Instance.Player.transform.position = playerPos;
-		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex].Value);
+		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
 		IngameController.Instance.UpdateMinimapRenderCam(curRoom.centerPos, curRoom.size.y / 2f);
 	}
 
@@ -188,13 +189,16 @@ public class StageManager : Singleton<StageManager>
         }
 	}
 
-	public void OnEnemyDeath()
+	public void OnEnemyDeath(Enemy enemy)
 	{
-		--enemyCount[curRoomIndex].Value;
+		--enemyCount[curRoomIndex];
 		killCount.Value++;
-		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex].Value);
+		enemyDeathData.Value = enemy;
 
-		if (enemyCount[curRoomIndex].Value <= 0)
+        Debug.Log("킬카운트" + killCount.Value);
+		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
+
+		if (enemyCount[curRoomIndex] <= 0)
 		{
 			OnClearStage();
 		}
@@ -253,7 +257,12 @@ public class StageManager : Singleton<StageManager>
 
 	private void Awake()
 	{
-		rooms = new List<Room_Drunken>();
+		Initailize(this);
+        curRoomIndex = 0;
+        enemyCount = new int[3];
+        enemyCount[0] = 3;
+
+        rooms = new List<Room_Drunken>();
 		
 		DontDestroyOnLoad(gameObject);
 
@@ -262,6 +271,7 @@ public class StageManager : Singleton<StageManager>
 		deadbody = new List<Enemy_DeadBody>();
 
 		killCount = new Data<int>();
+		enemyDeathData = new Data<Enemy>();
 
     }
 
