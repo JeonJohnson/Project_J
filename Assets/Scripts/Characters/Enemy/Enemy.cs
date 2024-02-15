@@ -11,20 +11,24 @@ public abstract class Enemy : CObj, IPoolable
     public NavMeshAgent agent;
     public EnemyStatus status;
     [HideInInspector] public Vector3 spriteDir;
+    private HitInfo hitInfo;
 
     public virtual void Start()
     {
         Initialize();
         if (target == null) target = IngameController.Instance.Player;
     }
-
+    
     protected abstract void Initialize();
 
-
-    public override HitInfo Hit(int dmg, Vector2 dir)
+    public override HitInfo Hit(int dmg, Vector2 dir) 
     {
-        HitInfo hitInfo = new HitInfo();
-        return hitInfo;
+        status.curHp -= dmg;
+        hitInfo.dmg = dmg;
+        hitInfo.hitDir = dir;
+        hitInfo.isDurable = status.isDurable;
+        hitInfo.isHitSucess = !status.isInvincible;
+        return hitInfo; 
     }
 
     public void PoolableInit()

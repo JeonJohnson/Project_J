@@ -38,8 +38,8 @@ public class Tangtangi : Enemy
 
     public override HitInfo Hit(int dmg, Vector2 dir)
     {
+        base.Hit(dmg,dir);
         Rigidbody2D.AddForce(dir * 300f);
-        status.curHp -= dmg;
         animator.SetTrigger("Damage");
         SoundManager.Instance.PlayTempSound("Tangtangi_Hit", this.transform.position, 1f, 0.8f,1f);
 

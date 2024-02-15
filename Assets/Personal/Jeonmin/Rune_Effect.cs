@@ -76,7 +76,7 @@ public class RuneEffect_SlowOnEnemyHit : RuneEffect
     public override void RuneInit(Player player, int value)
     {
         base.RuneInit(player, value);
-
+        if (StageManager.Instance) StageManager.Instance.enemyDeathData.onChange += Slow;
     }
 
     public override void RuneEffectUpdate()
@@ -86,7 +86,7 @@ public class RuneEffect_SlowOnEnemyHit : RuneEffect
 
     public override void RuneExit()
     {
-
+        if (StageManager.Instance) StageManager.Instance.enemyDeathData.onChange -= Slow;
     }
 
     private void Slow(Enemy enemy)

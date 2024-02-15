@@ -651,6 +651,10 @@ namespace Structs
 
     public struct HitInfo
     {
+		public int dmg;
+		public int hp;
+		public Vector2 hitDir;
+
         public bool isDurable;
         public bool isHitSucess;
     }
