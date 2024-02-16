@@ -38,13 +38,14 @@ public class Tangtangi : Enemy
 
     public override HitInfo Hit(int dmg, Vector2 dir)
     {
-        base.Hit(dmg,dir);
+        StageManager.Instance?.OnEnemyHit(this);
+
         Rigidbody2D.AddForce(dir * 300f);
         animator.SetTrigger("Damage");
         SoundManager.Instance.PlayTempSound("Tangtangi_Hit", this.transform.position, 1f, 0.8f,1f);
 
         hitFeedback?.PlayFeedbacks();
-        if (status.curHp <= 0 && ActionTable.CurAction_e != TangtangiActions.Death)
+        if (status.curHp - dmg <= 0 && ActionTable.CurAction_e != TangtangiActions.Death)
         {
             Debug.Log(status.curHp);
             GameObject go = PoolingManager.Instance.LentalObj(deadBodyPrefab);
@@ -60,9 +61,7 @@ public class Tangtangi : Enemy
             StageManager.Instance?.OnEnemyDeath(this);
             this.gameObject.SetActive(false);
         }
-
-        HitInfo hitInfo = new HitInfo();
-        return hitInfo;
+        return base.Hit(dmg, dir); 
     }
 
     private void FixedUpdate()

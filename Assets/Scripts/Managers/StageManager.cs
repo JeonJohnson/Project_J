@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Structs;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -30,6 +31,7 @@ public class StageManager : Singleton<StageManager>
 	public int[] enemyCount;
 	public Data<int> killCount; // 단순 기록용 0207JM
 	public Data<Enemy> enemyDeathData;
+	public Data<Enemy> enemyHitData;
 
 	public List<GameObject> bullets;
 	public List<Enemy_DeadBody> deadbody;
@@ -189,6 +191,12 @@ public class StageManager : Singleton<StageManager>
         }
 	}
 
+	public void OnEnemyHit(Enemy enemy)
+	{
+		Debug.Log("OnEnemyHit");
+		enemyHitData.Value = enemy;
+    }
+
 	public void OnEnemyDeath(Enemy enemy)
 	{
 		--enemyCount[curRoomIndex];
@@ -272,7 +280,7 @@ public class StageManager : Singleton<StageManager>
 
 		killCount = new Data<int>();
 		enemyDeathData = new Data<Enemy>();
-
+		enemyHitData = new Data<Enemy>();
     }
 
 	private void Start()

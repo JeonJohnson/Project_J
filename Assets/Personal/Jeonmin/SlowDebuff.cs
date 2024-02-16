@@ -9,21 +9,20 @@ public class SlowDebuff : StatusEffect
     public SlowDebuff(float duration, CObj target, float slowPercent) : base(duration, target)
     {
         this.slowPercent = slowPercent;
+        this.target = target;
+        this.duration = duration;
     }
 
     public override void ApplyEffect()
     {
-        // 주기적으로 피해를 입히는 코루틴 시작
-        slowCoroutine = StartCoroutine(SlowOverTime());
-        
+        slowCoroutine = target.StartCoroutine(SlowOverTime());
     }
 
     public override void RemoveEffect()
     {
-        // 디버프 종료 시 피해 코루틴 중단
         if (slowCoroutine != null)
         {
-            StopCoroutine(slowCoroutine);
+            target.StopCoroutine(slowCoroutine);
         }
         if (target is Enemy)
         {
@@ -39,10 +38,11 @@ public class SlowDebuff : StatusEffect
     private IEnumerator SlowOverTime()
     {
         float timer = this.duration;
-        while (this.duration > 0f)
+        while (timer > 0f)
         {
-            this.duration -= timer;
+            timer -= Time.deltaTime;
             DealSlowToTarget(this.slowPercent);
+            Debug.Log("슬로우중");
             yield return null;
         }
         RemoveEffect();

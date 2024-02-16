@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class RuneEffect : MonoBehaviour
+public abstract class RuneEffect
 {
     public Player owner;
     public int effect_value;
@@ -76,7 +76,7 @@ public class RuneEffect_SlowOnEnemyHit : RuneEffect
     public override void RuneInit(Player player, int value)
     {
         base.RuneInit(player, value);
-        if (StageManager.Instance) StageManager.Instance.enemyDeathData.onChange += Slow;
+        if (StageManager.Instance) StageManager.Instance.enemyHitData.onChange += Slow;
     }
 
     public override void RuneEffectUpdate()
@@ -86,13 +86,14 @@ public class RuneEffect_SlowOnEnemyHit : RuneEffect
 
     public override void RuneExit()
     {
-        if (StageManager.Instance) StageManager.Instance.enemyDeathData.onChange -= Slow;
+        if (StageManager.Instance) StageManager.Instance.enemyHitData.onChange -= Slow;
     }
 
     private void Slow(Enemy enemy)
     {
-        Debug.Log(enemy.transform.position);
-        GameObject particle = PoolingManager.Instance.LentalObj("Effect_Magic_00");
-        particle.transform.position = enemy.transform.position;
+        Debug.Log("슬로우 시작");
+        SlowDebuff slowDebuff = new SlowDebuff(effect_value, enemy, 5f);
+        enemy.statusEffect.Add(slowDebuff);
+        slowDebuff.ApplyEffect();
     }
 }

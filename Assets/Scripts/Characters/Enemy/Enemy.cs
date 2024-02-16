@@ -11,7 +11,8 @@ public abstract class Enemy : CObj, IPoolable
     public NavMeshAgent agent;
     public EnemyStatus status;
     [HideInInspector] public Vector3 spriteDir;
-    private HitInfo hitInfo;
+    public HitInfo hitInfo;
+    public List<StatusEffect> statusEffect = new List<StatusEffect>();
 
     public virtual void Start()
     {

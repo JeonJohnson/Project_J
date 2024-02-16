@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class StatusEffect : MonoBehaviour
+public abstract class StatusEffect
 {
     protected float duration;
     protected CObj target;
