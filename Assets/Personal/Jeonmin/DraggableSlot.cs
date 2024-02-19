@@ -35,7 +35,6 @@ public class DraggableSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         if(isHovering)
         {
-            Debug.Log(hoveringTimer);
             if (hoveringTimer >= 0.5f && !isDragging)
             {
                 UiController_Proto.Instance.runeView.slotHoverView.gameObject.SetActive(true);

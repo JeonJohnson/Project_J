@@ -40,11 +40,11 @@ public class UI_RuneView : MonoBehaviour
     {
         if(isInitzed)
         {
-            for (int i = 0; i < draggableSlots.Count; i++)
+            for (int i = draggableSlots.Count - 1 ; i >= 0; i--)
             {
                 Destroy(draggableSlots[i]);
-                draggableSlots.Clear();
             }
+            draggableSlots.Clear();
 
             for (int i = 0; i < IngameController.Instance.Player.inventroy.runeList.Length; i++)
             {

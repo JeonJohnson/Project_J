@@ -192,7 +192,7 @@ public class PoolingManager: Singleton<PoolingManager>
 
 	void Awake()
 	{
-		Initailize(false);
+		Initailize(true);
 		FillAllObjects();
     }
 

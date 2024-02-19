@@ -155,4 +155,22 @@ public class UiController_Proto : Singleton<UiController_Proto>
         runeView.gameObject.SetActive(value);
         if(value == true) runeView.UpdateSlots();
     }
+
+    public void ShowShopWindow(bool value)
+    {
+        if(value == true)
+        {
+            IngameController.Instance.ResetAllWindow();
+            IngameController.Instance?.Player.LockPlayer(true);
+            shopView.UpdateCoinCountView(IngameController.Instance.Player.inventroy.coinCount.Value);
+            Cursor.visible = true;
+        }
+        else
+        {
+            IngameController.Instance?.Player.LockPlayer(false);
+            Cursor.visible = false;
+        }
+
+        shopView.gameObject.SetActive(value);
+    }
 }

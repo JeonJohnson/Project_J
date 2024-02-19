@@ -15,6 +15,7 @@ public class SlowDebuff : StatusEffect
 
     public override void ApplyEffect()
     {
+        if (target.gameObject.activeSelf == false) return;
         slowCoroutine = target.StartCoroutine(SlowOverTime());
     }
 

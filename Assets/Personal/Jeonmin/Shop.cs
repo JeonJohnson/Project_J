@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.B))
@@ -24,11 +26,11 @@ public class Shop : MonoBehaviour
         for (int i = 0; i < numberOfItems; i++)
         {
             selectedItems[i] = GetRandomItem();
-            Debug.Log("상점에 아이템 추가: " + selectedItems[i].item_name);
+            if (selectedItems[i] == null) break;
+            shopItems.Add(selectedItems[i]);
             UiController_Proto.Instance.shopView.AddShopSlot(selectedItems[i]);
         }
-
-        shopItems.AddRange(selectedItems);
+        if (selectedItems == null) return;
     }
 
     public bool BuyItem(Item_Rune item)
@@ -49,7 +51,21 @@ public class Shop : MonoBehaviour
 
     private Item_Rune GetRandomItem()
     {
-        return itemArray[Random.Range(0, itemArray.Length)];
+        Item_Rune[] equipedItemArray = IngameController.Instance.Player.inventroy.equipedRuneList;
+        Item_Rune[] unequipedItemArray = IngameController.Instance.Player.inventroy.runeList;
+
+        // equipedItemArray와 unequipedItemArray에 있는 모든 아이템을 포함하는 HashSet을 생성합니다.
+        HashSet<Item_Rune> equippedAndUnequippedItems = new HashSet<Item_Rune>(equipedItemArray.Concat(unequipedItemArray));
+        equippedAndUnequippedItems = new HashSet<Item_Rune>(equippedAndUnequippedItems.Concat(shopItems));
+
+        // allItemArray에 있는 아이템 중 equippedAndUnequippedItems에 없는 아이템을 포함하는 리스트를 생성합니다.
+        List<Item_Rune> nonEquippedItems = itemArray.Where(item => !equippedAndUnequippedItems.Contains(item)).ToList();
+
+        if (nonEquippedItems.Count == 0) return null;
+        // nonEquippedItems에서 랜덤으로 아이템을 선택하여 반환합니다.
+        return nonEquippedItems[Random.Range(0, nonEquippedItems.Count)];
+
+        //return allItemArray[Random.Range(0, allItemArray.Length)];
     }
 
     public void ExitShop()

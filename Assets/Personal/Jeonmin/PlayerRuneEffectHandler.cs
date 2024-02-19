@@ -1,3 +1,4 @@
+using Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ public class PlayerRuneEffectHandler : MonoBehaviour
         owner = this.gameObject.GetComponent<Player>();
     }
 
-    public void LoadRuneEffect(string className, int value) //reflection
+    public RuneEffect LoadRuneEffect(string className, int value) //reflection
     {
         // 클래스명으로 Type을 가져옴
         Type type = Type.GetType(className);
@@ -27,11 +28,10 @@ public class PlayerRuneEffectHandler : MonoBehaviour
             // 생성된 인스턴스를 리스트에 추가
             runeEffects.Add(runeEffect);
             runeEffect.RuneInit(owner, value);
+
+            return runeEffect;
         }
-        else
-        {
-            Debug.LogError("RuneEffect class with the name " + className + " does not exist or is not a subclass of RuneEffect.");
-        }
+        return null;
     }
 
     public void LoadRuneEffect(RuneEffect effect, int value)
@@ -48,21 +48,17 @@ public class PlayerRuneEffectHandler : MonoBehaviour
         // 클래스가 존재하는지 확인
         if (type != null && type.IsSubclassOf(typeof(RuneEffect)))
         {
-            // 클래스의 인스턴스를 생성
+            Debug.Log("룬 이펙 제거");
+
             RuneEffect runeEffect = Activator.CreateInstance(type) as RuneEffect;
 
-            // 생성된 인스턴스를 리스트에 추가
-            runeEffects.Remove(runeEffect);
-            runeEffect.RuneExit();
-        }
-        else
-        {
-            Debug.LogError("RuneEffect class with the name " + className + " does not exist or is not a subclass of RuneEffect.");
+            RemoveRuneEffect(runeEffect);
         }
     }
 
     public void RemoveRuneEffect(RuneEffect effect)
     {
+        if (effect == null) return;
         runeEffects.Remove(effect);
         effect.RuneExit();
     }

@@ -26,7 +26,7 @@ public class UI_ShopView : MonoBehaviour
         {
             Destroy(shopSlots[i]);
         }
-        this.gameObject.SetActive(false);
+        UiController_Proto.Instance.ShowShopWindow(false);
     }
 
     public void UpdateCoinCountView(int coinCount)

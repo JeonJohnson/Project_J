@@ -49,7 +49,12 @@ public class Bullet_Rain : Bullet
         {
             float angleRadians = Mathf.Deg2Rad * 360 / 8 * i;
             Vector2 direction = new Vector2(Mathf.Cos(angleRadians), Mathf.Sin(angleRadians));
-            GameObject bullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity);
+
+            GameObject bullet = PoolingManager.Instance.LentalObj("Bullet_Enemy", 1);
+            bullet.SetActive(false);
+            bullet.transform.position = this.transform.position;
+            bullet.SetActive(true);
+
             bullet.GetComponent<Bullet>().Fire(direction, 1, 200f, 0.5f);
         }
 
@@ -96,7 +101,7 @@ public class Bullet_Rain : Bullet
             if (suckedStat.suckingTimeRatio >= 1f)
             {
                 //jar마우스쪽에서 Sucking 상태인 bullet이 충돌되면 bulletCnt 증가 하기?
-
+                IngameController.Instance.Player.inventroy.bulletCount.Value++;
                 Resetting();
                 //리셋하기
                 Destroy(this.gameObject);

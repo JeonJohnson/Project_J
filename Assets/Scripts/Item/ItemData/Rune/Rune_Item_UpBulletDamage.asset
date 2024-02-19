@@ -25,10 +25,10 @@ MonoBehaviour:
     player_Speed: 0
     weapon_Speed: 0
     weapon_Spread: 0
-    weapon_Damage: 1
+    weapon_Damage: 2
     weapon_FireRate: 0
     weapon_BulletNumPerFire: 0
     weapon_Critial: 0
-    weapon_BulletSize: 1
+    weapon_BulletSize: 0
   RuneEffect_Name: 
   RuneEffect_Value: 0

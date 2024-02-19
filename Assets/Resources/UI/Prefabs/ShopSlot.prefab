@@ -232,7 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2295423361081991916}
   itemNameText: {fileID: 5987955693964638164}
-  itemPriceText: {fileID: 0}
+  itemPriceText: {fileID: 4045091917401374023}
   itemInfoText: {fileID: 5106946541970797264}
 --- !u!225 &440880624474390621
 CanvasGroup:

@@ -126,21 +126,21 @@ public class Weapon_Player : Weapon
         WeaponData weaponData = owner.inventroy.curWeaponItem.weaponData;
 
         // 각도 체크
-        float spreadAngle = weaponData.spread;
+        float spreadAngle = weaponData.spread + owner.inventroy.runeBonusStatus.weapon_Spread;
         //spreadAngle = CheckSpreadAngle(weaponData, spreadAngle);
 
         // 총알갯수 체크
         int bulletNum = weaponData.bulletNumPerFire;
 
         // 총알속도 체크
-        float bulletSpeed = weaponData.bulletSpeed;
+        float bulletSpeed = weaponData.bulletSpeed + owner.inventroy.runeBonusStatus.weapon_Speed;
 
         // 총알 크기 체크
-        float bulletSize = weaponData.bulletSize;
+        float bulletSize = weaponData.bulletSize + owner.inventroy.runeBonusStatus.weapon_BulletSize;
 
         // 총알 데미지 체크
 
-        int dmg = Mathf.CeilToInt(weaponData.damage);
+        int dmg = Mathf.CeilToInt(weaponData.damage + +owner.inventroy.runeBonusStatus.weapon_Damage);
 
         float criticalValue = weaponData.critical;
         criticalValue = Mathf.Clamp(criticalValue, 0, 100);
@@ -150,7 +150,7 @@ public class Weapon_Player : Weapon
         // 총알종류 체크 & 발사
 
         string weaponName = $"Player_{owner.inventroy.curWeaponItem.item_name}_Fire";
-        SoundManager.Instance.PlaySound(weaponName, Camera.main.gameObject, 0.625f, 0.8f,1f);
+        SoundManager.Instance.PlaySound(weaponName, Camera.main.gameObject, 0.625f, 0.8f, 1f, true);
 
 
         for (int i = 0; i < bulletNum; i++)

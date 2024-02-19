@@ -57,6 +57,7 @@ public class DroppableSlot : MonoBehaviour, IPointerEnterHandler, IDropHandler, 
                     }
                     else if(previousSlot.slotType == SlotType.EqupedSlot)
                     {
+                        Debug.Log(inventory.equipedRuneList[previousSlot.slotIndex].RuneEffect_Name);
                         inventory.equipedRuneList[previousSlot.slotIndex].UnEquip(IngameController.Instance.Player);
                         inventory.ReplaceRune(inventory.runeList, slotIndex, inventory.equipedRuneList, previousSlot.slotIndex);
                     }

@@ -42,7 +42,7 @@ public class ShopSlot : MonoBehaviour
         if(IngameController.Instance.Player.shop.BuyItem((Item_Rune)item) == true)
         {
             isBuyable = false;
-            canvasGroup.DOFade(0f, 0.15f);//.OnComplete(() => Destroy(this.gameObject));
+            canvasGroup.DOFade(0f, 0.15f).SetUpdate(true);//.OnComplete(() => Destroy(this.gameObject));
         }
     }
 }

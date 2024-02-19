@@ -127,8 +127,9 @@ public class SoundManager : Singleton<SoundManager>
 	{
 		float pitch = Random.Range(minPitch, maxPitch);
 		AudioClip clip = GetAuidoClip(clipName);
-		PlayEffectSound(clip, 1f, pitch);
+		PlayEffectSound(clip, volume, pitch);
 	}
+
 	private void PlayEffectSound(AudioClip clip, float volume, float pitch)
 	{
 		if (clip == null)

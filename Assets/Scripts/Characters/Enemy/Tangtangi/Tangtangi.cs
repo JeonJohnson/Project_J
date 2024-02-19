@@ -53,7 +53,7 @@ public class Tangtangi : Enemy
             go.GetComponent<Rigidbody2D>()?.AddForce(-dir * 800f);
 
             //코인드랍
-            int rndCoinCount = Random.Range(0, 5);
+            int rndCoinCount = Random.Range(1, 5);
             for(int i=0; i < rndCoinCount; i++)
             {
                 GameObject coinGo = PoolingManager.Instance.LentalObj("Coin", 1);

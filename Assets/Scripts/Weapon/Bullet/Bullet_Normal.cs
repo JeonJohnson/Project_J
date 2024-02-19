@@ -32,6 +32,7 @@ public class Bullet_Normal : Bullet, IPoolable
         FindDefaultComps();
         light2D = GetComponent<Light2D>();
         suckable = GetComponent<Suckable>();
+        suckable.OnSucked += OnSuckedEvent;
 
         defaultStat.aliveTime = 30;
         defColor = srdr.color;
@@ -145,7 +146,7 @@ public class Bullet_Normal : Bullet, IPoolable
 
     public void PoolableInit()
     {
-        suckable.OnSucked += OnSuckedEvent;
+        //suckable.OnSucked += OnSuckedEvent;
     }
 
     public void PoolableReset()

@@ -36,6 +36,9 @@ public class StageManager : Singleton<StageManager>
 	public List<GameObject> bullets;
 	public List<Enemy_DeadBody> deadbody;
 
+	public int shopAppearCount = 2;
+	public List<int> shopRoomIndex = new List<int>();
+
 
 	//public Data<int> curMonsterCount; //정민아 이거랑 UI랑 연결하면 될거 같애
 	//public void OnMonsterDeath()
@@ -142,7 +145,15 @@ public class StageManager : Singleton<StageManager>
 	{
 		CleanObjects();
 
-		rooms[curRoomIndex].gameObject.SetActive(false);
+		//상점
+		if(shopRoomIndex.Contains(curRoomIndex))
+		{
+            UiController_Proto.Instance.ShowShopWindow(true);
+            IngameController.Instance.Player.shop.ShowRandomItems(4);
+        }
+        //상점
+
+        rooms[curRoomIndex].gameObject.SetActive(false);
 
 		curRoomIndex = curRoomIndex + 1 >= rooms.Count ? 0 : curRoomIndex + 1 ;
 
@@ -260,19 +271,14 @@ public class StageManager : Singleton<StageManager>
 		StartCoroutine(CreatePortalCor());
 	}
 
-	
-
 
 	private void Awake()
 	{
-		Initailize(this);
-        curRoomIndex = 0;
-        enemyCount = new int[3];
-        enemyCount[0] = 3;
+        Initailize(false);
 
         rooms = new List<Room_Drunken>();
 		
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 
 
 		bullets = new List<GameObject>();
@@ -281,6 +287,11 @@ public class StageManager : Singleton<StageManager>
 		killCount = new Data<int>();
 		enemyDeathData = new Data<Enemy>();
 		enemyHitData = new Data<Enemy>();
+
+		for(int i = 0; i < shopAppearCount; i++)
+		{
+            shopRoomIndex[i] = Funcs.GetDontOverlapRandom(0, 2, ref shopRoomIndex);
+        }
     }
 
 	private void Start()
