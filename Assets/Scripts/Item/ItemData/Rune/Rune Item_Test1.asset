@@ -16,8 +16,8 @@ MonoBehaviour:
   item_name: Test1 RUNE
   item_description: "\uC801 \uB4A4\uC9C0\uBA74 \uD3ED\uBC1C"
   item_explain: "\uC801 \uC8FD\uC73C\uBA74 \uD130\uC9D1\uB2C8\uB2F9"
-  item_sprite: {fileID: 1474880137, guid: ba174d2bf7cb9fc49a873c81100ac7e4, type: 3}
-  item_sprite_Big: {fileID: 391085870, guid: 47b1268e38825384eac4f9e0fa5c201a, type: 3}
+  item_sprite: {fileID: 21300000, guid: b6fef97e0b01c2b4098d94cd2f4816d4, type: 3}
+  item_sprite_Big: {fileID: 21300000, guid: b6fef97e0b01c2b4098d94cd2f4816d4, type: 3}
   bonusStatus:
     player_Hp: 0
     player_Armor: 0

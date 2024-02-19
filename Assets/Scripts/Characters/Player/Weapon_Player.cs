@@ -25,6 +25,8 @@ public class Weapon_Player : Weapon
     }
 
     public SpriteRenderer fovSprite;
+    public SpriteRenderer[] testWeaponSprite;
+    public Animator weaponAnimator;
 
     private Player owner;
     public SuctionStat suctionStat;
@@ -45,15 +47,29 @@ public class Weapon_Player : Weapon
         {
             if(owner.aimController.GetAimAngle(Vector3.up) < 90f)
             {
-                ChangeImageSortOrder(weaponSprite, "Characters", 0);
-                ChangeImageSortOrder(fovSprite, "Characters", 0);
+                ChangeImageSortOrder(testWeaponSprite[0], "Characters", 0);
+                ChangeImageSortOrder(testWeaponSprite[1], "Characters", 0);
+                ChangeImageSortOrder(testWeaponSprite[2], "Characters", 0);
+                ChangeImageSortOrder(testWeaponSprite[3], "Characters", 0);
+                ChangeImageSortOrder(fovSprite, "Characters", -1);
             }
             else
             {
-                ChangeImageSortOrder(weaponSprite, "Characters", 2);
-                ChangeImageSortOrder(fovSprite, "Characters", 2);
+                ChangeImageSortOrder(testWeaponSprite[0], "Characters", 2);
+                ChangeImageSortOrder(testWeaponSprite[1], "Characters", 2);
+                ChangeImageSortOrder(testWeaponSprite[2], "Characters", 2);
+                ChangeImageSortOrder(testWeaponSprite[3], "Characters", 2);
+                ChangeImageSortOrder(fovSprite, "Characters", 1);
             }
 
+            if(owner.aimController.AimDir.x > 0)
+            {
+                FlipWeaponSprite(false);
+            }
+            else
+            {
+                FlipWeaponSprite(true);
+            }
         }
         CheckAttackMode();
     }
@@ -240,6 +256,7 @@ public class Weapon_Player : Weapon
         }
         else
         {
+            weaponAnimator.SetBool("Transform", false);
             rechargeTimer -= Time.deltaTime;
             rechargeTimer = Mathf.Clamp(rechargeTimer, 0f, 5f);
             if(rechargeTimer <= 0f) Recharge();
@@ -260,10 +277,15 @@ public class Weapon_Player : Weapon
         if (suctionStat.curSuctionRatio.Value < amount)
         {
             fovSprite.color = suctionStat.fovIdleColor;
+            Debug.Log("켁");
+            weaponAnimator.SetBool("Transform", false);
             return;
         }
 
-		itemPickerList.Clear();
+        weaponAnimator.SetBool("Transform", true);
+
+
+        itemPickerList.Clear();
 
         suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value - amount, 0f, 1f);
 
@@ -313,5 +335,16 @@ public class Weapon_Player : Weapon
     {
         sr.sortingLayerName = layerName;
         sr.sortingOrder = order;
+    }
+
+    private void FlipWeaponSprite(bool facingLeft)
+    {
+        // 무기 스프라이트의 Scale을 조절하여 방향을 전환
+        Vector3 weaponScale = testWeaponSprite[0].transform.localScale;
+        weaponScale.y = facingLeft ? -1 : 1;
+        testWeaponSprite[0].transform.localScale = weaponScale;
+
+        // 다른 스프라이트에도 동일한 작업 수행
+        // ChangeImageSortOrder 함수 등을 호출하여 스프라이트 순서 등을 조절
     }
 }

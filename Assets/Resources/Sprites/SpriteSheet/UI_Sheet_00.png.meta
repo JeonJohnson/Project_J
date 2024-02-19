@@ -660,6 +660,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: box
+      rect:
+        serializedVersion: 2
+        x: 1282
+        y: 183
+        width: 12
+        height: 2
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e6173788708dc14d9ba347d2bd6fbaf
+      internalID: 1878755551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -696,6 +717,7 @@ TextureImporter:
       UI_Sprite_00_15: -84663764
       UI_Sprite_00_8: -139674665
       UI_Sprite_00_9: 407714893
+      box: 1878755551
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

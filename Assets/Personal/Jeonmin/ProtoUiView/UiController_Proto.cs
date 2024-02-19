@@ -38,6 +38,7 @@ public class UiController_Proto : Singleton<UiController_Proto>
 
         // 초기설정
         UpdateHpImage(player.status.curHp.Value);
+        playerHudView.UpdateWeaponRemainCount(0);
     }
 
     private void SubscribeUiToPlayer()
@@ -50,6 +51,12 @@ public class UiController_Proto : Singleton<UiController_Proto>
 
         if (player.inventroy.bulletCount != null)
             player.inventroy.bulletCount.onChange += playerHudView.UpdateBulletCount;
+
+        if (player.inventroy.ejectRemainBulletCount != null)
+            player.inventroy.ejectRemainBulletCount.onChange += playerHudView.UpdateWeaponRemainCount;
+
+        if (player.inventroy.coinCount != null)
+            player.inventroy.coinCount.onChange += playerHudView.UpdateCoinCount;
     }
 
     public void SubscribeActiveUiToItem()

@@ -23,11 +23,14 @@ public class PlayerInventroy : MonoBehaviour
 
     public BonusStatus runeBonusStatus;
 
+    public Data<int> coinCount;
+
     private void Awake()
     {
         player = GetComponent<Player>();
         bulletCount = new Data<int>();
         ejectRemainBulletCount = new Data<int>();
+        coinCount = new Data<int>();
 
         if (curWeaponItem == null) curWeaponItem = defWeaponItem;
         EquipWeapon(curWeaponItem);

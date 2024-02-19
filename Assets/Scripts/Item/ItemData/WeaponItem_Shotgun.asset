@@ -39,7 +39,7 @@ MonoBehaviour:
     bulletSize: 0.5
     damage: 3
     critical: 0
-    magSize: 10
+    magSize: 25
     bulletType: 1
     bulletEffect: 1
     bulletSpreadType: 2

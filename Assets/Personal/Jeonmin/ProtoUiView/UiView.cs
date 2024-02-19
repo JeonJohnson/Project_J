@@ -31,6 +31,8 @@ public class UiView : MonoBehaviour
     [SerializeField] Image consumeImage;
     [SerializeField] TextMeshProUGUI bulletCountText;
     [SerializeField] Image weaponImage;
+    [SerializeField] TextMeshProUGUI weaponRemainCountText;
+    [SerializeField] MMF_Player shootFeedback;
 
     [Header("ItemStatus")]
     [SerializeField] Image activeItemImage;
@@ -38,6 +40,7 @@ public class UiView : MonoBehaviour
     private Image[] passiveItemImages;
 
     [SerializeField] Image activeItemGauge;
+    [SerializeField] TextMeshProUGUI coinCountText;
 
     [Header("BossHpBar")]
     public GameObject bossHpBarHolder;
@@ -149,6 +152,15 @@ public class UiView : MonoBehaviour
     public void UpdateBulletCount(int cnt)
     {
         bulletCountText.text = $":{cnt}";
+        shootFeedback?.PlayFeedbacks();
+    }
+
+    public void UpdateWeaponRemainCount(int cnt)
+    {
+        if (cnt <= 0) weaponRemainCountText.text = "";
+        else weaponRemainCountText.text = cnt.ToString();
+
+        shootFeedback?.PlayFeedbacks();
     }
     #endregion
 
@@ -181,6 +193,11 @@ public class UiView : MonoBehaviour
     public void UpdateActiveItemGauge(float value)
     {
         activeItemGauge.fillAmount = value;
+    }
+
+    public void UpdateCoinCount(int value)
+    {
+        coinCountText.text= ":" + value.ToString();
     }
     #endregion
 
