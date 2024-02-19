@@ -29,6 +29,6 @@ MonoBehaviour:
     weapon_FireRate: 0
     weapon_BulletNumPerFire: 0
     weapon_Critial: 0
-    weapon_BulletSize: 1
+    weapon_BulletSize: 0.2
   RuneEffect_Name: 
   RuneEffect_Value: 0

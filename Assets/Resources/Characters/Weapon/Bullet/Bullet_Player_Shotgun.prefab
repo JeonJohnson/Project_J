@@ -58,7 +58,7 @@ MonoBehaviour:
     targetLayer:
       serializedVersion: 2
       m_Bits: 384
-    isDistanceLimit: 1
+    isDistanceLimit: 0
     distanceLimit: 3
   splatterStat:
     bulletDir: {x: 0, y: 0}

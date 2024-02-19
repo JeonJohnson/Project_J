@@ -49,7 +49,7 @@ MonoBehaviour:
     - Key: {fileID: 6444353810435219826, guid: d3858c3f1c706b546b1a3eb09018e0b1, type: 3}
       Value: 3
     - Key: {fileID: 927224229131076647, guid: 779d6c9b89072ad4eb4b76c4596d9d3f, type: 3}
-      Value: 500
+      Value: 1
     - Key: {fileID: 8521660115929654938, guid: 5936da70609153f4d8a3e168afd97204, type: 3}
       Value: 50
     - Key: {fileID: 927224229131076647, guid: 0fa743813889b2448ad4dcc6e54d9485, type: 3}

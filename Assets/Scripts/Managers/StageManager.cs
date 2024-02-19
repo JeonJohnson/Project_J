@@ -181,7 +181,7 @@ public class StageManager : Singleton<StageManager>
 	{
 		for (int i = 0; i < bullets.Count; ++i)
 		{
-			Destroy(bullets[i]);
+			PoolingManager.Instance.ReturnObj(bullets[i]);
 		}
 
 		foreach (var item in deadbody)
