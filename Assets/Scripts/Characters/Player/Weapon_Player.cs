@@ -277,7 +277,6 @@ public class Weapon_Player : Weapon
         if (suctionStat.curSuctionRatio.Value < amount)
         {
             fovSprite.color = suctionStat.fovIdleColor;
-            Debug.Log("켁");
             weaponAnimator.SetBool("Transform", false);
             return;
         }
@@ -311,7 +310,6 @@ public class Weapon_Player : Weapon
                 {
                     suckableObj.transform.SetParent(null);
                     suckableObj.Sucked(this.transform);
-					owner.inventroy.bulletCount.Value++;
                 }
 
                 Holdable holdableObj = col.gameObject.GetComponent<Holdable>();

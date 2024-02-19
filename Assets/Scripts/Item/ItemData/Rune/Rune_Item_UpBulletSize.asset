@@ -10,24 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cabf6c4e7cc00343a3b55f2b5cb6b04, type: 3}
-  m_Name: Rune Item_Test0
+  m_Name: Rune_Item_UpBulletSize
   m_EditorClassIdentifier: 
   e_item_Type: 0
-  item_name: HealOnKill
-  item_description: "\uD14C\uC2A4\uD2B8\uC6A9 \uB8EC0 desc"
-  item_explain: "\uD14C\uC2A4\uD2B8\uC6A9 \uB8EC0 explain"
-  item_sprite: {fileID: 21300000, guid: d743bd355f911d949acd134aa72bc13e, type: 3}
-  item_sprite_Big: {fileID: 21300000, guid: d743bd355f911d949acd134aa72bc13e, type: 3}
+  item_name: "\uACF1\uBE7C\uAE30"
+  item_description: "\uCD1D\uC54C \uD06C\uAE30 \uC99D\uAC00"
+  item_explain: 
+  item_price: 4
+  item_sprite: {fileID: 21300000, guid: 37d99d938656e6e46b04847f0bb7f84e, type: 3}
+  item_sprite_Big: {fileID: 21300000, guid: 6875a717507269d4cb7720dccaf6f3c0, type: 3}
   bonusStatus:
     player_Hp: 0
     player_Armor: 0
-    player_Speed: 0
+    player_Speed: 2
     weapon_Speed: 0
     weapon_Spread: 0
     weapon_Damage: 0
     weapon_FireRate: 0
     weapon_BulletNumPerFire: 0
     weapon_Critial: 0
-    weapon_BulletSize: 2
-  RuneEffect_Name: RuneEffect_HealOnKill
-  RuneEffect_Value: 1
+    weapon_BulletSize: 1
+  RuneEffect_Name: 
+  RuneEffect_Value: 0

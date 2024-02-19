@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class CrissHair : MonoBehaviour
 {
@@ -29,7 +28,7 @@ public class CrissHair : MonoBehaviour
         Cursor.visible = false;
     }
 
-    private void OnEnable()
+    private void Start()
     {
         player = IngameController.Instance.Player;
         if (player.curWeapon.suctionStat.curSuctionRatio != null)
@@ -116,10 +115,10 @@ public class CrissHair : MonoBehaviour
         suckGaugeImage.color = gaugeColor;
     }
 
-    private void OnDisable()
-    {
-        if (player.curWeapon.suctionStat.curSuctionRatio != null)
-            player.curWeapon.suctionStat.curSuctionRatio.onChange -= UpdateSuckGauge;
-    }
+    //private void OnDisable()
+    //{
+    //    if (player.curWeapon.suctionStat.curSuctionRatio != null)
+    //        player.curWeapon.suctionStat.curSuctionRatio.onChange -= UpdateSuckGauge;
+    //}
 
 }

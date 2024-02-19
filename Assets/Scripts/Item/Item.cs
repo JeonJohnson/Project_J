@@ -9,6 +9,7 @@ public class Item : ScriptableObject
     public string item_name;
     public string item_description;
     public string item_explain;
+    public int item_price;
 
     public Sprite item_sprite;
     public Sprite item_sprite_Big;

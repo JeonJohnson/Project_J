@@ -53,10 +53,13 @@ public class Weapon_Tangtangi : Weapon
         Vector2 rndDir = rndRot * firePos.up;
         rndDir.Normalize();
 
-        GameObject go = Instantiate(testBulletPrefab, firePos.transform.position, Quaternion.identity);
+        GameObject go = PoolingManager.Instance.LentalObj("Bullet_Enemy", 1);
+        go.SetActive(false);
+        go.transform.position = firePos.position;
+        go.SetActive(true);
 
-		//근희임시추가
-		StageManager.Instance?.AddBullet(go);
+        //근희임시추가
+        StageManager.Instance?.AddBullet(go);
 		//근희임시추가
 
 		go.GetComponent<Bullet>().Fire(rndDir, owner.status.bulletSplatterCount, owner.status.bulletSpeed, owner.status.bulletSize, 1);

@@ -1,8 +1,9 @@
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DraggableSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DraggableSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private Transform canvas;               // UI가 소속되어 있는 최상단의 Canvas Transform
     public Transform previousParent;       // 해당 오브젝트가 직전에 소속되어 있었던 부모 Transfron
@@ -14,6 +15,10 @@ public class DraggableSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     { get { return _item; } }
     private Image image;
 
+    private bool isDragging = false;
+    private bool isHovering = false;
+    private float hoveringTimer = 0f;
+
     private void Awake()
     {
         canvas = UiController_Proto.Instance.runeView.gameObject.transform;
@@ -21,6 +26,44 @@ public class DraggableSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         rect = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         image = GetComponent<Image>();
+    }
+
+    private void Update()
+    {
+        if (isHovering) hoveringTimer += Time.unscaledDeltaTime;
+        else hoveringTimer = 0f;
+
+        if(isHovering)
+        {
+            Debug.Log(hoveringTimer);
+            if (hoveringTimer >= 0.5f && !isDragging)
+            {
+                UiController_Proto.Instance.runeView.slotHoverView.gameObject.SetActive(true);
+                UiController_Proto.Instance.runeView.slotHoverView.UpdateInfo(_item);
+            }
+            else
+            {
+                UiController_Proto.Instance.runeView.slotHoverView.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 마우스 포인트가 현재 아이템 슬롯 영역 내부로 들어갈 때 1회 호출
+    /// </summary>
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        isHovering = true;
+    }
+
+    /// <summary>
+    /// 마우스 포인트가 현재 아이템 슬롯 영역을 빠져나갈 때 1회 호출
+    /// </summary>
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("탈출");
+        isHovering = false;
+        UiController_Proto.Instance.runeView.slotHoverView.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -39,6 +82,7 @@ public class DraggableSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         // 알파값을 0.6으로 설정하고, 광선 충돌처리가 되지 않도록 한다
         canvasGroup.alpha = 0.6f;
         canvasGroup.blocksRaycasts = false;
+        isDragging = true;
     }
 
     /// <summary>
@@ -68,12 +112,20 @@ public class DraggableSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         // 알파값을 1로 설정하고, 광선 충돌처리가 되도록 한다
         canvasGroup.alpha = 1.0f;
         canvasGroup.blocksRaycasts = true;
+        isDragging = false;
     }
 
     public void UpdateView(Item item)
     {
         _item = item;
         image.sprite = _item.item_sprite;
+    }
+
+    private void OnDisable()
+    {
+
+        isHovering = false;
+        isDragging = false;
     }
 }
 
