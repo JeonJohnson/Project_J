@@ -31,40 +31,47 @@ public class Tangtangi : Enemy
         status.fireTimer = status.fireWaitTime;
     }
 
-    public override void Awake()
+    public override void Start()
     {
-        base.Awake();
+        base.Start();
     }
 
     public override HitInfo Hit(int dmg, Vector2 dir)
     {
+        StageManager.Instance?.OnEnemyHit(this);
+
         Rigidbody2D.AddForce(dir * 300f);
-        status.curHp -= dmg;
         animator.SetTrigger("Damage");
         //SoundManager.Instance.PlayTempSound("Tangtangi_Hit", this.transform.position, 1f, 0.8f,1f);
 
         hitFeedback?.PlayFeedbacks();
-        if (status.curHp <= 0 && ActionTable.CurAction_e != TangtangiActions.Death)
+        if (status.curHp - dmg <= 0 && ActionTable.CurAction_e != TangtangiActions.Death)
         {
-            Debug.Log("뒈짓");
+            //시체드랍
             GameObject go = PoolingManager.Instance.LentalObj(deadBodyPrefab);
             go.transform.position = this.transform.position;
             go.GetComponent<Rigidbody2D>()?.AddForce(-dir * 800f);
 
-			
-			//근희임시추가
-			StageManager.Instance.AddDeadBody(go.GetComponent<Enemy_DeadBody>());
-			//근희임시추가
+            //코인드랍
+            int rndCoinCount = Random.Range(0, 5);
+            for(int i=0; i < rndCoinCount; i++)
+            {
+                GameObject coinGo = PoolingManager.Instance.LentalObj("Coin", 1);
+                coinGo.transform.position = this.transform.position;
+                Vector2 RandomDir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+                coinGo.GetComponent<Rigidbody2D>()?.AddForce(-RandomDir * 300f);
+            }
 
+            //근희임시추가
+            StageManager.Instance?.AddDeadBody(go.GetComponent<Enemy_DeadBody>());
+			//근희임시추가
 
 			//SoundManager.Instance.PlayTempSound("Tangtangi_Death", this.transform.position);
             ActionTable.SetCurAction((int)TangtangiActions.Death);
-            StageManager.Instance?.OnEnemyDeath();
+            StageManager.Instance?.OnEnemyDeath(this);
             this.gameObject.SetActive(false);
         }
-
-        HitInfo hitInfo = new HitInfo();
-        return hitInfo;
+        return base.Hit(dmg, dir); 
     }
 
     private void FixedUpdate()

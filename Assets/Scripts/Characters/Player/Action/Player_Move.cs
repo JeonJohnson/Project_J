@@ -20,7 +20,7 @@ public class Player_Move : Action<Player>
     }
 
     public override void ActionFixedUpdate() {
-        me.PlayerRigidbody2D.velocity = moveDir * (me.status.walkSpeed + me.inventroy.invenBonusStatus.bonus_Player_Speed);
+        me.PlayerRigidbody2D.velocity = moveDir * (me.status.walkSpeed);
     }
 
     public override void ActionLateUpdate() { }

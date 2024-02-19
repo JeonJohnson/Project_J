@@ -13,13 +13,6 @@ public class Enemy_DeadBody : MonoBehaviour, IPoolable
     private Suckable suckable;
     private Collider2D col;
 
-    public void Init(Sprite sprite)
-    {
-        col = this.gameObject.GetComponent<Collider2D>();
-        suckable = this.gameObject.GetComponent<Suckable>();
-        suckable.srdr.sprite = sprite;
-    }
-
     private void OnSuckedEvent()
     {
         if (!itemData)
@@ -27,8 +20,7 @@ public class Enemy_DeadBody : MonoBehaviour, IPoolable
             Debug.Log("아이템데이터 없음");
             return;
         }
-
-        IngameController.Instance.Player.inventroy.AddItem(itemData);
+        IngameController.Instance.Player.inventroy.EquipWeapon((Item_Weapon)itemData);
     }
 
     private IEnumerator ReturnPoolingCenterCoro()
@@ -46,18 +38,21 @@ public class Enemy_DeadBody : MonoBehaviour, IPoolable
 
     public void PoolableInit()
     {
-        suckable.col.enabled = true;
         suckable = GetComponent<Suckable>();
         col = this.gameObject.GetComponent<Collider2D>();
         col.enabled = true;
         suckable.OnSucked = null;
         suckable.OnSucked += () => OnSuckedEvent();
-
-        StartCoroutine(ReturnPoolingCenterCoro());
     }
 
     public void PoolableReset()
     {
         suckable.srdr.color = Color.white;
+    }
+
+    private void OnEnable()
+    {
+        PoolableInit(); // 이거 안쓸땐 지우기
+        StartCoroutine(ReturnPoolingCenterCoro());
     }
 }

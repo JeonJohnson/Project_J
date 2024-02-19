@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Structs;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -28,6 +29,9 @@ public class StageManager : Singleton<StageManager>
 	public int curRoomIndex;
 
 	public int[] enemyCount;
+	public Data<int> killCount; // 단순 기록용 0207JM
+	public Data<Enemy> enemyDeathData;
+	public Data<Enemy> enemyHitData;
 
 	public List<GameObject> bullets;
 	public List<Enemy_DeadBody> deadbody;
@@ -187,17 +191,25 @@ public class StageManager : Singleton<StageManager>
         }
 	}
 
-	public void OnEnemyDeath()
+	public void OnEnemyHit(Enemy enemy)
+	{
+		Debug.Log("OnEnemyHit");
+		enemyHitData.Value = enemy;
+    }
+
+	public void OnEnemyDeath(Enemy enemy)
 	{
 		--enemyCount[curRoomIndex];
+		killCount.Value++;
+		enemyDeathData.Value = enemy;
+
+        Debug.Log("킬카운트" + killCount.Value);
 		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
 
 		if (enemyCount[curRoomIndex] <= 0)
 		{
 			OnClearStage();
 		}
-
-	
 	}
 
 	public IEnumerator CreatePortalCor()
@@ -253,14 +265,23 @@ public class StageManager : Singleton<StageManager>
 
 	private void Awake()
 	{
-		rooms = new List<Room_Drunken>();
+		Initailize(this);
+        curRoomIndex = 0;
+        enemyCount = new int[3];
+        enemyCount[0] = 3;
+
+        rooms = new List<Room_Drunken>();
 		
 		DontDestroyOnLoad(gameObject);
 
 
 		bullets = new List<GameObject>();
 		deadbody = new List<Enemy_DeadBody>();
-	}
+
+		killCount = new Data<int>();
+		enemyDeathData = new Data<Enemy>();
+		enemyHitData = new Data<Enemy>();
+    }
 
 	private void Start()
 	{

@@ -10,56 +10,11 @@ public class Item_Passive : Item
 
     public override bool Equip(Player player)
     {
-        ApplyUpgradeData(player);
-        player.inventroy.AddItem(this);
         return base.Equip(player);
     }
 
     public override bool UnEquip(Player player)
     {
         return base.UnEquip(player);
-    }
-
-    private void ApplyUpgradeData(Player player)
-    {
-        if(weaponData.bulletType != BulletType.Non)
-        {
-            if(weaponData.bulletType != player.inventroy.curWeaponSlot.weaponData.bulletType)
-            {
-                // 팝업창 표시 변경
-            }
-
-            player.inventroy.curWeaponSlot.weaponData.bulletType = weaponData.bulletType;
-        }
-
-        if (weaponData.bulletEffect != BulletEffect.Non)
-        {
-            if (weaponData.bulletEffect != player.inventroy.curWeaponSlot.weaponData.bulletEffect)
-            {
-                // 팝업창 표시 변경
-            }
-
-            player.inventroy.curWeaponSlot.weaponData.bulletEffect = weaponData.bulletEffect;
-        }
-
-        if (weaponData.bulletSpreadType != BulletSpreadType.Non)
-        {
-            if (weaponData.bulletSpreadType != player.inventroy.curWeaponSlot.weaponData.bulletSpreadType)
-            {
-                // 팝업창 표시 변경
-            }
-
-            player.inventroy.curWeaponSlot.weaponData.bulletSpreadType = weaponData.bulletSpreadType;
-        }
-
-        if (weaponData.fireTriggerType != FireTriggerType.Non)
-        {
-            if (weaponData.fireTriggerType != player.inventroy.curWeaponSlot.weaponData.fireTriggerType)
-            {
-                // 팝업창 표시 변경
-            }
-
-            player.inventroy.curWeaponSlot.weaponData.fireTriggerType = weaponData.fireTriggerType;
-        }
     }
 }

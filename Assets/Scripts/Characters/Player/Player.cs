@@ -19,6 +19,10 @@ public class Player : CObj
 
     public PlayerInventroy inventroy;
 
+    public PlayerRuneEffectHandler runeEffectHandler;
+
+    public Shop shop;
+
     public Rigidbody2D PlayerRigidbody2D { get; private set; }
     public Animator animator { get; private set; }
 
@@ -37,6 +41,7 @@ public class Player : CObj
 
     private void Awake()
     {
+
     }
 
     public void InitializePlayer()
@@ -48,9 +53,12 @@ public class Player : CObj
         animator = spriteHolder.GetComponent<Animator>();
         attackController = GetComponent<PlayerAttackController>();
         inventroy = GetComponent<PlayerInventroy>();
+        runeEffectHandler = GetComponent<PlayerRuneEffectHandler>();
+        shop = GetComponent<Shop>();
 
         status.curHp = new Data<int>();
         status.curHp.Value = status.maxHp;
+        Debug.Log("이닛 플레이어");
     }
 
     public override HitInfo Hit(int dmg, Vector2 dir)

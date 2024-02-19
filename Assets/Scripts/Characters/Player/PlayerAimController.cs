@@ -8,6 +8,7 @@ public class PlayerAimController: MonoBehaviour
 {
     public Vector2 aimPos;
     private Vector3 aimDir;
+    public Vector3 AimDir { get { return aimDir; } }    
     private Player player;
 
     public CinemachineConfiner cinemachineConfiner;
@@ -42,18 +43,6 @@ public class PlayerAimController: MonoBehaviour
 
         UiController_Proto.Instance?.playerHudView.UpdateCrossHairAnchorPos(MousePosition);
 
-        //if(aimState == State.Aiming)
-        //{
-        //    float dot = Vector3.Dot(player.transform.right, aimDir);
-        //    if (dot > 0f)
-        //    {
-        //        player.spriteHolder.localScale = new Vector3(1f, 1f);
-        //    }
-        //    else if (dot < 0f)
-        //    {
-        //        player.spriteHolder.localScale = new Vector3(-1f, 1f);
-        //    }
-        //}
     }
 
     public float GetAimAngle(Vector3 pointVec)

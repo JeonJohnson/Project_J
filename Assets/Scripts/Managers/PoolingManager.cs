@@ -134,6 +134,8 @@ public class PoolingManager: Singleton<PoolingManager>
                 poolable.PoolableInit();
             }
 
+            obj.SetActive(true);
+            obj.transform.SetParent(null);
             return obj;
 		}
 		else 
@@ -190,6 +192,7 @@ public class PoolingManager: Singleton<PoolingManager>
 
 	void Awake()
 	{
+		Initailize(false);
 		FillAllObjects();
     }
 

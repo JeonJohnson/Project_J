@@ -11,6 +11,8 @@ public class Weapon_Player : Weapon
     [System.Serializable]
     public struct SuctionStat
     {
+        public int TestintValue;
+
         public Color fovIdleColor;
         public Color fovSuctionColor;
         public Data<float> curSuctionRatio;
@@ -22,25 +24,17 @@ public class Weapon_Player : Weapon
         public LayerMask targetLayer;
     }
 
+    public SpriteRenderer fovSprite;
+    public SpriteRenderer[] testWeaponSprite;
+    public Animator weaponAnimator;
+
     private Player owner;
     public SuctionStat suctionStat;
-    public SpriteRenderer fovSprite;
-
     public AttackMode curAttackMode;
-
     public Holdable holdableItem;
 
-    public SpriteRenderer weaponSpriteRenderer;
+    public int remainBullet;
 
-    private void Awake()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
 
     private void Update()
     {
@@ -53,17 +47,30 @@ public class Weapon_Player : Weapon
         {
             if(owner.aimController.GetAimAngle(Vector3.up) < 90f)
             {
-                ChangeImageSortOrder(weaponSpriteRenderer,"Characters", 0);
-                ChangeImageSortOrder(fovSprite, "Characters", 0);
+                ChangeImageSortOrder(testWeaponSprite[0], "Characters", 0);
+                ChangeImageSortOrder(testWeaponSprite[1], "Characters", 0);
+                ChangeImageSortOrder(testWeaponSprite[2], "Characters", 0);
+                ChangeImageSortOrder(testWeaponSprite[3], "Characters", 0);
+                ChangeImageSortOrder(fovSprite, "Characters", -1);
             }
             else
             {
-                ChangeImageSortOrder(weaponSpriteRenderer,"Characters", 2);
-                ChangeImageSortOrder(fovSprite, "Characters", 2);
+                ChangeImageSortOrder(testWeaponSprite[0], "Characters", 2);
+                ChangeImageSortOrder(testWeaponSprite[1], "Characters", 2);
+                ChangeImageSortOrder(testWeaponSprite[2], "Characters", 2);
+                ChangeImageSortOrder(testWeaponSprite[3], "Characters", 2);
+                ChangeImageSortOrder(fovSprite, "Characters", 1);
             }
 
+            if(owner.aimController.AimDir.x > 0)
+            {
+                FlipWeaponSprite(false);
+            }
+            else
+            {
+                FlipWeaponSprite(true);
+            }
         }
-
         CheckAttackMode();
     }
 
@@ -71,15 +78,17 @@ public class Weapon_Player : Weapon
     {
         base.Init(_owner);
         owner = (Player) _owner;
+        Debug.Log(suctionStat.TestintValue);
         suctionStat.curSuctionRatio = new Data<float>();
         suctionStat.curSuctionRatio.Value = 1f;
+        Debug.Log(fovSprite.name);
         fovSprite.material.SetFloat("_ArcAngle", suctionStat.suctionAngle);
         fovSprite.transform.localScale = new Vector2(suctionStat.suctionRange * 2, suctionStat.suctionRange * 2);
     }
 
     public void CheckAttackMode()
     {
-        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData; 
+        WeaponData weaponData = owner.inventroy.curWeaponItem.weaponData; 
         if (Input.GetKey(KeyCode.Mouse1))
         {
             curAttackMode = AttackMode.Suck;
@@ -114,7 +123,7 @@ public class Weapon_Player : Weapon
 
         if (owner.inventroy.bulletCount.Value <= 0) return;
 
-        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData;
+        WeaponData weaponData = owner.inventroy.curWeaponItem.weaponData;
 
         // 각도 체크
         float spreadAngle = weaponData.spread;
@@ -140,8 +149,8 @@ public class Weapon_Player : Weapon
 
         // 총알종류 체크 & 발사
 
-        string weaponName = $"Player_{owner.inventroy.curWeaponSlot.item_name}_Fire";
-        //SoundManager.Instance.PlaySound(weaponName, Camera.main.gameObject, 0.625f, 0.8f,1f);
+        string weaponName = $"Player_{owner.inventroy.curWeaponItem.item_name}_Fire";
+        SoundManager.Instance.PlaySound(weaponName, Camera.main.gameObject, 0.625f, 0.8f,1f);
 
 
         for (int i = 0; i < bulletNum; i++)
@@ -154,33 +163,18 @@ public class Weapon_Player : Weapon
             Vector2 rndDir = rndRot * firePos.up;
             rndDir.Normalize();
             bullet.GetComponent<Bullet>().Fire(rndDir, 5, bulletSpeed, bulletSize, dmg);
-            //bullet.GetComponent<Projectile>().Speed = bulletSpeed;
-            //bullet.GetComponent<Projectile>().SetDirection(rndDir,transform.rotation * Quaternion.Euler(0, 0, -90), false);
             owner.inventroy.bulletCount.Value--;
+            owner.inventroy.ejectRemainBulletCount.Value--;
         }
+        if (owner.inventroy.ejectRemainBulletCount.Value <= 0) owner.inventroy.UnEquipWeapon();
+
         fireTimer = weaponData.fireRate;
         fireTimer = CheckFireTimer(weaponData, fireTimer);
-        #region OldCode
-        //fireTimer -= Time.deltaTime;
-        //fireTimer = Mathf.Clamp(fireTimer, 0, stat.fireRate);
-
-        //if (Input.GetKey(KeyCode.Mouse0))
-        //{
-        //    if (fireTimer <= 0)
-        //    {
-        //        //탕
-        //        GameObject bullet = Instantiate(testBulletPrefab);
-        //        bullet.transform.position = firePos.position;
-        //        bullet.GetComponent<Bullet>().Fire(firePos.up, 5);
-        //        fireTimer = stat.fireRate;
-        //    }
-        //}
-        #endregion
     }
 
     private bool CheckFireType(FireTriggerType triggerType, KeyCode keyCode)
     {
-        WeaponData weaponData = owner.inventroy.curWeaponSlot.weaponData;
+        WeaponData weaponData = owner.inventroy.curWeaponItem.weaponData;
 
         switch (triggerType) 
         {
@@ -209,21 +203,6 @@ public class Weapon_Player : Weapon
         return false;
     }
 
-    private float CheckSpreadAngle(WeaponData weaponData, float curSpread)
-    {
-        switch(weaponData.bulletSpreadType)
-        {
-            case BulletSpreadType.Shotgun: curSpread *= 5f;
-                break;
-        }
-        switch(weaponData.fireTriggerType)
-        {
-            case FireTriggerType.Rapid: curSpread *= 1.4f;
-                break;
-        }
-        return curSpread;
-    }
-
     private float CheckFireTimer(WeaponData weaponData, float curFireTimer)
     {
         switch (weaponData.bulletSpreadType)
@@ -250,10 +229,9 @@ public class Weapon_Player : Weapon
                 bullet = PoolingManager.Instance.LentalObj(weaponData.bulletPrefabName);
 
                 //근희임시추가
-                StageManager.Instance.AddBullet(bullet);
+                StageManager.Instance?.AddBullet(bullet);
 				//근희임시추가
 
-				Debug.Log(bullet.name);
                 break;
             case BulletType.Laser:
                 bullet = Instantiate(testLaserBulletPrefab);
@@ -278,6 +256,7 @@ public class Weapon_Player : Weapon
         }
         else
         {
+            weaponAnimator.SetBool("Transform", false);
             rechargeTimer -= Time.deltaTime;
             rechargeTimer = Mathf.Clamp(rechargeTimer, 0f, 5f);
             if(rechargeTimer <= 0f) Recharge();
@@ -298,10 +277,14 @@ public class Weapon_Player : Weapon
         if (suctionStat.curSuctionRatio.Value < amount)
         {
             fovSprite.color = suctionStat.fovIdleColor;
+            weaponAnimator.SetBool("Transform", false);
             return;
         }
 
-		itemPickerList.Clear();
+        weaponAnimator.SetBool("Transform", true);
+
+
+        itemPickerList.Clear();
 
         suctionStat.curSuctionRatio.Value = Mathf.Clamp(suctionStat.curSuctionRatio.Value - amount, 0f, 1f);
 
@@ -327,7 +310,6 @@ public class Weapon_Player : Weapon
                 {
                     suckableObj.transform.SetParent(null);
                     suckableObj.Sucked(this.transform);
-					owner.inventroy.bulletCount.Value++;
                 }
 
                 Holdable holdableObj = col.gameObject.GetComponent<Holdable>();
@@ -353,8 +335,14 @@ public class Weapon_Player : Weapon
         sr.sortingOrder = order;
     }
 
-    private void PlayWeaponRecoilEffect()
+    private void FlipWeaponSprite(bool facingLeft)
     {
-        //weaponSpriteRenderer.do
+        // 무기 스프라이트의 Scale을 조절하여 방향을 전환
+        Vector3 weaponScale = testWeaponSprite[0].transform.localScale;
+        weaponScale.y = facingLeft ? -1 : 1;
+        testWeaponSprite[0].transform.localScale = weaponScale;
+
+        // 다른 스프라이트에도 동일한 작업 수행
+        // ChangeImageSortOrder 함수 등을 호출하여 스프라이트 순서 등을 조절
     }
 }

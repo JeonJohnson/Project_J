@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +8,8 @@ using Structs;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
 using static Unity.Burst.Intrinsics.Arm;
-using UnityEngine.XR;
 using System.Reflection;
+
 
 public static class Funcs
 {
@@ -553,6 +552,14 @@ public static class Funcs
             Debug.LogError("Invalid slot index");
         }
     }
+
+    public static void ArraySwap<T>(T[] array1, int index1, T[] array2, int index2)
+    {
+        // 임시 변수를 사용하여 값 교환
+        T temp = array1[index1];
+        array1[index1] = array2[index2];
+        array2[index2] = temp;
+    }
     #endregion
 }
 
@@ -633,18 +640,60 @@ namespace Structs
     public struct BonusStatus
     {
         [Header("Player")]
-        public int bonus_Player_Hp;
-        public int bonus_Player_Armor;
-        public float bonus_Player_Speed;
+        public int player_Hp;
+        public int player_Armor;
+        public float player_Speed;
 
         [Header("Weapon")]
-        public float bonus_Weapon_Speed; // 합연산
-        public float bonus_Weapon_Spread; // 곱연산
-        public float bonus_Weapon_Damage; // 곱연산
-        public float bonus_Weapon_FireRate; // 곱연산
-        public int bonus_Weapon_BulletNumPerFire;  // 합연산
-        public float bonus_Weapon_Critial; // 합연산
-		public float bonus_Weapon_BulletSize;
+        public float weapon_Speed;
+        public float weapon_Spread;
+        public float weapon_Damage;
+        public float weapon_FireRate; 
+        public int weapon_BulletNumPerFire; 
+        public float weapon_Critial; 
+		public float weapon_BulletSize;
+
+        #region 연산자 오버로딩
+        // + 연산자 오버로딩
+        public static BonusStatus operator +(BonusStatus a, BonusStatus b)
+        {
+            BonusStatus result = new BonusStatus();
+
+            result.player_Hp = a.player_Hp + b.player_Hp;
+            result.player_Armor = a.player_Armor + b.player_Armor;
+            result.player_Speed = a.player_Speed + b.player_Speed;
+
+            result.weapon_Speed = a.weapon_Speed + b.weapon_Speed;
+            result.weapon_Spread = a.weapon_Spread + b.weapon_Spread;
+            result.weapon_Damage = a.weapon_Damage + b.weapon_Damage;
+            result.weapon_FireRate = a.weapon_FireRate + b.weapon_FireRate;
+            result.weapon_BulletNumPerFire = a.weapon_BulletNumPerFire + b.weapon_BulletNumPerFire;
+            result.weapon_Critial = a.weapon_Critial + b.weapon_Critial;
+            result.weapon_BulletSize = a.weapon_BulletSize + b.weapon_BulletSize;
+
+            return result;
+        }
+
+        // - 연산자 오버로딩
+        public static BonusStatus operator -(BonusStatus a, BonusStatus b)
+        {
+            BonusStatus result = new BonusStatus();
+
+            result.player_Hp = a.player_Hp - b.player_Hp;
+            result.player_Armor = a.player_Armor - b.player_Armor;
+            result.player_Speed = a.player_Speed - b.player_Speed;
+
+            result.weapon_Speed = a.weapon_Speed - b.weapon_Speed;
+            result.weapon_Spread = a.weapon_Spread - b.weapon_Spread;
+            result.weapon_Damage = a.weapon_Damage - b.weapon_Damage;
+            result.weapon_FireRate = a.weapon_FireRate - b.weapon_FireRate;
+            result.weapon_BulletNumPerFire = a.weapon_BulletNumPerFire - b.weapon_BulletNumPerFire;
+            result.weapon_Critial = a.weapon_Critial - b.weapon_Critial;
+            result.weapon_BulletSize = a.weapon_BulletSize - b.weapon_BulletSize;
+
+            return result;
+        }
+        #endregion
     }
 
     [System.Serializable]
@@ -678,6 +727,10 @@ namespace Structs
 
     public struct HitInfo
     {
+		public int dmg;
+		public int hp;
+		public Vector2 hitDir;
+
         public bool isDurable;
         public bool isHitSucess;
     }
@@ -687,9 +740,7 @@ namespace Enums
 {
 	public enum Item_Type
 	{
-		Passive,
-		Active,
-		Useable,
+	    Rune,
 		Weapon,
 		End
 	}
@@ -779,6 +830,19 @@ namespace Enums
         Fire,
         Suck
     }
+
+    public enum RuneEffect
+    {
+        OnEnemyDeath,
+        OnWeaponFire,
+        Etc
+    }
+
+	public enum SlotType
+	{
+		Slot,
+		EqupedSlot
+	}
 }
 
 namespace JeonJohnson

@@ -32,9 +32,10 @@ public class Bangtani : Enemy
         status.fireTimer = status.fireWaitTime;
     }
 
-    public override void Awake()
+    public override void Start()
     {
-        base.Awake();
+        base.Start();
+
         Rigidbody2D = GetComponent<Rigidbody2D>();
     }
 

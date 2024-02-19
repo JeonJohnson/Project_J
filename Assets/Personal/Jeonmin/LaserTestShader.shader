@@ -2,6 +2,7 @@
 {
     Properties
     {
+        _MainTex("Texture", 2D) = "white" { }
         _Color("Middle color", Color) = (1,1,1,1)
         _EdgeColor("Edge color", Color) = (1,0,0,1)
         _Noise("Noise texture", 2D) = "gray"{}
@@ -44,6 +45,7 @@
             sampler2D _Noise;
             float4 _Noise_ST;
 
+            sampler2D _MainTex;
             fixed4 _Color;
             fixed4 _EdgeColor;
             half _NoiseIntensity;
@@ -79,7 +81,7 @@
                 edge *= 1 + abs(sin(i.uv.x * 15 + _Time.x * 135));
                 
                 //highlight beam start and end
-                fixed4 col = _Color * middle + _EdgeColor * (edge);
+                fixed4 col = tex2D(_MainTex, i.uv) * _Color * middle + _EdgeColor * (edge);
                 col.rgb += _StartBoost * smoothstep(1, 0, (i.uv.x * _LineLength));
                 col.rgb += _EndBoost * smoothstep(_LineLength - 1, _LineLength, (i.uv.x * _LineLength));
 

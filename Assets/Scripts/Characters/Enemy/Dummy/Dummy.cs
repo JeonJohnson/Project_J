@@ -8,7 +8,7 @@ public class Dummy : Enemy
     public Rigidbody2D Rigidbody2D { get; private set; }
     public int hp = 10;
 
-    public override void Awake()
+    public override void Start()
     {
         Rigidbody2D = GetComponent<Rigidbody2D>();
     }

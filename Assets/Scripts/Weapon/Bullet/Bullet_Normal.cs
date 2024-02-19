@@ -7,7 +7,7 @@ using UnityEngine.Rendering.Universal;
 
 public class Bullet_Normal : Bullet, IPoolable
 {
-
+    private Suckable suckable;
 
     private Light2D light2D;
     public Color maxColor;
@@ -31,6 +31,7 @@ public class Bullet_Normal : Bullet, IPoolable
     {
         FindDefaultComps();
         light2D = GetComponent<Light2D>();
+        suckable = GetComponent<Suckable>();
 
         defaultStat.aliveTime = 30;
         defColor = srdr.color;
@@ -137,13 +138,19 @@ public class Bullet_Normal : Bullet, IPoolable
         smoke.transform.position = this.transform.position;
     }
 
+    private void OnSuckedEvent()
+    {
+        IngameController.Instance.Player.inventroy.bulletCount.Value++;
+    }
+
     public void PoolableInit()
     {
-       
+        suckable.OnSucked += OnSuckedEvent;
     }
 
     public void PoolableReset()
     {
+        suckable.OnSucked -= OnSuckedEvent;
         col.enabled = true;
         srdr.color = defColor;
         curState = BulletState.Fire;

@@ -28,9 +28,9 @@ public class Hwasari : Enemy
         status.fireTimer = status.fireWaitTime;
     }
 
-    public override void Awake()
+    public override void Start()
     {
-        base.Awake();
+        base.Start();
     }
 
     public override HitInfo Hit(int dmg, Vector2 dir)

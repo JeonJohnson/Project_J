@@ -30,6 +30,7 @@ public class IngameController : Singleton<IngameController>
     }
 
     private bool isWindowActivated = false;
+    private bool isRuneWindowActivated = false;
     public enum GameStatus
     {
         Playing,
@@ -164,23 +165,17 @@ public class IngameController : Singleton<IngameController>
         GameManager.Instance.LoadScene((int)SceneName.Title);
     }
 
-
-	private void Awake()
-	{
-        
-	}
-
 	private void Start()
 	{
 
 		FindPlayer();
-        player.transform.position = StageManager.Instance.curRoom.centerPos;
+        //player.transform.position = StageManager.Instance.curRoom.centerPos;
 
         SetMinimapRenderCam();
 		//MainGame Scene에서 바로 시작하는 테스트를 위해서 
 		//맵 StageManager이나 맵 없으면 여기서 만들어주자구
 
-		EnemySpawn();
+		//EnemySpawn();
 
 	}
 	private void Update()
@@ -190,6 +185,13 @@ public class IngameController : Singleton<IngameController>
             isWindowActivated = !isWindowActivated;
             player.LockPlayer(isWindowActivated);
             UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            isRuneWindowActivated = !isRuneWindowActivated;
+            player.LockPlayer(isRuneWindowActivated);
+            Cursor.visible = isRuneWindowActivated;
+            UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
         }
     }
 

@@ -19,16 +19,17 @@ MonoBehaviour:
   item_sprite: {fileID: 476167388, guid: 72a569349aed4c74589922a41591303c, type: 3}
   item_sprite_Big: {fileID: -391984529, guid: 72a569349aed4c74589922a41591303c, type: 3}
   bonusStatus:
-    bonus_Player_Hp: 0
-    bonus_Player_Armor: 0
-    bonus_Player_Speed: 0
-    bonus_Weapon_Speed: 0
-    bonus_Weapon_Spread: 0
-    bonus_Weapon_Damage: 0
-    bonus_Weapon_FireRate: 0
-    bonus_Weapon_BulletNumPerFire: 0
-    bonus_Weapon_Critial: 0
-    bonus_Weapon_BulletSize: 0
+    player_Hp: 0
+    player_Armor: 0
+    player_Speed: 0
+    weapon_Speed: 0
+    weapon_Spread: 0
+    weapon_Damage: 0
+    weapon_FireRate: 0
+    weapon_BulletNumPerFire: 0
+    weapon_Critial: 0
+    weapon_BulletSize: 0
+  weaponSprite: {fileID: -1049343926, guid: 107371949c51e2c48ada1c3fa66a7d82, type: 3}
   weaponData:
     fireRate: 0.5
     bulletNumPerFire: 5
@@ -38,6 +39,7 @@ MonoBehaviour:
     bulletSize: 0.5
     damage: 3
     critical: 0
+    magSize: 25
     bulletType: 1
     bulletEffect: 1
     bulletSpreadType: 2
