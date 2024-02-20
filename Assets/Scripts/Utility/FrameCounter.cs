@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FrameCounter : MonoBehaviour
 {
+    public bool ReleaseOff;
 
     [Space(10f)]
     [Header("OnGUI Text Setting")]
@@ -19,6 +20,9 @@ public class FrameCounter : MonoBehaviour
 	private int fpsTempCount;
 	private float fpsUnscaledTime = 0f;
     private string fpsText;
+
+
+    
 
 	private void Update()
 	{
@@ -40,10 +44,12 @@ public class FrameCounter : MonoBehaviour
 
 	private void OnGUI()
 	{
+
         if (!On)
         {
             return;
         }
+        
 
         fpsText = string.Format("FPS : {0:N1}", fpsCount);
 
@@ -54,5 +60,6 @@ public class FrameCounter : MonoBehaviour
         style.normal.textColor = color;
 
         GUI.Label(position, fpsText, style);
+
     }
 }

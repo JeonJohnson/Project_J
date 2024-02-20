@@ -7812,7 +7812,7 @@ MonoBehaviour:
   slotTr: {fileID: 5083461376468331164}
   shopSlots: []
   coinCountText: {fileID: 6423573164040831865}
-  canvasGroup: {fileID: 0}
+  canvasGroup: {fileID: 1570559037451719721}
 --- !u!225 &1570559037451719721
 CanvasGroup:
   m_ObjectHideFlags: 0

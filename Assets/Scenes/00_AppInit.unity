@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ee78c253217bbb4e9655358909f882b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  On: 1
+  On: 0
   fontSize: 40
   color: {r: 0, g: 1, b: 0, a: 1}
   offset_X: 5
