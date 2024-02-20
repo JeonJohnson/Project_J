@@ -36,7 +36,7 @@ public class StageManager : Singleton<StageManager>
 	public List<GameObject> bullets;
 	public List<Enemy_DeadBody> deadbody;
 
-	public int shopAppearCount = 2;
+	public int shopAppearCount = 1;
 	public List<int> shopRoomIndex = new List<int>();
 
 
@@ -210,12 +210,14 @@ public class StageManager : Singleton<StageManager>
 
 	public void OnEnemyDeath(Enemy enemy)
 	{
-		--enemyCount[curRoomIndex];
 		killCount.Value++;
 		enemyDeathData.Value = enemy;
 
-        Debug.Log("킬카운트" + killCount.Value);
-		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
+		if(!enemy.status.dontTriggerLeftInfo)
+		{
+            --enemyCount[curRoomIndex];
+            UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
+        }
 
 		if (enemyCount[curRoomIndex] <= 0)
 		{

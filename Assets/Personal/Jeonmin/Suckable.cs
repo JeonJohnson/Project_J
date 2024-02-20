@@ -74,7 +74,7 @@ public class Suckable : MonoBehaviour, IPoolable
 
     public void Sucked(Transform _suckedTr)
     {
-        SoundManager.Instance?.PlaySound("Player_Sucked", 0.05f , 1f, 1f);
+        SoundManager.Instance?.PlaySound("Player_Sucked", Camera.main.gameObject, 0.05f , 1f, true);
         projectile = this.gameObject.GetComponent<Projectile>();
         if (projectile != null)
         {

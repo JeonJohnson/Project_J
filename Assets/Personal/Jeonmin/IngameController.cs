@@ -83,6 +83,8 @@ public class IngameController : Singleton<IngameController>
             script.agent.enabled = false;
             obj.transform.position = pos;
             script.agent.enabled = true;
+
+            script.status.dontTriggerLeftInfo = false;
         }
 
 

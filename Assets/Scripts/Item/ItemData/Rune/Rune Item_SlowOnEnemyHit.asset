@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   e_item_Type: 0
   item_name: "\uBC1C\uBAA9\uC870\uC900"
-  item_description: "\uC801 \uB9DE\uC73C\uBA74 \uC2AC\uB85C\uC6B0"
+  item_description: "\uC801\uC911\uD55C \uC801\uC5D0\uAC8C \uC2AC\uB85C\uC6B0 \uD6A8\uACFC
+    \uC801\uC6A9"
   item_explain: "\uC2AC\uB85C\uC6B0\uC784\uB2F9"
   item_price: 5
   item_sprite: {fileID: 21300000, guid: 991b4b116daf35e4198d288ed8b1d67e, type: 3}

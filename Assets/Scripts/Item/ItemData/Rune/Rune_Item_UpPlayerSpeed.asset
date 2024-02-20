@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rune_Item_UpPlayerSpeed
   m_EditorClassIdentifier: 
   e_item_Type: 0
-  item_name: "\uBCFC\uB968\uC5C5"
+  item_name: "\uD150\uC158\uC5C5"
   item_description: "\uD50C\uB808\uC774\uC5B4 \uC18D\uB3C4 \uC99D\uAC00"
   item_explain: 
   item_price: 2

@@ -709,6 +709,7 @@ namespace Structs
 		public float traceRange;
         public bool isInvincible;
 		public bool isDurable;
+		public bool dontTriggerLeftInfo;
 
 		[Header("Combat")]
 		public float fireTimer;

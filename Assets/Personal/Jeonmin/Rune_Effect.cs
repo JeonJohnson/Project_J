@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static DG.Tweening.DOTweenAnimation;
 
 
 public abstract class RuneEffect
@@ -32,7 +33,8 @@ public class RuneEffect_HealOnKill : RuneEffect
 
     private void Heal(int dummyValue)
     {
-        owner.status.curHp.Value += effect_value;
+        int targetHp = Mathf.Clamp(owner.status.curHp.Value + effect_value, 0, owner.status.maxHp);
+        owner.status.curHp.Value = targetHp;
         Debug.Log("Èú");
     }
 }

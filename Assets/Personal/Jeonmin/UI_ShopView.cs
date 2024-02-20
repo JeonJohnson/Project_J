@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,6 +10,7 @@ public class UI_ShopView : MonoBehaviour
     public Transform slotTr;
     public List<GameObject> shopSlots = new List<GameObject>();
     [SerializeField] TextMeshProUGUI coinCountText;
+    public CanvasGroup canvasGroup;
 
     public void AddShopSlot(Item item)
     {
@@ -37,6 +39,8 @@ public class UI_ShopView : MonoBehaviour
     private void OnEnable()
     {
         IngameController.Instance.Player.inventroy.coinCount.onChange += UpdateCoinCountView;
+        canvasGroup.alpha = 0f;
+        canvasGroup.DOFade(1f, 0.15f).SetUpdate(true);
     }
     private void OnDisable()
     {

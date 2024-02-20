@@ -324,6 +324,34 @@ public class Boss_Attack2 : Action<Boss_Demo>
 
         yield return new WaitForSeconds(5f);
 
+
+        //적 소환 임시 코드
+        GameObject particle = PoolingManager.Instance.LentalObj("Effect_Magic_01");
+        particle.transform.position = me.transform.position + new Vector3(0f, 1.5f, 0f);
+        me.animator.SetTrigger("Attack0");
+
+        checkWallCount = 0;
+        bool isUnderEnemySpawned = false;
+        while (!isUnderEnemySpawned)
+        {
+            Vector3 rndEnemyPos = me.transform.position + new Vector3(Random.Range(-5f, 5f), Random.Range(-3f, 3f), 0f);
+            if (CheckWall(rndEnemyPos))
+            {
+                checkWallCount++;
+                if (checkWallCount > 50) break;
+            }
+            else
+            {
+                isUnderEnemySpawned = true;
+
+                GameObject explosionParticle = PoolingManager.Instance.LentalObj("Effect_Magic_00");
+                explosionParticle.transform.position = rndEnemyPos;
+                Enemy underEnemy = IngameController.Instance.SpawnEnemy(0, rndEnemyPos);
+                underEnemy.status.dontTriggerLeftInfo = true;
+
+            }
+        }
+
         me.ActionTable.SetCurAction((int)BossDemoActions.Idle);
     }
 
