@@ -43,7 +43,7 @@ public class PlayerInventroy : MonoBehaviour
         ejectRemainBulletCount.Value = curWeaponItem.weaponData.magSize;
 
         UiController_Proto.Instance?.UpdateWeaponImage(curWeaponItem.item_sprite);
-        SoundManager.Instance.PlaySound("Player_WeaponSwap");
+        SoundManager.Instance?.PlaySound("Player_WeaponSwap");
     }
 
     public void UnEquipWeapon()

@@ -74,6 +74,9 @@ public class Suckable : MonoBehaviour, IPoolable
 
     public void Sucked(Transform _suckedTr)
     {
+        if (curState != BulletState.Fire) return;
+        curState = BulletState.SuckWait;
+
         SoundManager.Instance?.PlaySound("Player_Sucked", Camera.main.gameObject, 0.05f , 1f, true);
         projectile = this.gameObject.GetComponent<Projectile>();
         if (projectile != null)
@@ -86,7 +89,6 @@ public class Suckable : MonoBehaviour, IPoolable
         if (rb != null) rb.velocity = Vector3.zero;
 
         srdr.color = srdr.color * 5f;
-        curState = BulletState.SuckWait;
         suckedStat.suckWaitRandTime = UnityEngine.Random.Range(0.1f, 0.25f);
 
         col.enabled = false;
@@ -121,16 +123,21 @@ public class Suckable : MonoBehaviour, IPoolable
 
     public void PoolableInit()
     {
-
+        col.enabled = true;
+        this.transform.localScale = defScale;
+        srdr.color = Color.white;
+        curState = BulletState.Fire;
     }
 
     public void PoolableReset()
     {
+        StopAllCoroutines();
         if (projectile != null)
         {
             projectile.DistanceLimit = isDistanceLimit;
             projectile.enabled = true;
         }
+        Debug.Log("총알 리셋");
         col.enabled = true;
         this.transform.localScale = defScale;
         srdr.color = Color.white;

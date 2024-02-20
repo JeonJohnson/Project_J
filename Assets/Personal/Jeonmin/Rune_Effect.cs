@@ -99,3 +99,29 @@ public class RuneEffect_SlowOnEnemyHit : RuneEffect
         slowDebuff.ApplyEffect();
     }
 }
+
+public class RuneEffect_PlayerThrowWeapon : RuneEffect
+{
+    public override void RuneInit(Player player, int value)
+    {
+        base.RuneInit(player, value);
+    }
+
+    public override void RuneEffectUpdate()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            
+        }
+    }
+
+    public override void RuneExit()
+    {
+  
+    }
+
+    private void Throw(Player player)
+    {
+
+    }
+}

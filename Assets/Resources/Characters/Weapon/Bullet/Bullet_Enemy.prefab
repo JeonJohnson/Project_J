@@ -208,7 +208,7 @@ MonoBehaviour:
     suckStartPos: {x: 0, y: 0}
     suckedTr: {fileID: 0}
   curState: 0
-  col: {fileID: 0}
+  col: {fileID: 7157247293949954388}
   srdr: {fileID: 6808215688205360986}
 --- !u!1 &8963644971894233228
 GameObject:

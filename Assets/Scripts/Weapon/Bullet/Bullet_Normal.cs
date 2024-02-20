@@ -5,7 +5,7 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class Bullet_Normal : Bullet, IPoolable
+public class Bullet_Normal : Bullet
 {
     private Suckable suckable;
 
@@ -66,7 +66,7 @@ public class Bullet_Normal : Bullet, IPoolable
 
     void Update()
     {
-        CalcDistance();
+        //CalcDistance();
     }
 
 
@@ -127,11 +127,6 @@ public class Bullet_Normal : Bullet, IPoolable
                 }
 			}
         }
-
-        if (splatterStat.leftCount < 0)
-        {
-            PoolingManager.Instance.ReturnObj(this.gameObject);
-        }
 	}
 
     private void GenerateSmoke()
@@ -145,20 +140,20 @@ public class Bullet_Normal : Bullet, IPoolable
         IngameController.Instance.Player.inventroy.bulletCount.Value++;
     }
 
-    public void PoolableInit()
-    {
-        //suckable.OnSucked += OnSuckedEvent;
-    }
+    //public void PoolableInit()
+    //{
+    //    //suckable.OnSucked += OnSuckedEvent;
+    //}
 
-    public void PoolableReset()
-    {
-        //suckable.OnSucked -= OnSuckedEvent;
-        col.enabled = true;
-        srdr.color = defColor;
-        curState = BulletState.Fire;
-        suckedStat.player = null;
+    //public void PoolableReset()
+    //{
+    //    //suckable.OnSucked -= OnSuckedEvent;
+    //    col.enabled = true;
+    //    srdr.color = defColor;
+    //    curState = BulletState.Fire;
+    //    suckedStat.player = null;
 
-        splatterStat.leftCount = splatterStat.maxCount;
-        this.transform.localScale = defScale;
-    }
+    //    splatterStat.leftCount = splatterStat.maxCount;
+    //    this.transform.localScale = defScale;
+    //}
 }

@@ -175,16 +175,15 @@ public class IngameController : Singleton<IngameController>
 
     private void Start()
 	{
-        
 		FindPlayer();
-        player.transform.position = StageManager.Instance.curRoom.centerPos;
+        if(StageManager.Instance.curRoom != null) player.transform.position = StageManager.Instance.curRoom.centerPos;
 
         SetMinimapRenderCam();
 		//MainGame Scene에서 바로 시작하는 테스트를 위해서 
 		//맵 StageManager이나 맵 없으면 여기서 만들어주자구
 
+        //정민 디버그
 		EnemySpawn();
-
 	}
 	private void Update()
     {
