@@ -8,6 +8,10 @@ public class Throwable : MonoBehaviour
     [SerializeField] private Transform holderTr;
     private Rigidbody2D rb;
     private BoxCollider2D col;
+    public bool isAutoReturn;
+    public float autoReturnTime;
+
+    public bool isThrow;
 
     private void Awake()
     {
@@ -41,6 +45,9 @@ public class Throwable : MonoBehaviour
         transform.parent = null;
         rb.simulated = true;
         rb.AddForce(transform.up * power, ForceMode2D.Impulse);
+        isThrow = true;
+
+        if (isAutoReturn) StartCoroutine(ReturnCoro());
     }
 
     public void Return()
@@ -49,7 +56,15 @@ public class Throwable : MonoBehaviour
         col.enabled = false;
         rb.velocity = Vector3.zero;
         rb.simulated = false;
-        this.transform.DOJump(holderTr.position, 1f, 1, 0.25f);
+        this.transform.DOJump(holderTr.position, 1f, 1, 0.25f).OnComplete(() => { this.transform.localPosition = Vector3.zero; });
         transform.DOLocalRotate(Vector3.zero, 0.25f);
+        isThrow = false;
+    }
+
+    private IEnumerator ReturnCoro()
+    {
+        yield return new WaitForSeconds(autoReturnTime);
+
+        Return();
     }
 }

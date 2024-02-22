@@ -102,26 +102,34 @@ public class RuneEffect_SlowOnEnemyHit : RuneEffect
 
 public class RuneEffect_PlayerThrowWeapon : RuneEffect
 {
+    float throwCooldownTimer;
+    private Throwable throwable;
+
     public override void RuneInit(Player player, int value)
     {
         base.RuneInit(player, value);
+        throwable = owner.curWeapon.gameObject.GetComponent<Throwable>();
     }
 
     public override void RuneEffectUpdate()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        throwCooldownTimer -= Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            
+            if(owner.inventroy.bulletCount.Value <= 0 && !throwable.isThrow)
+            {
+                Throw();
+            }
         }
     }
 
     public override void RuneExit()
     {
-  
+        throwable.Return();
     }
 
-    private void Throw(Player player)
+    private void Throw()
     {
-
+        throwable.Throw(effect_value);
     }
 }

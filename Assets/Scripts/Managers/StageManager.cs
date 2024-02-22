@@ -280,15 +280,16 @@ public class StageManager : Singleton<StageManager>
 
         rooms = new List<Room_Drunken>();
 
-		//enemyCount = new int[5];
-		//curRoomIndex = 0;
-		//enemyCount[0] = 999;
+		//정민디버그
+		enemyCount = new int[5];
+		curRoomIndex = 0;
+		enemyCount[0] = 999;
+		//
+
+		//DontDestroyOnLoad(gameObject);
 
 
-        //DontDestroyOnLoad(gameObject);
-
-
-        bullets = new List<GameObject>();
+		bullets = new List<GameObject>();
 		deadbody = new List<Enemy_DeadBody>();
 
 		killCount = new Data<int>();

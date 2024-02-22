@@ -57,7 +57,6 @@ public class DroppableSlot : MonoBehaviour, IPointerEnterHandler, IDropHandler, 
                     }
                     else if(previousSlot.slotType == SlotType.EqupedSlot)
                     {
-                        Debug.Log(inventory.equipedRuneList[previousSlot.slotIndex].RuneEffect_Name);
                         inventory.equipedRuneList[previousSlot.slotIndex].UnEquip(IngameController.Instance.Player);
                         inventory.ReplaceRune(inventory.runeList, slotIndex, inventory.equipedRuneList, previousSlot.slotIndex);
                     }
@@ -78,6 +77,8 @@ public class DroppableSlot : MonoBehaviour, IPointerEnterHandler, IDropHandler, 
             // 드래그하고 있는 대상의 부모를 현재 오브젝트로 설정하고, 위치를 현재 오브젝트 위치와 동일하게 설정
             eventData.pointerDrag.transform.SetParent(transform);
             eventData.pointerDrag.GetComponent<RectTransform>().position = rect.position;
+
+            UI_RuneView.instance.UpdateSlots();
         }
     }
 }

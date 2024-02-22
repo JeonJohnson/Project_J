@@ -69,7 +69,7 @@ public class Weapon_Tangtangi : Weapon
 
         if (owner.spriteDir == Vector3.left) weaponRecoilDir.x *= -1;
 
-        transform.DOLocalMove(originPos - weaponRecoilDir * 0.1f, 0.03f).OnComplete(() => { RecoilEffect(); });
+        transform.DOLocalMove(originPos - weaponRecoilDir * 0.1f, 0.03f).OnComplete(RecoilEffect);
     }
     public void RecoilEffect()
     {
