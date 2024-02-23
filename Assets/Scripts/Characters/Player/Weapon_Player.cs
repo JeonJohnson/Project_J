@@ -36,6 +36,11 @@ public class Weapon_Player : Weapon
     public int remainBullet;
 
 
+    public bool isSuckDemo;
+    public bool isSuckDemo_isSuckable_On_NoAmmo;
+    public bool isSuckDemo_AttackTimer;
+
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.R))
@@ -240,6 +245,50 @@ public class Weapon_Player : Weapon
         return bullet;
     }
 
+    private IEnumerator DemoSuckCoro()
+    {
+        bool isSuckComp = false;
+        while(!isSuckComp)
+        {
+            Sucktion();
+            Debug.Log(suctionStat.curSuctionRatio.Value);
+            if(suctionStat.curSuctionRatio.Value <= 0.01f)
+            {
+                isSuckComp = true;
+            }
+            yield return null;
+        }
+        Debug.Log("흡수끝!");
+
+        if(isSuckDemo_isSuckable_On_NoAmmo) // 총알 없어야지만 다음 흡수가능
+        {
+            bool isNoAmmo = false;
+            while (!isNoAmmo)
+            {
+                Recharge();
+                if (owner.inventroy.bulletCount.Value <= 0 && suctionStat.curSuctionRatio.Value >= 0.99f)
+                {
+                    isNoAmmo = true;
+                }
+                yield return null;
+            }
+            demo_isSuckable = true;
+        }
+        else // 걍 쿨타임 후 흡수가능
+        {
+            Debug.Log("5");
+            while (suctionStat.curSuctionRatio.Value < 0.99f)
+            {
+                Debug.Log("충전중");
+                Recharge();
+                yield return null;
+            }
+            demo_isSuckable = true;
+        }
+    }
+
+    private bool demo_isSuckable = true;
+
     private float suckingItemTime = 3f;
     private float suckingItemTimer;
     [SerializeField] private ItemPicker curItemPicker;
@@ -248,18 +297,30 @@ public class Weapon_Player : Weapon
     private float rechargeTimer;
     public void CheckSuck()
     {
-        if (curAttackMode == AttackMode.Suck)
+        if(isSuckDemo) // 데모일떄
         {
-            rechargeTimer = 0.2f;
-			
-			Sucktion();
+            if (curAttackMode == AttackMode.Suck && demo_isSuckable)
+            {
+                demo_isSuckable = false;
+                StartCoroutine(DemoSuckCoro());
+            }
         }
-        else
+        else // 그냥코드
         {
-            weaponAnimator.SetBool("Transform", false);
-            rechargeTimer -= Time.deltaTime;
-            rechargeTimer = Mathf.Clamp(rechargeTimer, 0f, 5f);
-            if(rechargeTimer <= 0f) Recharge();
+
+            if (curAttackMode == AttackMode.Suck)
+            {
+                rechargeTimer = 0.2f;
+
+                Sucktion();
+            }
+            else
+            {
+                weaponAnimator.SetBool("Transform", false);
+                rechargeTimer -= Time.deltaTime;
+                rechargeTimer = Mathf.Clamp(rechargeTimer, 0f, 5f);
+                if (rechargeTimer <= 0f) Recharge();
+            }
         }
     }
 
