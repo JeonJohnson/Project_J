@@ -1,30 +1,29 @@
+﻿using AYellowpaper.SerializedCollections;
 using Enums;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "Rune Item", menuName = "Scriptable Object/Items/New Rune Item")]
 public class Item_Rune : Item
 {
     public UnityAction RuneAction;
     public string RuneEffect_Name;
     public RuneEffect effect;
 
-    public int RuneEffect_Value;
+    [SerializedDictionary("이펙트 변수 이름", "값")]
+    public SerializedDictionary<string, int> RuneEffect_Value;
 
-    
 
     public override bool Equip(Player player)
     {
-        Debug.Log("��Ţ");
         effect = player.runeEffectHandler.LoadRuneEffect(RuneEffect_Name, RuneEffect_Value);
         return base.Equip(player);
     }
 
     public override bool UnEquip(Player player)
     {
-        Debug.Log("��Ţ");
         player.runeEffectHandler.RemoveRuneEffect(effect);
         return base.UnEquip(player);
     }

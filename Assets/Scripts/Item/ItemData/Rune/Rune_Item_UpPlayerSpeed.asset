@@ -31,4 +31,5 @@ MonoBehaviour:
     weapon_Critial: 0
     weapon_BulletSize: 0
   RuneEffect_Name: 
-  RuneEffect_Value: 0
+  RuneEffect_Value:
+    _serializedList: []

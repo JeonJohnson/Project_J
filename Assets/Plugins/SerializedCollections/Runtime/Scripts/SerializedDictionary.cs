@@ -125,6 +125,16 @@ namespace AYellowpaper.SerializedCollections
             return false;
         }
 
+        public List<TValue> GetAllValues()
+        {
+            List<TValue> values = new List<TValue>();
+            foreach (var kvp in _serializedList)
+            {
+                values.Add(kvp.Value);
+            }
+            return values;
+        }
+
         /// <summary>
         /// Only available in Editor. Add a key value pair, even if the key already exists in the dictionary.
         /// </summary>

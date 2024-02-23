@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AYellowpaper.SerializedCollections;
 
 public class PlayerRuneEffectHandler : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class PlayerRuneEffectHandler : MonoBehaviour
         owner = this.gameObject.GetComponent<Player>();
     }
 
-    public RuneEffect LoadRuneEffect(string className, int value) //reflection
+    public RuneEffect LoadRuneEffect(string className, SerializedDictionary<string, int> value) //reflection
     {
         // 클래스명으로 Type을 가져옴
         Type type = Type.GetType(className);
@@ -34,7 +35,7 @@ public class PlayerRuneEffectHandler : MonoBehaviour
         return null;
     }
 
-    public void LoadRuneEffect(RuneEffect effect, int value)
+    public void LoadRuneEffect(RuneEffect effect, SerializedDictionary<string, int> value)
     {
         runeEffects.Add(effect);
         effect.RuneInit(owner, value);

@@ -32,4 +32,7 @@ MonoBehaviour:
     weapon_Critial: 0
     weapon_BulletSize: 0
   RuneEffect_Name: RuneEffect_SlowOnEnemyHit
-  RuneEffect_Value: 3
+  RuneEffect_Value:
+    _serializedList:
+    - Key: slow
+      Value: 2

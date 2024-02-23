@@ -18,8 +18,8 @@ MonoBehaviour:
     \uCD1D\uC744 \uB358\uC9C4\uB2E4"
   item_explain: 
   item_price: 2
-  item_sprite: {fileID: 21300000, guid: 6875a717507269d4cb7720dccaf6f3c0, type: 3}
-  item_sprite_Big: {fileID: 21300000, guid: 6875a717507269d4cb7720dccaf6f3c0, type: 3}
+  item_sprite: {fileID: 21300000, guid: 9a545acfb6b9f5e4cb4e20f0ddf7d925, type: 3}
+  item_sprite_Big: {fileID: 21300000, guid: 9a545acfb6b9f5e4cb4e20f0ddf7d925, type: 3}
   bonusStatus:
     player_Hp: 0
     player_Armor: 0
@@ -32,4 +32,9 @@ MonoBehaviour:
     weapon_Critial: 0
     weapon_BulletSize: 0
   RuneEffect_Name: RuneEffect_PlayerThrowWeapon
-  RuneEffect_Value: 10
+  RuneEffect_Value:
+    _serializedList:
+    - Key: throwPower
+      Value: 20
+    - Key: damage
+      Value: 5

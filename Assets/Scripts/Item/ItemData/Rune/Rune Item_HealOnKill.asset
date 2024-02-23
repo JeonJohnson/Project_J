@@ -31,4 +31,7 @@ MonoBehaviour:
     weapon_Critial: 0
     weapon_BulletSize: 0
   RuneEffect_Name: RuneEffect_HealOnKill
-  RuneEffect_Value: 1
+  RuneEffect_Value:
+    _serializedList:
+    - Key: heal
+      Value: 1
