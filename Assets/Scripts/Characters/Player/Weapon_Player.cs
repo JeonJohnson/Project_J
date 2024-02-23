@@ -38,7 +38,8 @@ public class Weapon_Player : Weapon
 
     public bool isSuckDemo;
     public bool isSuckDemo_isSuckable_On_NoAmmo;
-    public bool isSuckDemo_AttackTimer;
+    public float isSuckDemo_AttackTimer = 0f;
+    public bool isSuckDemo_isFireable = false;
 
 
     private void Update()
@@ -112,7 +113,17 @@ public class Weapon_Player : Weapon
     {
         if(curAttackMode == AttackMode.Fire)
         {
-			Fire();
+            if (isSuckDemo)
+            {
+                    if(isSuckDemo_isFireable && isSuckDemo_AttackTimer > 0.05f)
+                    {
+                        Fire();
+                    }
+            }
+            else
+            {
+                Fire();
+            }
         }
     }
 
@@ -248,43 +259,42 @@ public class Weapon_Player : Weapon
     private IEnumerator DemoSuckCoro()
     {
         bool isSuckComp = false;
-        while(!isSuckComp)
+        isSuckDemo_isFireable = false;
+        while (!isSuckComp)
         {
             Sucktion();
             Debug.Log(suctionStat.curSuctionRatio.Value);
-            if(suctionStat.curSuctionRatio.Value <= 0.01f)
+            if(suctionStat.curSuctionRatio.Value <= 0.01f) // 썩 게이지 다 소모하거나
             {
+                isSuckComp = true;
+            }
+
+            if(isSuckDemo_AttackTimer > 14f) // 사격타이머 상한 도달시
+            {
+                isSuckDemo_AttackTimer = 14f;
                 isSuckComp = true;
             }
             yield return null;
         }
-        Debug.Log("흡수끝!");
+        Debug.Log("흡수끝!"); // 흡수끝!
+        isSuckDemo_isFireable = true;
 
-        if(isSuckDemo_isSuckable_On_NoAmmo) // 총알 없어야지만 다음 흡수가능
+        owner.inventroy.bulletCount.Value = 99999;
+
+        while (isSuckDemo_AttackTimer > 0f)
         {
-            bool isNoAmmo = false;
-            while (!isNoAmmo)
-            {
-                Recharge();
-                if (owner.inventroy.bulletCount.Value <= 0 && suctionStat.curSuctionRatio.Value >= 0.99f)
-                {
-                    isNoAmmo = true;
-                }
-                yield return null;
-            }
-            demo_isSuckable = true;
+            isSuckDemo_AttackTimer -= Time.deltaTime;
+            isSuckDemo_AttackTimer = Mathf.Clamp(isSuckDemo_AttackTimer, 0f, 99f);
+            Recharge();
+            yield return null;
         }
-        else // 걍 쿨타임 후 흡수가능
+
+        while (suctionStat.curSuctionRatio.Value <= 0.99f)
         {
-            Debug.Log("5");
-            while (suctionStat.curSuctionRatio.Value < 0.99f)
-            {
-                Debug.Log("충전중");
-                Recharge();
-                yield return null;
-            }
-            demo_isSuckable = true;
+            Recharge();
+            yield return null;
         }
+        demo_isSuckable = true;
     }
 
     private bool demo_isSuckable = true;

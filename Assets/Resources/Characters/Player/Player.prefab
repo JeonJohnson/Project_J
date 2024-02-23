@@ -6031,7 +6031,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4295586922053722623}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.00000047683716, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6193,7 +6193,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4354644708972586924}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.00000047683716, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6228,14 +6228,14 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.15555555
-    width: 0.25885418
-    height: 0.25885415
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.625
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -6531,7 +6531,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 8329fc07a4cad6645bc5086120d5f829, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6585,7 +6585,8 @@ GameObject:
   - component: {fileID: 1778368282271746238}
   - component: {fileID: 8640431288822581454}
   - component: {fileID: 3717718305272002182}
-  m_Layer: 0
+  - component: {fileID: 6927808915642225765}
+  m_Layer: 14
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6650,6 +6651,10 @@ MonoBehaviour:
   curAttackMode: 0
   holdableItem: {fileID: 0}
   remainBullet: 0
+  isSuckDemo: 1
+  isSuckDemo_isSuckable_On_NoAmmo: 0
+  isSuckDemo_AttackTimer: 0
+  isSuckDemo_isFireable: 0
   curItemPicker: {fileID: 0}
   itemPickerList: []
 --- !u!50 &1778368282271746238
@@ -6737,6 +6742,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holderTr: {fileID: 262546970908432853}
+  isAutoReturn: 0
+  autoReturnTime: 30
+  isThrow: 0
+  OnThrow:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReturn:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6927808915642225765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5595826564711114944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732d6ffcc29497747863a7551f29a67e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5922068267682236088
 GameObject:
   m_ObjectHideFlags: 0
@@ -6889,7 +6915,7 @@ Transform:
   - {fileID: 9088723120641885607}
   - {fileID: 5594957469740915372}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &2087431997132923411
 Rigidbody2D:
@@ -7066,7 +7092,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 02157c3245bdc2b40bfb7de8e1057dc7, type: 2}
   - {fileID: 11400000, guid: f274723293db7a84881ea9e7b09c28b7, type: 2}
   - {fileID: 11400000, guid: d5040d0d200054243bfe8330708c7aa6, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 1434461a53371904c875f3f33abad385, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

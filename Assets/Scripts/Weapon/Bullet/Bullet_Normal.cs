@@ -137,7 +137,12 @@ public class Bullet_Normal : Bullet
 
     private void OnSuckedEvent()
     {
+        Debug.Log("총알 흡흡흡수수수");
         IngameController.Instance.Player.inventroy.bulletCount.Value++;
+        if(IngameController.Instance.Player.curWeapon.isSuckDemo)
+        {
+            IngameController.Instance.Player.curWeapon.isSuckDemo_AttackTimer += 0.5f;
+        }
     }
 
     //public void PoolableInit()
