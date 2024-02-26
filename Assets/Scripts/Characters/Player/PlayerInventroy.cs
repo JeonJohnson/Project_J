@@ -43,7 +43,7 @@ public class PlayerInventroy : MonoBehaviour
         ejectRemainBulletCount.Value = curWeaponItem.weaponData.magSize;
 
         UiController_Proto.Instance?.UpdateWeaponImage(curWeaponItem.item_sprite);
-        SoundManager.Instance?.PlaySound("Player_WeaponSwap");
+        SoundManager.Instance?.PlaySound("Player_WeaponSwap",Camera.main.gameObject,true);
     }
 
     public void UnEquipWeapon()
@@ -53,7 +53,7 @@ public class PlayerInventroy : MonoBehaviour
         player.curWeapon.weaponSprite.sprite = curWeaponItem.weaponSprite;
 
         UiController_Proto.Instance?.UpdateWeaponImage(curWeaponItem.item_sprite);
-        SoundManager.Instance.PlaySound("Player_WeaponSwap");
+        SoundManager.Instance.PlaySound("Player_WeaponSwap",Camera.main.gameObject, true);
     }
 
     public void AddRune(Item_Rune rune)
