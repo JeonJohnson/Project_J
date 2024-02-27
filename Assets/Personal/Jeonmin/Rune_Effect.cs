@@ -4,6 +4,7 @@ using UnityEngine;
 using AYellowpaper.SerializedCollections;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
+using Debug = Potato.Debug;
 public abstract class RuneEffect
 {
     public Player owner;

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Debug = Potato.Debug;
 public class Player : CObj
 {
     private PlayerMoveActionTable moveActionTable;

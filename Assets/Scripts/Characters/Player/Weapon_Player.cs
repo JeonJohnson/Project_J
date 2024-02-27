@@ -6,6 +6,8 @@ using Unity.VisualScripting;
 using Enums;
 using UnityEngine.UI;
 
+using Debug = Potato.Debug;
+
 public class Weapon_Player : Weapon
 {
     [System.Serializable]

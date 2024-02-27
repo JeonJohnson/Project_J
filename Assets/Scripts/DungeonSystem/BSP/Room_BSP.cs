@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+using Debug = Potato.Debug;
+
 #if UNITY_EDITOR
 using UnityEditor;
 

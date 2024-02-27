@@ -5,6 +5,7 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
+using Debug = Potato.Debug;
 public class Bullet_Normal : Bullet
 {
     private Suckable suckable;
@@ -32,7 +33,7 @@ public class Bullet_Normal : Bullet
         FindDefaultComps();
         light2D = GetComponent<Light2D>();
         suckable = GetComponent<Suckable>();
-        Debug.Log("생성");
+        //Debug.Log("생성");
         suckable.OnSucked += OnSuckedEvent;
 
         defaultStat.aliveTime = 30;

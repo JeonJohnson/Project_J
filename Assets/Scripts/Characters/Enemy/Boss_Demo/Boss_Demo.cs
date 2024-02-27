@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+using Debug = Potato.Debug;
 public class Boss_Demo : Enemy
 {
     public Boss_DemoActionTable ActionTable;

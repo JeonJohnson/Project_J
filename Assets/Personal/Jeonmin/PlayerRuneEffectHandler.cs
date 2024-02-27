@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
 
+using Debug = Potato.Debug;
 public class PlayerRuneEffectHandler : MonoBehaviour
 {
     public List<RuneEffect> runeEffects = new List<RuneEffect>();

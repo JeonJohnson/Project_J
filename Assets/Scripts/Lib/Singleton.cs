@@ -118,11 +118,11 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     //}
 
-    private void Awake()
-    {
-        Debug.Log("매니저 이닛" + this.gameObject.name);
-        Initailize(false);
-    }
+    //private void Awake()
+    //{
+    //    Debug.Log("매니저 이닛" + this.gameObject.name);
+    //    Initailize(false);
+    //}
 
     public virtual void OnEnable()
 	{

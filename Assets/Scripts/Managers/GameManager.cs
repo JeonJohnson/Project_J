@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
+using Debug = Potato.Debug;
+
 /// <summary>
 /// 이제 GameManager 특정 씬에 안만들어도 됨.
 /// 에디터에서 실행해도 GameManager 만들어 주는 씬 갔다 돌아가서 ㅋㅋ

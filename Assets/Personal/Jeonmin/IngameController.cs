@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using Debug = Potato.Debug;
 
 //인게임 씬의
 //전반적인 세팅

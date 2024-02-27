@@ -14,6 +14,7 @@ using System;
 using Random = UnityEngine.Random;
 using UnityEngine.Analytics;
 
+using Debug = Potato.Debug;
 public enum eDirection
 { 
 	Vertical,

@@ -10,7 +10,7 @@ using Unity.VisualScripting;
 using static Unity.Burst.Intrinsics.Arm;
 using System.Reflection;
 
-
+using Debug = Potato.Debug;
 public static class Funcs
 {
 	public static bool IsNull<T>(T script) where T : class

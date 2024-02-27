@@ -7,6 +7,8 @@ using static Unity.Collections.Unicode;
 
 //using static UnityEditor.Timeline.Actions.MenuPriority;
 
+using Debug = Potato.Debug;
+
 public class PlayerInventroy : MonoBehaviour
 {
     private Player player;

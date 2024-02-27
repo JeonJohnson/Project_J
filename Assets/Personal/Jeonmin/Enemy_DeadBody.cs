@@ -4,6 +4,8 @@ using System;
 using UnityEngine;
 using DG.Tweening;
 
+using Debug = Potato.Debug;
+
 public class Enemy_DeadBody : MonoBehaviour, IPoolable
 {
     public Item itemData;

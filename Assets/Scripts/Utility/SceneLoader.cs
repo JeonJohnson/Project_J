@@ -9,6 +9,7 @@ using UnityEngine.Events;
 
 using TMPro;
 
+using Debug = Potato.Debug;
 public class SceneLoader : MonoBehaviour
 {
     [SerializeField]
