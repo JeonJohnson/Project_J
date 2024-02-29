@@ -6,9 +6,6 @@ using System.Linq;
 using UnityEngine;
 using Structs;
 using UnityEngine.UIElements;
-using Unity.VisualScripting;
-using static Unity.Burst.Intrinsics.Arm;
-using System.Reflection;
 
 using Debug = Potato.Debug;
 public static class Funcs
@@ -734,6 +731,36 @@ namespace Structs
 
         public bool isDurable;
         public bool isHitSucess;
+    }
+
+	public struct Options
+	{
+		public bool isFullScreen;
+		public string language;
+		public Resolution resolution;
+		public bool isShadowOn;
+
+		public float masterVolume;
+		public float bgmVolume;
+		public float effectVolume;
+
+		public float lstickSensitivity;
+		public float rstickSensitivity;
+		public bool lstickReverse;
+		public bool rstickReverse;
+		public bool hapticSentivity;
+
+		public bool bossCutscene;
+		public bool subtitle;
+		public bool subTypeSpeed;
+
+		public float hudSize;
+		public bool hudActivate;
+		public bool damageVisual;
+
+		public float camShakeStrengh;
+		public int crossHairType;
+		public int suckAngleType;
     }
 }
 
