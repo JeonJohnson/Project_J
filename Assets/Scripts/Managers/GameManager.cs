@@ -151,7 +151,7 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
-        
+
     }
 
 	public override void OnSceneChanged(Scene scene, LoadSceneMode mode)

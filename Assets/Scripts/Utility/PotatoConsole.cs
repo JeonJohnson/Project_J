@@ -120,19 +120,36 @@ public class PotatoConsole : Singleton<PotatoConsole>
         
 	}
 
-    void Update()
-    {
-        
-
-        InputConsole();
+	private void Start()
+	{
+        Active(false);
 	}
 
-	//private void OnEnable()
-	//{
-	//}
+	void Update()
+    {
+
+        InputConsole();
 
 
-	//private void OnDisable()
-	//{
-	//}
+		if (Input.GetKeyDown(KeyCode.BackQuote))
+		{
+			Active(!holder.activeSelf);
+		}
+
+        if (holder.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        {
+			Active(false);
+		}
+	}
+
+    public override void OnEnable()
+    {
+
+    }
+
+
+    public override void OnDisable()
+    {
+        StopCoroutine(ScrollBarCor());
+	}
 }
