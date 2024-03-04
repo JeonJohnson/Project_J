@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
 using Enums;
+using UnityEngine.Analytics;
 
 public interface IPoolable
 {
@@ -107,10 +108,15 @@ public class PoolingManager: Singleton<PoolingManager>
 
 			if (objBoxes[i].name.Equals(boxName))
 			{
-				GameObject newObj = Instantiate(allPrefabList[i].Key, objBoxes[i].transform);
-				newObj.name = newObj.name.Replace("(Clone)", string.Empty);
-				newObj.SetActive(false);
-				tempPair.Value.Enqueue(newObj);
+				for (int k = 0; k < count; ++k)
+				{
+					GameObject newObj = Instantiate(allPrefabList[i].Key, objBoxes[i].transform);
+					newObj.name = newObj.name.Replace("(Clone)", string.Empty);
+					newObj.SetActive(false);
+					tempPair.Value.Enqueue(newObj);
+				}
+
+				break;
 			}
 		}
 	}
@@ -122,20 +128,12 @@ public class PoolingManager: Singleton<PoolingManager>
 		//디스이즈 람다식
 		var tempPair = poolingObjDic.FirstOrDefault(t => t.Key == objName);
 
-        if (tempPair.Value.Count < count)
+         if (tempPair.Value.Count < count)
 		{
 			FillObject(objName, count * 2);
 
 			GameObject obj = LentalObj(objName, count);
 
-            IPoolable[] poolables = obj.GetComponents<IPoolable>();
-            foreach (var poolable in poolables)
-            {
-                poolable.PoolableInit();
-            }
-
-            obj.SetActive(true);
-            obj.transform.SetParent(null);
             return obj;
 		}
 		else 
@@ -176,16 +174,32 @@ public class PoolingManager: Singleton<PoolingManager>
 
 			if (objBoxes[i].name.Equals(boxName))
 			{
-				obj.transform.SetParent(objBoxes[i].transform);
-				obj.SetActive(false);
+				bool isExist = false;
+#if UNITY_EDITOR
 
-                IPoolable[] poolables = obj.GetComponents<IPoolable>();
-                foreach (var poolable in poolables)
-                {
-                    poolable.PoolableReset();
-                }
+				foreach (var item in tempPair.Value)
+				{
+					if (item == obj)
+					{
+						isExist = true;
+						Potato.Debug.LogWarning("이미 풀링된 아이템입니다!!! 확인요망");
+						break;
+					}
+				}
+#endif
+				if (!isExist)
+				{
+					obj.transform.SetParent(objBoxes[i].transform);
+					obj.SetActive(false);
 
-                tempPair.Value.Enqueue(obj);
+					IPoolable[] poolables = obj.GetComponents<IPoolable>();
+					foreach (var poolable in poolables)
+					{
+						poolable.PoolableReset();
+					}
+
+					tempPair.Value.Enqueue(obj);
+				}
 			}
 		}
 	}

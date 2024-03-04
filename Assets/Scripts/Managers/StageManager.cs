@@ -179,18 +179,24 @@ public class StageManager : Singleton<StageManager>
 
 	public void CleanObjects()
 	{
-		for (int i = 0; i < bullets.Count; ++i)
+		if (bullets != null)
 		{
-			PoolingManager.Instance.ReturnObj(bullets[i]);
+			for (int i = 0; i < bullets.Count; ++i)
+			{
+				if (bullets[i].gameObject.activeSelf)
+				{ PoolingManager.Instance.ReturnObj(bullets[i]); }
+			}
+			bullets.Clear();
 		}
 
-		foreach (var item in deadbody)
+		if (deadbody != null)
 		{
-			item.Return();
+			foreach (var item in deadbody)
+			{
+				item.Return();
+			}
+			deadbody.Clear();
 		}
-
-		bullets.Clear();
-		deadbody.Clear();
 	}
 
 
@@ -280,15 +286,6 @@ public class StageManager : Singleton<StageManager>
 
         rooms = new List<Room_Drunken>();
 
-		//정민디버그
-		enemyCount = new int[5];
-		curRoomIndex = 0;
-		enemyCount[0] = 999;
-		//
-
-		//DontDestroyOnLoad(gameObject);
-
-
 		bullets = new List<GameObject>();
 		deadbody = new List<Enemy_DeadBody>();
 
@@ -315,7 +312,6 @@ public class StageManager : Singleton<StageManager>
 	public void Release()
 	{
 		DestoryRooms();
-		
 	}
 
 	public override void OnSceneChanged(Scene scene, LoadSceneMode mode)
@@ -324,6 +320,7 @@ public class StageManager : Singleton<StageManager>
 
 		if (scene.buildIndex == (int)SceneName.Ingame)
 		{
+			CleanObjects();
 			SetupRoom();
 		}
 	}

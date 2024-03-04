@@ -20,15 +20,12 @@ namespace Potato
     {
         public static void Log(object message)
         {
-            UnityEngine.Debug.Log(message);
-			
-			
+			UnityEngine.Debug.Log(message);
 			PotatoConsole.Instance?.Print(GetString(message));
         }
 		public static void LogWarning(object message)
 		{
 			UnityEngine.Debug.LogWarning(message);
-
 			PotatoConsole.Instance?.Print(GetString(message),LogType.Warning);
 		}
 		public static void LogError(object message)
