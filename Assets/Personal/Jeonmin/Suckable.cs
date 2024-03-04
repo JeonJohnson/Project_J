@@ -62,6 +62,7 @@ public class Suckable : MonoBehaviour, IPoolable
     private Vector2 defScale;
 
     public Action OnSucked;
+    public AudioSource aus;
 
     private void Awake()
     {
@@ -70,6 +71,12 @@ public class Suckable : MonoBehaviour, IPoolable
 
         col = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
+
+        if(aus == null)
+        {
+            aus = this.gameObject.AddComponent<AudioSource>();
+            aus.spatialize = false;
+        }
     }
 
     public void Sucked(Transform _suckedTr)
@@ -77,7 +84,7 @@ public class Suckable : MonoBehaviour, IPoolable
         if (curState != BulletState.Fire) return;
         curState = BulletState.SuckWait;
 
-        SoundManager.Instance?.PlaySound("Player_Sucked", Camera.main.gameObject, 0.05f , 1f, true);
+        SoundManager.Instance?.PlaySound("Player_Sucked", aus, 0.05f , 1f, true);
         projectile = this.gameObject.GetComponent<Projectile>();
         if (projectile != null)
         {
@@ -125,7 +132,7 @@ public class Suckable : MonoBehaviour, IPoolable
     {
         col.enabled = true;
         this.transform.localScale = defScale;
-        srdr.color = Color.white;
+        srdr.color = defColor;
         curState = BulletState.Fire;
     }
 
@@ -140,7 +147,7 @@ public class Suckable : MonoBehaviour, IPoolable
         Debug.Log("총알 리셋");
         col.enabled = true;
         this.transform.localScale = defScale;
-        srdr.color = Color.white;
+        srdr.color = defColor;
         curState = BulletState.Fire;
     }
 }

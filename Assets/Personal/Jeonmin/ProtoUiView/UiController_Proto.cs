@@ -27,7 +27,7 @@ public class UiController_Proto : Singleton<UiController_Proto>
 
     private void Awake()
     {
-        Initailize(false);
+        Initailize(true);
     }
 
     private void Start()

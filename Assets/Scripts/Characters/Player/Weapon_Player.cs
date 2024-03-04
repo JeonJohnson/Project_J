@@ -7,6 +7,7 @@ using Enums;
 using UnityEngine.UI;
 
 using Debug = Potato.Debug;
+using System.Security.Cryptography;
 
 public class Weapon_Player : Weapon
 {
@@ -41,6 +42,8 @@ public class Weapon_Player : Weapon
     public bool isSuckDemo;
     public bool isSuckDemo_isSuckable_On_NoAmmo;
     public bool isSuckDemo_AttackTimer;
+
+    public AudioSource aus;
 
 
     private void Update()
@@ -157,7 +160,7 @@ public class Weapon_Player : Weapon
         // 총알종류 체크 & 발사
 
         string weaponName = $"Player_{owner.inventroy.curWeaponItem.item_name}_Fire";
-        SoundManager.Instance.PlaySound(weaponName, Camera.main.gameObject, 0.625f, 0.8f, 1f, true);
+        SoundManager.Instance.PlaySound(weaponName, aus, 0.625f, 0.8f, 1f, true);
 
 
         for (int i = 0; i < bulletNum; i++)

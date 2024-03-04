@@ -184,7 +184,7 @@ public class IngameController : Singleton<IngameController>
 		//맵 StageManager이나 맵 없으면 여기서 만들어주자구
 
         //정민 디버그
-		//EnemySpawn();
+		EnemySpawn();
 	}
 	private void Update()
     {
