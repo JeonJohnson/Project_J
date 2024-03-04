@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using UnityEditor.Build.Content;
-using UnityEditor.PackageManager.UI;
+//using UnityEditor.Build.Content;
+//using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 namespace Potato

@@ -73,6 +73,7 @@ public class Bullet_Normal : Bullet
 
     public virtual void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("총알 충돌");
         //Splatter 옵션 일때만 호출될듯
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
@@ -104,29 +105,32 @@ public class Bullet_Normal : Bullet
 
                 HitInfo hitinfo = obj.Hit(defaultStat.dmg, normalDir);
 
-                if (hitinfo.isDurable)
-                {
-                    SetLeftCount(splatterStat.leftCount - 1);
+                //if (hitinfo.isDurable)
+                //{
+                //    SetLeftCount(splatterStat.leftCount - 1);
 
-                    if (splatterStat.leftCount < 0)
-                    {
-                        GenerateSmoke();
-                        PoolingManager.Instance.ReturnObj(this.gameObject);
-                        //Destroy(this.gameObject);
-                    }
-                    else
-                    {
-                        GameObject particle = PoolingManager.Instance.LentalObj("Effect_Smoke_04");
-                        particle.transform.position = this.transform.position;
-                    }
-                }
-                else
-                {
-                    GameObject particle = PoolingManager.Instance.LentalObj("Effect_Hit_" + Random.Range(0, 3).ToString());
-                    particle.transform.position = this.transform.position + -(Vector3)normalDir * 1.5f;
-                    PoolingManager.Instance.ReturnObj(this.gameObject);
-                }
-			}
+                //    if (splatterStat.leftCount < 0)
+                //    {
+                //        GenerateSmoke();
+                //        PoolingManager.Instance.ReturnObj(this.gameObject);
+                //        //Destroy(this.gameObject);
+                //    }
+                //    else
+                //    {
+                //        GameObject particle = PoolingManager.Instance.LentalObj("Effect_Smoke_04");
+                //        particle.transform.position = this.transform.position;
+                //    }
+                //}
+                //else
+                //{
+                //    GameObject particle = PoolingManager.Instance.LentalObj("Effect_Hit_" + Random.Range(0, 3).ToString());
+                //    particle.transform.position = this.transform.position + -(Vector3)normalDir * 1.5f;
+                //    PoolingManager.Instance.ReturnObj(this.gameObject);
+                //}
+                GameObject particle = PoolingManager.Instance.LentalObj("Effect_Hit_" + Random.Range(0, 3).ToString());
+                particle.transform.position = this.transform.position + -(Vector3)normalDir * 1.5f;
+                PoolingManager.Instance.ReturnObj(this.gameObject);
+            }
         }
 	}
 
@@ -138,6 +142,7 @@ public class Bullet_Normal : Bullet
 
     private void OnSuckedEvent()
     {
+        rb.velocity = Vector3.zero;
         IngameController.Instance.Player.inventroy.bulletCount.Value++;
     }
 

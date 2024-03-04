@@ -125,6 +125,7 @@ public class Suckable : MonoBehaviour, IPoolable
 
         OnSucked?.Invoke();
 
+        Debug.Log("흡수됨");
         PoolingManager.Instance.ReturnObj(this.gameObject);
     }
 
@@ -144,10 +145,20 @@ public class Suckable : MonoBehaviour, IPoolable
             projectile.DistanceLimit = isDistanceLimit;
             projectile.enabled = true;
         }
-        Debug.Log("총알 리셋");
+        //Debug.Log("총알 리셋");
         col.enabled = true;
         this.transform.localScale = defScale;
         srdr.color = defColor;
         curState = BulletState.Fire;
+    }
+
+    public void OnDisable()
+    {
+        Debug.LogWarning("sex1");
+    }
+
+    public void OnDestroy()
+    {
+        Debug.LogWarning("sex2");
     }
 }

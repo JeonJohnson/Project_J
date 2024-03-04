@@ -46,7 +46,6 @@ public class Bullet_CrossHolder : MonoBehaviour
                 Bullet_Normal bullet1 = bulletGo.GetComponent<Bullet_Normal>();
                 bullet1.Fire(bullet1.transform.right, 0, speed, 0.5f);
                 speed += 10;
-                Debug.Log(speed);
             }
             angle += 90;
         }

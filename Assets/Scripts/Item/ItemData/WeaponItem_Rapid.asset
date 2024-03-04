@@ -16,6 +16,7 @@ MonoBehaviour:
   item_name: Rifle
   item_description: "\uC5F0\uC0AC\uB418\uB294 \uB77C\uC774\uD50C\uC774\uB2E4"
   item_explain: "\uC5F0\uC0AC\uB428"
+  item_price: 0
   item_sprite: {fileID: -1889483986, guid: 72a569349aed4c74589922a41591303c, type: 3}
   item_sprite_Big: {fileID: 1264756900, guid: 72a569349aed4c74589922a41591303c, type: 3}
   bonusStatus:
@@ -37,7 +38,7 @@ MonoBehaviour:
     spread: 5
     bulletSpeed: 300
     bulletSize: 0.5
-    damage: 1
+    damage: 2
     critical: 0
     magSize: 30
     bulletType: 1

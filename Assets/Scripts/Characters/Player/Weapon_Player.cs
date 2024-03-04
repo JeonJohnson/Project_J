@@ -176,7 +176,7 @@ public class Weapon_Player : Weapon
             owner.inventroy.bulletCount.Value--;
         }
         owner.inventroy.ejectRemainBulletCount.Value--;
-        Debug.Log(owner.inventroy.ejectRemainBulletCount.Value);
+        //Debug.Log(owner.inventroy.ejectRemainBulletCount.Value);
         if (owner.inventroy.ejectRemainBulletCount.Value <= 0) owner.inventroy.UnEquipWeapon();
 
         fireTimer = weaponData.fireRate;
