@@ -23,6 +23,7 @@ public class Bullet_Normal : Bullet
         curState = BulletState.Fire;
         this.transform.localScale = new Vector2(bulletSize, bulletSize);
 
+        rb.velocity = Vector3.zero;
         rb.AddForce(dir * moveSpd, ForceMode2D.Force);
         SetLeftCount(_SplatterCount);
         initialPosition = transform.position;

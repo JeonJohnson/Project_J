@@ -146,6 +146,7 @@ public class Suckable : MonoBehaviour, IPoolable
             projectile.enabled = true;
         }
         //Debug.Log("총알 리셋");
+        rb.velocity = Vector3.zero;
         col.enabled = true;
         this.transform.localScale = defScale;
         srdr.color = defColor;
