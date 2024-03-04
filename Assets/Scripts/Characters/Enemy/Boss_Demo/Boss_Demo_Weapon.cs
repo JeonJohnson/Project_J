@@ -53,12 +53,11 @@ public class Boss_Demo_Weapon : Weapon
         //Debug.Log(Quaternion.LookRotation(Vector3.forward, dir));
 
         GameObject go = PoolingManager.Instance.LentalObj("Bullet_Enemy", 1);
-        go.SetActive(false);
+
         go.transform.position = firePos.position;
-        go.SetActive(true);
+        go.transform.localScale = new Vector2(size, size);
 
         go.GetComponent<Bullet>().Fire(rndDir, 4, speed, 0.5f);
-        go.transform.localScale = new Vector2(size,size);
     }
 
     public void FireRainBullet(Vector3 Pos, float time, float distance)
