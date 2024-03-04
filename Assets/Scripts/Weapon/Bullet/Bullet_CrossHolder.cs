@@ -8,7 +8,6 @@ public class Bullet_CrossHolder : MonoBehaviour
     public float rotationSpeed;
     public float destroyTime;
     private float timer;
-    private Bullet_Normal[] bullets;
     [SerializeField] Transform pivotTr;
 
     private int rotateClockDir = -1;
@@ -18,14 +17,38 @@ public class Bullet_CrossHolder : MonoBehaviour
         timer = destroyTime;
         int rnd = Random.Range(0, 100);
         if (rnd <= 50) rotateClockDir = 1;
+
     }
 
     private void Start()
     {
-        bullets = pivotTr.GetComponentsInChildren<Bullet_Normal>();
-        for (int i = 0; i < bullets.Length; i++)
+
+        GameObject go = PoolingManager.Instance.LentalObj("Bullet_Enemy", 1);
+        go.SetActive(false);
+        go.transform.position = this.transform.position;
+        go.SetActive(true);
+        go.transform.parent = pivotTr;
+        Bullet_Normal bullet = go.GetComponent<Bullet_Normal>();
+        bullet.Fire(bullet.transform.right, 0, 0f, 0.5f);
+
+        float angle = 0;
+        for (int i = 0; i < 4; i++)
         {
-            bullets[i].Fire(bullets[i].transform.right, 0, bullets[i].defaultStat.moveSpd, 0.5f);
+            float speed = 10;
+            for (int j = 0; j < 3; j++)
+            {
+                GameObject bulletGo = PoolingManager.Instance.LentalObj("Bullet_Enemy", 1);
+                bulletGo.SetActive(false);
+                bulletGo.transform.position = this.transform.position;
+                bulletGo.SetActive(true);
+                bulletGo.transform.parent = pivotTr;
+                bulletGo.transform.localEulerAngles = new Vector3(0f, 0f, angle);
+                Bullet_Normal bullet1 = bulletGo.GetComponent<Bullet_Normal>();
+                bullet1.Fire(bullet1.transform.right, 0, speed, 0.5f);
+                speed += 10;
+                Debug.Log(speed);
+            }
+            angle += 90;
         }
     }
 

@@ -16,6 +16,7 @@ MonoBehaviour:
   item_name: Shotgun
   item_description: "\uAC15\uD55C\uC0F7\uAC74\uC774\uB2E4"
   item_explain: "\uC0F7-\uAC74\uC774\uB2E4"
+  item_price: 0
   item_sprite: {fileID: 476167388, guid: 72a569349aed4c74589922a41591303c, type: 3}
   item_sprite_Big: {fileID: -391984529, guid: 72a569349aed4c74589922a41591303c, type: 3}
   bonusStatus:
@@ -39,7 +40,7 @@ MonoBehaviour:
     bulletSize: 0.5
     damage: 3
     critical: 0
-    magSize: 25
+    magSize: 5
     bulletType: 1
     bulletEffect: 1
     bulletSpreadType: 2

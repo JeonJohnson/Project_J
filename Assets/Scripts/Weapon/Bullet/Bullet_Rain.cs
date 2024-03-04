@@ -12,6 +12,13 @@ public class Bullet_Rain : Bullet
     public GameObject bulletPrefab;
     public Light2D light2D;
     private float time = 3f;
+    private Suckable suckable;
+
+    private void Awake()
+    {
+        suckable = GetComponent<Suckable>();
+        suckable.OnSucked += OnSuckedEvent;
+    }
 
     public void Fire(Vector3 targetPos, float _time)
     {
@@ -59,62 +66,21 @@ public class Bullet_Rain : Bullet
         }
 
         Resetting();
-        Destroy(this.gameObject);
-    }
-
-    public override void Sucked(Player _player)
-    {
-        srdr.DOKill();
-        this.transform.DOKill();
-
-        srdr.color = Color.black;
-
-        curState = BulletState.SuckWait;
-
-        suckedStat.player = _player;
-        suckedStat.suckWaitRandTime = Random.Range(0.1f, 0.25f);
-
-        rb.velocity = Vector3.zero;
-
-        col.enabled = false;
-
-        StartCoroutine(SuckWaitCor());
-    }
-
-    public IEnumerator SuckWaitCor()
-    {
-        yield return new WaitForSeconds(suckedStat.suckWaitRandTime);
-
-        suckedStat.suckingRandTime = Random.Range(0.15f, 0.35f);
-        suckedStat.suckStartPos = transform.position;
-
-        curState = BulletState.Sucking;
-        suckedStat.suckingTimeRatio = 0f;
-
-        while(curState == BulletState.Sucking)
-        {
-
-            suckedStat.suckingTimeRatio += Time.deltaTime / suckedStat.suckingRandTime;
-
-            transform.position = Vector2.Lerp(suckedStat.suckStartPos, suckedStat.player.curWeapon.firePos.position, suckedStat.suckingTimeRatio);
-
-            if (suckedStat.suckingTimeRatio >= 1f)
-            {
-                //jar마우스쪽에서 Sucking 상태인 bullet이 충돌되면 bulletCnt 증가 하기?
-                IngameController.Instance.Player.inventroy.bulletCount.Value++;
-                Resetting();
-                //리셋하기
-                Destroy(this.gameObject);
-                break;
-            }
-            yield return null;
-        }
+        PoolingManager.Instance.ReturnObj(this.gameObject);
     }
 
     public override void Resetting()
     {
         base.Resetting();
+        srdr.DOKill();
+        this.transform.DOKill();
         srdr.color = Color.white;
+    }
+
+    private void OnSuckedEvent()
+    {
+        Resetting();
+        IngameController.Instance.Player.inventroy.bulletCount.Value++;
     }
 
     public virtual void OnCollisionEnter2D(Collision2D collision)
@@ -131,7 +97,7 @@ public class Bullet_Rain : Bullet
                 HitInfo hitinfo = obj.Hit(defaultStat.dmg, normalDir);
 
                 Resetting();
-                Destroy(this.gameObject);
+                PoolingManager.Instance.ReturnObj(this.gameObject);
             }
         }
     }

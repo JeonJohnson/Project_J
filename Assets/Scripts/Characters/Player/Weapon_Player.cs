@@ -165,7 +165,7 @@ public class Weapon_Player : Weapon
 
         for (int i = 0; i < bulletNum; i++)
         {
-            if (owner.inventroy.bulletCount.Value <= 0) return;
+            if (owner.inventroy.bulletCount.Value <= 0) break;
             GameObject bullet = CheckBulletType(weaponData);
             bullet.transform.position = firePos.transform.position;
             float rnd = Random.Range(-spreadAngle * 0.5f, spreadAngle * 0.5f);
@@ -174,8 +174,9 @@ public class Weapon_Player : Weapon
             rndDir.Normalize();
             bullet.GetComponent<Bullet>().Fire(rndDir, 5, bulletSpeed, bulletSize, dmg);
             owner.inventroy.bulletCount.Value--;
-            owner.inventroy.ejectRemainBulletCount.Value--;
         }
+        owner.inventroy.ejectRemainBulletCount.Value--;
+        Debug.Log(owner.inventroy.ejectRemainBulletCount.Value);
         if (owner.inventroy.ejectRemainBulletCount.Value <= 0) owner.inventroy.UnEquipWeapon();
 
         fireTimer = weaponData.fireRate;
