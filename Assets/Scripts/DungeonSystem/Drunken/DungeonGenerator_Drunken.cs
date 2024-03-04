@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-//using UnityEditor.Tilemaps;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
@@ -13,34 +11,18 @@ using UnityEngine.Tilemaps;
 using AYellowpaper;
 using AYellowpaper.SerializedCollections;
 using MoreMountains.Tools;
-//using static UnityEditor.Experimental.GraphView.GraphView;
-using Unity.IO.LowLevel.Unsafe;
 
-public enum tileGridState
-{ 
-    None,
-    Ground,
-    Wall
-}
+//using Unity.IO.LowLevel.Unsafe;
 
 public enum ExplorerDir
 {
-    Up,
-    Right,
-    Down,
-    Left,
-    None
+	Up,
+	Right,
+	Down,
+	Left,
+	None
 }
 
-public enum TilemapLayer
-{ 
-    Ground,
-    Prop,
-    Shadow,
-    Cliff,
-    Wall,
-    End
-}
 
 public struct Explorer
 {
