@@ -9,8 +9,19 @@ using AYellowpaper.SerializedCollections;
 
 using NavMeshPlus.Components;
 
+public enum RoomType
+{ 
+	Normal,
+	Shop,
+	Boss,
+	End
+}
+
 public abstract class Room : MonoBehaviour
 {
+	public RoomType roomType;
+	
+	[Space(10f)]
 	public Vector3 centerPos;//not CenterIndex's position
 	public Vector2Int size;
 
@@ -49,4 +60,9 @@ public abstract class Room : MonoBehaviour
 		return new Vector2Int((int)index.x, (int)index.y);
 	}
 
+
+	public void Cleanup()
+	{ 
+	
+	}
 }

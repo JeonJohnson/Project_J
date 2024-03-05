@@ -27,7 +27,7 @@ public class Room_BSP_Editor : Editor
 }
 #endif
 
-public enum RoomType
+public enum BSP_BSP_RoomType
 { 
 	Start,
 	Normal,
@@ -43,7 +43,7 @@ public class Room_BSP : MonoBehaviour
 	public Rect rect;
 	[ReadOnly]
 	public int belongsIndex;
-	public RoomType roomType;
+	public BSP_BSP_RoomType BSP_RoomType;
 
 	[Header("TileMap")]
 	public Tilemap wallTM;
