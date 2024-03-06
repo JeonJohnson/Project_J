@@ -12,10 +12,23 @@ public class Stage : MonoBehaviour
 
 	public int curRoomIndex;
 	public Room curRoom;
+	 
 
-	public void NextRoom()
+
+	public void Initialize()
 	{ 
 		
+	
+	}
+
+	public virtual void NextRoom()
+	{
+		curRoom.Cleanup();
+
+
+
+
+
 	
 	}
 		

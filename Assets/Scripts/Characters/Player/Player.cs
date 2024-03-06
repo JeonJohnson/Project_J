@@ -42,8 +42,9 @@ public class Player : CObj
 
     private void Awake()
     {
+        InitializePlayer();
 
-    }
+	}
 
     public void InitializePlayer()
     {

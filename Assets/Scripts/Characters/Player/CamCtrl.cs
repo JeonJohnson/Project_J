@@ -16,7 +16,7 @@ public class CamCtrl : MonoBehaviour
 
     private void Start()
     {
-        player = IngameController.Instance.Player;
+        player ??= IngameController.Instance.Player;
         player.camController = this;    
     }
 

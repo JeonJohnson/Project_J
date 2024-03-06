@@ -19,11 +19,7 @@ public class Room_Drunken : Room
 	}
 
 
-	public void BakeNavMesh()
-	{
-		navSurface.BuildNavMeshAsync();
-	}
-
+	
 
 
 	

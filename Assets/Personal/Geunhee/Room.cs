@@ -8,14 +8,8 @@ using UnityEngine.Tilemaps;
 using AYellowpaper.SerializedCollections;
 
 using NavMeshPlus.Components;
+using UnityEngine.UIElements;
 
-public enum RoomType
-{ 
-	Normal,
-	Shop,
-	Boss,
-	End
-}
 
 public abstract class Room : MonoBehaviour
 {
@@ -24,6 +18,7 @@ public abstract class Room : MonoBehaviour
 	[Space(10f)]
 	public Vector3 centerPos;//not CenterIndex's position
 	public Vector2Int size;
+	public int roomIndex;
 
 	[Space(10f)]
 	public tileGridState[,] tileStates;
@@ -33,8 +28,34 @@ public abstract class Room : MonoBehaviour
 
 	[Space(10f)]
 	public List<Vector3> enemyPos;
+	public List<Enemy> allEnemies;
+	public List<Enemy> aliveEnemies;
+
+	[Space(10f)]
+	public List<GameObject> deadBodies;
+	public List<GameObject> bullets;
+	public List<GameObject> items;
+
+	[Space(10f)]
 	[SerializeField]
 	protected NavMeshSurface navSurface;
+
+
+	public void BakeNavMesh()
+	{
+		navSurface.BuildNavMeshAsync();
+	}
+
+
+	public virtual void Cleanup()
+	{
+
+	}
+
+	public void DestoryRoom()
+	{
+
+	}
 
 	public Vector2 GetPos(Vector2Int index)
 	{
@@ -61,8 +82,5 @@ public abstract class Room : MonoBehaviour
 	}
 
 
-	public void Cleanup()
-	{ 
-	
-	}
+
 }
