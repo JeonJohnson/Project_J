@@ -152,14 +152,4 @@ public class Suckable : MonoBehaviour, IPoolable
         srdr.color = defColor;
         curState = BulletState.Fire;
     }
-
-    public void OnDisable()
-    {
-        Debug.LogWarning("sex1");
-    }
-
-    public void OnDestroy()
-    {
-        Debug.LogWarning("sex2");
-    }
 }

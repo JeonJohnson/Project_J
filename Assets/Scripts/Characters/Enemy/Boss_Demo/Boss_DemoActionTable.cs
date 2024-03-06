@@ -27,8 +27,8 @@ public class Boss_DemoActionTable : ActionTable<Boss_Demo>
         actions[(int)BossDemoActions.Idle] = new Boss_Idle();
         actions[(int)BossDemoActions.Move] = new Boss_Move();
         actions[(int)BossDemoActions.Attack0] = new Boss_Attack0();
-        actions[(int)BossDemoActions.Attack1] = new Boss_Attack0();
-        actions[(int)BossDemoActions.Attack2] = new Boss_Attack0();
+        actions[(int)BossDemoActions.Attack1] = new Boss_Attack1();
+        actions[(int)BossDemoActions.Attack2] = new Boss_Attack2();
         actions[(int)BossDemoActions.Death] = new Boss_Death();
         actions[(int)BossDemoActions.Hide] = new Boss_Hide();
     }

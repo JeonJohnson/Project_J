@@ -20,7 +20,8 @@ public class Option : MonoBehaviour
     KeyCode[] defaltKeys = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Mouse0, KeyCode.Mouse1, KeyCode.E };
 
     public Options options;
-    public string settingsFilePath;
+    public Options editedOptions;
+    private string settingsFilePath = "Assets/Resources/Data/settings.ini";
 
     private void OnEnable()
     {
@@ -32,6 +33,7 @@ public class Option : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.R))
         {
             InitVolumeSettings();
+            SaveSettingsToFile();
         }
     }
 
@@ -70,7 +72,7 @@ public class Option : MonoBehaviour
     public void InitVolumeSettings()
     {
         SoundManager soundManager = SoundManager.Instance;
-        view.InitVolumeView(0.5f, soundManager.EffectOffset, soundManager.BgmOffset);
+        view.InitVolumeView(0.5f, soundManager.EffectOffset, soundManager.BgmOffset, false);
     }
 
     public void OnMasterSliderChange(float f)
@@ -125,7 +127,7 @@ public class Option : MonoBehaviour
     {
         try
         {
-            // 설정 값을 ini 파일로 저장
+            //설정 값을 ini 파일로 저장
             WriteIniFile();
             Debug.Log("Settings saved successfully!");
         }
@@ -139,7 +141,7 @@ public class Option : MonoBehaviour
     {
         try
         {
-            // ini 파일에서 설정 값을 불러오기
+            //ini 파일에서 설정 값을 불러오기
             ReadIniFile();
             Debug.Log("Settings loaded successfully!");
         }

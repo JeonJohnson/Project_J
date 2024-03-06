@@ -14,6 +14,8 @@ public class PlayerAimController: MonoBehaviour
     public CinemachineConfiner cinemachineConfiner;
     public CamCtrl camCtrl;
 
+    public bool isPadControl;
+
     private enum State
     {
         Aiming,
@@ -34,7 +36,14 @@ public class PlayerAimController: MonoBehaviour
     private void Aim()
     {
         Vector2 MousePosition = Input.mousePosition;
-        aimPos = Camera.main.ScreenToWorldPoint(MousePosition);
+        if(!isPadControl)
+        {
+            aimPos = Camera.main.ScreenToWorldPoint(MousePosition);
+        }
+        else
+        {
+            aimPos += player.playerInput.mouseAxis * Time.deltaTime;
+        }
 
         aimDir = (aimPos - new Vector2(this.transform.position.x , this.transform.position.y)).normalized;
 

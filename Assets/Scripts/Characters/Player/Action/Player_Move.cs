@@ -54,6 +54,12 @@ public class Player_Move : Action<Player>
             moveX = +1f;
         }
 
+        //moveX = Input.GetAxisRaw("Horizontal");
+        //moveY = Input.GetAxisRaw("Vertical");
+
+        moveX = me.playerInput.moveAxis.x;
+        moveY = me.playerInput.moveAxis.y;
+
         moveDir = new Vector3(moveX, moveY).normalized;
 
         bool isMove = moveX != 0 || moveY != 0;

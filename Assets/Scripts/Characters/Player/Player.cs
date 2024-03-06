@@ -22,6 +22,8 @@ public class Player : CObj
 
     public PlayerRuneEffectHandler runeEffectHandler;
 
+    public PlayerInput playerInput;
+
     public Shop shop;
 
     public Rigidbody2D PlayerRigidbody2D { get; private set; }
@@ -55,6 +57,7 @@ public class Player : CObj
         attackController = GetComponent<PlayerAttackController>();
         inventroy = GetComponent<PlayerInventroy>();
         runeEffectHandler = GetComponent<PlayerRuneEffectHandler>();
+        playerInput = GetComponent<PlayerInput>();
         shop = GetComponent<Shop>();
 
         status.curHp = new Data<int>();

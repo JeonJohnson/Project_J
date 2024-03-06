@@ -13,6 +13,9 @@ public class UIOption_View : MonoBehaviour
     public TMP_Dropdown ResolutionDropDown { set { resolutionDropDown = value; } }
     [SerializeField] Toggle fullscreenToggle;
     public Toggle FullscreenToggle { get { return fullscreenToggle; } }
+
+    [SerializeField] Toggle shadowToggle;
+
     [SerializeField] Slider cameraShakeSlider;
 
     [Header("Sound")]
@@ -20,6 +23,7 @@ public class UIOption_View : MonoBehaviour
     [SerializeField] Slider masterSoundSlider;
     [SerializeField] Slider seSlider;
     [SerializeField] Slider bgmSlider;
+    [SerializeField] Toggle muteToggle;
 
     [Header("KeyBind")]
     [SerializeField] GameObject keyBindGo;
@@ -47,15 +51,42 @@ public class UIOption_View : MonoBehaviour
         resolutionDropDown.RefreshShownValue();
     }
 
-    public void InitVolumeView(float masterVolume, float effectVolume, float bgmVolume)
+    public void InitFullScreenView(bool boolean)
+    {
+        if(boolean)
+            fullscreenToggle.toggleTransition = Toggle.ToggleTransition.Fade;
+        else
+            fullscreenToggle.toggleTransition = Toggle.ToggleTransition.None;
+    }
+
+    public void InitShadowView(bool boolean)
+    {
+        if (boolean)
+            shadowToggle.toggleTransition = Toggle.ToggleTransition.Fade;
+        else
+            shadowToggle.toggleTransition = Toggle.ToggleTransition.None;
+    }
+
+    #region Sound
+
+    public void InitVolumeView(float masterVolume, float effectVolume, float bgmVolume, bool isMute)
     {
         masterSoundSlider.value = masterVolume;
         seSlider.value = effectVolume;
         bgmSlider.value = bgmVolume;
+        if(isMute)
+        {
+            muteToggle.toggleTransition = Toggle.ToggleTransition.Fade;
+        }
+        else
+        {
+            muteToggle.toggleTransition = Toggle.ToggleTransition.None;
+        }
     }
 
     public void UpdateKeyBindText(int index,  string value) 
     {
         keyBindTexts[index].text = value;
     }
+    #endregion
 }
