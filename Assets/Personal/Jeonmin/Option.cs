@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Structs;
 using System;
 using System.IO;
+using System.Reflection;
 
 public enum KeyAction { Up, Down, Left, Right, Fire, Suck, Interact, End }
 public static class KeySetting { public static Dictionary<KeyAction, KeyCode> keys = new Dictionary<KeyAction, KeyCode>(); }
@@ -32,8 +33,19 @@ public class Option : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.R))
         {
-            InitVolumeSettings();
             SaveSettingsToFile();
+        }
+
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            LoadSettingsFromFile();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Y))
+        {
+            editedOptions = options;
+            InitResolutionSettings();
+            view.InitSettingView(resolutions, editedOptions);
         }
     }
 
@@ -47,7 +59,6 @@ public class Option : MonoBehaviour
                 resolutions.Add(Screen.resolutions[i]);
             }
         }
-        view.InitResolutionView(resolutions);
     }
 
     public void DropboxOptionChange(int i)
@@ -69,11 +80,6 @@ public class Option : MonoBehaviour
     #endregion
 
     #region Sound
-    public void InitVolumeSettings()
-    {
-        SoundManager soundManager = SoundManager.Instance;
-        view.InitVolumeView(0.5f, soundManager.EffectOffset, soundManager.BgmOffset, false);
-    }
 
     public void OnMasterSliderChange(float f)
     {
@@ -154,97 +160,44 @@ public class Option : MonoBehaviour
 
     private void WriteIniFile()
     {
-        List<string> lines = new List<string>
+        FieldInfo[] fields = typeof(Options).GetFields();
+
+        using (StreamWriter sw = new StreamWriter(settingsFilePath, false))
         {
-            "[Settings]",
-            "IsFullScreen=" + options.isFullScreen.ToString(),
-            "Language=" + options.language,
-            "ResolutionWidth=" + options.resolution.width.ToString(),
-            "ResolutionHeight=" + options.resolution.height.ToString(),
-            "IsShadowOn=" + options.isShadowOn.ToString(),
-            "MasterVolume=" + options.masterVolume.ToString(),
-            "BgmVolume=" + options.bgmVolume.ToString(),
-            "EffectVolume=" + options.effectVolume.ToString(),
-            "LStickSensitivity=" + options.lstickSensitivity.ToString(),
-            "RStickSensitivity=" + options.rstickSensitivity.ToString(),
-            "LStickReverse=" + options.lstickReverse.ToString(),
-            "RStickReverse=" + options.rstickReverse.ToString(),
-            "HapticSensitivity=" + options.hapticSentivity.ToString(),
-            "BossCutscene=" + options.bossCutscene.ToString(),
-            "Subtitle=" + options.subtitle.ToString(),
-            "SubTypeSpeed=" + options.subTypeSpeed.ToString(),
-            "HUDSize=" + options.hudSize.ToString(),
-            "HUDActivate=" + options.hudActivate.ToString(),
-            "DamageVisual=" + options.damageVisual.ToString(),
-            "CamShakeStrength=" + options.camShakeStrengh.ToString(),
-            "CrossHairType=" + options.crossHairType.ToString(),
-            "SuckAngleType=" + options.suckAngleType.ToString()
-        };
+            sw.WriteLine("[Settings]");
 
-        File.WriteAllLines(settingsFilePath, lines.ToArray());
-    }
-
-    private void ReadIniFile()
-    {
-        string[] lines = File.ReadAllLines(settingsFilePath);
-        Dictionary<string, string> settings = new Dictionary<string, string>();
-
-        foreach (string line in lines)
-        {
-            if (line.StartsWith(";") || line.StartsWith("["))
-                continue;
-
-            string[] keyValue = line.Split('=');
-            if (keyValue.Length == 2)
+            foreach (FieldInfo field in fields)
             {
-                settings[keyValue[0].Trim()] = keyValue[1].Trim();
+                sw.WriteLine($"{field.Name}={field.GetValue(options)}");
             }
         }
-
-        if (settings.ContainsKey("IsFullScreen"))
-            bool.TryParse(settings["IsFullScreen"], out options.isFullScreen);
-        if (settings.ContainsKey("Language"))
-            options.language = settings["Language"];
-        if (settings.ContainsKey("ResolutionWidth") && settings.ContainsKey("ResolutionHeight"))
-            options.resolution = new Resolution() { width = int.Parse(settings["ResolutionWidth"]), height = int.Parse(settings["ResolutionHeight"]) };
-        if (settings.ContainsKey("IsShadowOn"))
-            bool.TryParse(settings["IsShadowOn"], out options.isShadowOn);
-        if (settings.ContainsKey("MasterVolume"))
-            float.TryParse(settings["MasterVolume"], out options.masterVolume);
-        if (settings.ContainsKey("BgmVolume"))
-            float.TryParse(settings["BgmVolume"], out options.bgmVolume);
-        if (settings.ContainsKey("EffectVolume"))
-            float.TryParse(settings["EffectVolume"], out options.effectVolume);
-        if (settings.ContainsKey("LStickSensitivity"))
-            float.TryParse(settings["LStickSensitivity"], out options.lstickSensitivity);
-        if (settings.ContainsKey("RStickSensitivity"))
-            float.TryParse(settings["RStickSensitivity"], out options.rstickSensitivity);
-        if (settings.ContainsKey("LStickReverse"))
-            bool.TryParse(settings["LStickReverse"], out options.lstickReverse);
-        if (settings.ContainsKey("RStickReverse"))
-            bool.TryParse(settings["RStickReverse"], out options.rstickReverse);
-        if (settings.ContainsKey("HapticSensitivity"))
-            bool.TryParse(settings["HapticSensitivity"], out options.hapticSentivity);
-        if (settings.ContainsKey("BossCutscene"))
-            bool.TryParse(settings["BossCutscene"], out options.bossCutscene);
-        if (settings.ContainsKey("Subtitle"))
-            bool.TryParse(settings["Subtitle"], out options.subtitle);
-        if (settings.ContainsKey("SubTypeSpeed"))
-            bool.TryParse(settings["SubTypeSpeed"], out options.subTypeSpeed);
-        if (settings.ContainsKey("HUDSize"))
-            float.TryParse(settings["HUDSize"], out options.hudSize);
-        if (settings.ContainsKey("HUDActivate"))
-            bool.TryParse(settings["HUDActivate"], out options.hudActivate);
-        if (settings.ContainsKey("DamageVisual"))
-            bool.TryParse(settings["DamageVisual"], out options.damageVisual);
-        if (settings.ContainsKey("CamShakeStrength"))
-            float.TryParse(settings["CamShakeStrength"], out options.camShakeStrengh);
-        if (settings.ContainsKey("CrossHairType"))
-            int.TryParse(settings["CrossHairType"], out options.crossHairType);
-        if (settings.ContainsKey("SuckAngleType"))
-            int.TryParse(settings["SuckAngleType"], out options.suckAngleType);
     }
+    private void ReadIniFile()
+    {
+        if (!File.Exists(settingsFilePath))
+        {
+            Debug.LogError("Settings file does not exist.");
+            return;
+        }
 
+        Dictionary<string, string> settings = new Dictionary<string, string>();
+
+        using (StreamReader sr = new StreamReader(settingsFilePath))
+        {
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                if (line.StartsWith("[") || line.StartsWith(";"))
+                    continue;
+
+                string[] keyValue = line.Split('=');
+                if (keyValue.Length == 2)
+                {
+                    settings[keyValue[0].Trim()] = keyValue[1].Trim();
+                }
+            }
+        }
+    }
     private void SetDefaultSettings()
     {
         options.isFullScreen = true;

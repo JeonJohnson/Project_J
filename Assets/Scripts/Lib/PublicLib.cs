@@ -733,7 +733,8 @@ namespace Structs
         public bool isHitSucess;
     }
 
-	public struct Options
+    [Serializable]
+    public struct Options
 	{
 		public bool isFullScreen;
 		public string language;
@@ -743,6 +744,10 @@ namespace Structs
 		public float masterVolume;
 		public float bgmVolume;
 		public float effectVolume;
+		public bool isMute;
+
+		public float mouseSensitivity;
+		public bool isMouseFlip;
 
 		public float lstickSensitivity;
 		public float rstickSensitivity;

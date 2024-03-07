@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Structs;
 
 public class UIOption_View : MonoBehaviour
 {
+    public Option owner;
+
     [Header("Vidio")]
     [SerializeField] GameObject videoGo;
     [SerializeField] TMP_Dropdown languageDropDown;
@@ -25,14 +28,24 @@ public class UIOption_View : MonoBehaviour
     [SerializeField] Slider bgmSlider;
     [SerializeField] Toggle muteToggle;
 
-    [Header("KeyBind")]
+    [Header("KeySetting")]
     [SerializeField] GameObject keyBindGo;
+    [SerializeField] Slider mouseSensSlider;
+    [SerializeField] Toggle mouseFlipToggle;
+    [SerializeField] Slider lStickSensSlider;
+    [SerializeField] Toggle lStickFlipToggle;
+    [SerializeField] Slider rStickSensSlider;
+    [SerializeField] Toggle rStickFlipToggle;
+    [SerializeField] Slider stickBibSlider;
+
     [SerializeField] TextMeshProUGUI[] keyBindTexts;
     public TextMeshProUGUI[] KeyBindTexts { get { return keyBindTexts; } }
 
     [Header("GamePlay")]
     [SerializeField] GameObject gamePlayGo;
+    [SerializeField] TextMeshProUGUI gamePlayTimeText;
 
+    #region 
     public void InitResolutionView(List<Resolution> resolutions)
     {
         resolutionDropDown.options.Clear();
@@ -51,37 +64,14 @@ public class UIOption_View : MonoBehaviour
         resolutionDropDown.RefreshShownValue();
     }
 
-    public void InitFullScreenView(bool boolean)
+    public void InitToggle(Toggle toggle, bool boolean)
     {
-        if(boolean)
-            fullscreenToggle.toggleTransition = Toggle.ToggleTransition.Fade;
-        else
-            fullscreenToggle.toggleTransition = Toggle.ToggleTransition.None;
+        toggle.isOn = boolean;
     }
 
-    public void InitShadowView(bool boolean)
+    public void InitSlider(Slider slider, float amount)
     {
-        if (boolean)
-            shadowToggle.toggleTransition = Toggle.ToggleTransition.Fade;
-        else
-            shadowToggle.toggleTransition = Toggle.ToggleTransition.None;
-    }
-
-    #region Sound
-
-    public void InitVolumeView(float masterVolume, float effectVolume, float bgmVolume, bool isMute)
-    {
-        masterSoundSlider.value = masterVolume;
-        seSlider.value = effectVolume;
-        bgmSlider.value = bgmVolume;
-        if(isMute)
-        {
-            muteToggle.toggleTransition = Toggle.ToggleTransition.Fade;
-        }
-        else
-        {
-            muteToggle.toggleTransition = Toggle.ToggleTransition.None;
-        }
+        slider.value = amount;
     }
 
     public void UpdateKeyBindText(int index,  string value) 
@@ -89,4 +79,36 @@ public class UIOption_View : MonoBehaviour
         keyBindTexts[index].text = value;
     }
     #endregion
+
+    public void InitSettingView(List<Resolution> resolutions, Options options)
+    {
+        for (int i = 0; i < Screen.resolutions.Length; i++)
+        {
+            if (Screen.resolutions[i].refreshRateRatio.value == 60)
+            {
+                resolutions.Add(Screen.resolutions[i]);
+            }
+        }
+        InitResolutionView(resolutions);
+        InitToggle(fullscreenToggle, options.isFullScreen);
+        InitToggle(shadowToggle, options.isShadowOn);
+
+        InitSlider(masterSoundSlider, options.masterVolume);
+        InitSlider(seSlider, options.effectVolume);
+        InitSlider(bgmSlider, options.bgmVolume);
+        InitToggle(muteToggle, options.isMute);
+
+        InitSlider(mouseSensSlider, options.mouseSensitivity);
+        InitToggle(mouseFlipToggle, options.isMouseFlip);
+        InitSlider(lStickSensSlider, options.lstickSensitivity);
+        InitToggle(lStickFlipToggle, options.lstickReverse);
+        Debug.Log(options.lstickReverse + "юс");
+        InitSlider(rStickSensSlider, options.rstickSensitivity);
+        InitToggle(rStickFlipToggle, options.rstickReverse);
+    }
+
+    private void Update()
+    {
+        gamePlayTimeText.text = 00000.ToString();
+    }
 }

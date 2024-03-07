@@ -74,7 +74,6 @@ public class Bullet_Normal : Bullet
 
     public virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("총알 충돌");
         //Splatter 옵션 일때만 호출될듯
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
