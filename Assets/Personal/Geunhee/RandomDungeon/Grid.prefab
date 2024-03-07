@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 66dbb5116980be44e89aa9fde3094ba4, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -98,4 +98,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlaneObject: {fileID: 0}
-  defaultSize: {x: 1, y: 1}
+  defaultTileSize: {x: 1, y: 1}
+  mySR: {fileID: 0}
+  planeSR: {fileID: 0}

@@ -12,8 +12,6 @@ using AYellowpaper;
 using AYellowpaper.SerializedCollections;
 using MoreMountains.Tools;
 
-//using Unity.IO.LowLevel.Unsafe;
-
 public enum ExplorerDir
 {
 	Up,
@@ -45,7 +43,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
     public List<GameObject> portals;
 	#endregion
 
-	public GameObject tilemapOriginPrefab;
+	public GameObject TilemapReferPrefab;
 	public SerializedDictionary<TilemapLayer, List<TileBase>> TileResource;
     
 	[Space(10f)]
@@ -199,7 +197,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 
         rooms ??= new List<Room_Drunken>();
         
-        GameObject obj = Instantiate(tilemapOriginPrefab);
+        GameObject obj = Instantiate(TilemapReferPrefab);
 		curRoom = obj.GetComponent<Room_Drunken>();
 		curRoom.centerPos = centerPos;
         curRoom.size = gridLength;

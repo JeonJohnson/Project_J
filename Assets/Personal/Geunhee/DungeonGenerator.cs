@@ -42,7 +42,7 @@ public enum RoomType
 public enum GenerateType
 { 
 	Drunken,
-	Issac,
+	
 	End
 }
 
@@ -58,6 +58,7 @@ public class DungeonGenerator : MonoBehaviour
 
 
 	private void Awake()
+
 	{
 		
 	}
