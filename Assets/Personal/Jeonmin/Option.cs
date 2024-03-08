@@ -6,6 +6,8 @@ using Structs;
 using System;
 using System.IO;
 using System.Reflection;
+using Unity.VisualScripting.Antlr3.Runtime;
+using DG.Tweening.Plugins.Core.PathCore;
 
 public enum KeyAction { Up, Down, Left, Right, Fire, Suck, Interact, End }
 public static class KeySetting { public static Dictionary<KeyAction, KeyCode> keys = new Dictionary<KeyAction, KeyCode>(); }
@@ -154,7 +156,7 @@ public class Option : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogWarning("Failed to load settings: " + e.Message);
-            SetDefaultSettings();
+            //SetDefaultSettings();
         }
     }
 
@@ -174,20 +176,15 @@ public class Option : MonoBehaviour
     }
     private void ReadIniFile()
     {
-        if (!File.Exists(settingsFilePath))
-        {
-            Debug.LogError("Settings file does not exist.");
-            return;
-        }
-
         Dictionary<string, string> settings = new Dictionary<string, string>();
 
-        using (StreamReader sr = new StreamReader(settingsFilePath))
+        if (File.Exists(settingsFilePath))
         {
-            string line;
-            while ((line = sr.ReadLine()) != null)
+            string[] lines = File.ReadAllLines(settingsFilePath);
+
+            foreach (string line in lines)
             {
-                if (line.StartsWith("[") || line.StartsWith(";"))
+                if (line.StartsWith(";") || line.StartsWith("["))
                     continue;
 
                 string[] keyValue = line.Split('=');
@@ -197,7 +194,60 @@ public class Option : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            Console.WriteLine("Settings file not found.");
+        }
+
+        Type optionsType = typeof(Options);
+        foreach (KeyValuePair<string, string> entry in settings)
+        {
+            string fieldName = entry.Key; // 설정 파일의 변수명
+            string value = entry.Value; // 설정 값
+
+            // Options 구조체의 해당 필드를 찾음
+            FieldInfo field = optionsType.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance);
+            if (field != null)
+            {
+                // 필드의 타입에 따라 값을 파싱하여 할당
+                object parsedValue = ParseValue(field.FieldType, value);
+                field.SetValue(options, parsedValue);
+            }
+            else
+            {
+                Console.WriteLine($"Field {fieldName} not found in Options struct.");
+            }
+        }
     }
+
+    private object ParseValue(Type fieldType, string value)
+    {
+        if (fieldType == typeof(bool))
+        {
+            return bool.Parse(value);
+        }
+        else if (fieldType == typeof(string))
+        {
+            return value;
+        }
+        else if (fieldType == typeof(int))
+        {
+            return int.Parse(value);
+        }
+        else if (fieldType == typeof(float))
+        {
+            return float.Parse(value);
+        }
+        else if (fieldType == typeof(Resolution))
+        {
+            return new Resolution();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     private void SetDefaultSettings()
     {
         options.isFullScreen = true;
