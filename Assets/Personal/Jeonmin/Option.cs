@@ -22,7 +22,7 @@ public class Option : MonoBehaviour
 
     KeyCode[] defaltKeys = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Mouse0, KeyCode.Mouse1, KeyCode.E };
 
-    public Options options;
+    public Options options = new Options();
     public Options editedOptions;
     private string settingsFilePath = "Assets/Resources/Data/settings.ini";
 
@@ -49,6 +49,12 @@ public class Option : MonoBehaviour
             InitResolutionSettings();
             view.InitSettingView(resolutions, editedOptions);
         }
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            SetDefaultSettings();
+        }
+
     }
 
     #region Video
@@ -156,7 +162,7 @@ public class Option : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogWarning("Failed to load settings: " + e.Message);
-            //SetDefaultSettings();
+            SetDefaultSettings();
         }
     }
 
@@ -199,6 +205,12 @@ public class Option : MonoBehaviour
             Console.WriteLine("Settings file not found.");
         }
 
+        string bval;
+        if (settings.TryGetValue("lstickReverse", out bval))
+        {
+            Debug.Log("lstickReverse 값은" + bval);
+        }
+
         Type optionsType = typeof(Options);
         foreach (KeyValuePair<string, string> entry in settings)
         {
@@ -210,8 +222,21 @@ public class Option : MonoBehaviour
             if (field != null)
             {
                 // 필드의 타입에 따라 값을 파싱하여 할당
+
                 object parsedValue = ParseValue(field.FieldType, value);
-                field.SetValue(options, parsedValue);
+
+                Debug.Log(parsedValue);
+
+                if (parsedValue != null)
+                {
+                    field.SetValue(options, parsedValue);
+                    TypedReference reference = __makeref(options);
+                    field.SetValueDirect(reference, parsedValue);
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to parse value for field {fieldName}");
+                }
             }
             else
             {
@@ -222,30 +247,55 @@ public class Option : MonoBehaviour
 
     private object ParseValue(Type fieldType, string value)
     {
+        object parsedValue = null;
+
         if (fieldType == typeof(bool))
         {
-            return bool.Parse(value);
+            if (bool.TryParse(value, out bool boolValue))
+            {
+                parsedValue = boolValue;
+            }
         }
         else if (fieldType == typeof(string))
         {
-            return value;
-        }
-        else if (fieldType == typeof(int))
-        {
-            return int.Parse(value);
-        }
-        else if (fieldType == typeof(float))
-        {
-            return float.Parse(value);
+            parsedValue = value;
         }
         else if (fieldType == typeof(Resolution))
         {
-            return new Resolution();
+            string[] resolutionParts = value.Split('x');
+            if (resolutionParts.Length == 2)
+            {
+                int width, height;
+                if (int.TryParse(resolutionParts[0].Trim(), out width) && int.TryParse(resolutionParts[1].Trim().Split('@')[0].Trim(), out height))
+                {
+                    parsedValue = new Resolution { width = width, height = height };
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to parse resolution value: {value}");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Invalid resolution format: {value}");
+            }
         }
-        else
+        else if (fieldType == typeof(float))
         {
-            return null;
+            if (float.TryParse(value, out float floatValue))
+            {
+                parsedValue = floatValue;
+            }
         }
+        else if (fieldType == typeof(int))
+        {
+            if (int.TryParse(value, out int intValue))
+            {
+                parsedValue = intValue;
+            }
+        }
+
+        return parsedValue;
     }
 
     private void SetDefaultSettings()
@@ -257,6 +307,9 @@ public class Option : MonoBehaviour
         options.masterVolume = 0.5f;
         options.bgmVolume = 0.5f;
         options.effectVolume = 0.5f;
+        options.isMute = false;
+        options.mouseSensitivity = 1.0f;
+        options.isMouseFlip = false;
         options.lstickSensitivity = 1.0f;
         options.rstickSensitivity = 1.0f;
         options.lstickReverse = false;
