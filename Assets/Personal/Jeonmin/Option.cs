@@ -22,13 +22,16 @@ public class Option : MonoBehaviour
 
     KeyCode[] defaltKeys = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Mouse0, KeyCode.Mouse1, KeyCode.E };
 
-    public Options options = new Options();
+    public Options options;
     public Options editedOptions;
     private string settingsFilePath = "Assets/Resources/Data/settings.ini";
 
     private void OnEnable()
     {
-        //InitResolutionSettings();
+        LoadSettingsFromFile();
+        editedOptions = options;
+        InitResolutionSettings();
+        view.InitSettingView(resolutions, editedOptions);
     }
 
     private void Update()
@@ -87,22 +90,127 @@ public class Option : MonoBehaviour
 
     #endregion
 
-    #region Sound
-
-    public void OnMasterSliderChange(float f)
+    #region EditedOptionChange
+    public void OnFullScreenChange(bool value)
     {
-        //읎
+        editedOptions.isFullScreen = value;
     }
 
-    public void OnEffectSliderChange(float f)
+    public void OnShadowChange(bool value)
     {
-        SoundManager.Instance.EffectOffset = f;
+        editedOptions.isShadowOn = value;
     }
 
-    public void OnBgmSliderChange(float f)
+    public void OnMasterSliderChange(float value)
     {
-        SoundManager.Instance.BgmOffset = f;
+        editedOptions.masterVolume = value;
     }
+
+    public void OnEffectSliderChange(float value)
+    {
+        editedOptions.effectVolume = value;
+    }
+
+    public void OnBgmSliderChange(float value)
+    {
+        editedOptions.bgmVolume = value;
+    }
+
+    public void OnMuteChange(bool value)
+    {
+        editedOptions.isMute = value;
+    }
+
+    public void OnMouseSensiChange(float value)
+    {
+        editedOptions.mouseSensitivity = value;
+    }
+
+    public void OnMouseFlipChange(bool value)
+    {
+        editedOptions.isMouseFlip = value;
+    }
+
+    //키마 키바인딩
+
+    public void OnAimTypeChange()
+    {
+
+    }
+
+    public void OnLStickSensiChange(float value)
+    {
+        editedOptions.lstickSensitivity = value;
+    }
+
+    public void OnLStickFipChange(bool value)
+    {
+        editedOptions.lstickReverse = value;
+    }
+
+    public void OnRStickSensiChange(float value)
+    {
+        editedOptions.rstickSensitivity = value;
+    }
+
+    public void OnRStickFipChange(bool value)
+    {
+        editedOptions.rstickReverse = value;
+    }
+
+    public void OnHapticSensiChange(float value)
+    {
+        editedOptions.hapticSentivity = value;
+    }
+
+    // 패드 키바인딩 변경
+
+    public void OnBossCutsceneChange(bool value)
+    {
+        editedOptions.bossCutscene = value;
+    }
+
+    public void OnSubtitleChange(bool value)
+    {
+        editedOptions.subtitle = value;
+    }
+
+    public void OnSubTypeSpeedChange(float value)
+    {
+        editedOptions.subTypeSpeed = value;
+    }
+
+    public void OnHudSizeChange(float value)
+    {
+        
+    }
+
+    public void OnHudActiveChange(bool value)
+    {
+        editedOptions.hudActivate = value;
+    }
+
+    public void OnDamageVisualChange(bool value)
+    {
+        editedOptions.damageVisual = value;
+    }
+
+    public void OnCamShakeStrengh(float value)
+    {
+        editedOptions.camShakeStrengh = value;
+    }
+
+    public void OnCrossHairTypeChange(int value)
+    {
+        editedOptions.crossHairType = value;
+    }
+
+    public void OnSuckAngleChange(int value)
+    {
+        editedOptions.suckAngleType = value;
+    }
+
+
     #endregion
 
     #region KeyBind
@@ -229,7 +337,7 @@ public class Option : MonoBehaviour
 
                 if (parsedValue != null)
                 {
-                    field.SetValue(options, parsedValue);
+                    //field.SetValue(options, parsedValue);
                     TypedReference reference = __makeref(options);
                     field.SetValueDirect(reference, parsedValue);
                 }
@@ -314,16 +422,163 @@ public class Option : MonoBehaviour
         options.rstickSensitivity = 1.0f;
         options.lstickReverse = false;
         options.rstickReverse = false;
-        options.hapticSentivity = true;
+        options.hapticSentivity = 1.0f;
         options.bossCutscene = true;
         options.subtitle = true;
-        options.subTypeSpeed = true;
+        options.subTypeSpeed = 1.0f;
         options.hudSize = 1.0f;
         options.hudActivate = true;
         options.damageVisual = true;
         options.camShakeStrengh = 0.5f;
         options.crossHairType = 0;
         options.suckAngleType = 0;
+    }
+
+    public void OnApplyButtonPress()
+    {
+        options = editedOptions;
+        WriteIniFile();
+    }
+
+    public void OnResetButtonPress()
+    {
+        SetDefaultSettings();
+        editedOptions = options;
+        view.InitSettingView(resolutions, editedOptions);
+        WriteIniFile();
+    }
+
+    public void ApplyValue()
+    {
+        
+    }
+    #endregion
+
+    #region ChangeOptionValue
+    public void ApplyFullScreenChange()
+    {
+        if(options.isFullScreen)
+        {
+            screenMode = FullScreenMode.ExclusiveFullScreen;
+        }
+        else
+        {
+            screenMode = FullScreenMode.Windowed;
+        }
+    }
+
+    public void ApplyShadowChange()
+    {
+        
+    }
+
+    public void ApplyMasterSliderChange()
+    {
+
+    }
+
+    public void ApplyEffectSliderChange()
+    {
+        SoundManager.Instance.EffectOffset = options.effectVolume;
+    }
+
+    public void ApplyBgmSliderChange()
+    {
+        SoundManager.Instance.BgmOffset = options.bgmVolume;
+    }
+
+    public void ApplyMuteChange()
+    {
+
+    }
+
+    public void ApplyMouseSensiChange()
+    {
+        
+    }
+
+    public void ApplyMouseFlipChange()
+    {
+        
+    }
+
+    //키마 키바인딩
+
+    public void ApplyAimTypeChange()
+    {
+
+    }
+
+    public void ApplyLStickSensiChange()
+    {
+       
+    }
+
+    public void ApplyLStickFipChange()
+    {
+        
+    }
+
+    public void ApplyRStickSensiChange()
+    {
+      
+    }
+
+    public void ApplyRStickFipChange()
+    {
+      
+    }
+
+    public void ApplyHapticSensiChange()
+    {
+      
+    }
+
+    // 패드 키바인딩 변경
+
+    public void ApplyBossCutsceneChange()
+    {
+   
+    }
+
+    public void ApplySubtitleChange()
+    {
+      
+    }
+
+    public void ApplySubTypeSpeedChange()
+    {
+
+    }
+
+    public void ApplyHudSizeChange()
+    {
+
+    }
+
+    public void ApplyHudActiveChange()
+    {
+     
+    }
+
+    public void ApplyDamageVisualChange()
+    {
+
+    }
+
+    public void ApplyCamShakeStrengh()
+    {
+       
+    }
+
+    public void ApplyCrossHairTypeChange()
+    {
+
+    }
+
+    public void ApplySuckAngleChange()
+    {
+      
     }
     #endregion
 }

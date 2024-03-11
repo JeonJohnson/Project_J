@@ -753,11 +753,11 @@ namespace Structs
 		public float rstickSensitivity;
 		public bool lstickReverse;
 		public bool rstickReverse;
-		public bool hapticSentivity;
+		public float hapticSentivity;
 
 		public bool bossCutscene;
 		public bool subtitle;
-		public bool subTypeSpeed;
+		public float subTypeSpeed;
 
 		public float hudSize;
 		public bool hudActivate;
