@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UI_ShopView : MonoBehaviour
+public class UI_ShopView : View
 {
     public GameObject shopSlotPrefab;
     public Transform slotTr;

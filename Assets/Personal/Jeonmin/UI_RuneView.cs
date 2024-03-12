@@ -5,7 +5,7 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_RuneView : MonoBehaviour
+public class UI_RuneView : View
 {
     public static UI_RuneView instance;
     private void Awake()

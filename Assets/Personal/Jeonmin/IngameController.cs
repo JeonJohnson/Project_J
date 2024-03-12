@@ -188,41 +188,41 @@ public class IngameController : Singleton<IngameController>
 	}
 	private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if(isRuneWindowActivated && isWindowActivated)
-            {
-                isRuneWindowActivated = !isRuneWindowActivated;
-                player.LockPlayer(isRuneWindowActivated);
-                Cursor.visible = isRuneWindowActivated;
-                UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
-                isWindowActivated = !isWindowActivated;
-                player.LockPlayer(isWindowActivated);
-                UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
-            }
-            else if (isRuneWindowActivated)
-            {
-                isRuneWindowActivated = !isRuneWindowActivated;
-                player.LockPlayer(isRuneWindowActivated);
-                Cursor.visible = isRuneWindowActivated;
-                UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
-            }
-            else
-            {
-                isWindowActivated = !isWindowActivated;
-                player.LockPlayer(isWindowActivated);
-                UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            if (isShopWindowActivated) return;
-            if (isWindowActivated) return;
-            isRuneWindowActivated = !isRuneWindowActivated;
-            player.LockPlayer(isRuneWindowActivated);
-            Cursor.visible = isRuneWindowActivated;
-            UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    if(isRuneWindowActivated && isWindowActivated)
+        //    {
+        //        isRuneWindowActivated = !isRuneWindowActivated;
+        //        player.LockPlayer(isRuneWindowActivated);
+        //        Cursor.visible = isRuneWindowActivated;
+        //        UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
+        //        isWindowActivated = !isWindowActivated;
+        //        player.LockPlayer(isWindowActivated);
+        //        UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
+        //    }
+        //    else if (isRuneWindowActivated)
+        //    {
+        //        isRuneWindowActivated = !isRuneWindowActivated;
+        //        player.LockPlayer(isRuneWindowActivated);
+        //        Cursor.visible = isRuneWindowActivated;
+        //        UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
+        //    }
+        //    else
+        //    {
+        //        isWindowActivated = !isWindowActivated;
+        //        player.LockPlayer(isWindowActivated);
+        //        UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
+        //    }
+        //}
+        //if (Input.GetKeyDown(KeyCode.I))
+        //{
+        //    if (isShopWindowActivated) return;
+        //    if (isWindowActivated) return;
+        //    isRuneWindowActivated = !isRuneWindowActivated;
+        //    player.LockPlayer(isRuneWindowActivated);
+        //    Cursor.visible = isRuneWindowActivated;
+        //    UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
+        //}
     }
 
     public void ResetAllWindow()

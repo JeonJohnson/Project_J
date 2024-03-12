@@ -6,8 +6,6 @@ using Structs;
 using System;
 using System.IO;
 using System.Reflection;
-using Unity.VisualScripting.Antlr3.Runtime;
-using DG.Tweening.Plugins.Core.PathCore;
 
 public enum KeyAction { Up, Down, Left, Right, Fire, Suck, Interact, End }
 public static class KeySetting { public static Dictionary<KeyAction, KeyCode> keys = new Dictionary<KeyAction, KeyCode>(); }
@@ -32,32 +30,6 @@ public class Option : MonoBehaviour
         editedOptions = options;
         InitResolutionSettings();
         view.InitSettingView(resolutions, editedOptions);
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            SaveSettingsToFile();
-        }
-
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            LoadSettingsFromFile();
-        }
-
-        if(Input.GetKeyDown(KeyCode.Y))
-        {
-            editedOptions = options;
-            InitResolutionSettings();
-            view.InitSettingView(resolutions, editedOptions);
-        }
-
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            SetDefaultSettings();
-        }
-
     }
 
     #region Video

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Ui_DetailStatus_View : MonoBehaviour
+public class Ui_DetailStatus_View : View
 {
     public enum MenuList
     {

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Structs;
 
-public class UIOption_View : MonoBehaviour
+public class UIOption_View : View
 {
     public Option owner;
 
