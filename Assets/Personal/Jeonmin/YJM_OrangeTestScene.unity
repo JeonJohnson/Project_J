@@ -33839,7 +33839,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1196332945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83278,31 +83278,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 226613546204551620, guid: d8c33f570ed5a5e4583330b745abc6aa, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 226613546204551620, guid: d8c33f570ed5a5e4583330b745abc6aa, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 226613546204551620, guid: d8c33f570ed5a5e4583330b745abc6aa, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 188.13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 226613546204551620, guid: d8c33f570ed5a5e4583330b745abc6aa, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 226613546204551620, guid: d8c33f570ed5a5e4583330b745abc6aa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 114.065
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 226613546204551620, guid: d8c33f570ed5a5e4583330b745abc6aa, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1555166545987979902, guid: d8c33f570ed5a5e4583330b745abc6aa, type: 3}
       propertyPath: m_Name
       value: SpeechBubble
+      objectReference: {fileID: 0}
+    - target: {fileID: 2087436118970666318, guid: d8c33f570ed5a5e4583330b745abc6aa, type: 3}
+      propertyPath: m_text
+      value: "\uB2E4\uB78C\uC950 \uD5CC \uCCC7\uBC14\uD034aaaaaaa\naaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaa"
       objectReference: {fileID: 0}
     - target: {fileID: 3536511279535560960, guid: d8c33f570ed5a5e4583330b745abc6aa, type: 3}
       propertyPath: m_Pivot.x
@@ -83334,11 +83338,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3536511279535560960, guid: d8c33f570ed5a5e4583330b745abc6aa, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 233.13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3536511279535560960, guid: d8c33f570ed5a5e4583330b745abc6aa, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 61
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3536511279535560960, guid: d8c33f570ed5a5e4583330b745abc6aa, type: 3}
       propertyPath: m_LocalPosition.x
