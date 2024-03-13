@@ -10,10 +10,12 @@ public class Stage : MonoBehaviour
 {
 	public List<Room> rooms;
 
+	[ReadOnly]
 	public int curRoomIndex;
 	public Room curRoom;
-	 
 
+	public Room bossRoom;
+	public Room shopRoom;
 
 	public void Initialize()
 	{ 

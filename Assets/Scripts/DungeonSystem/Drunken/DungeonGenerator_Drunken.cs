@@ -12,27 +12,29 @@ using AYellowpaper;
 using AYellowpaper.SerializedCollections;
 using MoreMountains.Tools;
 
-public enum ExplorerDir
-{
-	Up,
-	Right,
-	Down,
-	Left,
-	None
-}
+
+//public enum NewExplorerPos { center, prePos, Random };
+//public enum ExplorerDir
+//{
+//	Up,
+//	Right,
+//	Down,
+//	Left,
+//	None
+//}
 
 
-public struct Explorer
-{
-    public Explorer(Vector2Int _index)
-    {
-        index = _index;
-        dir = Vector2Int.zero;
-	}
+//public struct Explorer
+//{
+//    public Explorer(Vector2Int _index)
+//    {
+//        index = _index;
+//        dir = Vector2Int.zero;
+//	}
     
-    public Vector2Int index;
-    public Vector2Int dir;
-}
+//    public Vector2Int index;
+//    public Vector2Int dir;
+//}
 
 public class DungeonGenerator_Drunken : MonoBehaviour
 {
@@ -110,7 +112,7 @@ public class DungeonGenerator_Drunken : MonoBehaviour
 	[SerializeField]
     private NewExplorerPos ExplorerSpawnOption;
 
-	enum NewExplorerPos { center, prePos, Random};
+	
 	[Space(7.5f)]
 	public int startExplorerCount;
     public Vector2Int ExplorerCountRange;
@@ -219,7 +221,6 @@ public class DungeonGenerator_Drunken : MonoBehaviour
         pos = recentTilemaps[(int)TilemapLayer.Shadow].transform.position;
 		pos.y -= shadowTileOffset;
 		recentTilemaps[(int)TilemapLayer.Shadow].transform.position = pos;
-
 	}
 
 

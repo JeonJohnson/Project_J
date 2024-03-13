@@ -338,9 +338,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5347314762060457871}
   - component: {fileID: 6274388892056127528}
-  - component: {fileID: 2576598081358953616}
+  - component: {fileID: 2080095931587290487}
   m_Layer: 9
-  m_Name: Environment_Origin
+  m_Name: Room_Origin 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -379,7 +379,7 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!114 &2576598081358953616
+--- !u!114 &2080095931587290487
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -388,11 +388,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1836350802054613475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e72b9b6b66e7a0c43a84b66f2338ac74, type: 3}
+  m_Script: {fileID: 11500000, guid: fbef6de1eff8b1a49995b1627682f9ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomType: 0
   centerPos: {x: 0, y: 0, z: 0}
   size: {x: 0, y: 0}
+  roomIndex: 0
   tilemaps:
     _serializedList:
     - Key: 0
@@ -405,8 +407,13 @@ MonoBehaviour:
       Value: {fileID: 769095716499772012}
     - Key: 4
       Value: {fileID: 2438844376830593753}
-  navSurface: {fileID: 5242698505496331427}
   enemyPos: []
+  allEnemies: []
+  aliveEnemies: []
+  deadBodies: []
+  bullets: []
+  items: []
+  navSurface: {fileID: 0}
 --- !u!1 &2361252628656029051
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,7 +505,7 @@ GameObject:
   - component: {fileID: 2438844376830593753}
   - component: {fileID: 2236043203245130712}
   m_Layer: 9
-  m_Name: Wall
+  m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -798,7 +805,7 @@ GameObject:
   - component: {fileID: 144148420911235365}
   - component: {fileID: 2409894747184847050}
   m_Layer: 10
-  m_Name: Cliff
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

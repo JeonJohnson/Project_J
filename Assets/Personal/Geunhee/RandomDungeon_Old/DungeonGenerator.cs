@@ -11,33 +11,16 @@ using AYellowpaper;
 using AYellowpaper.SerializedCollections;
 using MoreMountains.Tools;
 
-public enum tileGridState
-{
-	//땅인지 바닥인지 파악하기 위해
-	None,
-	Ground,
-	Wall
-}
+//public enum tileGridState
+//{
+//	//땅인지 바닥인지 파악하기 위해
+//	None,
+//	Ground,
+//	Wall
+//}
 
-public enum TilemapLayer
-{
-	//맵 Gameobject내에서 Tilemap을 깔 오브젝트 종류
-	Ground,
-	Prop,
-	Shadow,
-	Cliff,
-	Wall,
-	End
-}
 
-public enum RoomType
-{
-	//해당 방 어떻게 할지 
-	Normal,
-	Shop,
-	Boss,
-	End
-}
+
 
 public enum GenerateType
 { 

@@ -9,36 +9,83 @@ using AYellowpaper.SerializedCollections;
 
 using NavMeshPlus.Components;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
 
 
-public abstract class Room : MonoBehaviour
+public enum RoomType
 {
-	public RoomType roomType;
+	//해당 방 어떻게 할지 
+	Normal,
+	Shop,
+	Boss,
+	End
+}
+
+public  class Room : MonoBehaviour
+{
 	
 	[Space(10f)]
+	[Header("Pos&Index")]
+	[ReadOnly]
 	public Vector3 centerPos;//not CenterIndex's position
-	public Vector2Int size;
-	public int roomIndex;
+	[ReadOnly]
+	public Vector2Int centerIndex;
+	[ReadOnly]
+	public Vector3 originIndexPos;
 
 	[Space(10f)]
-	public tileGridState[,] tileStates;
+	public RoomType roomType;
+	[ReadOnly]
+	public int roomIndex; //At stage's room List
+	[ReadOnly]
+	public Vector2Int size;
+	
+
+	[Space(10f)]
+	public TilemapLayer[,] tileStates;
 
 	[Space(10f)]
 	public SerializedDictionary<TilemapLayer, Tilemap> tilemaps;
 
 	[Space(10f)]
+	[ReadOnly]
 	public List<Vector3> enemyPos;
+	[ReadOnly]
 	public List<Enemy> allEnemies;
+	[ReadOnly]
 	public List<Enemy> aliveEnemies;
 
 	[Space(10f)]
-	public List<GameObject> deadBodies;
-	public List<GameObject> bullets;
-	public List<GameObject> items;
+	[ReadOnly]
+	public List<GameObject> poolingObj;
+	//[ReadOnly]
+	//public List<GameObject> bullets;
+	//[ReadOnly]
+	//public List<GameObject> items;
 
 	[Space(10f)]
 	[SerializeField]
 	protected NavMeshSurface navSurface;
+
+
+	public void Setup(RoomOption option)
+	{
+		#region AreaSetting
+		size.x = Mathf.RoundToInt(option.areaSize.x / option.tileSize);
+		size.y = Mathf.RoundToInt(option.areaSize.y / option.tileSize);
+
+		tileStates = new TilemapLayer[size.x, size.y];
+
+		//areaHalfSize = Funcs.ToV2(gridLength) * 0.5f;
+		//tileHalfSize = tileSize * 0.5f;
+
+		centerPos = option.pivotPos + new Vector3(size.x * 0.5f, size.y * 0.5f);
+		centerIndex = new Vector2Int((int)(size.x * 0.5f), (int)(size.y * 0.5f));
+		originIndexPos = new Vector2(option.pivotPos.x + option.tileSize * 0.5f, option.pivotPos.y + option.tileSize * 0.5f); ;
+		#endregion
+	}
+
+
 
 
 	public void BakeNavMesh()
@@ -59,19 +106,23 @@ public abstract class Room : MonoBehaviour
 
 	public Vector2 GetPos(Vector2Int index)
 	{
+		float tileSize = 1f;
+
 		if (index.x < 0 | index.y < 0 | index.x >= tileStates.GetLength(0) | index.y >= tileStates.GetLength(1))
 		{
 			return new Vector2(float.MinValue, float.MinValue);
 		}
 
-		Vector2 pos = new Vector2(index.x * 1 + 0.5f, index.y * 1 + 0.5f);
+		Vector2 pos = new Vector2(index.x * tileSize + tileSize*0.5f, index.y * tileSize + tileSize*0.5f);
 
 		return pos;
 	}
 
 	public Vector2Int GetIndex(Vector2 pos)
 	{
-		Vector2 index = (pos - new Vector2(0.5f, 0.5f)) * 1;
+		float tileSize = 1f;
+
+		Vector2 index = (pos - new Vector2(tileSize * 0.5f, tileSize * 0.5f)) * tileSize;
 
 		if (index.x < 0f | index.y < 0f | index.x >= tileStates.GetLength(0) | index.y >= tileStates.GetLength(1))
 		{
