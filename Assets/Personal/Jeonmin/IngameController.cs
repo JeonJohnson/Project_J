@@ -177,53 +177,15 @@ public class IngameController : Singleton<IngameController>
     private void Start()
 	{
 		FindPlayer();
-        if(StageManager.Instance.curRoom != null) player.transform.position = StageManager.Instance.curRoom.centerPos;
+        if (StageManager.Instance != null)
+        {
+            player.transform.position = StageManager.Instance.curRoom.centerPos;
 
-        SetMinimapRenderCam();
-		//MainGame Scene에서 바로 시작하는 테스트를 위해서 
-		//맵 StageManager이나 맵 없으면 여기서 만들어주자구
-
-        //정민 디버그
-		EnemySpawn();
+            SetMinimapRenderCam();
+            //MainGame Scene에서 바로 시작하는 테스트를 위해서 
+            //맵 StageManager이나 맵 없으면 여기서 만들어주자구
+        }
 	}
-	private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    if(isRuneWindowActivated && isWindowActivated)
-        //    {
-        //        isRuneWindowActivated = !isRuneWindowActivated;
-        //        player.LockPlayer(isRuneWindowActivated);
-        //        Cursor.visible = isRuneWindowActivated;
-        //        UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
-        //        isWindowActivated = !isWindowActivated;
-        //        player.LockPlayer(isWindowActivated);
-        //        UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
-        //    }
-        //    else if (isRuneWindowActivated)
-        //    {
-        //        isRuneWindowActivated = !isRuneWindowActivated;
-        //        player.LockPlayer(isRuneWindowActivated);
-        //        Cursor.visible = isRuneWindowActivated;
-        //        UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
-        //    }
-        //    else
-        //    {
-        //        isWindowActivated = !isWindowActivated;
-        //        player.LockPlayer(isWindowActivated);
-        //        UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
-        //    }
-        //}
-        //if (Input.GetKeyDown(KeyCode.I))
-        //{
-        //    if (isShopWindowActivated) return;
-        //    if (isWindowActivated) return;
-        //    isRuneWindowActivated = !isRuneWindowActivated;
-        //    player.LockPlayer(isRuneWindowActivated);
-        //    Cursor.visible = isRuneWindowActivated;
-        //    UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
-        //}
-    }
 
     public void ResetAllWindow()
     {

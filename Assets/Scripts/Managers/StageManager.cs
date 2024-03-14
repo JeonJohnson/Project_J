@@ -29,9 +29,6 @@ public class StageManager : Singleton<StageManager>
 	public int curRoomIndex;
 
 	public int[] enemyCount;
-	public Data<int> killCount; // 단순 기록용 0207JM
-	public Data<Enemy> enemyDeathData;
-	public Data<Enemy> enemyHitData;
 
 	public List<GameObject> bullets;
 	public List<Enemy_DeadBody> deadbody;
@@ -208,17 +205,8 @@ public class StageManager : Singleton<StageManager>
         }
 	}
 
-	public void OnEnemyHit(Enemy enemy)
-	{
-		Debug.Log("OnEnemyHit");
-		enemyHitData.Value = enemy;
-    }
-
 	public void OnEnemyDeath(Enemy enemy)
 	{
-		killCount.Value++;
-		enemyDeathData.Value = enemy;
-
 		if(!enemy.status.dontTriggerLeftInfo)
 		{
             --enemyCount[curRoomIndex];
@@ -288,10 +276,6 @@ public class StageManager : Singleton<StageManager>
 
 		bullets = new List<GameObject>();
 		deadbody = new List<Enemy_DeadBody>();
-
-		killCount = new Data<int>();
-		enemyDeathData = new Data<Enemy>();
-		enemyHitData = new Data<Enemy>();
 
 		for(int i = 0; i < shopAppearCount; i++)
 		{
