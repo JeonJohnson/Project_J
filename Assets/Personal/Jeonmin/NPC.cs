@@ -16,18 +16,21 @@ public abstract class NPC : MonoBehaviour
 
     public SpeechBubble curSpeechBubble;
 
+    private void Awake()
+    {
+        
+    }
+
     private void Update()
     {
     }
 
-    public void Talk(string context)
+    public void Talk(string context, float size, float speed)
     {
         if (curSpeechBubble != null) PoolingManager.Instance.ReturnObj(curSpeechBubble.gameObject);
         curSpeechBubble = PoolingManager.Instance.LentalObj("SpeechBubble", 1).GetComponent<SpeechBubble>();
 
         curSpeechBubble.Init(this.gameObject);
-        curSpeechBubble.Speech(fontNayong, fontSize);
-
-        Debug.Log("¿Ä");
+        curSpeechBubble.Speech(context, size, speed);
     }
 }
