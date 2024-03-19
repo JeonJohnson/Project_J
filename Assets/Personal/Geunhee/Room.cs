@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 using UnityEngine.AI;
@@ -43,6 +44,24 @@ public  class Room : MonoBehaviour
 
 	[Space(10f)]
 	public TilemapLayer[,] tileStates;
+	public int GetTileCount(TilemapLayer tileType)
+	{
+		int count = 0;
+
+		for (int x = 0; x < tileStates.GetLength(0); ++x)
+		{
+			for (int y = 0; y < tileStates.GetLength(1); ++y)
+			{
+				if (tileStates[x, y] == tileType)
+				{
+					++count;
+				}
+			}
+		}
+
+		return count;
+	}
+
 
 	[Space(10f)]
 	public SerializedDictionary<TilemapLayer, Tilemap> tilemaps;

@@ -34,7 +34,8 @@ public class RoomOption_Drunken : RoomOption
 	public NewExplorerPos ExplorerSpawnOption;
 
 	[Space(10f)]
-	public List<Explorer> explorers;
+	//[HideInInspector]
+	//public List<Explorer> explorers;
 	public int destoryCount;
 	public int respawnCount;
 	[ReadOnly]

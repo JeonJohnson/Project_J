@@ -44,6 +44,12 @@ public struct Explorer
 
 public class SG_Drunken : StageGenerator
 {
+
+	private int[] tempTileTypeCount = new int[(int)TilemapLayer.End];
+
+
+
+
 	private float wallTileOffset_Origin;
 	private float shadowTileOffset_Origin;
 	[Space(7.5f)]
@@ -54,6 +60,7 @@ public class SG_Drunken : StageGenerator
 
 
 	[Space(10f)]
+	public List<Explorer> explorers;
 	public RoomOption_Drunken option;
 	//추후 한 스테이지 내 여러 방들의 옵션이 바뀌어야 하는 경우
 	//수정 해 줄 수 있도록.
@@ -91,10 +98,10 @@ public class SG_Drunken : StageGenerator
 		//#endregion
 
 		//#region Explorer
-		//option.explorers = new List<Explorer>();
+		//explorers = new List<Explorer>();
 		//for (int i = 0; i < option.startExplorerCount; i++)
 		//{
-		//	option.explorers.Add(new Explorer(centerIndex));
+		//	explorers.Add(new Explorer(centerIndex));
 		//}
 		//#endregion
 
@@ -108,11 +115,11 @@ public class SG_Drunken : StageGenerator
 
 
 		#region Explorer
-		option.explorers = new List<Explorer>();
+		explorers = new List<Explorer>();
 		Vector2Int center = new((int)(option.areaSize.x * 0.5f) , (int)(option.areaSize.y * 0.5f));
 		for (int i = 0; i < option.startExplorerCount; i++)
 		{
-			option.explorers.Add(new Explorer(center));
+			explorers.Add(new Explorer(center));
 		}
 		#endregion
 	}
@@ -152,23 +159,25 @@ public class SG_Drunken : StageGenerator
 
 	private bool MoveExplorerOnce(Room room)
 	{ //Move Once
-		//1. Checking ground Count Ratio 
-		if (option.areaFillRatio <= (float)recentTilesCount[(int)TilemapLayer.Ground] / (float)tileGrid.Length)
+	  //1. Checking ground Count Ratio 
+		
+		int mapLen = option.areaSize.x + option.areaSize.y;
+		if (option.areaFillRatio <= (float)tempTileTypeCount[(int)TilemapLayer.Ground] / (float)mapLen)
 		{
 			return false;
 		}
 
 		//2. fire explorer
-		destoryCount = Random.Range(destroyCountRange.x, destroyCountRange.y + 1);
+		int destoryCount = Random.Range(option.destroyCountRange.x, option.destroyCountRange.y + 1);
 		List<Explorer> fired = new List<Explorer>();
 		for (int i = 0; i < explorers.Count; ++i)
 		{
-			if (fired.Count >= destoryCount || explorers.Count - fired.Count <= ExplorerCountRange.x)
+			if (fired.Count >= destoryCount || explorers.Count - fired.Count <= option.ExplorerCountRange.x)
 			{
 				break;
 			}
 
-			if (UnityEngine.Random.value <= destroyPercent)
+			if (UnityEngine.Random.value <= option.destroyPercent)
 			{
 				fired.Add(explorers[i]);
 			}
@@ -180,22 +189,22 @@ public class SG_Drunken : StageGenerator
 		fired = null;
 
 		//3. respawn exploror
-		respawnCount = Random.Range(respawnCountRange.x, respawnCountRange.y + 1);
+		int respawnCount = Random.Range(option.respawnCountRange.x, option.respawnCountRange.y + 1);
 		List<Explorer> respawnList = new List<Explorer>();
 		for (int i = 0; i < explorers.Count; ++i)
 		{
-			if (respawnList.Count >= respawnCount || respawnList.Count + explorers.Count >= ExplorerCountRange.y)
+			if (respawnList.Count >= respawnCount || respawnList.Count + explorers.Count >= option.ExplorerCountRange.y)
 			{
 				break;
 			}
 			else
 			{
-				if (Random.value <= respawnPercent)
+				if (Random.value <= option.respawnPercent)
 				{
-					switch (ExplorerSpawnOption)
+					switch (option.ExplorerSpawnOption)
 					{
 						case NewExplorerPos.center:
-							respawnList.Add(new Explorer(centerIndex));
+							respawnList.Add(new Explorer(room.centerIndex));
 							break;
 						case NewExplorerPos.prePos:
 							respawnList.Add(new Explorer(explorers[i].index));
@@ -205,7 +214,7 @@ public class SG_Drunken : StageGenerator
 								int rand = Random.Range(0, 2);
 								if (rand == 0)
 								{
-									respawnList.Add(new Explorer(centerIndex));
+									respawnList.Add(new Explorer(room.centerIndex));
 								}
 								else
 								{
@@ -224,15 +233,15 @@ public class SG_Drunken : StageGenerator
 		explorers.AddRange(respawnList);
 		respawnList = null;
 
-		curExplorerCount = explorers.Count;
+		int curExplorerCount = explorers.Count;
 
 		//4. set new direction
 		for (int i = 0; i < explorers.Count; ++i)
 		{
-			if (Random.value <= newDirPercent)
+			if (Random.value <= option.newDirPercent)
 			{
 				Explorer temp = explorers[i];
-				temp.dir = GetRandomDir();
+				temp.dir = Funcs.ToV2I(GetRandomDir());
 				explorers[i] = temp;
 				//이렇게 스왑 해주는 이유
 				//구조체로 이루어진 List등 자료구조에서
@@ -247,8 +256,8 @@ public class SG_Drunken : StageGenerator
 			Explorer temp = explorers[i];
 			temp.index += temp.dir;
 
-			temp.index.x = Mathf.Clamp(temp.index.x, 1, gridLength.x - 2);
-			temp.index.y = Mathf.Clamp(temp.index.y, 1, gridLength.y - 2);
+			temp.index.x = Mathf.Clamp(temp.index.x, 1, option.areaSize.x - 2);
+			temp.index.y = Mathf.Clamp(temp.index.y, 1, option.areaSize.y - 2);
 
 			CreateTile(temp.index, tileGridState.Ground);
 			explorers[i] = temp;
@@ -296,5 +305,40 @@ public class SG_Drunken : StageGenerator
 		base.Update();
 	}
 
+	private void CreateTile(Vector2 pos, TilemapLayer layer, Room room)
+	{
+		var index = room.GetIndex(pos);
+		
+	}
+
+	private Vector2 GetRandomDir()
+	{
+		return GetDir(Random.Range((int)ExplorerDir.Up, (int)ExplorerDir.None + 1));
+	}
+	private Vector2 GetDir(int num)
+	{
+		Vector2 val = Vector2Int.zero;
+
+		switch ((ExplorerDir)num)
+		{
+			case ExplorerDir.Up:
+				val = Vector2Int.up;
+				break;
+			case ExplorerDir.Right:
+				val = Vector2Int.right;
+				break;
+			case ExplorerDir.Down:
+				val = Vector2Int.down;
+				break;
+			case ExplorerDir.Left:
+				val = Vector2Int.left;
+				break;
+			default:
+				val = Vector2Int.zero;
+				break;
+		}
+		val.x *= option.tileSize;
+		return val;
+	}
 
 }

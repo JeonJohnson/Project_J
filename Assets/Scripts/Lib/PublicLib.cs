@@ -37,7 +37,15 @@ public static class Funcs
 		return new Vector2(vec2.x, vec2.y);
 	}
 
-	
+	public static Vector3Int ToV3I(Vector3 vec3)
+	{
+		return new Vector3Int((int)vec3.x, (int)vec3.y, (int)vec3.z);
+	}
+	public static Vector2Int ToV2I(Vector2 vec2)
+	{
+		return new Vector2Int((int)vec2.x, (int)vec2.y);
+	}
+
 	public static int PingPongInt(int t, int length)
 	{//t is 증감값
 		int repeatedValue = t % (length * 2);
