@@ -33,6 +33,9 @@ public class Stage : MonoBehaviour
 
 	
 	}
-		
 
+	private void Awake()
+	{
+		rooms = new List<Room>();	
+	}
 }

@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &211479545
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -205,7 +205,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &250188503
 GameObject:
@@ -402,7 +402,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2274021206423177139, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 2274021206423177139, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
       propertyPath: m_LocalScale.x
@@ -502,23 +502,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849e3f6937e9176429a9827c055cca38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaTr: {fileID: 0}
-  cam: {fileID: 0}
+  areaTr: {fileID: 211479546}
+  cam: {fileID: 1496041546}
   stage: {fileID: 0}
   curRoom: {fileID: 0}
-  rooms: []
-  TilemapRefer_Prefab: {fileID: 0}
+  rooms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  TilemapRefer_Prefab: {fileID: 1836350802054613475, guid: b4ea6a5adf397db409143ad808043ef8, type: 3}
   TileResource:
     _serializedList:
-    - Key: 0
-      Value: []
+    - Key: 1
+      Value:
+      - {fileID: 11400000, guid: 4fbb861ef28b49349b95faf11be1df3f, type: 2}
+    - Key: 8
+      Value:
+      - {fileID: 11400000, guid: 1f63fa579b4ff804ab71a9e54b28e93d, type: 2}
+    - Key: 16
+      Value:
+      - {fileID: 11400000, guid: 7463a235d6f6d364ba5f52a89a6859fa, type: 2}
+  roomCount: 5
   ShopPrefab: {fileID: 0}
   shopCount: 0
-  BossRoomPrefab: {fileID: 0}
-  roomCount: 0
-  wallTileOffset: 0
-  shadowTileOffset: 0
-  option: {fileID: 0}
+  BossRoomPrefab: {fileID: 6809010725100927562, guid: 076194d250b54a448b19abcb4ad59050, type: 3}
+  roofTileOffset: 0.22
+  shadowTileOffset: 0.167
+  option: {fileID: 11400000, guid: ade1e58bf54a5ef4fb22b6c690910f12, type: 2}
 --- !u!4 &509542959
 Transform:
   m_ObjectHideFlags: 0
@@ -532,7 +544,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &909292553
 GameObject:
@@ -564,7 +576,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &909292555
 MonoBehaviour:
@@ -1152,7 +1164,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2066355074
 GameObject:
@@ -1232,7 +1244,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4601893554645745529
 PrefabInstance:

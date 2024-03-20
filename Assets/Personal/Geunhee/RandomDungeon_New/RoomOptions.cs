@@ -10,7 +10,7 @@ public class RoomOption : ScriptableObject
 	public Vector3 pivotPos = Vector3.zero;
 	public Vector2Int areaSize;
 	[ReadOnly]
-	public float tileSize = 1;
+	public const float tileSize = 1;
 }
 
 
@@ -33,31 +33,37 @@ public class RoomOption_Drunken : RoomOption
 	[SerializeField]
 	public NewExplorerPos ExplorerSpawnOption;
 
-	[Space(10f)]
+	//[Space(10f)]
 	//[HideInInspector]
 	//public List<Explorer> explorers;
-	public int destoryCount;
-	public int respawnCount;
-	[ReadOnly]
-	public int curExplorerCount;
-
+	//[ReadOnly]
+	//public int destoryCount;
+	//[ReadOnly]
+	//public int respawnCount;
+	//[ReadOnly]
+	//public int curExplorerCount;
+	
 	[Space(7.5f)]
+	[Range(0f, 1f)]
+	public float newDirPercent;
+
+	[Space(10f)]
 	public int startExplorerCount;
 	public Vector2Int ExplorerCountRange;
 
-	[Space(7.5f)]
-	[Range(0f, 1f)]
-	public float destroyPercent;
-	public Vector2Int destroyCountRange; //한번에 최고 몇명까지 해고할지
-
-	[Space(7.5f)]
+	[Space(10f)]
 	[Range(0f, 1f)]
 	public float respawnPercent;
 	public Vector2Int respawnCountRange;
 
-	[Space(7.5f)]
+	[Space(10f)]
 	[Range(0f, 1f)]
-	public float newDirPercent;
+	public float destroyPercent;
+	public Vector2Int destroyCountRange; //한번에 최고 몇명까지 해고할지
+
+
+
+
 }
 
 

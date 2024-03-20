@@ -254,7 +254,7 @@ public class StageManager : Singleton<StageManager>
 				}
 
 
-				if (curRoom.tileStates[x,y] == tileGridState.Ground) 
+				if (curRoom.tileStates[x,y].HasFlag(TilemapFlag.Ground)) 
 				{
 					canIndexes.Add(new(x, y));
 				}

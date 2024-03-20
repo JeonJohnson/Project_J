@@ -152,6 +152,30 @@ public static class Funcs
 	{//where 조건 struct, IConvertible => Enum으로 제한
 		return Enum.GetName(typeof(T), index);
 	}
+	//public static int FlagToEnum(int flag)
+	//{
+	//	if (flag <= 0)
+	//	{
+	//		return -1;
+	//	}
+
+	//	int temp = flag;
+	//	int count = 0;
+	//	while (true)
+	//	{
+	//		if (temp == 1)
+	//		{
+	//			break;
+	//		}
+
+	//		temp = temp >> 1;
+
+	//		++count;
+	//	}
+
+	//	return count;
+	//}
+
 	public static int FlagToEnum(int flag)
 	{
 		if (flag <= 0)
@@ -159,23 +183,11 @@ public static class Funcs
 			return -1;
 		}
 
-		int temp = flag;
-		int count = 0;
-		while (true)
-		{
-			if (temp == 1)
-			{
-				break;
-			}
+		var log = System.Math.Log(flag, 2);
 
-			temp = temp >> 1;
-
-			++count;
-		}
-
-		return count;
+		return (int)log;
 	}
-	
+
 	/// <summary>
 	/// Convert Boolean To Inteager
 	/// </summary>

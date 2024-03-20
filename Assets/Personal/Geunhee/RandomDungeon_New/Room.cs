@@ -43,8 +43,8 @@ public  class Room : MonoBehaviour
 	
 
 	[Space(10f)]
-	public TilemapLayer[,] tileStates;
-	public int GetTileCount(TilemapLayer tileType)
+	public TilemapFlag[,] tileStates;
+	public int GetTileCount(TilemapFlag tileType)
 	{
 		int count = 0;
 
@@ -52,7 +52,7 @@ public  class Room : MonoBehaviour
 		{
 			for (int y = 0; y < tileStates.GetLength(1); ++y)
 			{
-				if (tileStates[x, y] == tileType)
+				if ((tileStates[x, y] & tileType) != 0)
 				{
 					++count;
 				}
@@ -64,7 +64,7 @@ public  class Room : MonoBehaviour
 
 
 	[Space(10f)]
-	public SerializedDictionary<TilemapLayer, Tilemap> tilemaps;
+	public SerializedDictionary<TilemapFlag, Tilemap> tilemaps;
 
 	[Space(10f)]
 	[ReadOnly]
@@ -90,22 +90,25 @@ public  class Room : MonoBehaviour
 	public void Setup(RoomOption option)
 	{
 		#region AreaSetting
-		size.x = Mathf.RoundToInt(option.areaSize.x / option.tileSize);
-		size.y = Mathf.RoundToInt(option.areaSize.y / option.tileSize);
+		size.x = Mathf.RoundToInt(option.areaSize.x / RoomOption.tileSize);
+		size.y = Mathf.RoundToInt(option.areaSize.y / RoomOption.tileSize);
 
-		tileStates = new TilemapLayer[size.x, size.y];
+		tileStates = new TilemapFlag[size.x, size.y];
 
 		//areaHalfSize = Funcs.ToV2(gridLength) * 0.5f;
 		//tileHalfSize = tileSize * 0.5f;
 
 		centerPos = option.pivotPos + new Vector3(size.x * 0.5f, size.y * 0.5f);
 		centerIndex = new Vector2Int((int)(size.x * 0.5f), (int)(size.y * 0.5f));
-		originIndexPos = new Vector2(option.pivotPos.x + option.tileSize * 0.5f, option.pivotPos.y + option.tileSize * 0.5f); ;
+		originIndexPos = new Vector2(option.pivotPos.x + RoomOption.tileSize * 0.5f, option.pivotPos.y + RoomOption.tileSize * 0.5f); ;
 		#endregion
 	}
 
 
-
+	private void Awake()
+	{
+		//tilemaps = new SerializedDictionary<TilemapFlag, Tilemap>();
+	}
 
 	public void BakeNavMesh()
 	{
@@ -122,6 +125,10 @@ public  class Room : MonoBehaviour
 	{
 
 	}
+
+
+
+	
 
 	public Vector2 GetPos(Vector2Int index)
 	{

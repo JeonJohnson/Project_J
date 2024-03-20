@@ -391,29 +391,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbef6de1eff8b1a49995b1627682f9ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomType: 0
   centerPos: {x: 0, y: 0, z: 0}
-  size: {x: 0, y: 0}
+  centerIndex: {x: 0, y: 0}
+  originIndexPos: {x: 0, y: 0, z: 0}
+  roomType: 0
   roomIndex: 0
+  size: {x: 0, y: 0}
   tilemaps:
     _serializedList:
-    - Key: 0
-      Value: {fileID: 1649058788221253895}
     - Key: 1
-      Value: {fileID: 7123758648912372029}
+      Value: {fileID: 1649058788221253895}
     - Key: 2
-      Value: {fileID: 5017858741467220648}
-    - Key: 3
-      Value: {fileID: 769095716499772012}
+      Value: {fileID: 7123758648912372029}
     - Key: 4
+      Value: {fileID: 5017858741467220648}
+    - Key: 8
+      Value: {fileID: 769095716499772012}
+    - Key: 16
       Value: {fileID: 2438844376830593753}
   enemyPos: []
   allEnemies: []
   aliveEnemies: []
-  deadBodies: []
-  bullets: []
-  items: []
-  navSurface: {fileID: 0}
+  poolingObj: []
+  navSurface: {fileID: 5242698505496331427}
 --- !u!1 &2361252628656029051
 GameObject:
   m_ObjectHideFlags: 0

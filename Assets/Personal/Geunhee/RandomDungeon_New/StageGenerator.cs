@@ -9,6 +9,7 @@ using UnityEngine.Tilemaps;
 using AYellowpaper;
 using AYellowpaper.SerializedCollections;
 using MoreMountains.Tools;
+using System;
 
 //스테이지
 
@@ -19,18 +20,20 @@ public enum RoomFormType
 	End
 }
 
-public enum TilemapLayer
+[Flags]
+public enum TilemapFlag
 {
 	//맵 Gameobject내에서 Tilemap을 깔 오브젝트 종류
-	Ground,
-	Prop,
-	Shadow,
-	Wall,
-	Roof,
-	End,
+	None = 0,
+	Ground = 1 << 0,
+	Prop = 1<< 1,
+	Shadow = 1<< 2,
+	Wall  = 1 << 3,
+	Roof = 1<< 4,
+	//End,
 
 
-	Cliff
+	//Cliff = 1<< 5,
 }
 
 
@@ -49,26 +52,16 @@ public abstract class StageGenerator : MonoBehaviour
 	[ReadOnly]
 	public List<Room> rooms;
 
-	//Internal Varis
-	//protected int tileSize = 1;
-	protected float tileHalfSize;
-	
-	protected Vector2 areaHalfSize;
-	
-	//protected Vector2 pivotPos;
-	//protected Vector2 originPos;
-	//protected Vector2 centerPos;
-
-	//protected Vector2Int gridLength;
-	//protected tileGridState[,] tileGrid;
-	//protected Vector2Int centerIndex;
-	//Internal Varis
 
 
 	[Space(10f)]
 	[Header("Generator Option")]
 	public GameObject TilemapRefer_Prefab;
-	public SerializedDictionary<TilemapLayer, List<TileBase>> TileResource;
+	public SerializedDictionary<TilemapFlag, List<TileBase>> TileResource;
+
+	[Space(7.5f)]
+	[Tooltip("Exclude Boss&Shop Room Count, Only Normal Room")]
+	public int roomCount; //Exclude Boss&Shop Room Count, Only Normal Room
 
 	[Space(7.5f)]
 	public GameObject ShopPrefab;
@@ -79,20 +72,35 @@ public abstract class StageGenerator : MonoBehaviour
 
 	//[ReadOnly]
 	//public RoomFormType roomForm;
-	[Tooltip("Exclude Boss&Shop Room Count, Only Normal Room")]
-	public int roomCount; //Exclude Boss&Shop Room Count, Only Normal Room
+
+
+	//Internal Varis
+	//protected int tileSize = 1;
+	protected float tileHalfSize;
+
+	protected Vector2 areaHalfSize;
+
+	//protected Vector2 pivotPos;
+	//protected Vector2 originPos;
+	//protected Vector2 centerPos;
+
+	//protected Vector2Int gridLength;
+	//protected tileGridState[,] tileGrid;
+	//protected Vector2Int centerIndex;
+	//Internal Varis
+
 
 	protected abstract void Setup();
 
-	public abstract Room CreateOneRoom();
+	public abstract void CreateOneRoom();
 	
-	public abstract void CreateRooms();
+	public abstract void CreateStage();
 
 	public abstract void ResetStage();
 
 	protected virtual void Awake()
 	{
-		
+		rooms = new List<Room>();
 	}
 
 	protected virtual void Start()
