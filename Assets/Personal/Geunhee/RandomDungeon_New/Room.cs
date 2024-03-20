@@ -58,8 +58,12 @@ public  class Room : MonoBehaviour
 				}
 			}
 		}
-
 		return count;
+	}
+
+	public TilemapFlag GetTileState(int x, int y)
+	{
+		return tileStates[x, y];
 	}
 
 

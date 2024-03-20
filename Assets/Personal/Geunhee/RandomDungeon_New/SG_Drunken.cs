@@ -178,6 +178,7 @@ public class SG_Drunken : StageGenerator
 
 	public override void CreateStage()
 	{
+
 		for (int i = 0; i < roomCount; ++i)
 		{
 			Setup();
@@ -198,8 +199,8 @@ public class SG_Drunken : StageGenerator
 			{ curRoom.gameObject.SetActive(false); }
 		}
 
-		SetShopRoom();
-		SetBossRoom();
+		SetShopRoom(stage);
+		SetBossRoom(stage);
 		
 
 	}
@@ -412,18 +413,64 @@ public class SG_Drunken : StageGenerator
 	}
 
 	private void SetEnemySpawnPos(Room room)
-	{ 
-	
+	{
+		int curEnemyCount = 0;
+
+		List<Vector2Int> groundTileIndex = new List<Vector2Int>();
+
+		for (int y = 0; y < option.areaSize.y; ++y)
+		{
+			for (int x = 0; x < option.areaSize.x; ++x)
+			{
+				if (room.tileStates[x, y] == TilemapFlag.Ground)
+				{//이건 정말 '땅만' 있는경우만
+					groundTileIndex.Add(new(x, y));
+				}
+			}
+		}
+
+		List<int> nums = new List<int>();
+
+		int tryCount = 0;
+		while (curEnemyCount < option.enemyCount && tryCount < option.maxTryCount)
+		{
+			int curIndex = Funcs.GetDontOverlapRandom(0, groundTileIndex.Count, ref nums);
+			room.enemyPos.Add(room.GetPos(groundTileIndex[curIndex]));
+			++curEnemyCount;
+			++tryCount;
+		}
 	}
 
-	private void SetShopRoom()
-	{ 
-	
+	private void SetShopRoom(Stage _stage)
+	{
+		if (ShopPrefab == null)
+		{
+			return;
+		}
+
+		GameObject shopObj = Instantiate(ShopPrefab,_stage.transform);
+		Room shopSc = shopObj.GetComponent<Room>(); // 추후에 룸 상속받는 Shop새로만들기
+
+		int curShopCount = 0;
+		while (curShopCount < shopCount)
+		{
+			int rand = UnityEngine.Random.Range(0, _stage.rooms.Count);
+			//앞뒤로 상점 없는거 체크 요망
+			_stage.rooms.Insert(rand + 1, shopSc);
+
+			shopObj.transform.SetSiblingIndex(rand + 1);
+		}
 	}
 
-	private void SetBossRoom()
-	{ 
-	
+	private void SetBossRoom(Stage _stage)
+	{
+		if (BossRoomPrefab == null)
+		{
+			return;
+		}
+
+		GameObject bossObj = Instantiate(BossRoomPrefab,_stage.transform);
+		bossObj.transform.SetAsFirstSibling();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////

@@ -23,17 +23,13 @@ public enum RoomFormType
 [Flags]
 public enum TilemapFlag
 {
-	//맵 Gameobject내에서 Tilemap을 깔 오브젝트 종류
 	None = 0,
-	Ground = 1 << 0,
-	Prop = 1<< 1,
-	Shadow = 1<< 2,
-	Wall  = 1 << 3,
-	Roof = 1<< 4,
-	//End,
-
-
-	//Cliff = 1<< 5,
+	Ground = 1 << 0, //2^0 =  1
+	Prop = 1 << 1, //2^1 = 2 
+	Shadow = 1 << 2, //2^2 = 4
+	Wall  = 1 << 3, //2^3 = 8
+	Roof = 1 << 4,
+	
 }
 
 
