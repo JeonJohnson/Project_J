@@ -100,6 +100,7 @@ public class SG_Drunken : StageGenerator
 	//추후 한 스테이지 내 여러 방들의 옵션이 바뀌어야 하는 경우
 	//수정 해 줄 수 있도록.
 
+	//////////////////////////////////////////////////////////////////////////////
 
 	protected override void Setup()
 	{
@@ -162,25 +163,17 @@ public class SG_Drunken : StageGenerator
 		tempTileTypeCount = new int[Enum.GetValues(typeof(TilemapFlag)).Length];
 	}
 
-	public override void CreateOneRoom()
+	public override Room CreateOneRoom()
 	{
-		curRoom = CreateRoomObject();
+		Room curRoom = CreateRoomObject();
 		CreateGround(curRoom);
 		CreateWall(curRoom);
-
-		var pos = curRoom.tilemaps[TilemapFlag.Roof].transform.position;
-		pos.y += roofTileOffset;
-		curRoom.tilemaps[TilemapFlag.Roof].transform.position = pos;
-
-		pos = curRoom.tilemaps[TilemapFlag.Shadow].transform.position;
-		pos.y -= shadowTileOffset;
-		curRoom.tilemaps[TilemapFlag.Shadow].transform.position = pos;
-
-
+		ApplyTilePosOffset(curRoom);
+		SetEnemySpawnPos(curRoom);
 		curRoom.BakeNavMesh();
-	}
 
-	
+		return curRoom;
+	}
 
 
 	public override void CreateStage()
@@ -188,7 +181,7 @@ public class SG_Drunken : StageGenerator
 		for (int i = 0; i < roomCount; ++i)
 		{
 			Setup();
-			CreateOneRoom();
+			Room curRoom = CreateOneRoom();
 			//curRoom = CreateOneRoom();
 #if UNITY_EDITOR
 			SimulatingSetup(curRoom);
@@ -197,23 +190,50 @@ public class SG_Drunken : StageGenerator
 			//CreateWall(curRoom);
 			//curRoom.BakeNavMesh();
 
-			curRoom.gameObject.name += $"({rooms.Count})";
+			curRoom.gameObject.name += $"({stage.rooms.Count})";
 			curRoom.transform.SetParent(stage.transform);
-			curRoom.gameObject.SetActive(false);
+			stage.rooms.Add(curRoom);
 
-			rooms.Add(curRoom);
+			if (i < roomCount-1)
+			{ curRoom.gameObject.SetActive(false); }
 		}
 
-		curRoom.gameObject.SetActive(true);
-		stage.rooms = rooms;
+		SetShopRoom();
+		SetBossRoom();
+		
+
 	}
 
 	public override void ResetStage()
 	{
-		//throw new System.NotImplementedException();
 
-		rooms = new List<Room>();
 
+		//Stage파괴하기
+		stage = null;
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////////
+
+	private void SimulatingSetup(Room room)
+	{
+		#region AreaSetting
+		if (areaTr != null)
+		{
+			areaTr.localScale = new Vector3(room.size.x, room.size.y);
+			areaTr.localPosition = new Vector3(room.size.x * 0.5f, room.size.y * 0.5f);
+		}
+		#endregion
+
+		#region camSetting
+		//cam ??= Camera.main;
+		if (cam != null)
+		{
+			cam.transform.position = new Vector3(room.centerPos.x, room.centerPos.y, -10f);
+			cam.orthographicSize = room.size.x <= room.size.y ? room.size.y * 0.5f : room.size.x * 0.5f;
+			cam.orthographicSize += 1;
+		}
+		#endregion
 	}
 
 	private Room CreateRoomObject()
@@ -380,6 +400,34 @@ public class SG_Drunken : StageGenerator
 		}
 	}
 
+	private void ApplyTilePosOffset(Room room)
+	{
+		var pos = room.tilemaps[TilemapFlag.Roof].transform.position;
+		pos.y += roofTileOffset;
+		room.tilemaps[TilemapFlag.Roof].transform.position = pos;
+
+		pos = room.tilemaps[TilemapFlag.Shadow].transform.position;
+		pos.y -= shadowTileOffset;
+		room.tilemaps[TilemapFlag.Shadow].transform.position = pos;
+	}
+
+	private void SetEnemySpawnPos(Room room)
+	{ 
+	
+	}
+
+	private void SetShopRoom()
+	{ 
+	
+	}
+
+	private void SetBossRoom()
+	{ 
+	
+	}
+
+	//////////////////////////////////////////////////////////////////////////////
+
 	private void CreateTile(Vector2Int index, TilemapFlag flag, Room room)
 	{
 		//var index = room.GetIndex(pos);
@@ -422,52 +470,11 @@ public class SG_Drunken : StageGenerator
 
 	}
 
-	private void SimulatingSetup(Room room)
-	{
-		#region AreaSetting
-		if (areaTr != null)
-		{
-			areaTr.localScale = new Vector3(room.size.x, room.size.y);
-			areaTr.localPosition = new Vector3(room.size.x * 0.5f, room.size.y * 0.5f);
-		}
-		#endregion
-
-		#region camSetting
-		//cam ??= Camera.main;
-		if (cam != null)
-		{
-			cam.transform.position = new Vector3(room.centerPos.x, room.centerPos.y, -10f);
-			cam.orthographicSize = room.size.x <= room.size.y ? room.size.y * 0.5f : room.size.x * 0.5f;
-			cam.orthographicSize += 1;
-		}
-		#endregion
-
-		
-
-	}
-
-	protected override void Awake()
-	{
-		base.Awake();
-		
-	}
-
-	protected override void Start()
-	{
-		base.Start();
-	}
-
-	protected override void Update()
-	{
-		base.Update();
-	}
-
-	
-
 	private Vector2 GetRandomDir()
 	{
 		return GetDir(Random.Range((int)ExplorerDir.Up, (int)ExplorerDir.None + 1));
 	}
+
 	private Vector2 GetDir(int num)
 	{
 		Vector2 val = Vector2Int.zero;
@@ -494,4 +501,25 @@ public class SG_Drunken : StageGenerator
 		return val;
 	}
 
+	//////////////////////////////////////////////////////////////////////////////
+
+	protected override void Awake()
+	{
+		base.Awake();
+		
+	}
+
+	protected override void Start()
+	{
+		base.Start();
+	}
+
+	protected override void Update()
+	{
+		base.Update();
+	}
+
+	
+
+	
 }

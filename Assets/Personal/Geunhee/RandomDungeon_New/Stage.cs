@@ -8,12 +8,15 @@ using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-	public List<Room> rooms;
-
 	[ReadOnly]
 	public int curRoomIndex;
+	[ReadOnly]
 	public Room curRoom;
 
+	[Space(10f)]
+	public List<Room> rooms;
+	[Space(7.5f)]
+	public List<Room> normalRooms;
 	public Room bossRoom;
 	public Room shopRoom;
 
@@ -26,8 +29,6 @@ public class Stage : MonoBehaviour
 	public virtual void NextRoom()
 	{
 		curRoom.Cleanup();
-
-
 
 
 

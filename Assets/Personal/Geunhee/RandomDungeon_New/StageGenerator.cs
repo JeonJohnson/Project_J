@@ -47,10 +47,10 @@ public abstract class StageGenerator : MonoBehaviour
 	[Header("Result")]
 	[ReadOnly]
 	public Stage stage;
-	[ReadOnly]
-	public Room curRoom;
-	[ReadOnly]
-	public List<Room> rooms;
+	//[ReadOnly]
+	//public Room curRoom;
+	//[ReadOnly]
+	//public List<Room> rooms;
 
 
 
@@ -92,7 +92,7 @@ public abstract class StageGenerator : MonoBehaviour
 
 	protected abstract void Setup();
 
-	public abstract void CreateOneRoom();
+	public abstract Room CreateOneRoom();
 	
 	public abstract void CreateStage();
 
@@ -100,7 +100,7 @@ public abstract class StageGenerator : MonoBehaviour
 
 	protected virtual void Awake()
 	{
-		rooms = new List<Room>();
+		//rooms = new List<Room>();
 	}
 
 	protected virtual void Start()
