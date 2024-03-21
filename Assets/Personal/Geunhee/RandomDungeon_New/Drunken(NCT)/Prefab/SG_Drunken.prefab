@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3421528186965161933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4805474720399874402}
+  - component: {fileID: 7998322262368502917}
+  m_Layer: 0
+  m_Name: SG_Drunken
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4805474720399874402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3421528186965161933}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7998322262368502917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3421528186965161933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 849e3f6937e9176429a9827c055cca38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaTr: {fileID: 0}
+  cam: {fileID: 0}
+  StagePrefab: {fileID: 3841527213312572978, guid: 5f0739e89a32d1f47869d565dead38f1, type: 3}
+  stage: {fileID: 0}
+  TilemapRefer_Prefab: {fileID: 1836350802054613475, guid: b4ea6a5adf397db409143ad808043ef8, type: 3}
+  TileResource:
+    _serializedList:
+    - Key: 1
+      Value:
+      - {fileID: 11400000, guid: 4fbb861ef28b49349b95faf11be1df3f, type: 2}
+    - Key: 8
+      Value:
+      - {fileID: 11400000, guid: 1f63fa579b4ff804ab71a9e54b28e93d, type: 2}
+    - Key: 16
+      Value:
+      - {fileID: 11400000, guid: 7463a235d6f6d364ba5f52a89a6859fa, type: 2}
+  roomCount: 10
+  ShopPrefab: {fileID: 6809010725100927562, guid: 077dfe19e0697404e95466bb686844c2, type: 3}
+  shopCount: 3
+  BossRoomPrefab: {fileID: 6809010725100927562, guid: 076194d250b54a448b19abcb4ad59050, type: 3}
+  roofTileOffset: 0.4
+  shadowTileOffset: 0.2
+  option: {fileID: 11400000, guid: ade1e58bf54a5ef4fb22b6c690910f12, type: 2}

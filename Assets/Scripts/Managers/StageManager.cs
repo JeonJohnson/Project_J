@@ -22,9 +22,9 @@ public class StageManager : Singleton<StageManager>
 
 	public int portalRange;
 
-	public List<Room_Drunken> rooms;
-	public Room_Drunken bossRoom;
-	public Room_Drunken curRoom;
+	//public List<Room_Drunken> rooms;
+	//public Room_Drunken bossRoom;
+	//public Room_Drunken curRoom;
 	[ReadOnly]
 	public int curRoomIndex;
 
@@ -118,53 +118,53 @@ public class StageManager : Singleton<StageManager>
 
 	private void SetupRoom()
 	{
-		curRoomIndex = 0;
+		//curRoomIndex = 0;
 
-		for (int i = 1; i < rooms.Count; ++i)
-		{
-			rooms[i].gameObject.SetActive(false);
-		}
-		rooms.Add(bossRoom);
+		//for (int i = 1; i < rooms.Count; ++i)
+		//{
+		//	rooms[i].gameObject.SetActive(false);
+		//}
+		//rooms.Add(bossRoom);
 		
-		enemyCount = new int[rooms.Count];
-		//cleanObjs = new List<GameObject>[rooms.Count];
-		for (int i = 0; i < rooms.Count; ++i)
-		{
-			enemyCount[i] = rooms[i].enemyPos.Count;
-			//cleanObjs[i] = new List<GameObject>();
-		}
+		//enemyCount = new int[rooms.Count];
+		////cleanObjs = new List<GameObject>[rooms.Count];
+		//for (int i = 0; i < rooms.Count; ++i)
+		//{
+		//	enemyCount[i] = rooms[i].enemyPos.Count;
+		//	//cleanObjs[i] = new List<GameObject>();
+		//}
 
-		curRoom = rooms[curRoomIndex];
-		IngameController.Instance.UpdateMinimapRenderCam(curRoom.centerPos, curRoom.size.y / 2f);
+		//curRoom = rooms[curRoomIndex];
+		//IngameController.Instance.UpdateMinimapRenderCam(curRoom.Spec.centerPos, curRoom.Spec.size.y / 2f);
 
-		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
+		//UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
 
 	}
 
 	public void NextRoom()
 	{
-		CleanObjects();
+		//CleanObjects();
 
-		//상점
-		if(shopRoomIndex.Contains(curRoomIndex))
-		{
-            UiController_Proto.Instance.ShowShopWindow(true);
-            IngameController.Instance.Player.shop.ShowRandomItems(4);
-        }
-        //상점
+		////상점
+		//if(shopRoomIndex.Contains(curRoomIndex))
+		//{
+  //          UiController_Proto.Instance.ShowShopWindow(true);
+  //          IngameController.Instance.Player.shop.ShowRandomItems(4);
+  //      }
+  //      //상점
 
-        rooms[curRoomIndex].gameObject.SetActive(false);
+  //      rooms[curRoomIndex].gameObject.SetActive(false);
 
-		curRoomIndex = curRoomIndex + 1 >= rooms.Count ? 0 : curRoomIndex + 1 ;
+		//curRoomIndex = curRoomIndex + 1 >= rooms.Count ? 0 : curRoomIndex + 1 ;
 
-		curRoom = rooms[curRoomIndex];
-		curRoom.gameObject.SetActive(true);
+		//curRoom = rooms[curRoomIndex];
+		//curRoom.gameObject.SetActive(true);
 
-		Vector3 playerPos = curRoomIndex != rooms.Count - 1 ? curRoom.centerPos : new(3.5f, 7.5f, 0f);
+		//Vector3 playerPos = curRoomIndex != rooms.Count - 1 ? curRoom.Spec.centerPos : new(3.5f, 7.5f, 0f);
 
-		IngameController.Instance.Player.transform.position = playerPos;
-		UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
-		IngameController.Instance.UpdateMinimapRenderCam(curRoom.centerPos, curRoom.size.y / 2f);
+		//IngameController.Instance.Player.transform.position = playerPos;
+		//UiController_Proto.Instance.playerHudView.UpdateLeftEnemyCount(enemyCount[curRoomIndex]);
+		//IngameController.Instance.UpdateMinimapRenderCam(curRoom.Spec.centerPos, curRoom.Spec.size.y / 2f);
 	}
 
 	public void AddBullet(GameObject obj)
@@ -196,10 +196,10 @@ public class StageManager : Singleton<StageManager>
 
 	public void DestoryRooms()
 	{
-		for (int i = 0; i < rooms.Count; ++i)
-		{
-			DestroyImmediate(rooms[i].gameObject);
-        }
+		//for (int i = 0; i < rooms.Count; ++i)
+		//{
+		//	DestroyImmediate(rooms[i].gameObject);
+  //      }
 	}
 
 	public void OnEnemyHit(Enemy enemy)
@@ -229,41 +229,41 @@ public class StageManager : Singleton<StageManager>
 	{
 		yield return new WaitForSecondsRealtime(1f);
 
-		portal.SetActive(true);
+		//portal.SetActive(true);
 
-		Vector3 playerPos = IngameController.Instance.Player.transform.position;
-		Vector2Int playerIndex = curRoom.GetIndex(playerPos);
+		//Vector3 playerPos = IngameController.Instance.Player.transform.position;
+		//Vector2Int playerIndex = curRoom.GetIndex(playerPos);
 
-		List<Vector2Int> canIndexes = new	List<Vector2Int>();
+		//List<Vector2Int> canIndexes = new	List<Vector2Int>();
 
-		Vector2Int begin = new(playerIndex.x - portalRange, playerIndex.y - portalRange);
-		Vector2Int end = new(playerIndex.x + portalRange, playerIndex.y + portalRange);
+		//Vector2Int begin = new(playerIndex.x - portalRange, playerIndex.y - portalRange);
+		//Vector2Int end = new(playerIndex.x + portalRange, playerIndex.y + portalRange);
 		
-		for(int y = begin.y; y <= end.y; ++y)
-		{ 
-			for(int x =  begin.x; x <= end.x; ++x) 
-			{
-				if (x< 0 | y < 0 | x >= curRoom.tileStates.GetLength(0)| y >= curRoom.tileStates.GetLength(1))
-				{
-					continue;
-				}
+		//for(int y = begin.y; y <= end.y; ++y)
+		//{ 
+		//	for(int x =  begin.x; x <= end.x; ++x) 
+		//	{
+		//		if (x< 0 | y < 0 | x >= curRoom.tileStates.GetLength(0)| y >= curRoom.tileStates.GetLength(1))
+		//		{
+		//			continue;
+		//		}
 
-				if (playerIndex == new Vector2Int(x, y))
-				{
-					continue;
-				}
+		//		if (playerIndex == new Vector2Int(x, y))
+		//		{
+		//			continue;
+		//		}
 
 
-				if (curRoom.tileStates[x,y].HasFlag(TilemapFlag.Ground)) 
-				{
-					canIndexes.Add(new(x, y));
-				}
-			}
-		}
+		//		if (curRoom.tileStates[x,y].HasFlag(TilemapFlag.Ground)) 
+		//		{
+		//			canIndexes.Add(new(x, y));
+		//		}
+		//	}
+		//}
 
-		int rand = UnityEngine.Random.Range(0, canIndexes.Count);
+		//int rand = UnityEngine.Random.Range(0, canIndexes.Count);
 
-		portal.transform.position = curRoom.GetPos(canIndexes[rand]);
+		//portal.transform.position = curRoom.GetPos(canIndexes[rand]);
 	}
 
 
@@ -276,30 +276,30 @@ public class StageManager : Singleton<StageManager>
 
 	private void Awake()
 	{
-        Initailize(false);
+  //      Initailize(false);
 
-        rooms = new List<Room_Drunken>();
+  //      rooms = new List<Room_Drunken>();
 
-		//정민디버그
-		enemyCount = new int[5];
-		curRoomIndex = 0;
-		enemyCount[0] = 999;
-		//
+		////정민디버그
+		//enemyCount = new int[5];
+		//curRoomIndex = 0;
+		//enemyCount[0] = 999;
+		////
 
-		//DontDestroyOnLoad(gameObject);
+		////DontDestroyOnLoad(gameObject);
 
 
-		bullets = new List<GameObject>();
-		deadbody = new List<Enemy_DeadBody>();
+		//bullets = new List<GameObject>();
+		//deadbody = new List<Enemy_DeadBody>();
 
-		killCount = new Data<int>();
-		enemyDeathData = new Data<Enemy>();
-		enemyHitData = new Data<Enemy>();
+		//killCount = new Data<int>();
+		//enemyDeathData = new Data<Enemy>();
+		//enemyHitData = new Data<Enemy>();
 
-		for(int i = 0; i < shopAppearCount; i++)
-		{
-            shopRoomIndex[i] = Funcs.GetDontOverlapRandom(0, 2, ref shopRoomIndex);
-        }
+		//for(int i = 0; i < shopAppearCount; i++)
+		//{
+  //          shopRoomIndex[i] = Funcs.GetDontOverlapRandom(0, 2, ref shopRoomIndex);
+  //      }
     }
 
 	private void Start()

@@ -129,21 +129,21 @@ public class IngameController : Singleton<IngameController>
         //추후에 아예 로딩할때 IngameController랑 StageMAnager랑 다 만들어서
         //플레이어 만들고 뭐하고 하고 하면 될 듯.
 
-        for (int i = 0; i < StageManager.Instance.rooms.Count - 1; ++i)
-        {
-            var curRoom = StageManager.Instance.rooms[i];
-			var enemyPosList = StageManager.Instance.rooms[i].enemyPos;
+  //      for (int i = 0; i < StageManager.Instance.rooms.Count - 1; ++i)
+  //      {
+  //          var curRoom = StageManager.Instance.rooms[i];
+		//	var enemyPosList = StageManager.Instance.rooms[i].enemyPos;
 
-            foreach (var enemyPos in enemyPosList)
-            {
-                int enemyType = Random.Range(0, 2);
-                Enemy enemy = SpawnEnemy(enemyType, enemyPos);
-                enemy.transform.SetParent(StageManager.Instance.rooms[i].transform);
-			}
-		}
+  //          foreach (var enemyPos in enemyPosList)
+  //          {
+  //              int enemyType = Random.Range(0, 2);
+  //              Enemy enemy = SpawnEnemy(enemyType, enemyPos);
+  //              enemy.transform.SetParent(StageManager.Instance.rooms[i].transform);
+		//	}
+		//}
 
-		Enemy Boss = SpawnEnemy(2, StageManager.Instance.bossRoom.centerPos);
-		Boss.transform.SetParent(StageManager.Instance.bossRoom.transform);
+		//Enemy Boss = SpawnEnemy(2, StageManager.Instance.bossRoom.Spec.centerPos);
+		//Boss.transform.SetParent(StageManager.Instance.bossRoom.transform);
     }
 
 	public void GameOver(bool win)
@@ -177,7 +177,7 @@ public class IngameController : Singleton<IngameController>
     private void Start()
 	{
 		FindPlayer();
-        if(StageManager.Instance.curRoom != null) player.transform.position = StageManager.Instance.curRoom.centerPos;
+        //if(StageManager.Instance.curRoom != null) player.transform.position = StageManager.Instance.curRoom.Spec.centerPos;
 
         SetMinimapRenderCam();
 		//MainGame Scene에서 바로 시작하는 테스트를 위해서 

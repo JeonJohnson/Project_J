@@ -40,7 +40,8 @@ public abstract class StageGenerator : MonoBehaviour
 	public Camera cam;
 
 	[Space(10f)]
-	[Header("Result")]
+	//[Header("Result")]
+	public GameObject StagePrefab;
 	[ReadOnly]
 	public Stage stage;
 	//[ReadOnly]

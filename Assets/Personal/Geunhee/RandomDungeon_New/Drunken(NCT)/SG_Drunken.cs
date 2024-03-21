@@ -144,7 +144,8 @@ public class SG_Drunken : StageGenerator
 		#region StageSetting
 		if (stage == null)
 		{
-			stage = new GameObject("Stage").AddComponent<Stage>();
+			//stage = new GameObject("Stage").AddComponent<Stage>();
+			stage = Instantiate(StagePrefab).GetComponent<Stage>();
 		}
 		//ResetStage();
 		#endregion
@@ -220,8 +221,8 @@ public class SG_Drunken : StageGenerator
 		#region AreaSetting
 		if (areaTr != null)
 		{
-			areaTr.localScale = new Vector3(room.size.x, room.size.y);
-			areaTr.localPosition = new Vector3(room.size.x * 0.5f, room.size.y * 0.5f);
+			areaTr.localScale = new Vector3(room.Spec.size.x, room.Spec.size.y);
+			areaTr.localPosition = new Vector3(room.Spec.size.x * 0.5f, room.Spec.size.y * 0.5f);
 		}
 		#endregion
 
@@ -229,8 +230,8 @@ public class SG_Drunken : StageGenerator
 		//cam ??= Camera.main;
 		if (cam != null)
 		{
-			cam.transform.position = new Vector3(room.centerPos.x, room.centerPos.y, -10f);
-			cam.orthographicSize = room.size.x <= room.size.y ? room.size.y * 0.5f : room.size.x * 0.5f;
+			cam.transform.position = new Vector3(room.Spec.centerPos.x, room.Spec.centerPos.y, -10f);
+			cam.orthographicSize = room.Spec.size.x <= room.Spec.size.y ? room.Spec.size.y * 0.5f : room.Spec.size.x * 0.5f;
 			cam.orthographicSize += 1;
 		}
 		#endregion
@@ -311,7 +312,7 @@ public class SG_Drunken : StageGenerator
 					switch (option.ExplorerSpawnOption)
 					{
 						case NewExplorerPos.center:
-							respawnList.Add(new Explorer(room.centerIndex));
+							respawnList.Add(new Explorer(room.Spec.centerIndex));
 							break;
 						case NewExplorerPos.prePos:
 							respawnList.Add(new Explorer(ec.explorers[i].index));
@@ -321,7 +322,7 @@ public class SG_Drunken : StageGenerator
 								int rand = Random.Range(0, 2);
 								if (rand == 0)
 								{
-									respawnList.Add(new Explorer(room.centerIndex));
+									respawnList.Add(new Explorer(room.Spec.centerIndex));
 								}
 								else
 								{

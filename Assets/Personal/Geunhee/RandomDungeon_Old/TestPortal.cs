@@ -14,7 +14,6 @@ public class TestPortal : MonoBehaviour
 
 	private void RandomSprite()
 	{
-
 		int randNum = Random.Range(0, sprites.Count);
 		if (sr != null)
 		{
@@ -44,8 +43,6 @@ public class TestPortal : MonoBehaviour
 			RandomSprite();
 
 			this.gameObject.SetActive(false);
-
-
 		}
 	}
 

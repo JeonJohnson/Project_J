@@ -11,6 +11,7 @@ using AYellowpaper.SerializedCollections;
 using NavMeshPlus.Components;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
+using System;
 
 
 public enum RoomType
@@ -21,26 +22,34 @@ public enum RoomType
 	Boss,
 	End
 }
-
-public  class Room : MonoBehaviour
+[System.Serializable]
+public struct RoomSpec
 {
-	
-	[Space(10f)]
-	[Header("Pos&Index")]
 	[ReadOnly]
 	public Vector3 centerPos;//not CenterIndex's position
 	[ReadOnly]
 	public Vector2Int centerIndex;
 	[ReadOnly]
 	public Vector3 originIndexPos;
+	[ReadOnly]
+	public Vector2Int size;
 
-	[Space(10f)]
 	public RoomType roomType;
 	[ReadOnly]
 	public int roomIndex; //At stage's room List
-	[ReadOnly]
-	public Vector2Int size;
-	
+}
+
+public class Room : MonoBehaviour
+{
+	[SerializeField]
+	RoomSpec spec;
+	public RoomSpec  Spec
+	{
+		get
+		{
+			return spec;
+		}
+	}
 
 	[Space(10f)]
 	public TilemapFlag[,] tileStates;
@@ -60,17 +69,16 @@ public  class Room : MonoBehaviour
 		}
 		return count;
 	}
-
 	public TilemapFlag GetTileState(int x, int y)
 	{
 		return tileStates[x, y];
 	}
 
-
 	[Space(10f)]
 	public SerializedDictionary<TilemapFlag, Tilemap> tilemaps;
 
-	[Space(10f)]
+	[Space(12.5f)]
+	[Header("Pooling")]
 	[ReadOnly]
 	public List<Vector3> enemyPos;
 	[ReadOnly]
@@ -79,13 +87,11 @@ public  class Room : MonoBehaviour
 	public List<Enemy> aliveEnemies;
 
 	[Space(10f)]
+	public Transform poolingTr;
 	[ReadOnly]
-	public List<GameObject> poolingObj;
-	//[ReadOnly]
-	//public List<GameObject> bullets;
-	//[ReadOnly]
-	//public List<GameObject> items;
-
+	public List<GameObject> poolingObjs;
+	//Bullet, Coin, Enemy's Weapon, DeadBody, etc...
+	
 	[Space(10f)]
 	[SerializeField]
 	protected NavMeshSurface navSurface;
@@ -94,24 +100,17 @@ public  class Room : MonoBehaviour
 	public void Setup(RoomOption option)
 	{
 		#region AreaSetting
-		size.x = Mathf.RoundToInt(option.areaSize.x / RoomOption.tileSize);
-		size.y = Mathf.RoundToInt(option.areaSize.y / RoomOption.tileSize);
+		spec = new RoomSpec();
 
-		tileStates = new TilemapFlag[size.x, size.y];
+		spec.size.x = Mathf.RoundToInt(option.areaSize.x / RoomOption.tileSize);
+		spec.size.y = Mathf.RoundToInt(option.areaSize.y / RoomOption.tileSize);
 
-		//areaHalfSize = Funcs.ToV2(gridLength) * 0.5f;
-		//tileHalfSize = tileSize * 0.5f;
+		tileStates = new TilemapFlag[spec.size.x, spec.size.y];
 
-		centerPos = option.pivotPos + new Vector3(size.x * 0.5f, size.y * 0.5f);
-		centerIndex = new Vector2Int((int)(size.x * 0.5f), (int)(size.y * 0.5f));
-		originIndexPos = new Vector2(option.pivotPos.x + RoomOption.tileSize * 0.5f, option.pivotPos.y + RoomOption.tileSize * 0.5f); ;
+		spec.centerPos = option.pivotPos + new Vector3(spec.size.x * 0.5f, spec.size.y * 0.5f);
+		spec.centerIndex = new Vector2Int((int)(spec.size.x * 0.5f), (int)(spec.size.y * 0.5f));
+		spec.originIndexPos = new Vector2(option.pivotPos.x + RoomOption.tileSize * 0.5f, option.pivotPos.y + RoomOption.tileSize * 0.5f); ;
 		#endregion
-	}
-
-
-	private void Awake()
-	{
-		//tilemaps = new SerializedDictionary<TilemapFlag, Tilemap>();
 	}
 
 	public void BakeNavMesh()
@@ -119,20 +118,34 @@ public  class Room : MonoBehaviour
 		navSurface.BuildNavMeshAsync();
 	}
 
+	public void AddPoolingObj(GameObject obj)
+	{
+		obj.transform.parent = poolingTr;
+		poolingObjs.Add(obj);
+	}
 
 	public virtual void Cleanup()
 	{
+		foreach (var item in poolingObjs)
+		{
+			IPoolable poolable = item.GetComponent<IPoolable>();
+			poolable?.PoolableReset();
+
+			PoolingManager.Instance?.ReturnObj(item);
+		}
 
 	}
 
-	public void DestoryRoom()
-	{
-
-	}
-
-
-
+	public void Disappear()
+	{ 
 	
+	}
+
+	public void Appear()
+	{ 
+	
+	}
+
 
 	public Vector2 GetPos(Vector2Int index)
 	{
@@ -143,7 +156,7 @@ public  class Room : MonoBehaviour
 			return new Vector2(float.MinValue, float.MinValue);
 		}
 
-		Vector2 pos = new Vector2(index.x * tileSize + tileSize*0.5f, index.y * tileSize + tileSize*0.5f);
+		Vector2 pos = new Vector2(index.x * tileSize + tileSize * 0.5f, index.y * tileSize + tileSize * 0.5f);
 
 		return pos;
 	}
@@ -161,6 +174,18 @@ public  class Room : MonoBehaviour
 
 		return new Vector2Int((int)index.x, (int)index.y);
 	}
+
+
+
+
+
+	private void Awake()
+	{
+		
+	}
+
+
+	
 
 
 
