@@ -195,20 +195,19 @@ public class SG_Drunken : StageGenerator
 			curRoom.transform.SetParent(stage.transform);
 			stage.rooms.Add(curRoom);
 
-			if (i < roomCount-1)
-			{ curRoom.gameObject.SetActive(false); }
+			//if (i < roomCount-1)
+			//{ curRoom.gameObject.SetActive(false); }
+			curRoom.gameObject.SetActive(false);
 		}
 
 		SetShopRoom(stage);
 		SetBossRoom(stage);
-		
 
+		
 	}
 
 	public override void ResetStage()
 	{
-
-
 		//Stage파괴하기
 		stage = null;
 	}
@@ -447,19 +446,22 @@ public class SG_Drunken : StageGenerator
 		{
 			return;
 		}
-
-		GameObject shopObj = Instantiate(ShopPrefab,_stage.transform);
-		Room shopSc = shopObj.GetComponent<Room>(); // 추후에 룸 상속받는 Shop새로만들기
-
+		
 		int curShopCount = 0;
 		while (curShopCount < shopCount)
 		{
+			GameObject shopObj = Instantiate(ShopPrefab, _stage.transform);
+			Room shopSc = shopObj.GetComponent<Room>(); // 추후에 룸 상속받는 Shop새로만들기
 			int rand = UnityEngine.Random.Range(0, _stage.rooms.Count);
+			
 			//앞뒤로 상점 없는거 체크 요망
 			_stage.rooms.Insert(rand + 1, shopSc);
-
 			shopObj.transform.SetSiblingIndex(rand + 1);
+			shopObj.SetActive(false);
+			
+			++curShopCount;
 		}
+		
 	}
 
 	private void SetBossRoom(Stage _stage)
@@ -470,7 +472,10 @@ public class SG_Drunken : StageGenerator
 		}
 
 		GameObject bossObj = Instantiate(BossRoomPrefab,_stage.transform);
-		bossObj.transform.SetAsFirstSibling();
+		Room bossSc = bossObj.GetComponent<Room>();
+		_stage.rooms.Add(bossSc);
+		bossObj.transform.SetAsLastSibling();
+		bossObj.SetActive(true);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////

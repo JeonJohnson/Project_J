@@ -473,79 +473,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bbd6bfac766f0441839c89d103adc06, type: 3}
---- !u!1 &509542957
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 509542959}
-  - component: {fileID: 509542958}
-  m_Layer: 0
-  m_Name: SG_Drunken
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &509542958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 509542957}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 849e3f6937e9176429a9827c055cca38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaTr: {fileID: 211479546}
-  cam: {fileID: 1496041546}
-  stage: {fileID: 0}
-  curRoom: {fileID: 0}
-  rooms:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  TilemapRefer_Prefab: {fileID: 1836350802054613475, guid: b4ea6a5adf397db409143ad808043ef8, type: 3}
-  TileResource:
-    _serializedList:
-    - Key: 1
-      Value:
-      - {fileID: 11400000, guid: 4fbb861ef28b49349b95faf11be1df3f, type: 2}
-    - Key: 8
-      Value:
-      - {fileID: 11400000, guid: 1f63fa579b4ff804ab71a9e54b28e93d, type: 2}
-    - Key: 16
-      Value:
-      - {fileID: 11400000, guid: 7463a235d6f6d364ba5f52a89a6859fa, type: 2}
-  roomCount: 5
-  ShopPrefab: {fileID: 0}
-  shopCount: 0
-  BossRoomPrefab: {fileID: 6809010725100927562, guid: 076194d250b54a448b19abcb4ad59050, type: 3}
-  roofTileOffset: 0.22
-  shadowTileOffset: 0.167
-  option: {fileID: 11400000, guid: ade1e58bf54a5ef4fb22b6c690910f12, type: 2}
---- !u!4 &509542959
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 509542957}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &909292553
 GameObject:
   m_ObjectHideFlags: 0
@@ -1246,6 +1173,57 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &410114158537425015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8112360823152142508}
+  - component: {fileID: 2791459671679143291}
+  m_Layer: 0
+  m_Name: SG_Drunken
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2791459671679143291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410114158537425015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 849e3f6937e9176429a9827c055cca38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaTr: {fileID: 211479546}
+  cam: {fileID: 1496041546}
+  stage: {fileID: 0}
+  TilemapRefer_Prefab: {fileID: 1836350802054613475, guid: b4ea6a5adf397db409143ad808043ef8, type: 3}
+  TileResource:
+    _serializedList:
+    - Key: 1
+      Value:
+      - {fileID: 11400000, guid: 4fbb861ef28b49349b95faf11be1df3f, type: 2}
+    - Key: 8
+      Value:
+      - {fileID: 11400000, guid: 1f63fa579b4ff804ab71a9e54b28e93d, type: 2}
+    - Key: 16
+      Value:
+      - {fileID: 11400000, guid: 7463a235d6f6d364ba5f52a89a6859fa, type: 2}
+  roomCount: 10
+  ShopPrefab: {fileID: 6809010725100927562, guid: 077dfe19e0697404e95466bb686844c2, type: 3}
+  shopCount: 3
+  BossRoomPrefab: {fileID: 6809010725100927562, guid: 076194d250b54a448b19abcb4ad59050, type: 3}
+  roofTileOffset: 0.4
+  shadowTileOffset: 0.2
+  option: {fileID: 11400000, guid: ade1e58bf54a5ef4fb22b6c690910f12, type: 2}
 --- !u!1001 &4601893554645745529
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1319,3 +1297,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40e00cb133e976844935c22284288fb5, type: 3}
+--- !u!4 &8112360823152142508
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410114158537425015}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
