@@ -20,7 +20,7 @@ public enum eRandomGenList
 public class Demo_Room : MonoBehaviour
 {
     [SerializeField]
-   private GameObject enterance;
+    private GameObject enterance;
 	[SerializeField]
 	private GameObject exit;
 
