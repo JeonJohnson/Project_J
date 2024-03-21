@@ -22,9 +22,9 @@ public class Player_Move : Action<Player>
     public override void ActionFixedUpdate() {
         me.PlayerRigidbody2D.velocity = moveDir * (me.status.walkSpeed);
     }
-
+    
     public override void ActionLateUpdate() { }
-
+    
     public override void ActionExit() 
     {
         me.PlayerRigidbody2D.velocity = Vector3.zero;

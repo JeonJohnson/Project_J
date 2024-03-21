@@ -43,7 +43,10 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     private SceneLoader sceneLoader;
 
-    public void LoadScene(int sceneIndex)
+	[SerializeField]
+	private PotatoConsole console;
+
+	public void LoadScene(int sceneIndex)
     {
         
         if (sceneLoader.isSceneLoading) { Debug.LogWarning("씬이 이미 불러와지는 중입니다"); return; };
@@ -140,6 +143,7 @@ public class GameManager : Singleton<GameManager>
 		//Debug.Log("GameManager Awake");
 
         Application.targetFrameRate = 60;
+        
 
 	}
 	void Start()
@@ -147,6 +151,7 @@ public class GameManager : Singleton<GameManager>
         //Debug.Log("GameManager Start");
 
 		AppInitCheck();
+		console.Active(false);
 	}
 
     void Update()
