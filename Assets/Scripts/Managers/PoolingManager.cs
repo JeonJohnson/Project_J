@@ -6,6 +6,7 @@ using UnityEngine;
 using AYellowpaper.SerializedCollections;
 using Enums;
 using UnityEngine.Analytics;
+using UnityEngine.Events;
 
 public interface IPoolable
 {
@@ -32,6 +33,8 @@ public class PoolingManager: Singleton<PoolingManager>
 
     public Dictionary<string, Queue<GameObject>> poolingObjDic;
 
+	public UnityAction OnLental;
+	//public UnityAction OnReturn;
 
 
 	public void CreateBoxes()
@@ -148,6 +151,9 @@ public class PoolingManager: Singleton<PoolingManager>
 
             tempObj.SetActive(true);
 			tempObj.transform.SetParent(null);
+
+			OnLental?.Invoke();
+
 			return tempObj;
 		}
 	}
