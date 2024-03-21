@@ -45,6 +45,16 @@ public class Weapon_Player : Weapon
 
     public AudioSource aus;
 
+    private int[] imageSortOrders;
+
+    private void Awake()
+    {
+        imageSortOrders = new int[testWeaponSprite.Length];
+        for (int i = 0; i < testWeaponSprite.Length; i++)
+        {
+            imageSortOrders[i] = testWeaponSprite[i].sortingOrder;
+        }
+    }
 
     private void Update()
     {
@@ -55,20 +65,20 @@ public class Weapon_Player : Weapon
         }
         if(owner.aimController != null)
         {
-            if(owner.aimController.GetAimAngle(Vector3.up) < 90f)
+            if(owner.aimController.GetAimAngle(Vector3.up) < 80f)
             {
-                ChangeImageSortOrder(testWeaponSprite[0], "Characters", 0);
-                ChangeImageSortOrder(testWeaponSprite[1], "Characters", 0);
-                ChangeImageSortOrder(testWeaponSprite[2], "Characters", 0);
-                ChangeImageSortOrder(testWeaponSprite[3], "Characters", 0);
-                ChangeImageSortOrder(fovSprite, "Characters", -1);
+                for (int i = 0; i < testWeaponSprite.Length; i++)
+                {
+                    ChangeImageSortOrder(testWeaponSprite[i], "Characters", imageSortOrders[i] - 3);
+                }
+                ChangeImageSortOrder(fovSprite, "Characters", -2);
             }
             else
             {
-                ChangeImageSortOrder(testWeaponSprite[0], "Characters", 2);
-                ChangeImageSortOrder(testWeaponSprite[1], "Characters", 2);
-                ChangeImageSortOrder(testWeaponSprite[2], "Characters", 2);
-                ChangeImageSortOrder(testWeaponSprite[3], "Characters", 2);
+                for (int i = 0; i < testWeaponSprite.Length; i++)
+                {
+                    ChangeImageSortOrder(testWeaponSprite[i], "Characters", imageSortOrders[i]);
+                }
                 ChangeImageSortOrder(fovSprite, "Characters", 1);
             }
 

@@ -68,12 +68,14 @@ public class Player_Move : Action<Player>
             me.footstepParticle.Play();
             me.animator.SetBool("isMove", true);
             me.MoveActionTable.LastMoveDir = moveDir;
+            me.MoveActionTable.isMoving = true;
             //조준, 사격기능 활성화
         }
         else
         {
             me.footstepParticle.Stop();
             me.animator.SetBool("isMove", false);
+            me.MoveActionTable.isMoving = false;
         }
     }
 }

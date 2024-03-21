@@ -42,6 +42,11 @@ public class Player : CObj
 
     private Coroutine invincibleCor;
 
+    [Header("EventData")]
+    public Data<int> killCount; // 단순 기록용 0207JM
+    public Data<Enemy> enemyDeathData;
+    public Data<Enemy> enemyHitData;
+
     private void Awake()
     {
         InitializePlayer();
@@ -63,6 +68,10 @@ public class Player : CObj
 
         status.curHp = new Data<int>();
         status.curHp.Value = status.maxHp;
+
+        killCount = new Data<int>();
+        enemyDeathData = new Data<Enemy>();
+        enemyHitData = new Data<Enemy>();
         Debug.Log("이닛 플레이어");
     }
 
@@ -164,6 +173,17 @@ public class Player : CObj
             moveActionTable.enabled = true;
             Time.timeScale = 1.0f;
         }
+    }
+
+    public void OnEnemyHit(Enemy enemy)
+    {
+        enemyHitData.Value = enemy;
+    }
+
+    public void OnEnemyKill(Enemy enemy)
+    {
+        killCount.Value++;
+        enemyDeathData.Value = enemy;
     }
 
     private void Update()

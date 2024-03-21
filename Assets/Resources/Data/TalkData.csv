@@ -1,0 +1,11 @@
+EventIndex,NpcName,Speech,FontSize,FontSpeed
+0,Drone,야 플레이어,24,0.1
+0,Drone,안아줘요!!!!,50,0.1
+0,Player,화났어요,24,1
+0,Drone,엘렐레,24,0.1
+,,,,
+,,,,
+,,,,
+1,Drone,먹을만 하네요,24,0.1
+1,Drone,푸하하,35,0.1
+1,Drone,참 잘했어요,24,0.1
