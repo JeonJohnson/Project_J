@@ -1287,6 +1287,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NormalPortal
       objectReference: {fileID: 0}
+    - target: {fileID: 4310350758462050799, guid: d726831bbdd16e84788355646cf61a4e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1347,6 +1351,10 @@ PrefabInstance:
     - target: {fileID: 6495404165369354533, guid: a3b1ead2cee0403438b07360652221bb, type: 3}
       propertyPath: m_Name
       value: ShopPortal
+      objectReference: {fileID: 0}
+    - target: {fileID: 6495404165369354533, guid: a3b1ead2cee0403438b07360652221bb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
