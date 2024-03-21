@@ -24,12 +24,12 @@ public class RuneEffect_HealOnKill : RuneEffect
     public override void RuneInit(Player player, SerializedDictionary<string, int> value)
     {
         base.RuneInit(player, value);
-        if (StageManager.Instance) StageManager.Instance.killCount.onChange += Heal;
+        owner.killCount.onChange += Heal;
     }
 
     public override void RuneExit() 
     {
-        if (StageManager.Instance) StageManager.Instance.killCount.onChange -= Heal;
+        owner.killCount.onChange -= Heal;
     }
 
     private void Heal(int dummyValue)
@@ -46,12 +46,12 @@ public class RuneEffect_ExplodeOnKill : RuneEffect
     public override void RuneInit(Player player, SerializedDictionary<string, int> value)
     {
         base.RuneInit(player, value);
-        if (StageManager.Instance) StageManager.Instance.enemyDeathData.onChange += Explode;
+        owner.enemyDeathData.onChange += Explode;
     }
 
     public override void RuneExit()
     {
-        if (StageManager.Instance) StageManager.Instance.enemyDeathData.onChange -= Explode;
+        owner.enemyDeathData.onChange -= Explode;
     }
 
     private void Explode(Enemy enemy)
@@ -82,7 +82,7 @@ public class RuneEffect_SlowOnEnemyHit : RuneEffect
     public override void RuneInit(Player player, SerializedDictionary<string, int> value)
     {
         base.RuneInit(player, value);
-        if (StageManager.Instance) StageManager.Instance.enemyHitData.onChange += Slow;
+        owner.enemyHitData.onChange += Slow;
     }
 
     public override void RuneEffectUpdate()
@@ -92,7 +92,7 @@ public class RuneEffect_SlowOnEnemyHit : RuneEffect
 
     public override void RuneExit()
     {
-        if (StageManager.Instance) StageManager.Instance.enemyHitData.onChange -= Slow;
+        owner.enemyHitData.onChange -= Slow;
     }
 
     private void Slow(Enemy enemy)

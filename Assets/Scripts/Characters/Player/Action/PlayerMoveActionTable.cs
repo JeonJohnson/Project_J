@@ -14,6 +14,8 @@ public class PlayerMoveActionTable : ActionTable<Player>
     private Vector3 lastMoveDir;
     public Vector3 LastMoveDir { get { return lastMoveDir; } set { lastMoveDir = value; } }
 
+    public bool isMoving;
+
     protected override void Initialize()
     {
         if (owner == null) owner = GetComponent<Player>();
