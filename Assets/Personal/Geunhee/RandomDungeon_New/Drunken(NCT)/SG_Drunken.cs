@@ -73,7 +73,8 @@ public class SG_Drunken : StageGenerator
 {
 
 	//private int[] tempTileTypeCount = new int[(int)TilemapLayer.End];
-	
+
+	[SerializeField]
 	private int[] tempTileTypeCount = new int[Enum.GetValues(typeof(TilemapFlag)).Length];
 	//이렇게 되면 접근할떄 다시 밑2 로그연산 박아줘야하기에 Enum으로 배열 쓰는게 조금 빡셈
 	//ex) Ground찾을때
@@ -276,7 +277,7 @@ public class SG_Drunken : StageGenerator
 	{ //Move Once
 	  //1. Checking ground Count Ratio 
 		
-		int mapLen = option.areaSize.x + option.areaSize.y;
+		int mapLen = option.areaSize.x * option.areaSize.y;
 		if (option.areaFillRatio <= (float)tempTileTypeCount[Funcs.FlagToEnum((int)TilemapFlag.Ground)] / (float)mapLen)
 		{
 			return false;

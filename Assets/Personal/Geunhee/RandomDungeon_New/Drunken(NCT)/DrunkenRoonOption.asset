@@ -15,14 +15,13 @@ MonoBehaviour:
   pivotPos: {x: 0, y: 0, z: 0}
   areaSize: {x: 25, y: 25}
   enemyCount: 5
-  areaFillRatio: 0.5
-  maxTryCount: 6232584
-  curTryCount: 8
-  ExplorerSpawnOption: 2
-  newDirPercent: 0.5
+  areaFillRatio: 0.699
+  maxTryCount: 6020932
+  ExplorerSpawnOption: 1
+  newDirPercent: 0.11
   startExplorerCount: 10
   ExplorerCountRange: {x: 1, y: 10}
   respawnPercent: 0.5
   respawnCountRange: {x: 1, y: 4}
-  destroyPercent: 0.5
-  destroyCountRange: {x: 1, y: 2}
+  destroyPercent: 0
+  destroyCountRange: {x: 0, y: 0}
