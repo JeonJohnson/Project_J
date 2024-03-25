@@ -8,6 +8,8 @@ using Unity.VisualScripting;
 
 public class IngameLoader : MonoBehaviour
 {
+
+	public Button TestButton;
 	//여기서 씬 이동하는 연출은 일단 로딩에 대해서 더 연구해보고 진행
 
 	//테스트 방법 1
@@ -26,7 +28,7 @@ public class IngameLoader : MonoBehaviour
 
 	public Stage tempStage;
 
-	public void Test()
+	public void TestEvent()
 	{
 		SceneManager.sceneLoaded += GiveStage;
 	}
@@ -54,18 +56,12 @@ public class IngameLoader : MonoBehaviour
 
 		tempStage = SG.CreateStage();
 		DontDestroyOnLoad(tempStage.gameObject);
+		TestEvent();
 
-
-		Test();
-
-		StartCoroutine(NextSceneCoro());
+		TestButton.onClick.AddListener(()=> GameManager.Instance.LoadNextScene());
 	}
 
-	IEnumerator NextSceneCoro()
-	{
-		yield return new WaitForSeconds(4f);
-		GameManager.Instance.LoadNextScene();
-	}
+	
 	private void Update()
 	{
 		
