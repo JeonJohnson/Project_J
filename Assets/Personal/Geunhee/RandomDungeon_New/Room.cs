@@ -83,8 +83,8 @@ public class Room : MonoBehaviour
 	public List<Vector3> enemyPos;
 	[ReadOnly]
 	public List<Enemy> allEnemies;
-	[ReadOnly]
-	public List<Enemy> aliveEnemies;
+	//[ReadOnly]
+	//public List<Enemy> aliveEnemies;
 
 	[Space(10f)]
 	public Transform poolingTr;
@@ -133,7 +133,6 @@ public class Room : MonoBehaviour
 
 			PoolingManager.Instance?.ReturnObj(item);
 		}
-
 	}
 
 	public void Disappear()
@@ -181,7 +180,7 @@ public class Room : MonoBehaviour
 
 	private void Awake()
 	{
-		
+		navSurface.hideEditorLogs = false;
 	}
 
 

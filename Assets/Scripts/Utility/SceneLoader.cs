@@ -24,7 +24,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField]
     Image loadingImage;
 
-    int loadSceneNumber;
+    public int loadSceneNumber;
 
     [HideInInspector] public bool isSceneLoading = false;
 
@@ -35,7 +35,7 @@ public class SceneLoader : MonoBehaviour
     public UnityAction[] OnLoadingEvents;
     
 
-    public void LoadScene(int sceneNumber)
+    public void LoadScene(int sceneNumber, LoadSceneMode mode = LoadSceneMode.Single)
     {
         int curScene = SceneManager.GetActiveScene().buildIndex;
 
@@ -44,7 +44,7 @@ public class SceneLoader : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         loadSceneNumber = sceneNumber;
 
-        StartCoroutine(LoadSceneProcess(curScene,sceneNumber));
+        StartCoroutine(LoadSceneProcess(curScene,sceneNumber,mode));
     }
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1) // arg0 = 불러와진 씬 
@@ -80,14 +80,16 @@ public class SceneLoader : MonoBehaviour
             loadingTextTimer = 0f;
         }
     }
-    IEnumerator LoadSceneProcess(int curScene, int loadScene)
+
+    //나중에 이거 mode 받아가지고
+    //additive면 언로드까지 포함해서 Loading 만들기
+
+    IEnumerator LoadSceneProcess(int curScene, int loadScene, LoadSceneMode mode)
     {
         yield return StartCoroutine(Fade(true)); // 코루틴안에서 코루틴 실행시키면서 yield return으로 실행시키면 호출된 코루틴이 끝날때까지 기다리게 만들수 있음. 즉 Fade timer시간인 1초만큼 기다림
 
-        AsyncOperation op = SceneManager.LoadSceneAsync(loadSceneNumber); // 비동기로 씬을 불러옴
+        AsyncOperation op = SceneManager.LoadSceneAsync(loadSceneNumber,mode); // 비동기로 씬을 불러옴
         op.allowSceneActivation = false; // 로딩 끝나자마자 자동으로 씬전환이 되지않게
-
-        float timer = 0f;
 
         float garaLoadingOffset = UnityEngine.Random.Range(0.7f, 1f);
 
@@ -96,7 +98,6 @@ public class SceneLoader : MonoBehaviour
             progressCricle.transform.Rotate(new Vector3(0,0f,-0.5f) * 360 * Time.deltaTime);
             ChangeLoadingText();
 
-            //loadingImage.fillAmount = op.progress;
             loadingImage.fillAmount = op.progress * garaLoadingOffset;
 
             yield return null;
@@ -111,17 +112,26 @@ public class SceneLoader : MonoBehaviour
 
                 ChangeLoadingText();
 
-                //timer += Time.unscaledDeltaTime;
+                
                 loadingImage.fillAmount = 1;
 
-				//if (timer > 1f)
-				//{
+				
 				Debug.Log("SceneLoad End");
-				op.allowSceneActivation = true;
-                    yield break;
+
+                if (mode == LoadSceneMode.Single)
+                {
+                    op.allowSceneActivation = true;
+                }
+                //else
+                //{
+                //    var unloadOP = SceneManager.UnloadSceneAsync(curScene);
                 //}
+
+                yield break;
             }
         }
+
+
     }
 
     IEnumerator Fade(bool isFadeIn) // 로딩끝났을때 페이드인/아웃 효과
@@ -142,10 +152,13 @@ public class SceneLoader : MonoBehaviour
 
     private void LoadSpecific(int curScene, int loadScene)
     {
-        if (curScene == 2 && loadScene == 3)
-        {
-            OnLoadingEvents[2].Invoke();
-        }
+        //if (curScene == 2 && loadScene == 3)
+        //{
+        //    OnLoadingEvents[2].Invoke();
+        //}
+
+        if (OnLoadingEvents[curScene] != null)
+        { OnLoadingEvents[curScene].Invoke(); }
 
     }
 

@@ -346,7 +346,7 @@ public class Boss_Attack2 : Action<Boss_Demo>
 
                 GameObject explosionParticle = PoolingManager.Instance.LentalObj("Effect_Magic_00");
                 explosionParticle.transform.position = rndEnemyPos;
-                Enemy underEnemy = IngameController.Instance.SpawnEnemy(0, rndEnemyPos);
+                Enemy underEnemy = IngameController.Instance.SpawnEnemy(0, rndEnemyPos, null);
                 underEnemy.status.dontTriggerLeftInfo = true;
 
             }

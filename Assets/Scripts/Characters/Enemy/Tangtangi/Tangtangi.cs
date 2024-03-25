@@ -62,7 +62,7 @@ public class Tangtangi : Enemy
             }
 
             //근희임시추가
-            StageManager.Instance?.AddDeadBody(go.GetComponent<Enemy_DeadBody>());
+            //StageManager.Instance?.AddDeadBody(go.GetComponent<Enemy_DeadBody>());
             //근희임시추가
 
             //데이터 뿌리기

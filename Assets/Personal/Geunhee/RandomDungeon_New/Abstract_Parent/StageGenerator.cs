@@ -91,7 +91,7 @@ public abstract class StageGenerator : MonoBehaviour
 
 	public abstract Room CreateOneRoom();
 	
-	public abstract void CreateStage();
+	public abstract Stage CreateStage();
 
 	public abstract void ResetStage();
 

@@ -9,20 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: RO_Drunken_Test
-  m_EditorClassIdentifier: Assembly-CSharp::RoomOption_Drunken
+  m_Script: {fileID: 11500000, guid: 3af6997db44f5a04e976e0c7b216be65, type: 3}
+  m_Name: DrunkenRoonOption
+  m_EditorClassIdentifier: 
   pivotPos: {x: 0, y: 0, z: 0}
   areaSize: {x: 25, y: 25}
   enemyCount: 5
-  areaFillRatio: 0.4
-  maxTryCount: 814280
-  curTryCount: 814280
-  ExplorerSpawnOption: 0
+  areaFillRatio: 0.5
+  maxTryCount: 6232584
+  curTryCount: 8
+  ExplorerSpawnOption: 2
   newDirPercent: 0.5
-  startExplorerCount: 5
+  startExplorerCount: 10
   ExplorerCountRange: {x: 1, y: 10}
-  respawnPercent: 0.335
-  respawnCountRange: {x: 0, y: 5}
-  destroyPercent: 0.22
-  destroyCountRange: {x: 0, y: 5}
+  respawnPercent: 0.5
+  respawnCountRange: {x: 1, y: 4}
+  destroyPercent: 0.5
+  destroyCountRange: {x: 1, y: 2}

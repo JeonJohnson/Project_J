@@ -46,6 +46,7 @@ public struct Explorer
 	public Vector2Int dir;
 }
 
+[Serializable]
 public class ExploreCompany
 {
 	public ExploreCompany(int explorerCount, Vector2Int centerIndex)
@@ -96,7 +97,8 @@ public class SG_Drunken : StageGenerator
 	//public int fireCount;
 	public ExploreCompany exploreCompany;
 	public RoomOption_Drunken option;
-
+	[ReadOnly]
+	public int curTryCount;
 	//추후 한 스테이지 내 여러 방들의 옵션이 바뀌어야 하는 경우
 	//수정 해 줄 수 있도록.
 
@@ -146,6 +148,7 @@ public class SG_Drunken : StageGenerator
 		{
 			//stage = new GameObject("Stage").AddComponent<Stage>();
 			stage = Instantiate(StagePrefab).GetComponent<Stage>();
+			stage.gameObject.name.Replace("(Clone)", string.Empty);
 		}
 		//ResetStage();
 		#endregion
@@ -177,7 +180,7 @@ public class SG_Drunken : StageGenerator
 	}
 
 
-	public override void CreateStage()
+	public override Stage CreateStage()
 	{
 
 		for (int i = 0; i < roomCount; ++i)
@@ -198,13 +201,18 @@ public class SG_Drunken : StageGenerator
 
 			//if (i < roomCount-1)
 			//{ curRoom.gameObject.SetActive(false); }
-			curRoom.gameObject.SetActive(false);
+			if (i != 0)
+			{
+				curRoom.gameObject.SetActive(false);
+			}
+			
+			stage.curRoom = stage.rooms[stage.curRoomIndex];
 		}
 
 		SetShopRoom(stage);
 		SetBossRoom(stage);
 
-		
+		return stage;
 	}
 
 	public override void ResetStage()
@@ -250,12 +258,12 @@ public class SG_Drunken : StageGenerator
 
 	private void CreateGround(Room room)
 	{
-		option.curTryCount = 0;
-		while (option.maxTryCount > option.curTryCount)
+		curTryCount = 0;
+		while (option.maxTryCount > curTryCount)
 		{
 			if (MoveExplorerOnce(room))
 			{
-				++option.curTryCount;
+				++curTryCount;
 			}
 			else
 			{
@@ -476,7 +484,7 @@ public class SG_Drunken : StageGenerator
 		Room bossSc = bossObj.GetComponent<Room>();
 		_stage.rooms.Add(bossSc);
 		bossObj.transform.SetAsLastSibling();
-		bossObj.SetActive(true);
+		bossObj.SetActive(false);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -550,7 +558,7 @@ public class SG_Drunken : StageGenerator
 				val = Vector2Int.zero;
 				break;
 		}
-		val.x *= RoomOption.tileSize;
+		//val.x *= RoomOption.tileSize;
 		return val;
 	}
 

@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
-
 using Debug = Potato.Debug;
 
 //인게임 씬의
@@ -42,7 +43,15 @@ public class IngameController : Singleton<IngameController>
 
     public GameStatus gameStatus = GameStatus.Playing;
 
-    private void FindPlayer()
+
+
+
+    public Stage stage;
+
+
+
+	#region About_Player
+	private void FindPlayer()
     {
         if(player == null)
         {
@@ -64,9 +73,57 @@ public class IngameController : Singleton<IngameController>
         else { Debug.Log("플레이어 폴더에서 못찾음"); }
         return playerGo;
     }
+    #endregion
 
+    private void FindStage()
+    {
+        if (stage == null)
+        {
 
-    public Enemy SpawnEnemy(int type, Vector3 pos)
+			var Obj = GameObject.FindWithTag("Stage");
+
+            if (Obj == null)
+            {
+                Obj = GameObject.Find("Stage");
+            }
+
+			if (Obj != null)
+            { 
+                stage = Obj.GetComponent<Stage>();
+            }
+		}
+	}
+
+    //public void AddPoolingObject(GameObject obj)
+    //{ 
+        
+    
+    //}
+
+    public void SpawnEnemies()
+    {
+        var rooms = stage.rooms;
+
+        foreach (var room in rooms)
+        {
+            if (room.Spec.roomType == RoomType.Normal)
+            {
+                foreach (var pos in room.enemyPos)
+                {
+                    int rand = UnityEngine.Random.Range(0, 2);
+                    Enemy enemy = SpawnEnemy(rand, pos, room);
+                    room.AddPoolingObj(enemy.gameObject);
+                }
+            }
+            else if (room.Spec.roomType == RoomType.Boss)
+            {
+				Enemy enemy = SpawnEnemy(2, room.Spec.centerPos, room);
+				room.AddPoolingObj(enemy.gameObject);
+			}
+        }
+    }
+
+	public Enemy SpawnEnemy(int type, Vector3 pos, Room room)
     {
         string enemyObjName = type == 0 ? "Enemy_Rifle" : "Enemy_Shotgun";
 
@@ -75,8 +132,12 @@ public class IngameController : Singleton<IngameController>
             enemyObjName = "Boss_Demo";
         }
 
-
         var obj = PoolingManager.Instance.LentalObj(enemyObjName, 1);
+        if (room == null)
+        {
+            room = stage.curRoom;
+        }
+        //obj.transform.SetParent(room.poolingTr);
         var script = obj.GetComponent<Enemy>();
 
         if (script)
@@ -88,12 +149,12 @@ public class IngameController : Singleton<IngameController>
             script.status.dontTriggerLeftInfo = false;
         }
 
-
         return script;
 	}
 
 
-    public void SetMinimapRenderCam()
+	#region Minimap
+	public void SetMinimapRenderCam()
     {
         minimapRenderCam ??= GameObject.FindWithTag("MinimapRenderCam").GetComponent<Camera>();
     }
@@ -103,48 +164,29 @@ public class IngameController : Singleton<IngameController>
         minimapRenderCam.transform.position = new Vector3(pos.x, pos.y, -10f);
         minimapRenderCam.orthographicSize = size;
     }
+	#endregion
 
 
-    private void CheckMap()
-    {
-        GameObject stageMgr = GameObject.Find("StageManager");
-        
-        if (stageMgr == null)
-        {
-            GameObject prefab = Resources.Load("Managers/StageManager") as GameObject;
-            stageMgr = Instantiate(prefab);
+	//private void CheckMap()
+	//{
+	//    GameObject stageMgr = GameObject.Find("StageManager");
 
-            //나중에 만드는디
-            //DungeonGenerator에서 직접적으로 
-            //GameManager에 이벤트 연결하는게 아니라
-            
-            //제네레이터는 방 만들어고 가지고있는 기능만 수행하고
-            //Stage매니저는 이를 GameManager의 이벤트와 연결하고
-            //할 수 있도록 하기
-        }
-    }
+	//    if (stageMgr == null)
+	//    {
+	//        GameObject prefab = Resources.Load("Managers/StageManager") as GameObject;
+	//        stageMgr = Instantiate(prefab);
 
-    private void EnemySpawn()
-    {
-        //추후에 아예 로딩할때 IngameController랑 StageMAnager랑 다 만들어서
-        //플레이어 만들고 뭐하고 하고 하면 될 듯.
+	//        //나중에 만드는디
+	//        //DungeonGenerator에서 직접적으로 
+	//        //GameManager에 이벤트 연결하는게 아니라
 
-  //      for (int i = 0; i < StageManager.Instance.rooms.Count - 1; ++i)
-  //      {
-  //          var curRoom = StageManager.Instance.rooms[i];
-		//	var enemyPosList = StageManager.Instance.rooms[i].enemyPos;
+	//        //제네레이터는 방 만들어고 가지고있는 기능만 수행하고
+	//        //Stage매니저는 이를 GameManager의 이벤트와 연결하고
+	//        //할 수 있도록 하기
+	//    }
+	//}
 
-  //          foreach (var enemyPos in enemyPosList)
-  //          {
-  //              int enemyType = Random.Range(0, 2);
-  //              Enemy enemy = SpawnEnemy(enemyType, enemyPos);
-  //              enemy.transform.SetParent(StageManager.Instance.rooms[i].transform);
-		//	}
-		//}
 
-		//Enemy Boss = SpawnEnemy(2, StageManager.Instance.bossRoom.Spec.centerPos);
-		//Boss.transform.SetParent(StageManager.Instance.bossRoom.transform);
-    }
 
 	public void GameOver(bool win)
 	{
@@ -153,7 +195,6 @@ public class IngameController : Singleton<IngameController>
             gameStatus = win ? GameStatus.Win : GameStatus.Lose;
 
             string soundName = win ? "Win" : "Lose";
-            //SoundManager.Instance.PlayBgm(soundName);
 
             player.GetComponent<BoxCollider2D>().enabled = false;
 
@@ -163,50 +204,61 @@ public class IngameController : Singleton<IngameController>
 
     public void GotoTitleScene()
     {
-        StageManager.Instance.Release();
-        DestroyImmediate(StageManager.Instance.gameObject);
-
         GameManager.Instance.LoadScene((int)SceneName.Title);
     }
 
-    private void Awake()
+    public void GotoMainMenu()
     {
-        Initailize(true);
+        GameManager.Instance.LoadScene((int)SceneName.MainMenu);
+    }
+
+
+	public void ResetAllWindow()
+	{
+		isWindowActivated = false;
+		isRuneWindowActivated = false;
+		isShopWindowActivated = false;
+
+		UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
+		UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
+		UiController_Proto.Instance.ShowShopWindow(isShopWindowActivated);
+
+		Cursor.visible = true;
+	}
+	private void Awake()
+    {
+        Initailize(false);
     }
 
     private void Start()
 	{
-		FindPlayer();
-        //if(StageManager.Instance.curRoom != null) player.transform.position = StageManager.Instance.curRoom.Spec.centerPos;
-
+	    FindPlayer();
+        
         SetMinimapRenderCam();
-		//MainGame Scene에서 바로 시작하는 테스트를 위해서 
-		//맵 StageManager이나 맵 없으면 여기서 만들어주자구
 
-        //정민 디버그
-		EnemySpawn();
+        SpawnEnemies();
+
+        //PoolingManager.Instance.OnLental 
 	}
 	private void Update()
     {
 
     }
 
-    public void ResetAllWindow()
-    {
-        isWindowActivated = false;
-        isRuneWindowActivated = false;
-        isShopWindowActivated = false;
-
-        UiController_Proto.Instance.ShowDetailStatusWindow(isWindowActivated);
-        UiController_Proto.Instance.ShowRuneWindow(isRuneWindowActivated);
-        UiController_Proto.Instance.ShowShopWindow(isShopWindowActivated);
-
-        Cursor.visible = true;
-    }
+ 
 
 	public override void OnSceneChanged(Scene scene, LoadSceneMode mode)
 	{
 		base.OnSceneChanged(scene, mode);
+
+
+        
+        //FindStage();
+	}
+
+	private void OnDestroy()
+	{
+		//PoolingManager.Instance.OnLental -= 
 	}
 }
 

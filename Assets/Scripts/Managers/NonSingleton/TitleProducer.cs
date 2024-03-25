@@ -19,12 +19,12 @@ public class TitleProducer : MonoBehaviour
     public Button exitBtn;
 
 
-    public void GotoIngame()
-    {
-        //SoundManager.Instance.PlaySound("UI_ClickButton",Camera.main.gameObject);
+ //   public void GotoIngame()
+ //   {
+ //       //SoundManager.Instance.PlaySound("UI_ClickButton",Camera.main.gameObject);
 
-        GameManager.Instance.LoadNextScene();
-	}
+ //       GameManager.Instance.LoadNextScene();
+	//}
 
     public void ExitGame()
 	{
@@ -42,7 +42,7 @@ public class TitleProducer : MonoBehaviour
 
 	void Start()
     {
-        newGameBtn.onClick.AddListener(GotoIngame);
+        newGameBtn.onClick.AddListener(()=> GameManager.Instance.LoadNextScene());
         exitBtn.onClick.AddListener(ExitGame);
     }
 

@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7998322262368502917
 MonoBehaviour:
@@ -61,9 +61,9 @@ MonoBehaviour:
       Value:
       - {fileID: 11400000, guid: 7463a235d6f6d364ba5f52a89a6859fa, type: 2}
   roomCount: 10
-  ShopPrefab: {fileID: 6809010725100927562, guid: 077dfe19e0697404e95466bb686844c2, type: 3}
+  ShopPrefab: {fileID: 6809010725100927562, guid: 5e6f7ef1ef540ad4d89145340b697ab8, type: 3}
   shopCount: 3
   BossRoomPrefab: {fileID: 6809010725100927562, guid: 076194d250b54a448b19abcb4ad59050, type: 3}
   roofTileOffset: 0.4
   shadowTileOffset: 0.2
-  option: {fileID: 11400000, guid: ade1e58bf54a5ef4fb22b6c690910f12, type: 2}
+  option: {fileID: 11400000, guid: 6aeeadd29b79b874993c5cfe0f3ed76b, type: 2}

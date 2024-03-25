@@ -59,7 +59,7 @@ public class Weapon_Tangtangi : Weapon
         go.SetActive(true);
 
         //근희임시추가
-        StageManager.Instance?.AddBullet(go);
+        //StageManager.Instance?.AddBullet(go);
 		//근희임시추가
 
 		go.GetComponent<Bullet>().Fire(rndDir, owner.status.bulletSplatterCount, owner.status.bulletSpeed, owner.status.bulletSize, 1);

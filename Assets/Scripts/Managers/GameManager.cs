@@ -33,6 +33,8 @@ public enum SceneName
 { 
     Intro = 1,
     Title,
+    MainMenu,
+    IngameLoading,
     Ingame,
     End
 }
@@ -46,27 +48,46 @@ public class GameManager : Singleton<GameManager>
 	[SerializeField]
 	private PotatoConsole console;
 
-	public void LoadScene(int sceneIndex)
+	public void LoadScene(int sceneIndex, bool isLoading = true)
     {
         
         if (sceneLoader.isSceneLoading) { Debug.LogWarning("씬이 이미 불러와지는 중입니다"); return; };
-        sceneLoader.LoadScene(sceneIndex);
+
+        if (isLoading)
+        {
+            sceneLoader.LoadScene(sceneIndex);
+        }
+        else
+        {
+            SceneManager.LoadScene(sceneIndex);
+            sceneLoader.loadSceneNumber = sceneIndex;
+		}
         //좀 있다가 씬 로더 ㄱㄱ
     }
 
-    public void LoadScene(SceneName scene)
+    public void LoadScene(SceneName scene,bool isLoading = true)
     {
         int sceneIndex = (int)scene;
         if (sceneLoader.isSceneLoading) { Debug.LogWarning("씬이 이미 불러와지는 중입니다"); return; };
-        sceneLoader.LoadScene(sceneIndex);
-        //좀 있다가 씬 로더 ㄱㄱ
-    }
 
-    public void LoadNextScene()
+
+		if (isLoading)
+		{
+			sceneLoader.LoadScene(sceneIndex);
+		}
+		else
+		{
+			SceneManager.LoadScene(sceneIndex);
+			sceneLoader.loadSceneNumber = sceneIndex;
+		}
+		//좀 있다가 씬 로더 ㄱㄱ
+	}
+
+    public void LoadNextScene(bool isLoading = true)
     {
         int curIndex = SceneManager.GetActiveScene().buildIndex;
 
-        LoadScene(curIndex + 1);
+        LoadScene(curIndex + 1, isLoading);
     }
 
     public void SubscribeLoadingEvent(UnityAction func, int curScene, int loadScene)
