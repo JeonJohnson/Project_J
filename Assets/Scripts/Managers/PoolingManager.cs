@@ -33,7 +33,7 @@ public class PoolingManager: Singleton<PoolingManager>
 
     public Dictionary<string, Queue<GameObject>> poolingObjDic;
 
-	public UnityAction OnLental;
+	public UnityAction<GameObject> OnLental;
 	//public UnityAction OnReturn;
 
 
@@ -152,7 +152,7 @@ public class PoolingManager: Singleton<PoolingManager>
             tempObj.SetActive(true);
 			tempObj.transform.SetParent(null);
 
-			OnLental?.Invoke();
+			OnLental?.Invoke(tempObj);
 
 			return tempObj;
 		}

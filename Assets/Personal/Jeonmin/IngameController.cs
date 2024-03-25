@@ -238,8 +238,15 @@ public class IngameController : Singleton<IngameController>
 
         SpawnEnemies();
 
-        //PoolingManager.Instance.OnLental 
-	}
+        PoolingManager.Instance.OnLental += PoolableObjectTrSet;
+
+    }
+
+    public void PoolableObjectTrSet(GameObject obj)
+    {
+        obj.transform.parent = stage.curRoom.poolingTr;
+    }
+
 	private void Update()
     {
 
@@ -256,10 +263,11 @@ public class IngameController : Singleton<IngameController>
         //FindStage();
 	}
 
-	private void OnDestroy()
+	public override void OnDestroy()
 	{
-		//PoolingManager.Instance.OnLental -= 
-	}
+        base.OnDestroy();
+        PoolingManager.Instance.OnLental -= PoolableObjectTrSet;
+    }
 }
 
 

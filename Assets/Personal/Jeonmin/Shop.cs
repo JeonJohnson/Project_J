@@ -19,6 +19,9 @@ public class Shop : MonoBehaviour
     public Item_Rune[] itemArray;
     public List<Item_Rune> shopItems = new List<Item_Rune>();
 
+    [Header("ShopSceneFuncs")]
+    public TextMeshProUGUI[] itemInfoTexts;
+
     public void ShowRandomItems(int numberOfItems)
     {
         Item_Rune[] selectedItems = new Item_Rune[numberOfItems];
@@ -29,6 +32,20 @@ public class Shop : MonoBehaviour
             if (selectedItems[i] == null) break;
             shopItems.Add(selectedItems[i]);
             UiController_Proto.Instance.shopView.AddShopSlot(selectedItems[i]);
+        }
+        if (selectedItems == null) return;
+    }
+
+    public void ShowRandomItemObj(int numberOfItems)
+    {
+        Item_Rune[] selectedItems = new Item_Rune[numberOfItems];
+
+        for (int i = 0; i < numberOfItems; i++)
+        {
+            selectedItems[i] = GetRandomItem();
+            if (selectedItems[i] == null) break;
+            shopItems.Add(selectedItems[i]);
+            //UiController_Proto.Instance.shopView.AddShopSlot(selectedItems[i]);
         }
         if (selectedItems == null) return;
     }

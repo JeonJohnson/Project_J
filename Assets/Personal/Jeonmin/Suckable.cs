@@ -57,6 +57,7 @@ public class Suckable : MonoBehaviour, IPoolable
     public SpriteRenderer srdr;
     private Projectile projectile;
     private bool isDistanceLimit;
+    public bool isSuckImmediate = false;
 
     private Color defColor;
     private Vector2 defScale;
@@ -77,6 +78,11 @@ public class Suckable : MonoBehaviour, IPoolable
             aus = this.gameObject.AddComponent<AudioSource>();
             aus.spatialize = false;
         }
+    }
+
+    public void Sucking()
+    {
+
     }
 
     public void Sucked(Transform _suckedTr)
