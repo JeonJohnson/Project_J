@@ -57,7 +57,6 @@ public class Suckable : MonoBehaviour, IPoolable
     public SpriteRenderer srdr;
     private Projectile projectile;
     private bool isDistanceLimit;
-    public bool isSuckImmediate = false;
 
     private Color defColor;
     private Vector2 defScale;
@@ -65,7 +64,7 @@ public class Suckable : MonoBehaviour, IPoolable
     public Action OnSucked;
     public AudioSource aus;
 
-    private void Awake()
+    public virtual void Awake()
     {
         defColor = srdr.color;
         defScale = this.transform.localScale;
@@ -80,12 +79,12 @@ public class Suckable : MonoBehaviour, IPoolable
         }
     }
 
-    public void Sucking()
+    public virtual void Sucking(Transform _suckedTr)
     {
-
+        Sucked(_suckedTr);
     }
 
-    public void Sucked(Transform _suckedTr)
+    public virtual void Sucked(Transform _suckedTr)
     {
         if (curState != BulletState.Fire) return;
         curState = BulletState.SuckWait;
@@ -135,7 +134,7 @@ public class Suckable : MonoBehaviour, IPoolable
         PoolingManager.Instance.ReturnObj(this.gameObject);
     }
 
-    public void PoolableInit()
+    public virtual void PoolableInit()
     {
         col.enabled = true;
         this.transform.localScale = defScale;
@@ -143,7 +142,7 @@ public class Suckable : MonoBehaviour, IPoolable
         curState = BulletState.Fire;
     }
 
-    public void PoolableReset()
+    public virtual void PoolableReset()
     {
         StopAllCoroutines();
         if (projectile != null)
@@ -152,7 +151,7 @@ public class Suckable : MonoBehaviour, IPoolable
             projectile.enabled = true;
         }
         //Debug.Log("총알 리셋");
-        rb.velocity = Vector3.zero;
+        if(rb!=null)rb.velocity = Vector3.zero;
         col.enabled = true;
         this.transform.localScale = defScale;
         srdr.color = defColor;

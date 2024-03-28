@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shop_ItemHolder : MonoBehaviour, IPoolable
+public class Shop_ItemHolder : Suckable
 {
+    public Shop owner;
     public Item_Rune itemData;
 
     [SerializeField] SpriteRenderer itemSpriteRenderer;
-    private Suckable suckable;
-    private Collider2D col;
+
+    private float suckingTimer = 0f;
+    public float suckTime = 2f;
+    private float suckCoolTimer = 0f;
 
     private void OnSuckedEvent()
     {
@@ -26,18 +29,24 @@ public class Shop_ItemHolder : MonoBehaviour, IPoolable
         PoolingManager.Instance.ReturnObj(this.gameObject);
     }
 
-    public void PoolableInit()
+    public override void PoolableInit()
     {
-        suckable = GetComponent<Suckable>();
-        col = this.gameObject.GetComponent<Collider2D>();
-        col.enabled = true;
-        suckable.OnSucked = null;
-        suckable.OnSucked += () => OnSuckedEvent();
+        base.PoolableInit();
     }
 
-    public void PoolableReset()
+    public override void PoolableReset()
     {
-        suckable.srdr.color = Color.white;
+        base.PoolableReset();
+        srdr.color = Color.white;
+    }
+
+    public void Init(Shop shop, Item_Rune item)
+    {
+        owner = shop;
+        itemData = item;
+        srdr.sprite = item.item_sprite;
+        OnSucked = null;
+        OnSucked += () => OnSuckedEvent();
     }
 
     private void OnEnable()
@@ -45,8 +54,9 @@ public class Shop_ItemHolder : MonoBehaviour, IPoolable
         PoolableInit(); // 이거 안쓸땐 지우기
     }
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         CopyScriptableObjectItem();
         itemSpriteRenderer.sprite = itemData.item_sprite;
     }
@@ -61,5 +71,41 @@ public class Shop_ItemHolder : MonoBehaviour, IPoolable
     {
         itemData.Equip(player);
         this.gameObject.SetActive(false);
+    }
+
+    public override void Sucking(Transform _suckedTr)
+    {
+        suckCoolTimer = 0.5f;
+        suckingTimer += Time.deltaTime;
+
+        if(suckingTimer >= suckTime)
+        {
+            if(owner.BuyItem(itemData))
+            {
+                Sucked(_suckedTr);
+            }
+            else
+            {
+                Debug.Log("돈모자람");
+            }
+        }
+    }
+
+    public override void Sucked(Transform _suckedTr)
+    {
+        base.Sucked(_suckedTr);
+    }
+
+    private void Update()
+    {
+        if(suckCoolTimer < 0f)
+        {
+            suckingTimer -= Time.deltaTime;
+            suckingTimer = Mathf.Clamp(suckingTimer, 0f, 999f);
+        }
+        else
+        {
+            suckCoolTimer -= Time.deltaTime;
+        }
     }
 }

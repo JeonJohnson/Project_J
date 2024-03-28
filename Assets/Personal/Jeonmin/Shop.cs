@@ -6,13 +6,12 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
-
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.B))
         {
             IngameController.Instance.Player.inventroy.coinCount.Value += 20;
-            ShowRandomItems(4);
+            ShowRandomItemObj(3);
         }
     }
 
@@ -21,6 +20,8 @@ public class Shop : MonoBehaviour
 
     [Header("ShopSceneFuncs")]
     public TextMeshProUGUI[] itemInfoTexts;
+    public List<Shop_ItemHolder> itemHolders = new List<Shop_ItemHolder>();
+    public Shop_Capsule[] capsule;
 
     public void ShowRandomItems(int numberOfItems)
     {
@@ -32,20 +33,6 @@ public class Shop : MonoBehaviour
             if (selectedItems[i] == null) break;
             shopItems.Add(selectedItems[i]);
             UiController_Proto.Instance.shopView.AddShopSlot(selectedItems[i]);
-        }
-        if (selectedItems == null) return;
-    }
-
-    public void ShowRandomItemObj(int numberOfItems)
-    {
-        Item_Rune[] selectedItems = new Item_Rune[numberOfItems];
-
-        for (int i = 0; i < numberOfItems; i++)
-        {
-            selectedItems[i] = GetRandomItem();
-            if (selectedItems[i] == null) break;
-            shopItems.Add(selectedItems[i]);
-            //UiController_Proto.Instance.shopView.AddShopSlot(selectedItems[i]);
         }
         if (selectedItems == null) return;
     }
@@ -88,5 +75,28 @@ public class Shop : MonoBehaviour
     public void ExitShop()
     {
         shopItems.Clear();
+    }
+
+
+    // ShopScene
+    public void ShowRandomItemObj(int numberOfItems)
+    {
+        Item_Rune[] selectedItems = new Item_Rune[numberOfItems];
+
+        for (int i = 0; i < numberOfItems; i++)
+        {
+            selectedItems[i] = GetRandomItem();
+            if (selectedItems[i] == null) break;
+            shopItems.Add(selectedItems[i]);
+            GameObject itemHolderGo = PoolingManager.Instance.LentalObj("ShopItemHolder", 1);
+            itemHolderGo.transform.parent = capsule[i].itemPos;
+            itemHolderGo.transform.position = capsule[i].itemPos.position;
+            Shop_ItemHolder itemHolder = itemHolderGo.GetComponent<Shop_ItemHolder>();
+            itemHolders.Add(itemHolder);
+            itemHolder.Init(this, selectedItems[i]);
+            capsule[i].Show();
+
+        }
+        if (selectedItems == null) return;
     }
 }

@@ -386,7 +386,7 @@ public class Weapon_Player : Weapon
                 if (suckableObj)
                 {
                     suckableObj.transform.SetParent(null);
-                    suckableObj.Sucked(this.transform);
+                    suckableObj.Sucking(this.transform);
                 }
 
                 Holdable holdableObj = col.gameObject.GetComponent<Holdable>();
